@@ -1,0 +1,1077 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hari 11: Menyaring Data (Filter) - Kuartal 1</title>
+    <!-- Tailwind CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Fira+Code&display=swap" rel="stylesheet">
+    <style>
+        /* -- Pengaturan Dasar dan Variabel -- */
+        :root {
+            --primary-color: #3B82F6; /* Blue */
+            --secondary-color: #10B981; /* Green */
+            --accent-color: #8B5CF6; /* Purple */
+            --warning-color: #F59E0B; /* Amber */
+            --success-color: #10B981; /* Emerald */
+            --background-color: #FFFFFF; /* White */
+            --text-color: #1F2937; /* Dark Gray */
+            --muted-color: #9CA3AF; /* Gray */
+            --light-bg: #f9fafb;
+            --dark-bg: #1f2937;
+            --heading-font: 'Inter', sans-serif;
+            --body-font: 'Inter', sans-serif;
+            --code-font: 'Fira Code', monospace;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--body-font);
+            color: var(--text-color);
+            background-color: var(--background-color);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* -- Header dan Navigasi -- */
+        .header {
+            background-color: var(--background-color);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            padding: 1rem 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+        }
+
+        .logo svg {
+            height: 40px;
+            width: 40px;
+            fill: none;
+            stroke: var(--primary-color);
+            stroke-width: 2;
+        }
+
+        .logo-text {
+            font-family: var(--heading-font);
+            font-weight: 700;
+            font-size: 1.25rem;
+            margin-left: 10px;
+            color: var(--text-color);
+        }
+
+        .nav-links {
+            list-style: none;
+            display: flex;
+            gap: 1.5rem;
+            margin: 0;
+            padding: 0;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-color);
+            font-weight: 500;
+            transition: color 0.3s;
+            font-size: 0.95rem;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary-color);
+        }
+
+        .dropdown {
+            position: relative;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: white;
+            min-width: 200px;
+            box-shadow: 0px 8px 16px rgba(0,0,0,0.1);
+            z-index: 1;
+            border-radius: 4px;
+            padding: 10px 0;
+        }
+
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+
+        .dropdown-content a {
+            color: var(--text-color);
+            padding: 8px 16px;
+            text-decoration: none;
+            display: block;
+            font-size: 0.9rem;
+            transition: background-color 0.2s;
+        }
+
+        .dropdown-content a:hover {
+            background-color: #f3f4f6;
+        }
+
+        /* -- Breadcrumb -- */
+        .breadcrumb-container {
+            background-color: var(--light-bg);
+            padding: 15px 0;
+            margin-bottom: 20px;
+        }
+
+        .breadcrumb {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            align-items: center;
+            font-size: 0.9rem;
+        }
+
+        .breadcrumb a {
+            color: var(--primary-color);
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+
+        .breadcrumb a:hover {
+            text-decoration: underline;
+        }
+
+        .breadcrumb span {
+            color: var(--muted-color);
+        }
+
+        .breadcrumb-separator {
+            margin: 0 10px;
+            color: var(--muted-color);
+        }
+
+        /* -- Learning Content -- */
+        .learning-container {
+            padding: 120px 20px 60px;
+        }
+
+        .day-content {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            padding: 40px;
+            margin-bottom: 50px;
+        }
+
+        .day-header {
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid var(--light-bg);
+        }
+
+        .day-header h1 {
+            font-family: var(--heading-font);
+            font-size: 2.2rem;
+            color: var(--dark-bg);
+            margin-bottom: 10px;
+            line-height: 1.3;
+        }
+
+        .meta-info {
+            color: var(--muted-color);
+            font-size: 1rem;
+            display: block;
+            margin-bottom: 20px;
+        }
+
+        .day-content p {
+            margin-bottom: 20px;
+            line-height: 1.8;
+            font-size: 1.1rem;
+        }
+
+        .day-content section {
+            margin-bottom: 40px;
+        }
+
+        .day-content h2 {
+            font-family: var(--heading-font);
+            font-size: 1.7rem;
+            color: var(--primary-color);
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--light-bg);
+        }
+
+        .day-content ol, .day-content ul {
+            padding-left: 25px;
+            margin-bottom: 25px;
+        }
+
+        .day-content li {
+            margin-bottom: 10px;
+            line-height: 1.7;
+            font-size: 1.1rem;
+        }
+
+        .day-content strong {
+            color: var(--dark-bg);
+        }
+
+        /* -- Gaya Khusus untuk Hari 11 -- */
+        .analogy-box {
+            background-color: #e3f2fd;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+            display: flex;
+            align-items: center;
+        }
+        
+        .analogy-icon {
+            font-size: 40px;
+            margin-right: 20px;
+            color: var(--primary-color);
+        }
+        
+        .filter-step {
+            display: flex;
+            margin: 25px 0;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .step-description {
+            flex: 1;
+            min-width: 300px;
+        }
+        
+        .step-visual {
+            flex: 1;
+            min-width: 300px;
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+            border-top: 4px solid var(--success-color);
+        }
+        
+        .exercise-container {
+            background-color: #f5f5f5;
+            border-radius: 8px;
+            padding: 25px;
+            margin: 30px 0;
+            position: relative;
+        }
+        
+        .exercise-number {
+            position: absolute;
+            top: -12px;
+            left: 20px;
+            background-color: var(--success-color);
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-weight: bold;
+        }
+        
+        .filter-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        
+        .filter-table th {
+            background-color: #e8f5e9;
+            padding: 12px;
+            text-align: center;
+            position: relative;
+        }
+        
+        .filter-table th:after {
+            content: "▼";
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 12px;
+            color: var(--primary-color);
+        }
+        
+        .filter-table td {
+            padding: 10px;
+            border: 1px solid #e0e0e0;
+            text-align: center;
+        }
+        
+        .filter-table tr.filtered {
+            background-color: #fffde7;
+            font-weight: bold;
+        }
+        
+        .filter-table tr.hidden {
+            display: none;
+        }
+        
+        .filter-dialog {
+            background-color: white;
+            border-radius: 8px;
+            padding: 15px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            margin: 15px 0;
+            border: 1px solid #e0e0e0;
+        }
+        
+        .filter-option {
+            margin: 10px 0;
+            padding: 8px;
+            border-bottom: 1px dashed #e0e0e0;
+        }
+        
+        .filter-option:last-child {
+            border-bottom: none;
+        }
+        
+        .filter-checkbox {
+            margin-right: 10px;
+        }
+        
+        .filter-input {
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            width: 100px;
+            margin: 0 5px;
+        }
+        
+        .filter-button {
+            background-color: var(--success-color);
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: background-color 0.3s;
+        }
+        
+        .filter-button:hover {
+            background-color: #0e8e6d;
+        }
+        
+        .key-point {
+            display: flex;
+            align-items: center;
+            margin: 15px 0;
+        }
+        
+        .key-icon {
+            margin-right: 10px;
+            color: var(--primary-color);
+            font-weight: bold;
+            min-width: 25px;
+        }
+        
+        .tip-box {
+            background-color: #e8f5e9;
+            border-left: 4px solid var(--success-color);
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        /* -- Lesson Footer -- */
+        .lesson-footer {
+            background: var(--light-bg);
+            padding: 25px;
+            border-radius: 8px;
+            margin-top: 40px;
+        }
+
+        .lesson-footer p {
+            font-style: italic;
+            color: var(--muted-color);
+            margin-bottom: 20px;
+        }
+
+        .cta-button {
+            background-color: var(--secondary-color);
+            color: white;
+            padding: 12px 30px;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+            display: inline-block;
+            transition: all 0.3s;
+            font-size: 1rem;
+            border: none;
+            cursor: pointer;
+        }
+
+        .cta-button:hover {
+            background-color: #0e8e6d;
+            transform: translateY(-3px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+        }
+
+        /* -- Footer -- */
+        .footer {
+            background-color: var(--dark-bg);
+            color: white;
+            padding: 60px 0 30px;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: space-between;
+            gap: 30px;
+            flex-wrap: wrap;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .footer-links h4 {
+            font-family: var(--heading-font);
+            margin-bottom: 20px;
+            font-size: 1.25rem;
+        }
+
+        .footer-links ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .footer-links ul li {
+            margin-bottom: 10px;
+        }
+
+        .footer-links ul li a {
+            color: var(--muted-color);
+            text-decoration: none;
+            transition: color 0.3s;
+            font-size: 0.95rem;
+        }
+
+        .footer-links ul li a:hover {
+            color: white;
+        }
+
+        .copyright {
+            text-align: center;
+            margin-top: 60px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            padding-top: 30px;
+            color: var(--muted-color);
+            max-width: 1200px;
+            margin: 60px auto 0;
+            padding: 20px;
+            font-size: 0.9rem;
+        }
+
+        /* -- Responsive Design --- */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+            
+            .learning-container {
+                padding: 100px 15px 40px;
+            }
+            
+            .day-content {
+                padding: 25px;
+            }
+            
+            .day-header h1 {
+                font-size: 1.8rem;
+            }
+            
+            .day-content h2 {
+                font-size: 1.5rem;
+            }
+            
+            .footer-links {
+                flex-direction: column;
+                gap: 40px;
+            }
+            
+            .breadcrumb {
+                flex-wrap: wrap;
+                row-gap: 5px;
+            }
+            
+            .step-visual, .step-description {
+                min-width: 100%;
+            }
+            
+            .analogy-box {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .analogy-icon {
+                margin-right: 0;
+                margin-bottom: 15px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .day-header h1 {
+                font-size: 1.6rem;
+            }
+            
+            .day-content h2 {
+                font-size: 1.3rem;
+            }
+            
+            .filter-table th:after {
+                display: none;
+            }
+        }
+
+        /* -- Mobile Menu -- */
+        #mobile-menu {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--text-color);
+        }
+
+        #sidebar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 280px;
+            background: white;
+            box-shadow: 2px 0 10px rgba(0,0,0,0.1);
+            transform: translateX(-100%);
+            transition: transform 0.3s ease;
+            z-index: 1000;
+            padding-top: 70px;
+            overflow-y: auto;
+        }
+
+        #overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 999;
+            display: none;
+        }
+
+        @media (max-width: 768px) {
+            #mobile-menu {
+                display: block;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <nav class="navbar">
+            <a href="../../../index.html" class="logo">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                    <path d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+                </svg>
+                <span class="logo-text">Home</span>
+            </a>
+
+            <!-- Desktop Navigation -->
+            <ul class="nav-links">
+                <li><a href="../../../index.html">Home</a></li>
+                <li class="dropdown">
+                    <a href="#" class="dropbtn">Kuartal 1: Dasar <span class="arrow">&#9662;</span></a>
+                    <div class="dropdown-content">
+                        <a href="#">Bulan 1: Excel Dasar</a>
+                        <a href="#">Bulan 2: Statistik Dasar</a>
+                        <a href="#">Bulan 3: SQL Lanjutan</a>
+                    </div>
+                </li>
+                <li class="dropdown">
+                    <a href="#" class="dropbtn">Kuartal 2: Intermediate <span class="arrow">&#9662;</span></a>
+                    <div class="dropdown-content">
+                        <a href="#">Bulan 4-6</a>
+                    </div>
+                </li>
+                <li class="dropdown">
+                    <a href="#" class="dropbtn">Kuartal 3: Advanced <span class="arrow">&#9662;</span></a>
+                    <div class="dropdown-content">
+                        <a href="#">Bulan 7-9</a>
+                    </div>
+                </li>
+                <li class="dropdown">
+                    <a href="#" class="dropbtn">Kuartal 4: Spesialisasi <span class="arrow">&#9662;</span></a>
+                    <div class="dropdown-content">
+                        <a href="#">Bulan 10-12</a>
+                    </div>
+                </li>
+                <li><a href="#">Resources</a></li>
+                <li><a href="#">Dataset & Tools</a></li>
+                <li><a href="../../about.html">About</a></li>
+            </ul>
+
+            <!-- Mobile Menu Button -->
+            <button id="mobile-menu">≡</button>
+        </nav>
+    </header>
+
+    <!-- Breadcrumb -->
+    <div class="breadcrumb-container">
+        <div class="breadcrumb">
+            <a href="../../../index.html">Home</a>
+            <span class="breadcrumb-separator">&gt;</span>
+            <a href="../../index.html">Kuartal 1</a>
+            <span class="breadcrumb-separator">&gt;</span>
+            <a href="../index.html">Bulan 1</a>
+            <span class="breadcrumb-separator">&gt;</span>
+            <a href="./index.html">Minggu 2</a>
+            <span class="breadcrumb-separator">&gt;</span>
+            <span>Hari 11</span>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <main class="container learning-container">
+        <article class="day-content">
+            <header class="day-header">
+                <h1>Hari 11: Menyaring Data (Filter) - Tampilkan Hanya yang Kamu Butuhkan</h1>
+                <p class="meta-info">Kuartal 1: Dasar | Bulan 1: Excel Dasar</p>
+            </header>
+            
+            <div class="intro-section">
+                <p>Selamat datang kembali! Kemarin kita sudah belajar cara mengurutkan (Sort) data di Excel. Hari ini, kita akan mempelajari 'saudara dekat'-nya yang tidak kalah penting: <strong>Filter (Menyaring)</strong>.</p>
+                
+                <div class="analogy-box">
+                    <div class="analogy-icon">🔍</div>
+                    <div>
+                        <h3>Sort vs Filter: Apa Bedanya?</h3>
+                        <p>Jika <strong>Sort</strong> mengatur ulang semua data, <strong>Filter</strong> memungkinkan kita untuk menyembunyikan sementara baris data yang tidak memenuhi kriteria tertentu, sehingga kita hanya melihat data yang relevan dengan pertanyaan kita saat itu.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <section id="activate-filter">
+                <h2>Aktifkan Fitur Filter di Excel</h2>
+                
+                <div class="filter-step">
+                    <div class="step-description">
+                        <h3>Langkah-langkah Mengaktifkan Filter:</h3>
+                        <div class="key-point">
+                            <div class="key-icon">1</div>
+                            <div>Klik di mana saja di dalam tabel datamu</div>
+                        </div>
+                        <div class="key-point">
+                            <div class="key-icon">2</div>
+                            <div>Pergi ke tab <strong>Data</strong> di Ribbon</div>
+                        </div>
+                        <div class="key-point">
+                            <div class="key-icon">3</div>
+                            <div>Klik tombol <strong>Filter</strong> (ikon corong)</div>
+                        </div>
+                        
+                        <div class="tip-box">
+                            <p><strong>Tips:</strong> Kamu juga bisa menemukan fitur Filter di tab Home, grup Editing > Sort & Filter > Filter.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="step-visual">
+                        <h3>Hasilnya:</h3>
+                        <table class="filter-table">
+                            <tr>
+                                <th>Nama Siswa</th>
+                                <th>Matematika</th>
+                            </tr>
+                            <tr>
+                                <td>Andi</td>
+                                <td>85</td>
+                            </tr>
+                            <tr>
+                                <td>Bunga</td>
+                                <td>92</td>
+                            </tr>
+                        </table>
+                        <p>Setelah diaktifkan, tombol panah dropdown akan muncul di setiap header kolom.</p>
+                    </div>
+                </div>
+            </section>
+            
+            <section id="exercises">
+                <div class="exercise-container">
+                    <div class="exercise-number">Latihan 1</div>
+                    <h3>Menampilkan Siswa dengan Nilai Matematika di Atas 80</h3>
+                    
+                    <div class="filter-step">
+                        <div class="step-description">
+                            <div class="key-point">
+                                <div class="key-icon">1</div>
+                                <div>Klik tombol dropdown di kolom <strong>Nilai Matematika</strong></div>
+                            </div>
+                            <div class="key-point">
+                                <div class="key-icon">2</div>
+                                <div>Pilih <strong>Number Filters</strong> > <strong>Greater Than...</strong></div>
+                            </div>
+                            <div class="key-point">
+                                <div class="key-icon">3</div>
+                                <div>Masukkan <strong>80</strong> di kotak kriteria</div>
+                            </div>
+                            <div class="key-point">
+                                <div class="key-icon">4</div>
+                                <div>Klik <strong>OK</strong></div>
+                            </div>
+                        </div>
+                        
+                        <div class="step-visual">
+                            <div class="filter-dialog">
+                                <h4>Filter Nilai Matematika</h4>
+                                <div class="filter-option">
+                                    <input type="radio" id="filter1" name="filter" checked>
+                                    <label for="filter1">Greater than: <input type="text" class="filter-input" value="80"></label>
+                                </div>
+                                <button class="filter-button">OK</button>
+                            </div>
+                            
+                            <table class="filter-table">
+                                <tr>
+                                    <th>Nama Siswa</th>
+                                    <th>Matematika</th>
+                                </tr>
+                                <tr class="filtered">
+                                    <td>Andi</td>
+                                    <td>85</td>
+                                </tr>
+                                <tr class="filtered">
+                                    <td>Bunga</td>
+                                    <td>92</td>
+                                </tr>
+                                <tr class="hidden">
+                                    <td>Candra</td>
+                                    <td>75</td>
+                                </tr>
+                                <tr class="filtered">
+                                    <td>Dian</td>
+                                    <td>88</td>
+                                </tr>
+                                <tr class="hidden">
+                                    <td>Eko</td>
+                                    <td>60</td>
+                                </tr>
+                                <tr class="filtered">
+                                    <td>Fitri</td>
+                                    <td>95</td>
+                                </tr>
+                                <tr class="hidden">
+                                    <td>Gilang</td>
+                                    <td>78</td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="exercise-container">
+                    <div class="exercise-number">Latihan 2</div>
+                    <h3>Menampilkan Siswa dengan Nama Diawali Huruf 'A' atau 'B'</h3>
+                    
+                    <div class="filter-step">
+                        <div class="step-description">
+                            <div class="key-point">
+                                <div class="key-icon">1</div>
+                                <div>Hapus filter sebelumnya (dari kolom Nilai Matematika)</div>
+                            </div>
+                            <div class="key-point">
+                                <div class="key-icon">2</div>
+                                <div>Klik tombol dropdown di kolom <strong>Nama Siswa</strong></div>
+                            </div>
+                            <div class="key-point">
+                                <div class="key-icon">3</div>
+                                <div>Hapus centang <strong>(Select All)</strong></div>
+                            </div>
+                            <div class="key-point">
+                                <div class="key-icon">4</div>
+                                <div>Centang hanya <strong>Andi</strong> dan <strong>Bunga</strong></div>
+                            </div>
+                            <div class="key-point">
+                                <div class="key-icon">5</div>
+                                <div>Klik <strong>OK</strong></div>
+                            </div>
+                        </div>
+                        
+                        <div class="step-visual">
+                            <div class="filter-dialog">
+                                <h4>Filter Nama Siswa</h4>
+                                <div class="filter-option">
+                                    <input type="checkbox" id="all" checked>
+                                    <label for="all">(Select All)</label>
+                                </div>
+                                <div class="filter-option">
+                                    <input type="checkbox" id="andi" checked>
+                                    <label for="andi">Andi</label>
+                                </div>
+                                <div class="filter-option">
+                                    <input type="checkbox" id="bunga" checked>
+                                    <label for="bunga">Bunga</label>
+                                </div>
+                                <div class="filter-option">
+                                    <input type="checkbox" id="candra">
+                                    <label for="candra">Candra</label>
+                                </div>
+                                <button class="filter-button">OK</button>
+                            </div>
+                            
+                            <table class="filter-table">
+                                <tr>
+                                    <th>Nama Siswa</th>
+                                    <th>Matematika</th>
+                                </tr>
+                                <tr class="filtered">
+                                    <td>Andi</td>
+                                    <td>85</td>
+                                </tr>
+                                <tr class="filtered">
+                                    <td>Bunga</td>
+                                    <td>92</td>
+                                </tr>
+                                <tr class="hidden">
+                                    <td>Candra</td>
+                                    <td>75</td>
+                                </tr>
+                                <tr class="hidden">
+                                    <td>Dian</td>
+                                    <td>88</td>
+                                </tr>
+                                <tr class="hidden">
+                                    <td>Eko</td>
+                                    <td>60</td>
+                                </tr>
+                                <tr class="hidden">
+                                    <td>Fitri</td>
+                                    <td>95</td>
+                                </tr>
+                                <tr class="hidden">
+                                    <td>Gilang</td>
+                                    <td>78</td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="exercise-container">
+                    <div class="exercise-number">Latihan 3</div>
+                    <h3>Menampilkan Nilai Sains Antara 80 dan 90</h3>
+                    
+                    <div class="filter-step">
+                        <div class="step-description">
+                            <div class="key-point">
+                                <div class="key-icon">1</div>
+                                <div>Hapus semua filter yang aktif</div>
+                            </div>
+                            <div class="key-point">
+                                <div class="key-icon">2</div>
+                                <div>Klik tombol dropdown di kolom <strong>Nilai Sains</strong></div>
+                            </div>
+                            <div class="key-point">
+                                <div class="key-icon">3</div>
+                                <div>Pilih <strong>Number Filters</strong> > <strong>Between...</strong></div>
+                            </div>
+                            <div class="key-point">
+                                <div class="key-icon">4</div>
+                                <div>Masukkan <strong>80</strong> dan <strong>90</strong></div>
+                            </div>
+                            <div class="key-point">
+                                <div class="key-icon">5</div>
+                                <div>Klik <strong>OK</strong></div>
+                            </div>
+                        </div>
+                        
+                        <div class="step-visual">
+                            <div class="filter-dialog">
+                                <h4>Filter Nilai Sains</h4>
+                                <div class="filter-option">
+                                    <input type="radio" id="filter3" name="filter" checked>
+                                    <label for="filter3">Between: 
+                                        <input type="text" class="filter-input" value="80"> and 
+                                        <input type="text" class="filter-input" value="90">
+                                    </label>
+                                </div>
+                                <button class="filter-button">OK</button>
+                            </div>
+                            
+                            <table class="filter-table">
+                                <tr>
+                                    <th>Nama Siswa</th>
+                                    <th>Sains</th>
+                                </tr>
+                                <tr class="filtered">
+                                    <td>Andi</td>
+                                    <td>90</td>
+                                </tr>
+                                <tr class="filtered">
+                                    <td>Bunga</td>
+                                    <td>85</td>
+                                </tr>
+                                <tr class="filtered">
+                                    <td>Gilang</td>
+                                    <td>80</td>
+                                </tr>
+                                <tr class="hidden">
+                                    <td>Candra</td>
+                                    <td>78</td>
+                                </tr>
+                                <tr class="hidden">
+                                    <td>Dian</td>
+                                    <td>95</td>
+                                </tr>
+                                <tr class="hidden">
+                                    <td>Eko</td>
+                                    <td>65</td>
+                                </tr>
+                                <tr class="hidden">
+                                    <td>Fitri</td>
+                                    <td>88</td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <section id="tips">
+                <h2>Tips Menggunakan Filter</h2>
+                
+                <div class="key-point">
+                    <div class="key-icon">💡</div>
+                    <div><strong>Filter Ganda:</strong> Kamu bisa menerapkan filter di beberapa kolom sekaligus untuk mendapatkan hasil yang lebih spesifik.</div>
+                </div>
+                
+                <div class="key-point">
+                    <div class="key-icon">💡</div>
+                    <div><strong>Hapus Filter:</strong> Untuk menghapus semua filter, klik tombol Clear di tab Data > Sort & Filter.</div>
+                </div>
+                
+                <div class="key-point">
+                    <div class="key-icon">💡</div>
+                    <div><strong>Filter Teks:</strong> Untuk kolom teks, kamu bisa menggunakan filter "Contains", "Begins With", atau "Ends With".</div>
+                </div>
+                
+                <div class="key-point">
+                    <div class="key-icon">💡</div>
+                    <div><strong>Filter Tanggal:</strong> Excel memiliki opsi filter khusus untuk tanggal (hari ini, minggu ini, bulan ini, dll).</div>
+                </div>
+            </section>
+            
+            <section id="selanjutnya">
+                <h2>Apa Selanjutnya?</h2>
+                <p>Kemampuan mengurutkan dan menyaring data adalah keterampilan dasar yang sangat penting dalam analisis data. Dengan dua teknik ini, kamu sudah bisa:</p>
+                <ul>
+                    <li>Mengidentifikasi data penting dengan cepat</li>
+                    <li>Melihat pola dalam dataset</li>
+                    <li>Membuat laporan yang lebih fokus</li>
+                    <li>Menyiapkan data untuk visualisasi</li>
+                </ul>
+                <p>Besok kita akan mulai mempelajari cara membuat visualisasi data dasar di Excel dengan grafik dan diagram!</p>
+            </section>
+            
+            <footer class="lesson-footer">
+                <p><em>Tips Hari Ini:</em> Gunakan filter untuk membandingkan performa kelompok data yang berbeda.</p>
+                <a href="hari12.html" class="cta-button">Lanjut ke Visualisasi Data</a>
+            </footer>
+        </article>
+    </main>
+
+    <footer class="footer">
+        <div class="footer-links">
+            <div>
+                <h4>Navigasi Cepat</h4>
+                <ul>
+                    <li><a href="#">Kuartal 1</a></li>
+                    <li><a href="#">Kuartal 2</a></li>
+                    <li><a href="#">Kuartal 3</a></li>
+                    <li><a href="#">Kuartal 4</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4>Resources</h4>
+                <ul>
+                    <li><a href="#">Checklist Keterampilan</a></li>
+                    <li><a href="#">Contoh Portofolio</a></li>
+                    <li><a href="#">Pertanyaan Interview</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4>Kontak</h4>
+                <p>Email: kontak@data365.com</p>
+            </div>
+        </div>
+        <div class="copyright">
+            <p>&copy; 2025 Buku Panduan Data Analisis 365 Hari. Hak Cipta Dilindungi.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile Menu Toggle
+        const mobileMenu = document.getElementById('mobile-menu');
+        const sidebar = document.getElementById('sidebar');
+        const overlay = document.getElementById('overlay');
+
+        mobileMenu.addEventListener('click', () => {
+            sidebar.style.transform = 'translateX(0)';
+            overlay.style.display = 'block';
+        });
+
+        overlay.addEventListener('click', () => {
+            sidebar.style.transform = 'translateX(-100%)';
+            overlay.style.display = 'none';
+        });
+
+        // Dropdown functionality for mobile
+        const dropdowns = document.querySelectorAll('.dropdown');
+
+        dropdowns.forEach(dropdown => {
+            const dropbtn = dropdown.querySelector('.dropbtn');
+            const content = dropdown.querySelector('.dropdown-content');
+
+            if (dropbtn && content) {
+                dropbtn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    content.style.display = content.style.display === 'block' ? 'none' : 'block';
+                });
+            }
+        });
+    </script>
+</body>
+</html>
