@@ -1,0 +1,243 @@
+<!-- hari4.html -->
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hari 4: Memasukkan Data Lebih Rapi & Konsisten - Kuartal 1</title>
+    <link rel="stylesheet" href="../../../css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Fira+Code&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header class="header">
+        <nav class="navbar">
+            <a href="../../../index.html" class="logo">
+                <img src="../../../images/logo.png" alt="Logo" style="width: 50px;">
+            </a>
+            <ul class="nav-links">
+                <li><a href="../../../index.html">Home</a></li>
+                <li class="dropdown">
+                    <a href="#" class="dropbtn">Kuartal 1: Dasar <span class="arrow">&#9662;</span></a>
+                    <div class="dropdown-content">
+                        <a href="#">Bulan 1: Excel Dasar</a>
+                        <a href="#">Bulan 2: Statistik Dasar</a>
+                        <a href="#">Bulan 3: SQL Lanjutan</a>
+                    </div>
+                </li>
+                <li class="dropdown">
+                    <a href="#" class="dropbtn">Kuartal 2: Intermediate <span class="arrow">&#9662;</span></a>
+                    <div class="dropdown-content">
+                        <a href="#">Bulan 4-6</a>
+                    </div>
+                </li>
+                <li class="dropdown">
+                    <a href="#" class="dropbtn">Kuartal 3: Advanced <span class="arrow">&#9662;</span></a>
+                    <div class="dropdown-content">
+                        <a href="#">Bulan 7-9</a>
+                    </div>
+                </li>
+                <li class="dropdown">
+                    <a href="#" class="dropbtn">Kuartal 4: Spesialisasi <span class="arrow">&#9662;</span></a>
+                    <div class="dropdown-content">
+                        <a href="#">Bulan 10-12</a>
+                    </div>
+                </li>
+                <li><a href="#">Resources</a></li>
+                <li><a href="#">Dataset & Tools</a></li>
+                <li><a href="../../about.html">About</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="container learning-container">
+        <div class="breadcrumb">
+            <a href="../../../index.html">Home</a> &gt;
+            <a href="#">Kuartal 1</a> &gt;
+            <a href="#">Bulan 1</a> &gt;
+            <a href="#">Minggu 1</a> &gt;
+            <span>Hari 4</span>
+        </div>
+        
+        <article class="day-content">
+            <header>
+                <h1>Hari 4: Memasukkan Data Lebih Rapi & Konsisten</h1>
+                <p class="meta-info">Kuartal 1: Dasar | Bulan 1: Excel Dasar</p>
+            </header>
+            
+            <p>Selamat datang kembali di hari keempat! Kemarin kita sudah belajar membuat tabel terlihat lebih menarik dengan formatting. Hari ini, kita akan kembali fokus pada proses memasukkan data (data entry), tapi dengan penekanan pada kerapian dan konsistensi.</p>
+            
+            <p>"Memangnya sepenting itu ya, cara memasukkan data?" Oh, tentu saja! Bayangkan jika dalam daftar belanja kita kemarin, ada yang menulis "Apel", ada yang "apel malang", ada yang "APEL FUJI". Atau jumlahnya ada yang ditulis 5, ada yang 5 buah, ada yang lima. Saat datanya masih sedikit, mungkin tidak masalah. Tapi bayangkan kalau datanya ada ribuan baris! Akan sangat sulit untuk diolah dan dianalisis jika formatnya tidak konsisten.</p>
+            
+            <p>Kualitas analisis sangat bergantung pada kualitas data yang dimasukkan. Pepatahnya: <strong>Garbage In, Garbage Out (Sampah Masuk, Sampah Keluar)</strong>. Jadi, membiasakan diri memasukkan data dengan rapi dan konsisten sejak awal itu penting banget.</p>
+            
+            <section id="tips">
+                <h2>Tips Memasukkan Data yang Baik</h2>
+                <p>Berikut beberapa tips sederhana namun krusial:</p>
+                <ol>
+                    <li><strong>Satu Informasi per Sel:</strong> Jangan menggabungkan beberapa informasi dalam satu sel. Misalnya, jangan tulis "Apel (5 buah)" di sel Item. Pisahkan menjadi kolom Item (Apel) dan kolom Jumlah (5).</li>
+                    <li><strong>Konsisten dalam Penulisan:</strong>
+                        <ul>
+                            <li><strong>Kapitalisasi:</strong> Tentukan apakah mau pakai huruf besar di awal saja (Title Case, misal "Roti Tawar"), semua huruf kecil (lowercase, misal "roti tawar"), atau semua huruf besar (UPPERCASE, misal "ROTI TAWAR"). Pilih salah satu dan gunakan secara konsisten, terutama untuk data kategori.</li>
+                            <li><strong>Singkatan:</strong> Hindari singkatan yang tidak standar atau gunakan secara konsisten jika memang perlu (misal, selalu "IDR" atau selalu "Rp", jangan dicampur).</li>
+                            <li><strong>Format Tanggal:</strong> Jika memasukkan tanggal, gunakan format yang sama terus-menerus (misal, DD/MM/YYYY atau YYYY-MM-DD).</li>
+                        </ul>
+                    </li>
+                    <li><strong>Gunakan Tipe Data yang Sesuai:</strong>
+                        <ul>
+                            <li>Untuk angka yang akan dihitung (jumlah, harga, skor), masukkan sebagai angka murni, jangan dicampur teks (hindari "5 buah", cukup 5).</li>
+                            <li>Untuk tanggal, masukkan dengan format yang dikenali Excel sebagai tanggal.</li>
+                        </ul>
+                    </li>
+                    <li><strong>Hindari Sel Kosong yang Tidak Perlu:</strong> Jika suatu informasi memang tidak ada, biarkan selnya kosong. Tapi jangan mengosongkan sel hanya karena malas mengetik atau menganggapnya sama dengan baris di atasnya. Setiap baris idealnya mewakili satu unit data yang lengkap.</li>
+                    <li><strong>Periksa Ulang (Proofreading):</strong> Setelah memasukkan data, luangkan waktu sejenak untuk memeriksa ulang. Adakah salah ketik (typo)? Adakah format yang tidak konsisten? Lebih mudah memperbaiki sekarang daripada nanti saat data sudah menumpuk.</li>
+                </ol>
+            </section>
+            
+            <section id="latihan">
+                <h2>Latihan Hari Ini: Membuat Daftar Kontak</h2>
+                <p>Untuk melatih tips di atas, mari kita buat tabel baru: daftar kontak teman atau kenalan. Ini akan melibatkan tipe data yang berbeda (teks, angka/teks untuk nomor telepon, mungkin tanggal lahir).</p>
+                <ol>
+                    <li>Buat Sheet baru di file Excel yang sama. Caranya, klik tanda + di sebelah tab "Sheet1" di bagian bawah.</li>
+                    <li>Ganti nama Sheet baru ini. Klik kanan pada tab "Sheet2" (atau nama defaultnya), pilih Rename (Ganti Nama), ketik "Daftar Kontak", lalu tekan Enter.</li>
+                    <li>Buat Judul Kolom di baris pertama (baris 1):
+                        <ul>
+                            <li>A1: Nama Lengkap</li>
+                            <li>B1: Panggilan</li>
+                            <li>C1: Nomor Telepon</li>
+                            <li>D1: Email</li>
+                            <li>E1: Kota Asal</li>
+                            <li>F1: Tanggal Lahir (Opsional)</li>
+                        </ul>
+                    </li>
+                    <li>Masukkan Data Contoh (minimal 5 kontak). Saat memasukkan data, perhatikan tips konsistensi tadi:
+                        <ul>
+                            <li><strong>Nama Lengkap & Panggilan:</strong> Gunakan kapitalisasi yang konsisten (misal, Title Case).</li>
+                            <li><strong>Nomor Telepon:</strong> Masukkan sebagai teks agar angka 0 di depan (jika ada) tidak hilang. Caranya, ketik tanda kutip satu (') sebelum mengetik nomor, contoh: '08123456789. Tanda kutip ini tidak akan terlihat di sel, tapi memberi tahu Excel bahwa ini adalah teks.</li>
+                            <li><strong>Email:</strong> Pastikan formatnya benar (mengandung @ dan .).</li>
+                            <li><strong>Kota Asal:</strong> Gunakan penulisan nama kota yang konsisten.</li>
+                            <li><strong>Tanggal Lahir:</strong> Gunakan format yang sama (misal, DD/MM/YYYY).</li>
+                        </ul>
+                    </li>
+                </ol>
+                
+                <p>Contoh isian (silakan ganti dengan data rekaanmu sendiri):</p>
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Nama Lengkap</th>
+                            <th>Panggilan</th>
+                            <th>Nomor Telepon</th>
+                            <th>Email</th>
+                            <th>Kota Asal</th>
+                            <th>Tanggal Lahir</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Budi Santoso</td>
+                            <td>Budi</td>
+                            <td>'081211112222</td>
+                            <td>budi.s@email.com</td>
+                            <td>Jakarta</td>
+                            <td>15/03/1995</td>
+                        </tr>
+                        <tr>
+                            <td>Citra Lestari</td>
+                            <td>Citra</td>
+                            <td>'085633334444</td>
+                            <td>citra.lestari@mail.id</td>
+                            <td>Bandung</td>
+                            <td>20/08/1998</td>
+                        </tr>
+                        <tr>
+                            <td>Dewa Kusuma</td>
+                            <td>Dewa</td>
+                            <td>'087755556666</td>
+                            <td>d.kusuma@provider.net</td>
+                            <td>Surabaya</td>
+                            <td>01/11/1990</td>
+                        </tr>
+                        <tr>
+                            <td>Eka Putri</td>
+                            <td>Eka</td>
+                            <td>'089977778888</td>
+                            <td>ekaputri@domain.org</td>
+                            <td>Yogyakarta</td>
+                            <td>10/05/2000</td>
+                        </tr>
+                        <tr>
+                            <td>Fajar Nugraha</td>
+                            <td>Fajar</td>
+                            <td>'081199990000</td>
+                            <td>fajar.n@contoh.co.id</td>
+                            <td>Medan</td>
+                            <td>25/12/1996</td>
+                        </tr>
+                    </tbody>
+                </table>
+                
+                <ol start="5">
+                    <li>Terapkan Formatting Dasar: Setelah data terisi, rapikan tabel ini seperti kemarin: buat judul bold, beri warna latar pada judul, tambahkan All Borders, dan atur alignment (misal, semua rata kiri kecuali mungkin Tanggal Lahir).</li>
+                    <li>Sesuaikan Lebar Kolom: Mungkin ada kolom yang isinya terpotong (seperti Email atau Nama Lengkap). Untuk melebarkannya otomatis, arahkan kursor mouse ke garis batas antara dua huruf kolom di bagian paling atas (misal, antara D dan E), lalu klik dua kali. Ulangi untuk kolom lain yang perlu disesuaikan.</li>
+                    <li>Simpan pekerjaanmu (Ctrl + S).</li>
+                </ol>
+            </section>
+            
+            <section id="mengapa-penting">
+                <h2>Mengapa Konsistensi Penting untuk Nanti?</h2>
+                <p>Saat kita mulai menggunakan fitur Excel yang lebih canggih seperti Filter, Sort (mengurutkan), PivotTable, atau bahkan rumus, data yang konsisten akan sangat membantu. Misalnya:</p>
+                <ul>
+                    <li>Jika kita ingin memfilter semua kontak dari "Jakarta", tapi ada yang tertulis "jakarta" atau "JKT", maka filter kita tidak akan menangkap semuanya.</li>
+                    <li>Jika kita ingin mengurutkan berdasarkan tanggal lahir, format tanggal yang konsisten memastikan urutannya benar.</li>
+                    <li>Jika kita ingin menghitung jumlah kontak per kota, nama kota yang konsisten memastikan perhitungannya akurat.</li>
+                </ul>
+            </section>
+            
+            <section id="besok">
+                <h2>Apa Selanjutnya?</h2>
+                <p>Besok, kita akhirnya akan masuk ke salah satu kekuatan utama Excel: <strong>Rumus (Formula) dan Fungsi (Function) Dasar</strong>. Kita akan belajar cara melakukan perhitungan otomatis, seperti menjumlahkan harga di daftar belanja kita atau mungkin menghitung umur dari tanggal lahir di daftar kontak (kalau kamu memasukkannya!). Siap-siap untuk membuat Excel bekerja untukmu!</p>
+            </section>
+            
+            <footer class="lesson-footer">
+                <p><em>Tips Hari Ini:</em> Kualitas data menentukan kualitas analisis. Investasikan waktu untuk memasukkan data dengan benar sejak awal.</p>
+                <a href="hari5.html" class="cta-button">Lanjut ke Hari 5</a>
+            </footer>
+        </article>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-links">
+                <div>
+                    <h4>Navigasi Cepat</h4>
+                    <ul>
+                        <li><a href="#">Kuartal 1</a></li>
+                        <li><a href="#">Kuartal 2</a></li>
+                        <li><a href="#">Kuartal 3</a></li>
+                        <li><a href="#">Kuartal 4</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4>Resources</h4>
+                    <ul>
+                        <li><a href="#">Checklist Keterampilan</a></li>
+                        <li><a href="#">Contoh Portofolio</a></li>
+                        <li><a href="#">Pertanyaan Interview</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4>Kontak</h4>
+                    <p>Email: kontak@data365.com</p>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2025 Buku Panduan Data Analisis 365 Hari. Hak Cipta Dilindungi.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="../../../js/script.js"></script>
+</body>
+</html>

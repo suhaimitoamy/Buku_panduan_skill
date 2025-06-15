@@ -1,0 +1,191 @@
+<!-- hari5.html -->
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hari 5: Excel Mulai Berhitung - Rumus & Fungsi Dasar - Kuartal 1</title>
+    <link rel="stylesheet" href="../../../css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Fira+Code&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header class="header">
+        <nav class="navbar">
+            <a href="../../../index.html" class="logo">
+                <img src="../../../images/logo.png" alt="Logo" style="width: 50px;">
+            </a>
+            <ul class="nav-links">
+                <li><a href="../../../index.html">Home</a></li>
+                <li class="dropdown">
+                    <a href="#" class="dropbtn">Kuartal 1: Dasar <span class="arrow">&#9662;</span></a>
+                    <div class="dropdown-content">
+                        <a href="#">Bulan 1: Excel Dasar</a>
+                        <a href="#">Bulan 2: Statistik Dasar</a>
+                        <a href="#">Bulan 3: SQL Lanjutan</a>
+                    </div>
+                </li>
+                <li class="dropdown">
+                    <a href="#" class="dropbtn">Kuartal 2: Intermediate <span class="arrow">&#9662;</span></a>
+                    <div class="dropdown-content">
+                        <a href="#">Bulan 4-6</a>
+                    </div>
+                </li>
+                <li class="dropdown">
+                    <a href="#" class="dropbtn">Kuartal 3: Advanced <span class="arrow">&#9662;</span></a>
+                    <div class="dropdown-content">
+                        <a href="#">Bulan 7-9</a>
+                    </div>
+                </li>
+                <li class="dropdown">
+                    <a href="#" class="dropbtn">Kuartal 4: Spesialisasi <span class="arrow">&#9662;</span></a>
+                    <div class="dropdown-content">
+                        <a href="#">Bulan 10-12</a>
+                    </div>
+                </li>
+                <li><a href="#">Resources</a></li>
+                <li><a href="#">Dataset & Tools</a></li>
+                <li><a href="../../about.html">About</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="container learning-container">
+        <div class="breadcrumb">
+            <a href="../../../index.html">Home</a> &gt;
+            <a href="#">Kuartal 1</a> &gt;
+            <a href="#">Bulan 1</a> &gt;
+            <a href="#">Minggu 1</a> &gt;
+            <span>Hari 5</span>
+        </div>
+        
+        <article class="day-content">
+            <header>
+                <h1>Hari 5: Excel Mulai Berhitung - Rumus & Fungsi Dasar</h1>
+                <p class="meta-info">Kuartal 1: Dasar | Bulan 1: Excel Dasar</p>
+            </header>
+            
+            <p>Selamat pagi, analis data masa depan! Siap untuk membuat Excel melakukan pekerjaan berat untuk kita? Hari ini adalah hari yang ditunggu-tunggu: kita akan belajar tentang <strong>Rumus (Formula)</strong> dan <strong>Fungsi (Function)</strong> dasar di Excel. Inilah inti dari kekuatan perhitungan Excel!</p>
+            <p>Lupakan kalkulator manual. Setelah hari ini, kamu akan bisa membuat Excel menjumlahkan total belanjaan, mencari harga termahal, atau menghitung rata-rata secara otomatis.</p>
+            
+            <section id="perbedaan-rumus-fungsi">
+                <h2>Apa Bedanya Rumus dan Fungsi?</h2>
+                <ul>
+                    <li><strong>Rumus (Formula):</strong> Pernyataan yang kamu tulis sendiri untuk melakukan perhitungan. Selalu diawali dengan tanda sama dengan (<code>=</code>). Contoh: <code>=5+3</code> atau <code>=C2*D2</code> (mengalikan isi sel C2 dengan D2).</li>
+                    <li><strong>Fungsi (Function):</strong> Rumus bawaan Excel yang sudah punya nama dan tugas spesifik untuk perhitungan yang lebih kompleks atau umum. Juga diawali dengan <code>=</code>, diikuti nama fungsi dan argument di dalam tanda kurung <code>()</code>. Contoh: <code>=SUM(C2:C6)</code> (menjumlahkan semua angka dari sel C2 sampai C6).</li>
+                </ul>
+                <p>Anggap saja rumus itu seperti kamu merakit perhitunganmu sendiri, sedangkan fungsi itu seperti menggunakan alat khusus yang sudah jadi.</p>
+            </section>
+            
+            <section id="rumus-dasar">
+                <h2>Memulai dengan Rumus Dasar</h2>
+                <p>Semua rumus di Excel wajib diawali dengan tanda sama dengan (<code>=</code>). Tanda ini memberi tahu Excel bahwa yang ingin kamu masukkan adalah perhitungan, bukan sekadar teks.</p>
+                <p>Operator matematika dasar yang bisa kamu gunakan:</p>
+                <ul>
+                    <li><code>+</code> : Penjumlahan</li>
+                    <li><code>-</code> : Pengurangan</li>
+                    <li><code>*</code> : Perkalian (pakai tanda bintang, bukan 'x')</li>
+                    <li><code>/</code> : Pembagian</li>
+                </ul>
+                <p>Mari kita coba di file <strong>Latihan Excel Hari 2 - Daftar Belanja.xlsx</strong>. Buka file itu dan pergi ke sheet "Daftar Belanja".</p>
+                
+                <h3>Latihan Rumus 1: Menghitung Total Harga per Item</h3>
+                <ol>
+                    <li>Buat kolom baru di sebelah kanan. Klik kanan pada huruf kolom E, pilih <em>Insert</em> (Sisipkan). Kolom baru akan muncul di E, dan kolom harga satuan bergeser ke F.</li>
+                    <li>Beri judul kolom baru ini di E1: <strong>Total Harga (IDR)</strong>.</li>
+                    <li>Di sel E2 (baris Apel), ketik rumus berikut:<br><code>=C2*F2</code></li>
+                    <li>Tekan Enter. Excel akan langsung menghitung <strong>5 * 5000 = 25000</strong> (misal contoh datamu sama).</li>
+                    <li>Meng-copy Rumus ke Bawah (AutoFill): Arahkan kursor mouse ke pojok kanan bawah sel E2 sampai menjadi tanda tambah hitam (+). Klik, tahan, lalu seret ke bawah sampai sel E6. Lepaskan klik.<br><em>Excel akan menyalin rumus secara otomatis menyesuaikan baris. Ini disebut <strong>Relative Referencing</strong>.</em></li>
+                    <li>Format kolom E ini sebagai mata uang seperti kolom F.</li>
+                </ol>
+            </section>
+            
+            <section id="fungsi-dasar">
+                <h2>Fungsi Dasar yang Wajib Tahu</h2>
+                <p>Rumus dasar memang berguna, tapi untuk perhitungan yang melibatkan banyak sel, fungsi jauh lebih efisien. Berikut 5 fungsi paling dasar dan sering dipakai:</p>
+                <ol>
+                    <li><strong>SUM:</strong> Menjumlahkan sekumpulan angka.</li>
+                    <li><strong>AVERAGE:</strong> Menghitung rata-rata sekumpulan angka.</li>
+                    <li><strong>COUNT:</strong> Menghitung jumlah sel yang berisi angka.</li>
+                    <li><strong>MAX:</strong> Menemukan nilai terbesar dalam sekumpulan angka.</li>
+                    <li><strong>MIN:</strong> Menemukan nilai terkecil dalam sekumpulan angka.</li>
+                </ol>
+                <p><strong>Struktur Umum Fungsi:</strong> <code>=NAMA_FUNGSI(argument1; argument2; ...)</code> atau <code>=NAMA_FUNGSI(range_data)</code><br> Nama fungsi bisa SUM, AVERAGE, dsb. Argument bisa berupa sel atau rentang, misalnya C2:C6 berarti semua sel dari C2 sampai C6.<br> Pemisah argument bisa titik koma (;) atau koma (,) tergantung pengaturan komputer. Coba salah satu, Excel akan memberi tahu jika salah.</p>
+            </section>
+            
+            <section id="latihan-fungsi">
+                <h2>Latihan Fungsi: Menganalisis Daftar Belanja</h2>
+                <ol>
+                    <li>Di sel D8 (di bawah label, kolom D), ketik label: <strong>Total Belanja Keseluruhan:</strong></li>
+                    <li>Di sel E8, hitung total dari kolom Total Harga (IDR) <code>(E2:E6)</code>. Ketik: <code>=SUM(E2:E6)</code></li>
+                    <li>Di sel D9, label: <strong>Rata-rata Harga per Item:</strong></li>
+                    <li>Di sel E9, ketik: <code>=AVERAGE(E2:E6)</code></li>
+                    <li>Di sel D10, label: <strong>Jumlah Jenis Barang Dibeli:</strong></li>
+                    <li>Di sel E10, ketik: <code>=COUNT(C2:C6)</code> (menghitung berapa baris ada angka di kolom Jumlah).</li>
+                    <li>Di sel D11, label: <strong>Harga Item Termahal:</strong></li>
+                    <li>Di sel E11, ketik: <code>=MAX(E2:E6)</code></li>
+                    <li>Di sel D12, label: <strong>Harga Item Termurah:</strong></li>
+                    <li>Di sel E12, ketik: <code>=MIN(E2:E6)</code></li>
+                    <li>Rapikan tampilan label dan hasil perhitungan ini jika perlu.</li>
+                    <li>Simpan pekerjaanmu (Ctrl + S).</li>
+                </ol>
+            </section>
+            
+            <section id="manfaat">
+                <h2>Mengapa Ini Penting?</h2>
+                <p>Kemampuan menggunakan rumus dan fungsi adalah <strong>game changer</strong>. Kamu bisa:</p>
+                <ul>
+                    <li>Melakukan perhitungan kompleks dengan cepat dan akurat.</li>
+                    <li>Membuat analisis sederhana (total, rata-rata, nilai ekstrem).</li>
+                    <li>Mengotomatisasi perhitungan, sehingga jika data sumber berubah, hasil akan otomatis ter-update!</li>
+                </ul>
+                <p>Ini adalah fondasi penting sebelum belajar analisis yang lebih rumit.</p>
+            </section>
+            
+            <section id="besok">
+                <h2>Apa Selanjutnya?</h2>
+                <p>Besok, kita akan terus berlatih dengan fungsi-fungsi dasar ini, mencoba beberapa fungsi teks, dan membahas tentang kesalahan dalam rumus (misal: #DIV/0! atau #NAME?).<br>Kamu sudah belajar banyak hari ini! Jangan ragu untuk bereksperimen dan mencoba rumus/fungsi ini pada data lain.<br>Sampai jumpa besok!</p>
+            </section>
+            
+            <footer class="lesson-footer">
+                <p><em>Tips Hari Ini:</em> Mulai dengan fungsi sederhana seperti SUM dan AVERAGE. Latihan membuat sempurna!</p>
+                <a href="hari6.html" class="cta-button">Lanjut ke Hari 6</a>
+            </footer>
+        </article>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-links">
+                <div>
+                    <h4>Navigasi Cepat</h4>
+                    <ul>
+                        <li><a href="#">Kuartal 1</a></li>
+                        <li><a href="#">Kuartal 2</a></li>
+                        <li><a href="#">Kuartal 3</a></li>
+                        <li><a href="#">Kuartal 4</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4>Resources</h4>
+                    <ul>
+                        <li><a href="#">Checklist Keterampilan</a></li>
+                        <li><a href="#">Contoh Portofolio</a></li>
+                        <li><a href="#">Pertanyaan Interview</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4>Kontak</h4>
+                    <p>Email: kontak@data365.com</p>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2025 Buku Panduan Data Analisis 365 Hari. Hak Cipta Dilindungi.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="../../../js/script.js"></script>
+</body>
+</html>
