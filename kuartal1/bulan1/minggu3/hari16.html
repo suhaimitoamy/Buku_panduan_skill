@@ -1,0 +1,662 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hari 16: IF Bertingkat, AND, dan OR - Excel Dasar</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Fira+Code&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #2563eb;
+      --secondary: #10B981;
+      --accent: #8B5CF6;
+      --dark: #1F2937;
+      --light: #F9FAFB;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: var(--light);
+      color: var(--dark);
+      line-height: 1.6;
+    }
+
+    .dark-mode {
+      background-color: #1a202c;
+      color: #e2e8f0;
+    }
+
+    .dark-mode .card {
+      background-color: #2d3748;
+    }
+
+    .header {
+      background-color: white;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+
+    .breadcrumb a {
+      color: var(--primary);
+      transition: all 0.3s;
+    }
+
+    .breadcrumb a:hover {
+      text-decoration: underline;
+    }
+
+    .lesson-container {
+      max-width: 1200px;
+    }
+
+    .content-card {
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+    }
+
+    .section-title {
+      color: var(--primary);
+      border-bottom: 2px solid #e5e7eb;
+      padding-bottom: 10px;
+    }
+
+    .formula-box {
+      background-color: #f0f9ff;
+      border-left: 4px solid var(--primary);
+      border-radius: 0 8px 8px 0;
+    }
+
+    .code {
+      font-family: 'Fira Code', monospace;
+      background-color: #f3f4f6;
+      padding: 2px 6px;
+      border-radius: 4px;
+    }
+
+    .dark-mode .code {
+      background-color: #2d3748;
+    }
+
+    .cta-button {
+      background-color: var(--secondary);
+      transition: all 0.3s;
+    }
+
+    .cta-button:hover {
+      background-color: #0e8e6d;
+      transform: translateY(-3px);
+      box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+    }
+
+    .footer {
+      background-color: var(--dark);
+      color: white;
+    }
+
+    .table-container {
+      overflow-x: auto;
+    }
+
+    table {
+      border-collapse: collapse;
+      width: 100%;
+    }
+
+    th, td {
+      border: 1px solid #e5e7eb;
+      padding: 10px 15px;
+      text-align: center;
+    }
+
+    th {
+      background-color: #f3f4f6;
+    }
+
+    .dark-mode th {
+      background-color: #2d3748;
+    }
+
+    .highlight {
+      background-color: #dbeafe;
+    }
+
+    .dark-mode .highlight {
+      background-color: #1e3a8a;
+    }
+  </style>
+</head>
+<body class="dark:bg-gray-900 dark:text-gray-100">
+  <!-- Header -->
+  <header class="header sticky top-0 z-50 py-4">
+    <div class="container mx-auto px-4 flex justify-between items-center">
+      <a href="index.html" class="flex items-center">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+        </svg>
+        <h1 class="text-xl font-bold ml-2">Buku Panduan Skill</h1>
+      </a>
+      <nav class="hidden md:block">
+        <ul class="flex space-x-6">
+          <li><a href="index.html" class="hover:text-blue-600 transition">Home</a></li>
+          <li><a href="#" class="text-blue-600 font-semibold">Kuartal 1: Dasar</a></li>
+          <li><a href="#" class="hover:text-blue-600 transition">Kuartal 2: Intermediate</a></li>
+          <li><a href="#" class="hover:text-blue-600 transition">Resources</a></li>
+        </ul>
+      </nav>
+      <button id="mobile-menu" class="md:hidden">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+        </svg>
+      </button>
+    </div>
+  </header>
+
+  <!-- Breadcrumb -->
+  <div class="bg-gray-50 py-3 dark:bg-gray-800">
+    <div class="container mx-auto px-4">
+      <div class="breadcrumb flex text-sm">
+        <a href="index.html">Home</a>
+        <span class="mx-2 text-gray-400">›</span>
+        <a href="#">Kuartal 1: Dasar</a>
+        <span class="mx-2 text-gray-400">›</span>
+        <a href="#">Bulan 1: Excel Dasar</a>
+        <span class="mx-2 text-gray-400">›</span>
+        <span class="text-gray-600 dark:text-gray-400">Hari 16</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Content -->
+  <main class="py-8">
+    <div class="container mx-auto px-4 lesson-container">
+      <div class="content-card p-6 md:p-8 mb-8 dark:bg-gray-800">
+        <header class="mb-8">
+          <h1 class="text-3xl font-bold mb-2 dark:text-white">Hari 16: IF Lebih Canggih - Bertingkat, AND, dan OR</h1>
+          <p class="text-gray-600 dark:text-gray-300">Kuartal 1: Dasar | Bulan 1: Excel Dasar</p>
+        </header>
+
+        <div class="prose max-w-none dark:prose-invert">
+          <p class="mb-6">
+            Selamat pagi, detektif data! Kemarin kita sudah berhasil membuat Excel mengambil keputusan sederhana menggunakan fungsi IF. Kamu sudah bisa menentukan status "Lulus"/"Remedial" atau memberikan diskon otomatis berdasarkan satu kondisi. Keren, kan?
+          </p>
+          
+          <p class="mb-6">
+            Tapi, bagaimana jika kondisinya lebih rumit? Bagaimana jika ada lebih dari dua kemungkinan hasil? Atau bagaimana jika keputusan harus diambil berdasarkan beberapa kondisi sekaligus?
+          </p>
+          
+          <p class="mb-6 font-semibold text-blue-600 dark:text-blue-400">
+            Tenang, Excel punya solusinya! Hari ini kita akan belajar tentang IF Bertingkat (Nested IF) dan cara menggabungkan IF dengan fungsi logika lain seperti AND dan OR.
+          </p>
+          
+          <!-- Section: IF Bertingkat -->
+          <section class="mb-10">
+            <h2 class="text-2xl font-bold mb-4 section-title dark:text-blue-400">Ketika Satu IF Tidak Cukup: IF Bertingkat (Nested IF)</h2>
+            
+            <p class="mb-4">
+              Fungsi IF standar hanya bisa menangani dua hasil: value_if_true dan value_if_false. Bagaimana jika kita punya tiga atau lebih kemungkinan hasil? Misalnya, memberi nilai huruf (A, B, C, D) berdasarkan skor.
+            </p>
+            
+            <p class="mb-6">
+              Di sinilah IF Bertingkat berperan. Idenya adalah meletakkan fungsi IF lain di dalam argumen value_if_false (atau kadang value_if_true) dari IF yang pertama.
+            </p>
+            
+            <div class="formula-box p-6 mb-6 dark:bg-blue-900/30">
+              <h3 class="font-bold text-lg mb-3 dark:text-blue-300">Struktur IF Bertingkat (untuk 3 hasil):</h3>
+              <p class="code font-mono bg-gray-100 p-4 rounded mb-4 dark:bg-gray-700">=IF(kondisi1; hasil_jika_benar1; IF(kondisi2; hasil_jika_benar2; hasil_jika_salah2))</p>
+              
+              <ul class="list-disc pl-6 space-y-2">
+                <li>Excel cek <span class="font-semibold">kondisi1</span>. Jika <span class="code">TRUE</span>, hasilnya <span class="code">hasil_jika_benar1</span>.</li>
+                <li>Jika <span class="code">kondisi1 FALSE</span>, Excel pindah ke IF kedua.</li>
+                <li>Excel cek <span class="font-semibold">kondisi2</span>. Jika <span class="code">TRUE</span>, hasilnya <span class="code">hasil_jika_benar2</span>.</li>
+                <li>Jika <span class="code">kondisi2 FALSE</span>, hasilnya <span class="code">hasil_jika_salah2</span>.</li>
+              </ul>
+            </div>
+            
+            <p class="mb-4">
+              Kamu bisa menumpuk lebih banyak IF lagi, tapi hati-hati! Rumus IF bertingkat bisa cepat menjadi panjang, rumit, dan sulit dibaca/dikelola. Untuk kondisi yang sangat banyak, nanti ada cara yang lebih elegan (seperti fungsi IFS di versi Excel baru atau menggunakan tabel VLOOKUP), tapi penting untuk memahami konsep dasarnya.
+            </p>
+          </section>
+          
+          <!-- Latihan Nested IF -->
+          <section class="mb-10">
+            <h2 class="text-2xl font-bold mb-4 section-title dark:text-blue-400">Latihan Nested IF: Memberi Nilai Huruf</h2>
+            
+            <p class="mb-4">
+              Mari kita terapkan pada sheet Nilai Siswa. Kita akan memberi nilai huruf berdasarkan nilai rata-rata (misal di kolom G):
+            </p>
+            
+            <ul class="list-disc pl-6 mb-6 space-y-2">
+              <li>≥ 90 : "A"</li>
+              <li>≥ 80 : "B"</li>
+              <li>≥ 70 : "C"</li>
+              <li>&lt; 70 : "D" (Remedial)</li>
+            </ul>
+            
+            <div class="table-container mb-6">
+              <table class="min-w-full">
+                <thead>
+                  <tr>
+                    <th class="font-bold">Nama</th>
+                    <th>Matematika</th>
+                    <th>Bahasa</th>
+                    <th>Sains</th>
+                    <th>Sejarah</th>
+                    <th>Rata-rata</th>
+                    <th>Nilai Huruf</th>
+                    <th>Formula</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="font-semibold">Andi</td>
+                    <td>85</td>
+                    <td>78</td>
+                    <td>90</td>
+                    <td>88</td>
+                    <td>85.25</td>
+                    <td class="font-semibold">B</td>
+                    <td class="text-left code bg-blue-50 dark:bg-blue-900/30">=IF(G3>=90,"A",IF(G3>=80,"B",IF(G3>=70,"C","D")))</td>
+                  </tr>
+                  <tr>
+                    <td class="font-semibold">Budi</td>
+                    <td>92</td>
+                    <td>88</td>
+                    <td>95</td>
+                    <td>93</td>
+                    <td>92.00</td>
+                    <td class="font-semibold text-green-600">A</td>
+                    <td class="text-left code">AutoFill</td>
+                  </tr>
+                  <tr>
+                    <td class="font-semibold">Citra</td>
+                    <td>75</td>
+                    <td>82</td>
+                    <td>68</td>
+                    <td>79</td>
+                    <td>76.00</td>
+                    <td class="font-semibold">C</td>
+                    <td class="text-left code">AutoFill</td>
+                  </tr>
+                  <tr>
+                    <td class="font-semibold">Doni</td>
+                    <td>65</td>
+                    <td>72</td>
+                    <td>68</td>
+                    <td>70</td>
+                    <td>68.75</td>
+                    <td class="font-semibold text-red-600">D</td>
+                    <td class="text-left code">AutoFill</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            
+            <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 mb-6 dark:bg-yellow-900/20 dark:border-yellow-500">
+              <h3 class="font-bold text-lg mb-2 dark:text-yellow-300">Langkah Praktik:</h3>
+              <ol class="list-decimal pl-6 space-y-2">
+                <li>Buat kolom baru, misal di I, beri judul <span class="code">Nilai Huruf</span> (I1).</li>
+                <li>Di sel I3 (baris Andi), tulis rumus Nested IF berikut:
+                  <p class="code font-mono bg-gray-100 p-3 rounded mt-2 dark:bg-gray-700">=IF(G3>=90; "A"; IF(G3>=80; "B"; IF(G3>=70; "C"; "D")))</p>
+                </li>
+                <li>Bedah rumus (dari kiri ke kanan):
+                  <ul class="list-disc pl-6 mt-2 space-y-1">
+                    <li>Apakah G3 ≥ 90? Jika ya, hasilnya "A".</li>
+                    <li>Jika tidak, cek lagi: Apakah G3 ≥ 80? Jika ya, hasilnya "B".</li>
+                    <li>Jika tidak juga, cek lagi: Apakah G3 ≥ 70? Jika ya, hasilnya "C".</li>
+                    <li>Jika semua kondisi di atas tidak terpenuhi (artinya G3 < 70), hasilnya "D".</li>
+                    <li>Perhatikan jumlah tanda kurung tutup di akhir harus sesuai dengan jumlah IF yang dibuka (ada 3 IF, jadi 3 kurung tutup).</li>
+                  </ul>
+                </li>
+                <li>Tekan Enter dan gunakan AutoFill untuk menyalin ke bawah.</li>
+              </ol>
+            </div>
+            
+            <p class="font-semibold text-green-600 dark:text-green-400">
+              Sekarang kamu punya klasifikasi nilai huruf otomatis!
+            </p>
+          </section>
+          
+          <!-- AND dan OR -->
+          <section class="mb-10">
+            <h2 class="text-2xl font-bold mb-4 section-title dark:text-blue-400">Keputusan Berdasarkan Banyak Kondisi: AND dan OR</h2>
+            
+            <p class="mb-4">
+              Bagaimana jika keputusan bergantung pada kombinasi beberapa kondisi?
+            </p>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+              <div class="bg-green-50 border-l-4 border-green-500 p-5 rounded-r dark:bg-green-900/20 dark:border-green-400">
+                <h3 class="font-bold text-lg mb-3 dark:text-green-300">Fungsi AND</h3>
+                <p class="code font-mono bg-white p-3 rounded mb-3 dark:bg-gray-700">=AND(kondisi1; kondisi2; ...)</p>
+                <p>Menghasilkan <span class="code font-bold">TRUE</span> hanya jika <span class="font-bold">SEMUA</span> kondisi di dalamnya <span class="code">TRUE</span>.</p>
+                <p class="mt-3">Contoh: <span class="code">=AND(A1>10; B1<5)</span> akan TRUE hanya jika A1 > 10 dan B1 < 5.</p>
+              </div>
+              
+              <div class="bg-purple-50 border-l-4 border-purple-500 p-5 rounded-r dark:bg-purple-900/20 dark:border-purple-400">
+                <h3 class="font-bold text-lg mb-3 dark:text-purple-300">Fungsi OR</h3>
+                <p class="code font-mono bg-white p-3 rounded mb-3 dark:bg-gray-700">=OR(kondisi1; kondisi2; ...)</p>
+                <p>Menghasilkan <span class="code font-bold">TRUE</span> jika <span class="font-bold">SALAH SATU</span> (atau lebih) kondisi di dalamnya <span class="code">TRUE</span>.</p>
+                <p class="mt-3">Contoh: <span class="code">=OR(A1>10; B1<5)</span> akan TRUE jika A1 > 10 atau B1 < 5 (atau keduanya).</p>
+              </div>
+            </div>
+            
+            <p class="mb-6">
+              Kita bisa memasukkan fungsi AND atau OR ini ke dalam logical_test dari fungsi IF.
+            </p>
+          </section>
+          
+          <!-- Latihan AND -->
+          <section class="mb-10">
+            <h2 class="text-2xl font-bold mb-4 section-title dark:text-blue-400">Latihan IF dengan AND: Status "Prestasi"</h2>
+            
+            <p class="mb-4">
+              Kita ingin memberi status "Prestasi" kepada siswa yang nilai Matematikanya (kolom C) di atas 85 DAN nilai Sains-nya (kolom E) juga di atas 85.
+            </p>
+            
+            <div class="table-container mb-6">
+              <table class="min-w-full">
+                <thead>
+                  <tr>
+                    <th class="font-bold">Nama</th>
+                    <th>Matematika</th>
+                    <th>Bahasa</th>
+                    <th>Sains</th>
+                    <th>Sejarah</th>
+                    <th>Rata-rata</th>
+                    <th>Status Khusus</th>
+                    <th>Formula</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="font-semibold">Andi</td>
+                    <td>85</td>
+                    <td>78</td>
+                    <td>90</td>
+                    <td>88</td>
+                    <td>85.25</td>
+                    <td class="font-semibold">-</td>
+                    <td class="text-left code">=IF(AND(C3>85,E3>85),"Prestasi","-")</td>
+                  </tr>
+                  <tr>
+                    <td class="font-semibold">Budi</td>
+                    <td>92</td>
+                    <td>88</td>
+                    <td>95</td>
+                    <td>93</td>
+                    <td>92.00</td>
+                    <td class="font-semibold text-green-600">Prestasi</td>
+                    <td class="text-left code">AutoFill</td>
+                  </tr>
+                  <tr>
+                    <td class="font-semibold">Citra</td>
+                    <td>75</td>
+                    <td>82</td>
+                    <td>68</td>
+                    <td>79</td>
+                    <td>76.00</td>
+                    <td class="font-semibold">-</td>
+                    <td class="text-left code">AutoFill</td>
+                  </tr>
+                  <tr>
+                    <td class="font-semibold">Doni</td>
+                    <td>65</td>
+                    <td>72</td>
+                    <td>68</td>
+                    <td>70</td>
+                    <td>68.75</td>
+                    <td class="font-semibold">-</td>
+                    <td class="text-left code">AutoFill</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            
+            <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 mb-6 dark:bg-yellow-900/20 dark:border-yellow-500">
+              <h3 class="font-bold text-lg mb-2 dark:text-yellow-300">Langkah Praktik:</h3>
+              <ol class="list-decimal pl-6 space-y-2">
+                <li>Buat kolom baru, misal di J, beri judul <span class="code">Status Khusus</span> (J1).</li>
+                <li>Di sel J3 (baris Andi), tulis rumus:
+                  <p class="code font-mono bg-gray-100 p-3 rounded mt-2 dark:bg-gray-700">=IF(AND(C3>85; E3>85); "Prestasi"; "-")</p>
+                </li>
+                <li>Bedah rumus:
+                  <ul class="list-disc pl-6 mt-2 space-y-1">
+                    <li><span class="code">AND(C3>85; E3>85)</span>: Ini tes logikanya. Akan menghasilkan <span class="code">TRUE</span> hanya jika kedua kondisi (C3>85 dan E3>85) terpenuhi.</li>
+                    <li><span class="code">"Prestasi"</span>: Value if true (jika kedua nilai di atas 85).</li>
+                    <li><span class="code">"-"</span>: Value if false (jika salah satu atau kedua nilai tidak di atas 85). Tanda strip hanya contoh, bisa juga dikosongkan (<span class="code">""</span>).</li>
+                  </ul>
+                </li>
+                <li>Tekan Enter dan AutoFill ke bawah.</li>
+              </ol>
+            </div>
+          </section>
+          
+          <!-- Latihan OR -->
+          <section class="mb-10">
+            <h2 class="text-2xl font-bold mb-4 section-title dark:text-blue-400">Latihan IF dengan OR: Status "Perlu Perhatian"</h2>
+            
+            <p class="mb-4">
+              Kita ingin memberi status "Perlu Perhatian" jika nilai Matematika (C) di bawah 70 ATAU nilai Bahasa (D) di bawah 70.
+            </p>
+            
+            <div class="table-container mb-6">
+              <table class="min-w-full">
+                <thead>
+                  <tr>
+                    <th class="font-bold">Nama</th>
+                    <th>Matematika</th>
+                    <th>Bahasa</th>
+                    <th>Sains</th>
+                    <th>Sejarah</th>
+                    <th>Rata-rata</th>
+                    <th>Status Khusus</th>
+                    <th>Formula</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="font-semibold">Andi</td>
+                    <td>85</td>
+                    <td>78</td>
+                    <td>90</td>
+                    <td>88</td>
+                    <td>85.25</td>
+                    <td class="font-semibold">-</td>
+                    <td class="text-left code">=IF(OR(C3<70,D3<70),"Perlu Perhatian","-")</td>
+                  </tr>
+                  <tr>
+                    <td class="font-semibold">Budi</td>
+                    <td>92</td>
+                    <td>88</td>
+                    <td>95</td>
+                    <td>93</td>
+                    <td>92.00</td>
+                    <td class="font-semibold">-</td>
+                    <td class="text-left code">AutoFill</td>
+                  </tr>
+                  <tr>
+                    <td class="font-semibold">Citra</td>
+                    <td>75</td>
+                    <td>82</td>
+                    <td>68</td>
+                    <td>79</td>
+                    <td>76.00</td>
+                    <td class="font-semibold">-</td>
+                    <td class="text-left code">AutoFill</td>
+                  </tr>
+                  <tr>
+                    <td class="font-semibold">Doni</td>
+                    <td>65</td>
+                    <td>72</td>
+                    <td>68</td>
+                    <td>70</td>
+                    <td>68.75</td>
+                    <td class="font-semibold text-red-600">Perlu Perhatian</td>
+                    <td class="text-left code">AutoFill</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            
+            <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 mb-6 dark:bg-yellow-900/20 dark:border-yellow-500">
+              <h3 class="font-bold text-lg mb-2 dark:text-yellow-300">Langkah Praktik:</h3>
+              <ol class="list-decimal pl-6 space-y-2">
+                <li>Kita bisa gunakan kolom Status Khusus (J) lagi, atau buat kolom baru.</li>
+                <li>Di sel J3 (jika menggunakan kolom yang sama, hapus rumus sebelumnya atau timpa), tulis rumus:
+                  <p class="code font-mono bg-gray-100 p-3 rounded mt-2 dark:bg-gray-700">=IF(OR(C3<70; D3<70); "Perlu Perhatian"; "-")</p>
+                </li>
+                <li>Bedah rumus:
+                  <ul class="list-disc pl-6 mt-2 space-y-1">
+                    <li><span class="code">OR(C3<70; D3<70)</span>: Tes logikanya. Akan menghasilkan <span class="code">TRUE</span> jika salah satu atau kedua kondisi (C3<70 atau D3<70) terpenuhi.</li>
+                    <li><span class="code">"Perlu Perhatian"</span>: Value if true.</li>
+                    <li><span class="code">"-"</span>: Value if false.</li>
+                  </ul>
+                </li>
+                <li>Tekan Enter dan AutoFill ke bawah.</li>
+              </ol>
+            </div>
+            
+            <div class="bg-blue-50 border-l-4 border-blue-500 p-4 mb-6 dark:bg-blue-900/20 dark:border-blue-400">
+              <h3 class="font-bold text-lg mb-2 dark:text-blue-300">Kombinasi Kekuatan</h3>
+              <p>
+                Kamu bahkan bisa menggabungkan Nested IF, AND, dan OR dalam satu rumus kompleks, tapi sekali lagi, berhati-hatilah agar tidak terlalu rumit. Seringkali lebih baik memecah logika menjadi beberapa kolom bantu.
+              </p>
+            </div>
+          </section>
+          
+          <!-- Apa Selanjutnya -->
+          <section class="mb-6">
+            <h2 class="text-2xl font-bold mb-4 section-title dark:text-blue-400">Apa Selanjutnya?</h2>
+            
+            <p class="mb-4">
+              Wow, logika Excel-mu semakin terasah! Kamu sekarang bisa membuat Excel mengambil keputusan yang lebih kompleks berdasarkan berbagai kondisi.
+            </p>
+            
+            <p class="mb-4">
+              Besok, kita akan kembali ke dunia visual. Kita sudah belajar membuat grafik dasar di Hari 13. Besok (Hari 17), kita akan fokus pada cara membuat grafik tersebut lebih informatif dan menarik dengan melakukan kustomisasi: mengubah judul, menambah label data, mengganti warna, menyesuaikan sumbu, dan lainnya.
+            </p>
+            
+            <div class="bg-green-50 border-l-4 border-green-500 p-4 mt-6 dark:bg-green-900/20 dark:border-green-400">
+              <p class="font-semibold dark:text-green-300">
+                Pastikan kamu sudah nyaman dengan IF, AND, dan OR. Jangan lupa Simpan pekerjaanmu. Sampai jumpa besok!
+              </p>
+            </div>
+          </section>
+        </div>
+        
+        <footer class="mt-10 pt-6 border-t border-gray-200 dark:border-gray-700">
+          <div class="flex justify-between items-center">
+            <a href="hari15.html" class="px-5 py-2 bg-gray-200 rounded-lg hover:bg-gray-300 transition dark:bg-gray-700 dark:hover:bg-gray-600">
+              ← Hari 15: IF Dasar
+            </a>
+            <a href="hari17.html" class="px-5 py-2 cta-button text-white rounded-lg font-semibold">
+              Hari 17: Kustomisasi Grafik →
+            </a>
+          </div>
+        </footer>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer py-12">
+    <div class="container mx-auto px-4">
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+        <div>
+          <h4 class="text-lg font-bold mb-4">Navigasi Cepat</h4>
+          <ul class="space-y-2">
+            <li><a href="#" class="hover:text-blue-300 transition">Kuartal 1</a></li>
+            <li><a href="#" class="hover:text-blue-300 transition">Kuartal 2</a></li>
+            <li><a href="#" class="hover:text-blue-300 transition">Kuartal 3</a></li>
+            <li><a href="#" class="hover:text-blue-300 transition">Kuartal 4</a></li>
+          </ul>
+        </div>
+        
+        <div>
+          <h4 class="text-lg font-bold mb-4">Resources</h4>
+          <ul class="space-y-2">
+            <li><a href="#" class="hover:text-blue-300 transition">Checklist Keterampilan</a></li>
+            <li><a href="#" class="hover:text-blue-300 transition">Contoh Portofolio</a></li>
+            <li><a href="#" class="hover:text-blue-300 transition">Pertanyaan Interview</a></li>
+          </ul>
+        </div>
+        
+        <div>
+          <h4 class="text-lg font-bold mb-4">Kontak</h4>
+          <p class="mb-2">Email: kontak@data365.com</p>
+          <div class="flex space-x-4 mt-4">
+            <a href="#" class="text-gray-400 hover:text-white">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24"><path d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616-.054 2.281 1.581 4.415 3.949 4.89-.693.188-1.452.232-2.224.084.626 1.956 2.444 3.379 4.6 3.419-2.07 1.623-4.678 2.348-7.29 2.04 2.179 1.397 4.768 2.212 7.548 2.212 9.142 0 14.307-7.721 13.995-14.646.962-.695 1.797-1.562 2.457-2.549z"/></svg>
+            </a>
+            <a href="#" class="text-gray-400 hover:text-white">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm3 8h-1.35c-.538 0-.65.221-.65.778v1.222h2l-.209 2h-1.791v7h-3v-7h-2v-2h2v-2.308c0-1.769.931-2.692 3.029-2.692h1.971v3z"/></svg>
+            </a>
+          </div>
+        </div>
+        
+        <div>
+          <h4 class="text-lg font-bold mb-4">Newsletter</h4>
+          <p class="mb-4">Dapatkan tips analisis data langsung ke inbox Anda</p>
+          <form class="flex">
+            <input type="email" placeholder="Email Anda" class="px-4 py-2 rounded-l-lg w-full">
+            <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-r-lg">Daftar</button>
+          </form>
+        </div>
+      </div>
+      
+      <div class="border-t border-gray-700 pt-8 text-center">
+        <p>&copy; 2025 Buku Panduan Data Analisis 365 Hari. Hak Cipta Dilindungi.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Dark Mode Toggle -->
+  <button id="dark-toggle" class="fixed bottom-6 right-6 w-12 h-12 rounded-full bg-gray-800 text-white shadow-lg flex items-center justify-center z-30">
+    <svg id="dark-icon" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/>
+    </svg>
+    <svg id="light-icon" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/>
+    </svg>
+  </button>
+
+  <script>
+    // Dark Mode Toggle
+    const darkToggle = document.getElementById('dark-toggle');
+    const darkIcon = document.getElementById('dark-icon');
+    const lightIcon = document.getElementById('light-icon');
+    const htmlElement = document.documentElement;
+
+    darkToggle.addEventListener('click', () => {
+      htmlElement.classList.toggle('dark');
+      localStorage.theme = htmlElement.classList.contains('dark') ? 'dark' : 'light';
+      
+      if (htmlElement.classList.contains('dark')) {
+        darkIcon.classList.remove('hidden');
+        lightIcon.classList.add('hidden');
+        darkToggle.classList.add('bg-gray-700');
+      } else {
+        darkIcon.classList.add('hidden');
+        lightIcon.classList.remove('hidden');
+        darkToggle.classList.remove('bg-gray-700');
+      }
+    });
+
+    // Set initial theme based on localStorage or system preference
+    if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+      htmlElement.classList.add('dark');
+      darkIcon.classList.remove('hidden');
+      lightIcon.classList.add('hidden');
+      darkToggle.classList.add('bg-gray-700');
+    } else {
+      htmlElement.classList.remove('dark');
+      darkIcon.classList.add('hidden');
+      lightIcon.classList.remove('hidden');
+      darkToggle.classList.remove('bg-gray-700');
+    }
+  </script>
+</body>
+</html>
