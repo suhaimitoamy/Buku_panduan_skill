@@ -1,0 +1,610 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hari 6: Latihan Tambahan & Mengintip Kesalahan Rumus - Kuartal 1</title>
+    <style>
+        /* --- Pengaturan Dasar dan Variabel --- */
+        :root {
+            --primary-color: #3B82F6; /* Blue */
+            --secondary-color: #10B981; /* Green */
+            --accent-color: #8B5CF6; /* Purple */
+            --background-color: #FFFFFF; /* White */
+            --text-color: #1F2937; /* Dark Gray */
+            --muted-color: #9CA3AF; /* Gray */
+            --light-bg: #f9fafb;
+            --dark-bg: #1f2937;
+            --heading-font: 'Inter', sans-serif;
+            --body-font: 'Inter', sans-serif;
+            --code-font: 'Fira Code', monospace;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--body-font);
+            color: var(--text-color);
+            background-color: var(--background-color);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* --- Header dan Navigasi --- */
+        .header {
+            background-color: var(--background-color);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            padding: 1rem 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+        }
+
+        .logo svg {
+            height: 40px;
+            width: 40px;
+            fill: none;
+            stroke: var(--primary-color);
+            stroke-width: 2;
+        }
+
+        .logo-text {
+            font-family: var(--heading-font);
+            font-weight: 700;
+            font-size: 1.25rem;
+            margin-left: 10px;
+            color: var(--text-color);
+        }
+
+        .nav-links {
+            list-style: none;
+            display: flex;
+            gap: 1.5rem;
+            margin: 0;
+            padding: 0;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-color);
+            font-weight: 500;
+            transition: color 0.3s;
+            font-size: 0.95rem;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary-color);
+        }
+
+        /* --- Breadcrumb --- */
+        .breadcrumb-container {
+            background-color: var(--light-bg);
+            padding: 15px 0;
+            margin-bottom: 20px;
+        }
+
+        .breadcrumb {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            align-items: center;
+            font-size: 0.9rem;
+        }
+
+        .breadcrumb a {
+            color: var(--primary-color);
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+
+        .breadcrumb a:hover {
+            text-decoration: underline;
+        }
+
+        .breadcrumb span {
+            color: var(--muted-color);
+        }
+
+        .breadcrumb-separator {
+            margin: 0 10px;
+            color: var(--muted-color);
+        }
+
+        /* --- Learning Content --- */
+        .learning-container {
+            padding: 120px 20px 60px;
+        }
+
+        .day-content {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            padding: 40px;
+            margin-bottom: 50px;
+        }
+
+        .day-header {
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid var(--light-bg);
+        }
+
+        .day-header h1 {
+            font-family: var(--heading-font);
+            font-size: 2.2rem;
+            color: var(--dark-bg);
+            margin-bottom: 10px;
+            line-height: 1.3;
+        }
+
+        .meta-info {
+            color: var(--muted-color);
+            font-size: 1rem;
+            display: block;
+            margin-bottom: 20px;
+        }
+
+        .day-content p {
+            margin-bottom: 20px;
+            line-height: 1.8;
+            font-size: 1.1rem;
+        }
+
+        .day-content section {
+            margin-bottom: 40px;
+        }
+
+        .day-content h2 {
+            font-family: var(--heading-font);
+            font-size: 1.7rem;
+            color: var(--primary-color);
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--light-bg);
+        }
+
+        .day-content ol, .day-content ul {
+            padding-left: 25px;
+            margin-bottom: 25px;
+        }
+
+        .day-content li {
+            margin-bottom: 10px;
+            line-height: 1.7;
+            font-size: 1.1rem;
+        }
+
+        .day-content strong {
+            color: var(--dark-bg);
+        }
+
+        .day-content code {
+            background-color: #f1f5f9;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: var(--code-font);
+            font-size: 0.95rem;
+        }
+
+        /* --- Lesson Footer --- */
+        .lesson-footer {
+            background: var(--light-bg);
+            padding: 25px;
+            border-radius: 8px;
+            margin-top: 40px;
+        }
+
+        .lesson-footer p {
+            font-style: italic;
+            color: var(--muted-color);
+            margin-bottom: 20px;
+        }
+
+        .cta-button {
+            background-color: var(--secondary-color);
+            color: white;
+            padding: 12px 30px;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+            display: inline-block;
+            transition: all 0.3s;
+            font-size: 1rem;
+            border: none;
+            cursor: pointer;
+        }
+
+        .cta-button:hover {
+            background-color: #0e8e6d;
+            transform: translateY(-3px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+        }
+
+        /* --- Footer --- */
+        .footer {
+            background-color: var(--dark-bg);
+            color: white;
+            padding: 60px 0 30px;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: space-between;
+            gap: 30px;
+            flex-wrap: wrap;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .footer-links h4 {
+            font-family: var(--heading-font);
+            margin-bottom: 20px;
+            font-size: 1.25rem;
+        }
+
+        .footer-links ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .footer-links ul li {
+            margin-bottom: 10px;
+        }
+
+        .footer-links ul li a {
+            color: var(--muted-color);
+            text-decoration: none;
+            transition: color 0.3s;
+            font-size: 0.95rem;
+        }
+
+        .footer-links ul li a:hover {
+            color: white;
+        }
+
+        .copyright {
+            text-align: center;
+            margin-top: 60px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            padding-top: 30px;
+            color: var(--muted-color);
+            max-width: 1200px;
+            margin: 60px auto 0;
+            padding: 20px;
+            font-size: 0.9rem;
+        }
+
+        /* --- Responsive Design --- */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+            
+            .learning-container {
+                padding: 100px 15px 40px;
+            }
+            
+            .day-content {
+                padding: 25px;
+            }
+            
+            .day-header h1 {
+                font-size: 1.8rem;
+            }
+            
+            .day-content h2 {
+                font-size: 1.5rem;
+            }
+            
+            .footer-links {
+                flex-direction: column;
+                gap: 40px;
+            }
+            
+            .breadcrumb {
+                flex-wrap: wrap;
+                row-gap: 5px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .day-header h1 {
+                font-size: 1.6rem;
+            }
+            
+            .day-content h2 {
+                font-size: 1.3rem;
+            }
+        }
+
+        /* --- Mobile Menu --- */
+        #mobile-menu {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--text-color);
+        }
+        
+        #sidebar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 280px;
+            background: white;
+            box-shadow: 2px 0 10px rgba(0,0,0,0.1);
+            transform: translateX(-100%);
+            transition: transform 0.3s ease;
+            z-index: 1000;
+            padding-top: 70px;
+            overflow-y: auto;
+        }
+        
+        #overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 999;
+            display: none;
+        }
+        
+        @media (max-width: 768px) {
+            #mobile-menu {
+                display: block;
+            }
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Fira+Code&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <nav class="navbar">
+            <a href="../../../index.html" class="logo">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                    <path d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+                </svg>
+                <span class="logo-text">Home</span>
+            </a>
+            
+            <!-- Desktop Navigation -->
+            <ul class="nav-links">
+                <li><a href="../../../index.html">Home</a></li>
+                <li class="dropdown">
+                    <a href="#" class="dropbtn">Kuartal 1: Dasar <span class="arrow">&#9662;</span></a>
+                    <div class="dropdown-content">
+                        <a href="#">Bulan 1: Excel Dasar</a>
+                        <a href="#">Bulan 2: Statistik Dasar</a>
+                        <a href="#">Bulan 3: SQL Lanjutan</a>
+                    </div>
+                </li>
+                <li class="dropdown">
+                    <a href="#" class="dropbtn">Kuartal 2: Intermediate <span class="arrow">&#9662;</span></a>
+                    <div class="dropdown-content">
+                        <a href="#">Bulan 4-6</a>
+                    </div>
+                </li>
+                <li class="dropdown">
+                    <a href="#" class="dropbtn">Kuartal 3: Advanced <span class="arrow">&#9662;</span></a>
+                    <div class="dropdown-content">
+                        <a href="#">Bulan 7-9</a>
+                    </div>
+                </li>
+                <li class="dropdown">
+                    <a href="#" class="dropbtn">Kuartal 4: Spesialisasi <span class="arrow">&#9662;</span></a>
+                    <div class="dropdown-content">
+                        <a href="#">Bulan 10-12</a>
+                    </div>
+                </li>
+                <li><a href="#">Resources</a></li>
+                <li><a href="#">Dataset & Tools</a></li>
+                <li><a href="../../about.html">About</a></li>
+            </ul>
+            
+            <!-- Mobile Menu Button -->
+            <button id="mobile-menu">☰</button>
+        </nav>
+    </header>
+
+    <!-- Breadcrumb -->
+    <div class="breadcrumb-container">
+        <div class="breadcrumb">
+            <a href="../../../index.html">Home</a>
+            <span class="breadcrumb-separator">&gt;</span>
+            <a href="../../index.html">Kuartal 1</a>
+            <span class="breadcrumb-separator">&gt;</span>
+            <a href="../index.html">Bulan 1</a>
+            <span class="breadcrumb-separator">&gt;</span>
+            <a href="index.html">Minggu 1</a>
+            <span class="breadcrumb-separator">&gt;</span>
+            <span>Hari 6</span>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <main class="container learning-container">
+        <article class="day-content">
+            <header class="day-header">
+                <h1>Hari 6: Latihan Tambahan & Mengintip Kesalahan Rumus</h1>
+                <p class="meta-info">Kuartal 1: Dasar | Bulan 1: Excel Dasar</p>
+            </header>
+            
+            <p>Halo lagi! Bagaimana rasanya kemarin setelah berhasil 'menyuruh' Excel berhitung? Cukup memuaskan, bukan? Kemarin kita sudah belajar dasar-dasar rumus (<code>=C2*F2</code>) dan beberapa fungsi super penting: SUM, AVERAGE, COUNT, MAX, dan MIN.</p>
+            <p>Hari ini, kita tidak akan menambah terlalu banyak materi baru. Sebaliknya, kita akan memperkuat pemahaman kita tentang fungsi-fungsi kemarin dan sedikit mengintip apa yang terjadi jika rumus kita salah. Anggap saja hari ini sebagai sesi latihan dan pemanasan sebelum review mingguan besok.</p>
+            
+            <section id="mengingat-fungsi">
+                <h2>Mengingat Kembali Fungsi Utama</h2>
+                <p>Mari kita ingat lagi tugas masing-masing fungsi yang sudah kita pelajari:</p>
+                <ul>
+                    <li><strong>=SUM(range):</strong> Menjumlahkan semua angka dalam range yang ditentukan.</li>
+                    <li><strong>=AVERAGE(range):</strong> Menghitung nilai rata-rata dari semua angka dalam range.</li>
+                    <li><strong>=COUNT(range):</strong> Menghitung ada berapa sel yang berisi angka dalam range.</li>
+                    <li><strong>=MAX(range):</strong> Mencari angka dengan nilai tertinggi dalam range.</li>
+                    <li><strong>=MIN(range):</strong> Mencari angka dengan nilai terendah dalam range.</li>
+                </ul>
+                <p>Kunci penggunaannya adalah menulis nama fungsi dengan benar dan menentukan range data yang tepat di dalam tanda kurung <code>()</code>.</p>
+            </section>
+            
+            <section id="latihan-kontak">
+                <h2>Latihan Penguatan: Analisis Daftar Kontak</h2>
+                <p>Yuk, buka kembali file Excel kita dan pergi ke sheet Daftar Kontak yang kita buat di Hari 4. Jika kamu memasukkan kolom Tanggal Lahir (opsional), kita bisa sedikit bermain-main di sana. Jika tidak, kita fokus pada kolom lain.</p>
+                
+                <h3>Skenario 1: Menghitung Jumlah Kontak</h3>
+                <p>Bagaimana cara cepat mengetahui ada berapa kontak dalam daftarmu?</p>
+                <ol>
+                    <li>Di sel kosong di bawah tabel kontakmu (misalnya A8), ketik label: <strong>Jumlah Kontak:</strong></li>
+                    <li>Di sel sebelahnya (B8), kita ingin menghitung berapa banyak nama yang ada. Kolom Nama Lengkap (Kolom A) berisi teks. Fungsi COUNT hanya menghitung angka. Jadi, fungsi apa yang cocok?</li>
+                    <li>Mari kita coba fungsi baru yang mirip: <strong>COUNTA</strong>. Fungsi ini menghitung jumlah sel yang tidak kosong (bisa berisi angka, teks, apa saja).</li>
+                    <li>Ketik di B8: <code>=COUNTA(A2:A7)</code> (sesuaikan A7 dengan baris terakhir datamu). Tekan Enter. Hasilnya harusnya sesuai dengan jumlah kontak yang kamu masukkan.</li>
+                    <li><em>Catatan:</em> COUNT berguna jika kamu ingin menghitung, misalnya, berapa banyak kontak yang memiliki nomor telepon (jika nomor telepon dianggap angka), sedangkan COUNTA menghitung semua yang punya entri nama.</li>
+                </ol>
+                
+                <h3>Skenario 2: (Jika Ada Tanggal Lahir) Mencari Kontak Tertua & Termuda</h3>
+                <p>Jika kamu punya kolom Tanggal Lahir (misalnya Kolom F) dan sudah memformatnya sebagai tanggal, Excel sebenarnya menyimpan tanggal sebagai angka serial. Ini berarti kita bisa menggunakan MIN dan MAX!</p>
+                <ol>
+                    <li>Di sel A9, ketik label: <strong>Tanggal Lahir Terawal (Tertua):</strong></li>
+                    <li>Di sel B9, ketik fungsi: <code>=MIN(F2:F7)</code> (sesuaikan F7 dengan baris terakhirmu). Tekan Enter. Excel akan menampilkan tanggal lahir paling awal.</li>
+                    <li>Di sel A10, ketik label: <strong>Tanggal Lahir Terakhir (Termuda):</strong></li>
+                    <li>Di sel B10, ketik fungsi: <code>=MAX(F2:F7)</code>. Tekan Enter. Excel akan menampilkan tanggal lahir paling akhir.</li>
+                    <li><em>Pastikan sel B9 dan B10 diformat sebagai tanggal agar hasilnya mudah dibaca.</em></li>
+                </ol>
+            </section>
+            
+            <section id="kesalahan-rumus">
+                <h2>Mengintip Pesan Kesalahan Umum</h2>
+                <p>Saat menulis rumus, kadang kita membuat kesalahan. Jangan panik! Excel biasanya akan menampilkan pesan error yang memberi petunjuk.</p>
+                <p>Berikut beberapa yang paling umum kamu temui di awal:</p>
+                <ul>
+                    <li><strong>#NAME?:</strong> Biasanya berarti kamu salah mengetik nama fungsi (misal, <code>=SUMM(A1:A5)</code> seharusnya <code>=SUM(A1:A5)</code>) atau salah mengetik referensi sel/range yang tidak dikenali.</li>
+                    <li><strong>#DIV/0!:</strong> Terjadi jika rumusmu mencoba melakukan pembagian dengan nol (misal, <code>=A1/B1</code> tapi isi sel B1 adalah 0 atau kosong).</li>
+                    <li><strong>#VALUE!:</strong> Sering muncul jika kamu mencoba melakukan operasi matematika pada tipe data yang salah. Misalnya, mencoba menjumlahkan angka dengan teks (<code>=A1+B1</code> dimana A1 berisi 5 tapi B1 berisi "Apel").</li>
+                    <li><strong>#REF!:</strong> Muncul jika rumusmu merujuk ke sel yang sudah tidak valid lagi (misalnya, kamu menghapus kolom yang dirujuk oleh rumus).</li>
+                </ul>
+                <p>Saat melihat pesan error ini, langkah pertama adalah: periksa kembali rumusmu. Apakah nama fungsinya benar? Apakah referensi selnya benar? Apakah tipe datanya sesuai untuk operasi yang dilakukan?</p>
+                <p>Kita tidak akan membahas cara memperbaikinya secara detail hari ini, cukup kenali saja dulu bahwa pesan-pesan ini adalah 'teman' yang memberi tahu ada sesuatu yang perlu diperbaiki.</p>
+            </section>
+            
+            <section id="latihan-hari-ini">
+                <h2>Latihan Hari Ini</h2>
+                <ol>
+                    <li>Kembali ke sheet Daftar Belanja.</li>
+                    <li>Tambahkan 2-3 item belanja baru ke dalam daftar (misalnya, Minyak Goreng, Sabun Cuci, Kopi).</li>
+                    <li>Perhatikan bagaimana rumus Total Harga (IDR) di kolom E tidak otomatis terisi untuk baris baru. Kamu perlu meng-copy rumusnya lagi ke bawah (gunakan teknik AutoFill dari pojok kanan bawah sel di atasnya).</li>
+                    <li>Perhatikan juga bagaimana hasil fungsi SUM, AVERAGE, COUNT, MAX, MIN di bawah tabel tidak otomatis berubah. Mengapa? Karena range-nya masih mengacu ke data lama (misal, E2:E6).</li>
+                    <li>Perbaiki range dalam fungsi-fungsi tersebut agar mencakup data baru (misal, ubah E2:E6 menjadi E2:E8 atau sesuai baris terakhirmu).</li>
+                    <li>Bonus: Coba sengaja buat kesalahan di salah satu rumus (misal, ganti SUM jadi SUMM atau bagi dengan sel kosong) dan lihat pesan error apa yang muncul.</li>
+                    <li>Jangan lupa Simpan pekerjaanmu.</li>
+                </ol>
+                <p>Latihan ini penting untuk memahami bahwa rumus dan fungsi perlu diperbarui jika struktur data atau jumlah data berubah.</p>
+            </section>
+            
+            <section id="selanjutnya">
+                <h2>Apa Selanjutnya?</h2>
+                <p>Besok adalah Hari ke-7! Sesuai jadwal, kita akan melakukan Review Mingguan untuk semua yang telah kita pelajari dari Hari 1 sampai Hari 6. Akan ada rangkuman singkat dan beberapa pertanyaan kuis untuk menguji pemahamanmu. Ini kesempatan bagus untuk memastikan kamu sudah nyaman dengan dasar-dasar analisis data dan Excel sebelum kita melangkah ke topik berikutnya.</p>
+                <p>Kerja bagus sudah bertahan sejauh ini! Istirahat yang cukup dan sampai jumpa besok untuk review!</p>
+            </section>
+            
+            <footer class="lesson-footer">
+                <p><em>Tips Hari Ini:</em> Latihan membuat sempurna. Gunakan hari ini untuk memperkuat dasar-dasarmu.</p>
+                <a href="hari7.html" class="cta-button">Lanjut ke Review Mingguan</a>
+            </footer>
+        </article>
+    </main>
+
+    <footer class="footer">
+        <div class="footer-links">
+            <div>
+                <h4>Navigasi Cepat</h4>
+                <ul>
+                    <li><a href="#">Kuartal 1</a></li>
+                    <li><a href="#">Kuartal 2</a></li>
+                    <li><a href="#">Kuartal 3</a></li>
+                    <li><a href="#">Kuartal 4</a></li>
+                </ul>
+            </div>
+            
+            <div>
+                <h4>Resources</h4>
+                <ul>
+                    <li><a href="#">Checklist Keterampilan</a></li>
+                    <li><a href="#">Contoh Portofolio</a></li>
+                    <li><a href="#">Pertanyaan Interview</a></li>
+                </ul>
+            </div>
+            
+            <div>
+                <h4>Kontak</h4>
+                <p>Email: kontak@data365.com</p>
+            </div>
+        </div>
+        
+        <div class="copyright">
+            <p>&copy; 2025 Buku Panduan Data Analisis 365 Hari. Hak Cipta Dilindungi.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile Menu Toggle
+        const mobileMenu = document.getElementById('mobile-menu');
+        const sidebar = document.getElementById('sidebar');
+        const overlay = document.getElementById('overlay');
+
+        mobileMenu.addEventListener('click', () => {
+            sidebar.style.transform = 'translateX(0)';
+            overlay.style.display = 'block';
+        });
+
+        overlay.addEventListener('click', () => {
+            sidebar.style.transform = 'translateX(-100%)';
+            overlay.style.display = 'none';
+        });
+
+        // Dropdown functionality for mobile
+        const dropdowns = document.querySelectorAll('.dropdown');
+
+        dropdowns.forEach(dropdown => {
+            const dropbtn = dropdown.querySelector('.dropbtn');
+            const content = dropdown.querySelector('.dropdown-content');
+
+            if (dropbtn && content) {
+                dropbtn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    content.style.display = content.style.display === 'block' ? 'none' : 'block';
+                });
+            }
+        });
+    </script>
+</body>
+</html>
