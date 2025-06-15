@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hari 10: Mengatur Data - Mari Mengurutkan (Sort)! - Kuartal 1</title>
+    <link rel="stylesheet" href="../../../css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Fira+Code&display=swap" rel="stylesheet">
+    <style>
+        .benefit-card {
+            background-color: #e3f2fd;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 15px 0;
+            display: flex;
+            align-items: flex-start;
+        }
+        .benefit-icon {
+            font-size: 24px;
+            margin-right: 15px;
+            color: #2196F3;
+        }
+        .warning-box {
+            background-color: #fff8e1;
+            border-left: 4px solid #ffc107;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 0 8px 8px 0;
+        }
+        .exercise-container {
+            background-color: #f5f5f5;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 25px 0;
+            position: relative;
+        }
+        .exercise-number {
+            position: absolute;
+            top: -12px;
+            left: 20px;
+            background-color: #4CAF50;
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-weight: bold;
+        }
+        .step-list {
+            counter-reset: step-counter;
+            margin: 20px 0;
+        }
+        .step-item {
+            position: relative;
+            padding: 15px 0 15px 60px;
+            border-bottom: 1px dashed #e0e0e0;
+        }
+        .step-item:last-child {
+            border-bottom: none;
+        }
+        .step-item:before {
+            counter-increment: step-counter;
+            content: counter(step-counter);
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 40px;
+            height: 40px;
+            background-color: #2196F3;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: bold;
+            font-size: 18px;
+        }
+        .sort-example {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            margin: 25px 0;
+            gap: 20px;
+        }
+        .sort-box {
+            flex: 1;
+            min-width: 300px;
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+            border-top: 4px solid #4CAF50;
+        }
+        .sort-box h3 {
+            color: #4CAF50;
+            margin-top: 0;
+            text-align: center;
+        }
+        .sort-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+        .sort-table th {
+            background-color: #e8f5e9;
+            padding: 10px;
+            text-align: center;
+        }
+        .sort-table td {
+            padding: 8px 10px;
+            border: 1px solid #e0e0e0;
+            text-align: center;
+        }
+        .sort-table tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        .highlight-text {
+            background-color: #fff9c4;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-weight: 500;
+        }
+        .key-point {
+            display: flex;
+            align-items: center;
+            margin: 10px 0;
+        }
+        .key-icon {
+            margin-right: 10px;
+            color: #2196F3;
+            font-weight: bold;
+        }
+        .reminder-section {
+            background-color: #f8f9fa;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 25px 0;
+            border: 2px dashed #e0e0e0;
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <nav class="navbar">
+            <a href="../../../index.html" class="logo">
+                <img src="../../../images/logo.png" alt="Logo" style="width: 50px;">
+            </a>
+            <ul class="nav-links">
+                <li><a href="../../../index.html">Home</a></li>
+                <li class="dropdown">
+                    <a href="#" class="dropbtn">Kuartal 1: Dasar <span class="arrow">&#9662;</span></a>
+                    <div class="dropdown-content">
+                        <a href="#">Bulan 1: Excel Dasar</a>
+                        <a href="#">Bulan 2: Statistik Dasar</a>
+                        <a href="#">Bulan 3: SQL Lanjutan</a>
+                    </div>
+                </li>
+                <li class="dropdown">
+                    <a href="#" class="dropbtn">Kuartal 2: Intermediate <span class="arrow">&#9662;</span></a>
+                    <div class="dropdown-content">
+                        <a href="#">Bulan 4-6</a>
+                    </div>
+                </li>
+                <li class="dropdown">
+                    <a href="#" class="dropbtn">Kuartal 3: Advanced <span class="arrow">&#9662;</span></a>
+                    <div class="dropdown-content">
+                        <a href="#">Bulan 7-9</a>
+                    </div>
+                </li>
+                <li class="dropdown">
+                    <a href="#" class="dropbtn">Kuartal 4: Spesialisasi <span class="arrow">&#9662;</span></a>
+                    <div class="dropdown-content">
+                        <a href="#">Bulan 10-12</a>
+                    </div>
+                </li>
+                <li><a href="#">Resources</a></li>
+                <li><a href="#">Dataset & Tools</a></li>
+                <li><a href="../../about.html">About</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="container learning-container">
+        <div class="breadcrumb">
+            <a href="../../../index.html">Home</a> &gt;
+            <a href="#">Kuartal 1</a> &gt;
+            <a href="#">Bulan 1</a> &gt;
+            <a href="#">Minggu 2</a> &gt;
+            <span>Hari 10</span>
+        </div>
+        
+        <article class="day-content">
+            <header>
+                <h1>Hari 10: Mengatur Data - Mari Mengurutkan (Sort)!</h1>
+                <p class="meta-info">Kuartal 1: Dasar | Bulan 1: Excel Dasar</p>
+            </header>
+            
+            <div class="intro-section">
+                <p>Apa kabar di hari kesepuluh ini? Kemarin kita sudah asyik berlatih menggunakan fungsi-fungsi dasar pada data nilai siswa. Hari ini kita akan mempelajari teknik penting untuk mengatur data - <span class="highlight-text">mengurutkan (Sort)</span> data di Excel!</p>
+                <p>Mengurutkan data membantu kita menemukan pola, mengidentifikasi nilai ekstrem, dan membuat data lebih mudah dipahami. Mari kita eksplorasi bersama!</p>
+            </div>
+            
+            <section id="benefits">
+                <h2>Mengapa Mengurutkan Data Itu Berguna?</h2>
+                
+                <div class="benefit-card">
+                    <div class="benefit-icon">🔍</div>
+                    <div>
+                        <h3>Menemukan Nilai Ekstrem</h3>
+                        <p>Cepat melihat nilai tertinggi atau terendah dalam suatu kolom dengan konteks data lengkap.</p>
+                    </div>
+                </div>
+                
+                <div class="benefit-card">
+                    <div class="benefit-icon">🗂️</div>
+                    <div>
+                        <h3>Mengelompokkan Data Serupa</h3>
+                        <p>Mengumpulkan item yang sama berdekatan, terutama untuk data kategorikal.</p>
+                    </div>
+                </div>
+                
+                <div class="benefit-card">
+                    <div class="benefit-icon">📊</div>
+                    <div>
+                        <h3>Membuat Daftar Terstruktur</h3>
+                        <p>Mengurutkan nama berdasarkan abjad (A-Z atau Z-A) atau tanggal berdasarkan urutan waktu.</p>
+                    </div>
+                </div>
+                
+                <div class="benefit-card">
+                    <div class="benefit-icon">👁️</div>
+                    <div>
+                        <h3>Memudahkan Pencarian Visual</h3>
+                        <p>Lebih mudah menemukan nama atau item tertentu jika daftarnya sudah terurut.</p>
+                    </div>
+                </div>
+            </section>
+            
+            <section id="warning">
+                <div class="warning-box">
+                    <h3>PENTING SEBELUM MEMULAI</h3>
+                    <p>Selalu pilih seluruh rentang data yang ingin kamu urutkan, <strong>termasuk baris judul (header)</strong>. Jika hanya memilih satu kolom, hanya kolom itu yang berubah urutannya, sementara kolom lain tetap - ini akan merusak integritas data karena data dalam satu baris tidak lagi berhubungan!</p>
+                </div>
+            </section>
+            
+            <section id="sort-steps">
+                <h2>Cara Mengurutkan Data di Excel</h2>
+                <p>Fitur Sort biasanya ada di tab <span class="highlight-text">Data</span> pada Ribbon. Mari kita praktikkan pada sheet "Nilai Siswa".</p>
+                
+                <div class="exercise-container">
+                    <div class="exercise-number">Latihan 1</div>
+                    <h3>Mengurutkan Berdasarkan Nama Siswa (A-Z)</h3>
+                    
+                    <div class="step-list">
+                        <div class="step-item">
+                            <strong>Pilih Data:</strong> Klik sel A1 (No), tahan Shift, lalu klik sel terakhir datamu di pojok kanan bawah.
+                        </div>
+                        <div class="step-item">
+                            <strong>Buka Dialog Sort:</strong> Pergi ke tab <span class="highlight-text">Data</span>, di grup <span class="highlight-text">Sort & Filter</span>, klik tombol <span class="highlight-text">Sort</span>.
+                        </div>
+                        <div class="step-item">
+                            <strong>Atur Opsi Sort:</strong>
+                            <ul>
+                                <li>Pastikan <span class="highlight-text">"My data has headers"</span> tercentang</li>
+                                <li>Di <span class="highlight-text">"Sort by"</span>, pilih <span class="highlight-text">"Nama Siswa"</span></li>
+                                <li>Di <span class="highlight-text">"Sort On"</span>, biarkan <span class="highlight-text">"Cell Values"</span></li>
+                                <li>Di <span class="highlight-text">"Order"</span>, pilih <span class="highlight-text">"A to Z"</span></li>
+                            </ul>
+                        </div>
+                        <div class="step-item">
+                            <strong>Klik OK</strong> dan lihat hasilnya!
+                        </div>
+                    </div>
+                    
+                    <div class="sort-example">
+                        <div class="sort-box">
+                            <h3>Sebelum Diurutkan</h3>
+                            <table class="sort-table">
+                                <tr><th>Nama Siswa</th><th>Matematika</th></tr>
+                                <tr><td>Andi</td><td>85</td></tr>
+                                <tr><td>Bunga</td><td>92</td></tr>
+                                <tr><td>Candra</td><td>75</td></tr>
+                            </table>
+                        </div>
+                        
+                        <div class="sort-box">
+                            <h3>Setelah Diurutkan (A-Z)</h3>
+                            <table class="sort-table">
+                                <tr><th>Nama Siswa</th><th>Matematika</th></tr>
+                                <tr><td>Andi</td><td>85</td></tr>
+                                <tr><td>Bunga</td><td>92</td></tr>
+                                <tr><td>Candra</td><td>75</td></tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="exercise-container">
+                    <div class="exercise-number">Latihan 2</div>
+                    <h3>Mengurutkan Berdasarkan Nilai Matematika (Tertinggi ke Terendah)</h3>
+                    
+                    <div class="step-list">
+                        <div class="step-item">
+                            <strong>Pilih Data Lagi:</strong> Pastikan seluruh data terpilih.
+                        </div>
+                        <div class="step-item">
+                            <strong>Buka Dialog Sort:</strong> Tab Data > Sort.
+                        </div>
+                        <div class="step-item">
+                            <strong>Atur Opsi Sort:</strong>
+                            <ul>
+                                <li>"My data has headers" tercentang</li>
+                                <li>"Sort by": <span class="highlight-text">"Nilai Matematika"</span></li>
+                                <li>"Sort On": "Cell Values"</li>
+                                <li>"Order": <span class="highlight-text">"Largest to Smallest"</span></li>
+                            </ul>
+                        </div>
+                        <div class="step-item">
+                            <strong>Klik OK</strong> untuk melihat siswa dengan nilai tertinggi di atas.
+                        </div>
+                    </div>
+                    
+                    <div class="sort-example">
+                        <div class="sort-box">
+                            <h3>Sebelum Diurutkan</h3>
+                            <table class="sort-table">
+                                <tr><th>Nama Siswa</th><th>Matematika</th></tr>
+                                <tr><td>Andi</td><td>85</td></tr>
+                                <tr><td>Bunga</td><td>92</td></tr>
+                                <tr><td>Candra</td><td>75</td></tr>
+                            </table>
+                        </div>
+                        
+                        <div class="sort-box">
+                            <h3>Setelah Diurutkan (↓ Matematika)</h3>
+                            <table class="sort-table">
+                                <tr><th>Nama Siswa</th><th>Matematika</th></tr>
+                                <tr><td>Bunga</td><td>92</td></tr>
+                                <tr><td>Andi</td><td>85</td></tr>
+                                <tr><td>Candra</td><td>75</td></tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="exercise-container">
+                    <div class="exercise-number">Latihan 3</div>
+                    <h3>Mengurutkan Berdasarkan Nilai Bahasa (Terendah ke Tertinggi)</h3>
+                    
+                    <p>Coba lakukan sendiri! Urutkan data berdasarkan Nilai Bahasa dari <span class="highlight-text">Smallest to Largest</span> (Terkecil ke Terbesar).</p>
+                    
+                    <div class="key-point">
+                        <div class="key-icon">💡</div>
+                        <div>Gunakan langkah-langkah yang sama seperti Latihan 2, tapi pilih "Nilai Bahasa" dan urutan "Smallest to Largest".</div>
+                    </div>
+                </div>
+            </section>
+            
+            <section id="multi-sort">
+                <h2>Mengurutkan Berdasarkan Beberapa Kolom (Multi-Level Sort)</h2>
+                <p>Bagaimana jika ada nilai yang sama? Multi-level sort memungkinkan kita menentukan kriteria pengurutan sekunder.</p>
+                
+                <div class="example-container">
+                    <h3>Contoh: Urutkan berdasarkan Nilai Sains tertinggi, jika sama urutkan berdasarkan nama (A-Z)</h3>
+                    
+                    <div class="step-list">
+                        <div class="step-item">
+                            <strong>Pilih Data</strong> dan buka Dialog Sort.
+                        </div>
+                        <div class="step-item">
+                            <strong>Level Pertama:</strong>
+                            <ul>
+                                <li>"Sort by": <span class="highlight-text">Nilai Sains</span></li>
+                                <li>"Sort On": "Cell Values"</li>
+                                <li>"Order": <span class="highlight-text">Largest to Smallest</span></li>
+                            </ul>
+                        </div>
+                        <div class="step-item">
+                            <strong>Tambah Level Kedua:</strong> Klik tombol <span class="highlight-text">"Add Level"</span>.
+                        </div>
+                        <div class="step-item">
+                            <strong>Level Kedua:</strong>
+                            <ul>
+                                <li>"Then by": <span class="highlight-text">Nama Siswa</span></li>
+                                <li>"Sort On": "Cell Values"</li>
+                                <li>"Order": <span class="highlight-text">A to Z</span></li>
+                            </ul>
+                        </div>
+                        <div class="step-item">
+                            <strong>Klik OK</strong> untuk menerapkan pengurutan ganda.
+                        </div>
+                    </div>
+                    
+                    <div class="sort-example">
+                        <div class="sort-box">
+                            <h3>Sebelum Diurutkan</h3>
+                            <table class="sort-table">
+                                <tr><th>Nama</th><th>Sains</th></tr>
+                                <tr><td>Andi</td><td>90</td></tr>
+                                <tr><td>Budi</td><td>90</td></tr>
+                                <tr><td>Cici</td><td>85</td></tr>
+                            </table>
+                        </div>
+                        
+                        <div class="sort-box">
+                            <h3>Setelah Multi-Sort</h3>
+                            <table class="sort-table">
+                                <tr><th>Nama</th><th>Sains</th></tr>
+                                <tr><td>Andi</td><td>90</td></tr>
+                                <tr><td>Budi</td><td>90</td></tr>
+                                <tr><td>Cici</td><td>85</td></tr>
+                            </table>
+                            <p><em>Andi dan Budi diurutkan berdasarkan nama karena nilai Sains sama</em></p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <section id="formatting-reminder">
+                <div class="reminder-section">
+                    <h3>Sedikit Pengingat tentang Formatting</h3>
+                    <p>Sambil kita mengatur data, jangan lupakan formatting yang sudah kita pelajari. Pastikan tabelmu tetap rapi:</p>
+                    
+                    <div class="key-point">
+                        <div class="key-icon">✓</div>
+                        <div>Judul kolom <span class="highlight-text">Bold</span></div>
+                    </div>
+                    
+                    <div class="key-point">
+                        <div class="key-icon">✓</div>
+                        <div>Gunakan <span class="highlight-text">Borders</span> agar jelas</div>
+                    </div>
+                    
+                    <div class="key-point">
+                        <div class="key-icon">✓</div>
+                        <div>Atur <span class="highlight-text">Alignment</span> (nilai rata tengah/kanan)</div>
+                    </div>
+                    
+                    <div class="key-point">
+                        <div class="key-icon">✓</div>
+                        <div>Sesuaikan <span class="highlight-text">Lebar Kolom</span> agar semua teks terbaca</div>
+                    </div>
+                    
+                    <p>Formatting yang baik membuat data yang sudah terurut jadi lebih mudah lagi dibaca.</p>
+                </div>
+            </section>
+            
+            <section id="selanjutnya">
+                <h2>Apa Selanjutnya?</h2>
+                <p>Kemampuan mengurutkan data ini sangat fundamental. Besok, kita akan belajar 'saudara dekat'-nya, yaitu <span class="highlight-text">Filter (Menyaring)</span> data.</p>
+                
+                <p>Dengan filter, kita bisa:</p>
+                <ul>
+                    <li>Menampilkan hanya baris data yang memenuhi kriteria tertentu</li>
+                    <li>Melihat siswa dengan nilai Matematika di atas 80 saja</li>
+                    <li>Menganalisis subkelompok tertentu dalam dataset</li>
+                </ul>
+                
+                <p>Kombinasi <span class="highlight-text">Sort dan Filter</span> adalah alat yang sangat ampuh untuk eksplorasi data awal.</p>
+                
+                <p>Jangan lupa <span class="highlight-text">Simpan</span> hasil latihanmu hari ini. Sampai jumpa besok!</p>
+            </section>
+            
+            <footer class="lesson-footer">
+                <p><em>Tips Hari Ini:</em> Gunakan Alt + D + S untuk shortcut membuka dialog Sort.</p>
+                <a href="hari11.html" class="cta-button">Lanjut ke Filter Data</a>
+            </footer>
+        </article>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-links">
+                <div>
+                    <h4>Navigasi Cepat</h4>
+                    <ul>
+                        <li><a href="#">Kuartal 1</a></li>
+                        <li><a href="#">Kuartal 2</a></li>
+                        <li><a href="#">Kuartal 3</a></li>
+                        <li><a href="#">Kuartal 4</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4>Resources</h4>
+                    <ul>
+                        <li><a href="#">Checklist Keterampilan</a></li>
+                        <li><a href="#">Contoh Portofolio</a></li>
+                        <li><a href="#">Pertanyaan Interview</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4>Kontak</h4>
+                    <p>Email: kontak@data365.com</p>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2025 Buku Panduan Data Analisis 365 Hari. Hak Cipta Dilindungi.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="../../../js/script.js"></script>
+</body>
+</html>

@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hari 8: Menguasai Fungsi Logika IF - Kuartal 1</title>
+    <link rel="stylesheet" href="../../../css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Fira+Code&display=swap" rel="stylesheet">
+    <style>
+        .logic-flow {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 30px 0;
+        }
+        .flow-step {
+            background-color: #f0f7ff;
+            border-radius: 10px;
+            padding: 15px;
+            margin: 10px 0;
+            width: 80%;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            position: relative;
+        }
+        .flow-step:before {
+            content: "→";
+            position: absolute;
+            left: -25px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 24px;
+            color: #3498db;
+        }
+        .flow-step:first-child:before {
+            content: none;
+        }
+        .comparison-table {
+            width: 100%;
+            margin: 20px 0;
+            border-collapse: collapse;
+        }
+        .comparison-table th, .comparison-table td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+        .comparison-table th {
+            background-color: #f2f2f2;
+        }
+        .example-scenario {
+            background-color: #f9f9f9;
+            border-left: 4px solid #3498db;
+            padding: 15px;
+            margin: 20px 0;
+        }
+        .exercise-box {
+            background-color: #e8f5e9;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 25px 0;
+        }
+        .exercise-table {
+            width: 100%;
+            margin: 15px 0;
+            border-collapse: collapse;
+        }
+        .exercise-table th, .exercise-table td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: center;
+        }
+        .exercise-table th {
+            background-color: #d0e9c6;
+        }
+        .function-highlight {
+            background-color: #fff8e1;
+            padding: 3px 6px;
+            border-radius: 4px;
+            font-family: 'Fira Code', monospace;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <nav class="navbar">
+            <a href="../../../index.html" class="logo">
+                <img src="../../../images/logo.png" alt="Logo" style="width: 50px;">
+            </a>
+            <ul class="nav-links">
+                <li><a href="../../../index.html">Home</a></li>
+                <li class="dropdown">
+                    <a href="#" class="dropbtn">Kuartal 1: Dasar <span class="arrow">&#9662;</span></a>
+                    <div class="dropdown-content">
+                        <a href="#">Bulan 1: Excel Dasar</a>
+                        <a href="#">Bulan 2: Statistik Dasar</a>
+                        <a href="#">Bulan 3: SQL Lanjutan</a>
+                    </div>
+                </li>
+                <li class="dropdown">
+                    <a href="#" class="dropbtn">Kuartal 2: Intermediate <span class="arrow">&#9662;</span></a>
+                    <div class="dropdown-content">
+                        <a href="#">Bulan 4-6</a>
+                    </div>
+                </li>
+                <li class="dropdown">
+                    <a href="#" class="dropbtn">Kuartal 3: Advanced <span class="arrow">&#9662;</span></a>
+                    <div class="dropdown-content">
+                        <a href="#">Bulan 7-9</a>
+                    </div>
+                </li>
+                <li class="dropdown">
+                    <a href="#" class="dropbtn">Kuartal 4: Spesialisasi <span class="arrow">&#9662;</span></a>
+                    <div class="dropdown-content">
+                        <a href="#">Bulan 10-12</a>
+                    </div>
+                </li>
+                <li><a href="#">Resources</a></li>
+                <li><a href="#">Dataset & Tools</a></li>
+                <li><a href="../../about.html">About</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="container learning-container">
+        <div class="breadcrumb">
+            <a href="../../../index.html">Home</a> &gt;
+            <a href="#">Kuartal 1</a> &gt;
+            <a href="#">Bulan 1</a> &gt;
+            <a href="#">Minggu 2</a> &gt;
+            <span>Hari 8</span>
+        </div>
+        
+        <article class="day-content">
+            <header>
+                <h1>Hari 8: Menguasai Fungsi Logika IF di Excel</h1>
+                <p class="meta-info">Kuartal 1: Dasar | Bulan 1: Excel Dasar</p>
+            </header>
+            
+            <div class="intro-section">
+                <p>Selamat datang di hari pertama Minggu Kedua perjalanan kita! Setelah menguasai dasar-dasar Excel di minggu pertama, sekarang saatnya kita naik level dengan mempelajari salah satu fungsi paling powerful di Excel: <strong>Fungsi IF</strong>!</p>
+                <p>Fungsi IF memungkinkan Excel membuat keputusan berdasarkan kondisi yang kamu tentukan. Bayangkan Excel bisa berpikir: "Jika kondisi ini benar, lakukan ini; jika salah, lakukan itu." Dengan fungsi ini, analisis data kita akan menjadi jauh lebih dinamis!</p>
+            </div>
+            
+            <section id="konsep-if">
+                <h2>Memahami Konsep Dasar Fungsi IF</h2>
+                <p>Fungsi IF bekerja dengan mengevaluasi suatu kondisi logika (benar/salah) dan memberikan hasil berbeda berdasarkan evaluasi tersebut.</p>
+                
+                <div class="logic-flow">
+                    <div class="flow-step">
+                        <h3>1. Kondisi</h3>
+                        <p>Ini adalah ujian logika yang ingin kita berikan ke Excel. Contoh: "Apakah nilai lebih besar dari 70?" atau "Apakah status = 'Lunas'?"</p>
+                    </div>
+                    <div class="flow-step">
+                        <h3>2. Hasil Jika Benar</h3>
+                        <p>Apa yang ingin Excel lakukan/tampilkan jika kondisi terpenuhi (True)</p>
+                    </div>
+                    <div class="flow-step">
+                        <h3>3. Hasil Jika Salah</h3>
+                        <p>Apa yang ingin Excel lakukan/tampilkan jika kondisi tidak terpenuhi (False)</p>
+                    </div>
+                </div>
+                
+                <p><strong>Struktur Dasar Fungsi IF:</strong></p>
+                <div class="function-highlight">
+                    =IF(kondisi, nilai_jika_benar, nilai_jika_salah)
+                </div>
+                
+                <p>Contoh sederhana:</p>
+                <div class="function-highlight">
+                    =IF(A1 > 70, "Lulus", "Remedial")
+                </div>
+                <p>Penjelasan: Jika nilai di sel A1 lebih besar dari 70, maka hasilnya "Lulus"; jika tidak, hasilnya "Remedial".</p>
+            </section>
+            
+            <section id="operator-perbandingan">
+                <h2>Operator Perbandingan untuk Kondisi</h2>
+                <p>Untuk membuat kondisi logika, kita memerlukan operator perbandingan:</p>
+                
+                <table class="comparison-table">
+                    <tr>
+                        <th>Operator</th>
+                        <th>Contoh</th>
+                        <th>Penjelasan</th>
+                    </tr>
+                    <tr>
+                        <td>=</td>
+                        <td>A1 = 100</td>
+                        <td>Sama dengan</td>
+                    </tr>
+                    <tr>
+                        <td>&lt;&gt;</td>
+                        <td>A1 &lt;&gt; "Selesai"</td>
+                        <td>Tidak sama dengan</td>
+                    </tr>
+                    <tr>
+                        <td>&gt;</td>
+                        <td>B2 &gt; C2</td>
+                        <td>Lebih besar dari</td>
+                    </tr>
+                    <tr>
+                        <td>&lt;</td>
+                        <td>B2 &lt; C2</td>
+                        <td>Lebih kecil dari</td>
+                    </tr>
+                    <tr>
+                        <td>&gt;=</td>
+                        <td>D5 &gt;= 50</td>
+                        <td>Lebih besar atau sama dengan</td>
+                    </tr>
+                    <tr>
+                        <td>&lt;=</td>
+                        <td>D5 &lt;= 100</td>
+                        <td>Lebih kecil atau sama dengan</td>
+                    </tr>
+                </table>
+            </section>
+            
+            <section id="contoh-nyata">
+                <h2>Contoh Nyata Penggunaan Fungsi IF</h2>
+                
+                <div class="example-scenario">
+                    <h3>Contoh 1: Status Kelulusan</h3>
+                    <p>Kita memiliki daftar nilai ujian siswa. Kita ingin menambahkan kolom "Status" yang otomatis menentukan apakah siswa lulus (jika nilai ≥ 75) atau tidak.</p>
+                    <div class="function-highlight">
+                        =IF(B2 >= 75, "Lulus", "Tidak Lulus")
+                    </div>
+                </div>
+                
+                <div class="example-scenario">
+                    <h3>Contoh 2: Diskon Otomatis</h3>
+                    <p>Di toko online, kita ingin memberikan diskon 10% untuk pembelian di atas Rp 500.000.</p>
+                    <div class="function-highlight">
+                        =IF(C2 > 500000, C2*0.9, C2)
+                    </div>
+                    <p>Penjelasan: Jika nilai di C2 > 500.000, maka harga dihitung 90% dari harga asli (diskon 10%); jika tidak, harga tetap.</p>
+                </div>
+                
+                <div class="example-scenario">
+                    <h3>Contoh 3: Kategori Produk</h3>
+                    <p>Kita ingin mengkategorikan produk berdasarkan stok:</p>
+                    <ul>
+                        <li>Jika stok = 0 → "Habis"</li>
+                        <li>Jika stok &lt; 10 → "Sedikit"</li>
+                        <li>Jika stok ≥ 10 → "Cukup"</li>
+                    </ul>
+                    <div class="function-highlight">
+                        =IF(D2=0, "Habis", IF(D2&lt;10, "Sedikit", "Cukup"))
+                    </div>
+                    <p>Ini adalah contoh <strong>IF Bersarang (Nested IF)</strong> di mana fungsi IF berada di dalam fungsi IF lainnya.</p>
+                </div>
+            </section>
+            
+            <section id="latihan">
+                <h2>Latihan Praktis: Aplikasikan IF di Data</h2>
+                
+                <div class="exercise-box">
+                    <h3>Kasus: Penilaian Karyawan</h3>
+                    <p>Kita memiliki data penjualan bulanan karyawan. Kita ingin menambahkan beberapa kolom baru berdasarkan fungsi IF.</p>
+                    
+                    <table class="exercise-table">
+                        <thead>
+                            <tr>
+                                <th>Nama Karyawan</th>
+                                <th>Target</th>
+                                <th>Pencapaian</th>
+                                <th>Status</th>
+                                <th>Bonus</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Budi</td>
+                                <td>50.000.000</td>
+                                <td>62.000.000</td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>Siti</td>
+                                <td>50.000.000</td>
+                                <td>48.000.000</td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>Dewi</td>
+                                <td>50.000.000</td>
+                                <td>53.000.000</td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    
+                    <h4>Instruksi:</h4>
+                    <ol>
+                        <li>Buat kolom <strong>Status</strong> dengan aturan:
+                            <ul>
+                                <li>Jika Pencapaian ≥ Target → "Melebihi Target"</li>
+                                <li>Jika Pencapaian &lt; Target → "Di Bawah Target"</li>
+                            </ul>
+                            <div class="function-highlight">
+                                =IF(C2 >= B2, "Melebihi Target", "Di Bawah Target")
+                            </div>
+                        </li>
+                        
+                        <li>Buat kolom <strong>Bonus</strong> dengan aturan:
+                            <ul>
+                                <li>Jika Status "Melebihi Target" → Hitung bonus 5% dari kelebihan pencapaian</li>
+                                <li>Jika Status "Di Bawah Target" → Bonus = 0</li>
+                            </ul>
+                            <div class="function-highlight">
+                                =IF(D2="Melebihi Target", (C2-B2)*0.05, 0)
+                            </div>
+                        </li>
+                    </ol>
+                </div>
+            </section>
+            
+            <section id="tips">
+                <h2>Tips Menggunakan Fungsi IF</h2>
+                <ul>
+                    <li><strong>Gunakan Petunjuk Tooltip:</strong> Saat mengetik fungsi IF, Excel akan menampilkan tooltip yang membantu mengingat struktur fungsi.</li>
+                    <li><strong>Uji dengan Data Sederhana:</strong> Sebelum menerapkan ke seluruh data, uji fungsi IF dengan 1-2 baris data untuk memastikan logikanya benar.</li>
+                    <li><strong>Format Warna:</strong> Gunakan conditional formatting untuk menyorot hasil IF secara visual.</li>
+                    <li><strong>Hindari IF Bersarang Berlebihan:</strong> Jika terlalu banyak kondisi, pertimbangkan menggunakan fungsi IFS atau VLOOKUP.</li>
+                    <li><strong>Perhatikan Tanda Kutip:</strong> Untuk teks, gunakan tanda kutip (""); untuk angka, langsung tulis angkanya.</li>
+                </ul>
+            </section>
+            
+            <section id="selanjutnya">
+                <h2>Apa Selanjutnya?</h2>
+                <p>Besok kita akan mempelajari cara mengurutkan (Sort) dan menyaring (Filter) data di Excel. Kedua fitur ini akan memudahkan kita dalam menganalisis data dalam jumlah besar dengan cepat dan efisien. Dengan menggabungkan fungsi IF yang kita pelajari hari ini dengan kemampuan sort dan filter, analisis data kita akan semakin powerful!</p>
+                <p>Selamat bereksperimen dengan fungsi IF! Jangan ragu untuk mencoba berbagai skenario logika yang berbeda dengan data milikmu sendiri.</p>
+            </section>
+            
+            <footer class="lesson-footer">
+                <p><em>Tips Hari Ini:</em> Mulailah dengan fungsi IF sederhana, lalu tingkatkan kompleksitasnya secara bertahap.</p>
+                <a href="hari9.html" class="cta-button">Lanjut ke Hari 9: Sort & Filter Data</a>
+            </footer>
+        </article>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-links">
+                <div>
+                    <h4>Navigasi Cepat</h4>
+                    <ul>
+                        <li><a href="#">Kuartal 1</a></li>
+                        <li><a href="#">Kuartal 2</a></li>
+                        <li><a href="#">Kuartal 3</a></li>
+                        <li><a href="#">Kuartal 4</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4>Resources</h4>
+                    <ul>
+                        <li><a href="#">Checklist Keterampilan</a></li>
+                        <li><a href="#">Contoh Portofolio</a></li>
+                        <li><a href="#">Pertanyaan Interview</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4>Kontak</h4>
+                    <p>Email: kontak@data365.com</p>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2025 Buku Panduan Data Analisis 365 Hari. Hak Cipta Dilindungi.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="../../../js/script.js"></script>
+</body>
+</html>
