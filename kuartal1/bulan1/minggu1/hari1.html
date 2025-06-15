@@ -4,12 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Hari 1: Selamat Datang di Dunia Analisis Data - Kuartal 1</title>
-    
-    <!-- Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Fira+Code&display=swap" rel="stylesheet">
-    
     <style>
         /* --- Pengaturan Dasar dan Variabel --- */
         :root {
@@ -26,11 +20,16 @@
             --code-font: 'Fira Code', monospace;
         }
 
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
         body {
             font-family: var(--body-font);
             color: var(--text-color);
             background-color: var(--background-color);
-            margin: 0;
             line-height: 1.6;
         }
 
@@ -63,6 +62,7 @@
         .logo {
             display: flex;
             align-items: center;
+            text-decoration: none;
         }
 
         .logo svg {
@@ -101,50 +101,19 @@
             color: var(--primary-color);
         }
 
-        /* --- Dropdown --- */
-        .dropdown {
-            position: relative;
-        }
-
-        .dropdown-content {
-            display: none;
-            position: absolute;
-            background-color: #f9f9f9;
-            min-width: 200px;
-            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-            z-index: 1;
-            list-style: none;
-            padding: 10px 0;
-            border-radius: 4px;
-        }
-
-        .dropdown-content a {
-            color: var(--text-color);
-            padding: 12px 16px;
-            text-decoration: none;
-            display: block;
-            font-size: 0.9rem;
-        }
-
-        .dropdown-content a:hover {
-            background-color: #f1f1f1;
-        }
-
-        .dropdown:hover .dropdown-content {
-            display: block;
-        }
-
-        .arrow {
-            font-size: 0.7em;
-            margin-left: 5px;
-        }
-
         /* --- Breadcrumb --- */
-        .breadcrumb {
+        .breadcrumb-container {
             background-color: var(--light-bg);
-            padding: 15px 20px;
-            border-radius: 8px;
-            margin-bottom: 30px;
+            padding: 15px 0;
+            margin-bottom: 20px;
+        }
+
+        .breadcrumb {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            align-items: center;
             font-size: 0.9rem;
         }
 
@@ -162,6 +131,11 @@
             color: var(--muted-color);
         }
 
+        .breadcrumb-separator {
+            margin: 0 10px;
+            color: var(--muted-color);
+        }
+
         /* --- Learning Content --- */
         .learning-container {
             padding: 120px 20px 60px;
@@ -175,23 +149,31 @@
             margin-bottom: 50px;
         }
 
-        .day-content header h1 {
+        .day-header {
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid var(--light-bg);
+        }
+
+        .day-header h1 {
             font-family: var(--heading-font);
             font-size: 2.2rem;
             color: var(--dark-bg);
-            margin-bottom: 15px;
+            margin-bottom: 10px;
+            line-height: 1.3;
         }
 
         .meta-info {
             color: var(--muted-color);
             font-size: 1rem;
-            margin-bottom: 30px;
             display: block;
+            margin-bottom: 20px;
         }
 
         .day-content p {
             margin-bottom: 20px;
             line-height: 1.8;
+            font-size: 1.1rem;
         }
 
         .day-content section {
@@ -215,6 +197,7 @@
         .day-content li {
             margin-bottom: 10px;
             line-height: 1.7;
+            font-size: 1.1rem;
         }
 
         .day-content strong {
@@ -324,7 +307,7 @@
                 padding: 25px;
             }
             
-            .day-content header h1 {
+            .day-header h1 {
                 font-size: 1.8rem;
             }
             
@@ -335,6 +318,21 @@
             .footer-links {
                 flex-direction: column;
                 gap: 40px;
+            }
+            
+            .breadcrumb {
+                flex-wrap: wrap;
+                row-gap: 5px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .day-header h1 {
+                font-size: 1.6rem;
+            }
+            
+            .day-content h2 {
+                font-size: 1.3rem;
             }
         }
 
@@ -431,59 +429,25 @@
         </nav>
     </header>
 
-    <!-- Mobile Sidebar -->
-    <aside id="sidebar">
-        <div class="container">
-            <ul class="nav-links" style="flex-direction: column; gap: 15px;">
-                <li><a href="../../../index.html">Home</a></li>
-                <li class="dropdown">
-                    <a href="#" class="dropbtn">Kuartal 1: Dasar <span class="arrow">&#9662;</span></a>
-                    <div class="dropdown-content" style="position: relative; box-shadow: none; display: none;">
-                        <a href="#">Bulan 1: Excel Dasar</a>
-                        <a href="#">Bulan 2: Statistik Dasar</a>
-                        <a href="#">Bulan 3: SQL Lanjutan</a>
-                    </div>
-                </li>
-                <li class="dropdown">
-                    <a href="#" class="dropbtn">Kuartal 2: Intermediate <span class="arrow">&#9662;</span></a>
-                    <div class="dropdown-content" style="position: relative; box-shadow: none; display: none;">
-                        <a href="#">Bulan 4-6</a>
-                    </div>
-                </li>
-                <li class="dropdown">
-                    <a href="#" class="dropbtn">Kuartal 3: Advanced <span class="arrow">&#9662;</span></a>
-                    <div class="dropdown-content" style="position: relative; box-shadow: none; display: none;">
-                        <a href="#">Bulan 7-9</a>
-                    </div>
-                </li>
-                <li class="dropdown">
-                    <a href="#" class="dropbtn">Kuartal 4: Spesialisasi <span class="arrow">&#9662;</span></a>
-                    <div class="dropdown-content" style="position: relative; box-shadow: none; display: none;">
-                        <a href="#">Bulan 10-12</a>
-                    </div>
-                </li>
-                <li><a href="#">Resources</a></li>
-                <li><a href="#">Dataset & Tools</a></li>
-                <li><a href="../../about.html">About</a></li>
-            </ul>
+    <!-- Breadcrumb -->
+    <div class="breadcrumb-container">
+        <div class="breadcrumb">
+            <a href="../../../index.html">Home</a>
+            <span class="breadcrumb-separator">&gt;</span>
+            <a href="../../index.html">Kuartal 1</a>
+            <span class="breadcrumb-separator">&gt;</span>
+            <a href="../index.html">Bulan 1</a>
+            <span class="breadcrumb-separator">&gt;</span>
+            <a href="index.html">Minggu 1</a>
+            <span class="breadcrumb-separator">&gt;</span>
+            <span>Hari 1</span>
         </div>
-    </aside>
-
-    <!-- Overlay for Mobile Menu -->
-    <div id="overlay"></div>
+    </div>
 
     <!-- Main Content -->
     <main class="container learning-container">
-        <div class="breadcrumb">
-            <a href="../../../index.html">Home</a> &gt;
-            <a href="#">Kuartal 1</a> &gt;
-            <a href="#">Bulan 1</a> &gt;
-            <a href="#">Minggu 1</a> &gt;
-            <span>Hari 1</span>
-        </div>
-        
         <article class="day-content">
-            <header>
+            <header class="day-header">
                 <h1>Hari 1: Selamat Datang di Dunia Analisis Data!</h1>
                 <p class="meta-info">Kuartal 1: Dasar | Bulan 1: Excel Dasar</p>
             </header>
@@ -567,4 +531,53 @@
                 <h4>Resources</h4>
                 <ul>
                     <li><a href="#">Checklist Keterampilan</a></li>
-                    <li><a href="#">Contoh Portofolio</a><
+                    <li><a href="#">Contoh Portofolio</a></li>
+                    <li><a href="#">Pertanyaan Interview</a></li>
+                </ul>
+            </div>
+            
+            <div>
+                <h4>Kontak</h4>
+                <p>Email: kontak@data365.com</p>
+                <p>Komunitas: forum.data365.com</p>
+            </div>
+        </div>
+        
+        <div class="copyright">
+            <p>&copy; 2025 Buku Panduan Data Analisis 365 Hari. Hak Cipta Dilindungi.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile Menu Toggle
+        const mobileMenu = document.getElementById('mobile-menu');
+        const sidebar = document.getElementById('sidebar');
+        const overlay = document.getElementById('overlay');
+        
+        mobileMenu.addEventListener('click', () => {
+            sidebar.style.transform = 'translateX(0)';
+            overlay.style.display = 'block';
+        });
+        
+        overlay.addEventListener('click', () => {
+            sidebar.style.transform = 'translateX(-100%)';
+            overlay.style.display = 'none';
+        });
+        
+        // Dropdown functionality for mobile
+        const dropdowns = document.querySelectorAll('.dropdown');
+        
+        dropdowns.forEach(dropdown => {
+            const dropbtn = dropdown.querySelector('.dropbtn');
+            const content = dropdown.querySelector('.dropdown-content');
+            
+            if (dropbtn && content) {
+                dropbtn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    content.style.display = content.style.display === 'block' ? 'none' : 'block';
+                });
+            }
+        });
+    </script>
+</body>
+</html>
