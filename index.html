@@ -1,6 +1,37 @@
 <!DOCTYPE html>
 <html lang="id">
-<head>                                                      <meta charset="UTF-8">
+<head> 
+    <!-- Tambahkan di head -->
+<link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+<style>
+  :root {
+    --primary: #2563eb;
+    --secondary: #8b5cf6;
+  }
+  
+  body {
+    font-family: 'Inter', sans-serif;
+  }
+  
+  .card {
+    @apply bg-white rounded-xl p-6 shadow-md hover:shadow-lg transition;
+  }
+</style>
+
+<!-- Contoh header baru -->
+<header class="bg-gradient-to-r from-blue-600 to-indigo-700 text-white p-4">
+  <div class="container mx-auto flex justify-between items-center">
+    <h1 class="text-2xl font-bold flex items-center">
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+      </svg>
+      Buku Panduan Skill
+    </h1>
+    <nav>
+      <!-- Menu navigasi -->
+    </nav>
+  </div>
+</header><meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">                                          <title>Buku Panduan Data Analisis 365 Hari</title>      <link rel="stylesheet" href="css/style.css">            <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>                                            <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Fira+Code&display=swap" rel="stylesheet">                                            </head>                                                 <body>                                                  
     <header class="header">                                     <nav class="navbar">                                        <a href="index.html" class="logo">                          <img src="images/logo.png" alt="Logo" style="width: 50px;">                                                 </a>                                                    <ul class="nav-links">
