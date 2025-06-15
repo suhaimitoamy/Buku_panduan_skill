@@ -1,0 +1,845 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hari 18: Scatter Plot & Korelasi Dasar - Excel Dasar</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Fira+Code&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    :root {
+      --primary: #3B82F6;
+      --secondary: #10B981;
+      --accent: #8B5CF6;
+      --dark: #1F2937;
+      --light: #F9FAFB;
+      --positive: #10B981;
+      --negative: #EF4444;
+      --neutral: #6B7280;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: var(--light);
+      color: var(--dark);
+      line-height: 1.6;
+    }
+
+    .dark-mode {
+      background-color: #1a202c;
+      color: #e2e8f0;
+    }
+
+    .dark-mode .card {
+      background-color: #2d3748;
+    }
+
+    .header {
+      background-color: white;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+
+    .breadcrumb a {
+      color: var(--primary);
+      transition: all 0.3s;
+    }
+
+    .breadcrumb a:hover {
+      text-decoration: underline;
+    }
+
+    .lesson-container {
+      max-width: 1200px;
+    }
+
+    .content-card {
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+    }
+
+    .dark-mode .content-card {
+      background-color: #2d3748;
+    }
+
+    .section-title {
+      color: var(--primary);
+      border-bottom: 2px solid #e5e7eb;
+      padding-bottom: 10px;
+    }
+
+    .dark-mode .section-title {
+      border-color: #4a5568;
+    }
+
+    .visual-box {
+      background-color: #f0f9ff;
+      border-left: 4px solid var(--primary);
+      border-radius: 0 8px 8px 0;
+    }
+
+    .dark-mode .visual-box {
+      background-color: #1e3a8a;
+      border-color: var(--primary);
+    }
+
+    .cta-button {
+      background-color: var(--secondary);
+      transition: all 0.3s;
+    }
+
+    .cta-button:hover {
+      background-color: #0e8e6d;
+      transform: translateY(-3px);
+      box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+    }
+
+    .footer {
+      background-color: var(--dark);
+      color: white;
+    }
+
+    .chart-container {
+      position: relative;
+      height: 400px;
+      margin: 30px 0;
+    }
+
+    .concept-card {
+      background: white;
+      border-radius: 8px;
+      padding: 20px;
+      margin-bottom: 20px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+      border-top: 4px solid;
+      transition: all 0.3s;
+    }
+
+    .dark-mode .concept-card {
+      background: #2d3748;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+
+    .concept-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 15px rgba(0,0,0,0.1);
+    }
+
+    .positive-card {
+      border-color: var(--positive);
+    }
+
+    .negative-card {
+      border-color: var(--negative);
+    }
+
+    .neutral-card {
+      border-color: var(--neutral);
+    }
+
+    .data-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 20px 0;
+    }
+
+    .data-table th, .data-table td {
+      border: 1px solid #e5e7eb;
+      padding: 10px 15px;
+      text-align: center;
+    }
+
+    .data-table th {
+      background-color: #f3f4f6;
+      font-weight: 600;
+    }
+
+    .dark-mode .data-table th {
+      background-color: #2d3748;
+    }
+
+    .dark-mode .data-table th, 
+    .dark-mode .data-table td {
+      border-color: #4a5568;
+    }
+
+    .excel-step {
+      background-color: #f9fafb;
+      border-left: 4px solid var(--primary);
+      padding: 15px;
+      margin: 15px 0;
+      border-radius: 0 8px 8px 0;
+    }
+
+    .dark-mode .excel-step {
+      background-color: #2d3748;
+      border-color: var(--primary);
+    }
+
+    .correlation-value {
+      display: inline-block;
+      padding: 5px 10px;
+      border-radius: 20px;
+      font-weight: bold;
+      margin-top: 10px;
+    }
+
+    .positive-correlation {
+      background-color: #dcfce7;
+      color: #166534;
+    }
+
+    .negative-correlation {
+      background-color: #fee2e2;
+      color: #b91c1c;
+    }
+
+    .neutral-correlation {
+      background-color: #e5e7eb;
+      color: #4b5563;
+    }
+  </style>
+</head>
+<body class="dark:bg-gray-900 dark:text-gray-100">
+  <!-- Header -->
+  <header class="header sticky top-0 z-50 py-4">
+    <div class="container mx-auto px-4 flex justify-between items-center">
+      <a href="index.html" class="flex items-center">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+        </svg>
+        <h1 class="text-xl font-bold ml-2">Buku Panduan Skill</h1>
+      </a>
+      <nav class="hidden md:block">
+        <ul class="flex space-x-6">
+          <li><a href="index.html" class="hover:text-blue-600 transition">Home</a></li>
+          <li><a href="#" class="text-blue-600 font-semibold">Kuartal 1: Dasar</a></li>
+          <li><a href="#" class="hover:text-blue-600 transition">Kuartal 2: Intermediate</a></li>
+          <li><a href="#" class="hover:text-blue-600 transition">Resources</a></li>
+        </ul>
+      </nav>
+      <button id="mobile-menu" class="md:hidden">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+        </svg>
+      </button>
+    </div>
+  </header>
+
+  <!-- Breadcrumb -->
+  <div class="bg-gray-50 py-3 dark:bg-gray-800">
+    <div class="container mx-auto px-4">
+      <div class="breadcrumb flex text-sm">
+        <a href="index.html">Home</a>
+        <span class="mx-2 text-gray-400">›</span>
+        <a href="#">Kuartal 1: Dasar</a>
+        <span class="mx-2 text-gray-400">›</span>
+        <a href="#">Bulan 1: Excel Dasar</a>
+        <span class="mx-2 text-gray-400">›</span>
+        <span class="text-gray-600 dark:text-gray-400">Hari 18</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Content -->
+  <main class="py-8">
+    <div class="container mx-auto px-4 lesson-container">
+      <div class="content-card p-6 md:p-8 mb-8">
+        <header class="mb-8">
+          <h1 class="text-3xl font-bold mb-2 dark:text-white">Hari 18: Mencari Hubungan - Scatter Plot & Korelasi Dasar</h1>
+          <p class="text-gray-600 dark:text-gray-300">Kuartal 1: Dasar | Bulan 1: Excel Dasar</p>
+        </header>
+
+        <div class="prose max-w-none dark:prose-invert">
+          <p class="mb-6">
+            Selamat pagi! Kemarin kita sudah mempercantik grafik batang, garis, dan lingkaran kita dengan kustomisasi. Grafikmu sekarang pasti lebih informatif dan menarik. Hari ini, kita akan berkenalan dengan jenis grafik lain yang sangat penting dalam analisis data, terutama untuk melihat hubungan antara dua hal: <strong>Scatter Plot (Diagram Pencar)</strong>.
+          </p>
+          
+          <p class="mb-6 font-semibold text-blue-600 dark:text-blue-400">
+            Berbeda dengan bar chart (membandingkan kategori) atau line chart (melihat tren waktu), scatter plot membantu kita menjawab pertanyaan seperti: Apakah ada hubungan antara nilai Matematika siswa dengan nilai Sains mereka? Apakah siswa yang tinggi nilai Matematikanya cenderung tinggi juga nilai Sains-nya?
+          </p>
+          
+          <!-- Apa Itu Scatter Plot -->
+          <section class="mb-10">
+            <h2 class="text-2xl font-bold mb-4 section-title dark:text-blue-400">Apa Itu Scatter Plot?</h2>
+            
+            <div class="flex flex-col md:flex-row gap-6 items-center">
+              <div class="flex-1">
+                <p class="mb-4">
+                  Scatter plot menggunakan titik-titik untuk merepresentasikan nilai dari dua variabel numerik yang berbeda. Posisi setiap titik pada sumbu horizontal (X) dan vertikal (Y) menunjukkan nilai dari kedua variabel tersebut untuk satu observasi (misalnya, satu siswa).
+                </p>
+                
+                <p class="mb-4">
+                  Dengan melihat pola sebaran titik-titik ini, kita bisa mendapatkan gambaran visual tentang korelasi atau hubungan antara kedua variabel tersebut.
+                </p>
+                
+                <div class="visual-box p-4 mb-4">
+                  <p class="font-semibold dark:text-blue-300">
+                    Setiap titik mewakili satu entitas (siswa) dengan dua nilai yang berbeda: satu untuk sumbu X, satu untuk sumbu Y.
+                  </p>
+                </div>
+              </div>
+              
+              <div class="w-full md:w-1/2">
+                <div class="chart-container">
+                  <canvas id="scatterIntroChart"></canvas>
+                </div>
+              </div>
+            </div>
+          </section>
+          
+          <!-- Kapan Menggunakan Scatter Plot -->
+          <section class="mb-10">
+            <h2 class="text-2xl font-bold mb-4 section-title dark:text-blue-400">Kapan Menggunakan Scatter Plot?</h2>
+            
+            <p class="mb-6">
+              Gunakan scatter plot ketika kamu ingin:
+            </p>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+              <div class="concept-card">
+                <h3 class="font-bold text-lg mb-3 flex items-center">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                  </svg>
+                  Melihat Hubungan
+                </h3>
+                <p>Menyelidiki apakah ada tren atau pola hubungan antara dua variabel numerik (misal, tinggi badan vs berat badan, jam belajar vs nilai ujian, pengeluaran iklan vs penjualan).</p>
+              </div>
+              
+              <div class="concept-card">
+                <h3 class="font-bold text-lg mb-3 flex items-center">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 15l-2 5L9 9l11 4-5 2zm0 0l5 5M7.188 2.239l.777 2.897M5.136 7.965l-2.898-.777M13.95 4.05l-2.122 2.122m-5.657 5.656l-2.12 2.122" />
+                  </svg>
+                  Mengidentifikasi Pola
+                </h3>
+                <p>Melihat apakah hubungannya linear (membentuk garis lurus), non-linear (melengkung), atau tidak ada pola sama sekali.</p>
+              </div>
+              
+              <div class="concept-card">
+                <h3 class="font-bold text-lg mb-3 flex items-center">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" />
+                  </svg>
+                  Mendeteksi Outlier
+                </h3>
+                <p>Melihat titik data yang letaknya jauh dari pola umum (pencilan).</p>
+              </div>
+            </div>
+          </section>
+          
+          <!-- Membuat Scatter Plot di Excel -->
+          <section class="mb-10">
+            <h2 class="text-2xl font-bold mb-4 section-title dark:text-blue-400">Membuat Scatter Plot di Excel</h2>
+            
+            <p class="mb-4">
+              Mari kita coba membuat scatter plot untuk melihat hubungan antara Nilai Matematika dan Nilai Sains siswa:
+            </p>
+            
+            <!-- Contoh Data -->
+            <div class="overflow-x-auto mb-6">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th>Nama Siswa</th>
+                    <th>Nilai Matematika</th>
+                    <th>Nilai Bahasa</th>
+                    <th>Nilai Sains</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Andi</td>
+                    <td>85</td>
+                    <td>78</td>
+                    <td>90</td>
+                  </tr>
+                  <tr>
+                    <td>Budi</td>
+                    <td>92</td>
+                    <td>88</td>
+                    <td>95</td>
+                  </tr>
+                  <tr>
+                    <td>Citra</td>
+                    <td>75</td>
+                    <td>82</td>
+                    <td>68</td>
+                  </tr>
+                  <tr>
+                    <td>Doni</td>
+                    <td>65</td>
+                    <td>72</td>
+                    <td>70</td>
+                  </tr>
+                  <tr>
+                    <td>Eka</td>
+                    <td>88</td>
+                    <td>85</td>
+                    <td>92</td>
+                  </tr>
+                  <tr>
+                    <td>Fani</td>
+                    <td>70</td>
+                    <td>75</td>
+                    <td>68</td>
+                  </tr>
+                  <tr>
+                    <td>Gita</td>
+                    <td>95</td>
+                    <td>90</td>
+                    <td>97</td>
+                  </tr>
+                  <tr>
+                    <td>Hadi</td>
+                    <td>60</td>
+                    <td>65</td>
+                    <td>62</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div>
+                <div class="excel-step">
+                  <h3 class="font-bold text-lg mb-3">1. Pilih Data</h3>
+                  <p>Kita butuh dua kolom numerik. Pilih kolom Nilai Matematika (C2:C9) dan Nilai Sains (E2:E9).</p>
+                  <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">
+                    <strong>Tip:</strong> Untuk memilih dua kolom tidak bersebelahan: pilih kolom pertama, tahan <kbd>Ctrl</kbd> (atau <kbd>Cmd</kbd> di Mac), lalu pilih kolom kedua. Jangan sertakan header saat memilih data untuk scatter plot.
+                  </p>
+                </div>
+                
+                <div class="excel-step">
+                  <h3 class="font-bold text-lg mb-3">2. Pilih Jenis Grafik</h3>
+                  <p>Pergi ke tab <span class="font-semibold">Insert</span> > grup <span class="font-semibold">Charts</span>.</p>
+                  <ul class="list-disc pl-6 mt-2">
+                    <li>Klik ikon <strong>Scatter (X, Y) Chart</strong> (biasanya gambar titik-titik terpencar)</li>
+                    <li>Pilih jenis scatter plot yang pertama (hanya titik, tanpa garis penghubung)</li>
+                  </ul>
+                </div>
+                
+                <div class="excel-step">
+                  <h3 class="font-bold text-lg mb-3">3. Grafik Muncul</h3>
+                  <p>Excel akan membuat scatter plot. Setiap titik mewakili satu siswa. Posisi horizontalnya menunjukkan nilai Matematika siswa tersebut, dan posisi vertikalnya menunjukkan nilai Sains-nya.</p>
+                </div>
+              </div>
+              
+              <div class="chart-container">
+                <canvas id="mathScienceChart"></canvas>
+              </div>
+            </div>
+          </section>
+          
+          <!-- Interpretasi Scatter Plot -->
+          <section class="mb-10">
+            <h2 class="text-2xl font-bold mb-4 section-title dark:text-blue-400">Menginterpretasi Scatter Plot: Konsep Korelasi Dasar</h2>
+            
+            <p class="mb-6">
+              Sekarang, perhatikan pola sebaran titik-titik di grafikmu:
+            </p>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+              <div class="concept-card positive-card">
+                <h3 class="font-bold text-lg mb-3 text-green-700 dark:text-green-400">Korelasi Positif</h3>
+                <p>Jika titik-titik cenderung membentuk pola naik dari kiri bawah ke kanan atas (seperti garis menanjak).</p>
+                <p class="mt-2"><strong>Contoh:</strong> Ketika nilai Matematika (X) tinggi, nilai Sains (Y) juga cenderung tinggi.</p>
+                <div class="correlation-value positive-correlation">r ≈ +0.85</div>
+              </div>
+              
+              <div class="concept-card negative-card">
+                <h3 class="font-bold text-lg mb-3 text-red-700 dark:text-red-400">Korelasi Negatif</h3>
+                <p>Jika titik-titik cenderung membentuk pola turun dari kiri atas ke kanan bawah (seperti garis menurun).</p>
+                <p class="mt-2"><strong>Contoh:</strong> Ketika nilai Absensi (X) rendah, nilai Ujian (Y) cenderung tinggi.</p>
+                <div class="correlation-value negative-correlation">r ≈ -0.75</div>
+              </div>
+              
+              <div class="concept-card neutral-card">
+                <h3 class="font-bold text-lg mb-3 text-gray-700 dark:text-gray-400">Tidak Ada Korelasi</h3>
+                <p>Jika titik-titik terpencar secara acak tanpa membentuk pola yang jelas.</p>
+                <p class="mt-2"><strong>Contoh:</strong> Nilai Matematika dan Tinggi Badan tidak menunjukkan hubungan yang jelas.</p>
+                <div class="correlation-value neutral-correlation">r ≈ 0.05</div>
+              </div>
+            </div>
+            
+            <div class="visual-box p-4 mb-6">
+              <h3 class="font-bold text-lg mb-2 dark:text-blue-300">Perhatian Penting:</h3>
+              <p>
+                <strong>Korelasi tidak selalu berarti sebab-akibat (causation).</strong> Hanya karena dua variabel berkorelasi, tidak otomatis berarti satu variabel menyebabkan perubahan pada variabel lainnya. Mungkin ada faktor ketiga yang mempengaruhi keduanya.
+              </p>
+              <p class="mt-2">
+                Contoh: Korelasi tinggi antara penjualan es krim dan kasus tenggelam di pantai. Apakah es krim menyebabkan tenggelam? Tidak. Faktor ketiganya adalah musim panas (meningkatkan kedua hal tersebut).
+              </p>
+            </div>
+            
+            <!-- Koefisien Korelasi -->
+            <div class="bg-purple-50 border-l-4 border-purple-500 p-4 mb-6 dark:bg-purple-900/20 dark:border-purple-400">
+              <h3 class="font-bold text-lg mb-2 dark:text-purple-300">Koefisien Korelasi (Sekilas Info)</h3>
+              <p>
+                Selain melihat pola visual, ada ukuran statistik yang disebut <strong>koefisien korelasi (r)</strong> yang mengukur kekuatan dan arah hubungan linear antara dua variabel. Nilainya berkisar antara -1 dan +1:
+              </p>
+              <ul class="list-disc pl-6 mt-2">
+                <li><strong>+1:</strong> Korelasi positif sempurna</li>
+                <li><strong>-1:</strong> Korelasi negatif sempurna</li>
+                <li><strong>0:</strong> Tidak ada korelasi linear</li>
+                <li>Semakin dekat ke +1 atau -1, semakin kuat hubungannya</li>
+              </ul>
+              <p class="mt-3">
+                Kita tidak akan menghitungnya secara manual sekarang (akan dibahas di bagian statistik nanti), tapi Excel punya fungsi <code class="bg-gray-200 px-2 py-1 rounded dark:bg-gray-700">=CORREL(array1, array2)</code> untuk menghitungnya jika kamu penasaran.
+              </p>
+            </div>
+          </section>
+          
+          <!-- Latihan -->
+          <section class="mb-10">
+            <h2 class="text-2xl font-bold mb-4 section-title dark:text-blue-400">Latihan</h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+              <div>
+                <h3 class="font-bold text-lg mb-3">1. Buat Scatter Plot Baru</h3>
+                <p>Buat scatter plot untuk melihat hubungan antara Nilai Bahasa (sumbu X) dan Nilai Sains (sumbu Y):</p>
+                <ul class="list-disc pl-6 mt-2">
+                  <li>Pilih data nilai Bahasa (D2:D9) dan nilai Sains (E2:E9)</li>
+                  <li>Buat scatter plot seperti langkah sebelumnya</li>
+                </ul>
+              </div>
+              
+              <div class="chart-container">
+                <canvas id="languageScienceChart"></canvas>
+              </div>
+            </div>
+            
+            <div class="mb-6">
+              <h3 class="font-bold text-lg mb-3">2. Analisis Pola</h3>
+              <p>Amati polanya. Apakah terlihat ada korelasi? Positif atau negatif? Bandingkan dengan hubungan Matematika-Sains sebelumnya.</p>
+            </div>
+            
+            <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 mb-6 dark:bg-yellow-900/20 dark:border-yellow-500">
+              <h3 class="font-bold text-lg mb-2 dark:text-yellow-300">3. Kustomisasi Scatter Plot</h3>
+              <p>Ambil salah satu scatter plot yang sudah kamu buat:</p>
+              <ul class="list-disc pl-6 mt-2">
+                <li>Beri judul yang jelas (misal, <em>Hubungan Nilai Matematika dan Nilai Sains</em>)</li>
+                <li>Tambahkan judul sumbu X dan Y</li>
+                <li><strong>(Opsional)</strong> Tambahkan Garis Tren (Trendline): 
+                  <div class="excel-ui mt-2">
+                    Klik grafik > tombol <span class="text-xl">+</span> > centang Trendline
+                  </div>
+                  <p class="mt-2">Garis ini secara visual menunjukkan arah hubungan linear.</p>
+                </li>
+              </ul>
+            </div>
+            
+            <div class="visual-box p-4">
+              <p class="font-semibold text-blue-700 dark:text-blue-300">
+                Jangan lupa Simpan pekerjaanmu!
+              </p>
+            </div>
+          </section>
+          
+          <!-- Apa Selanjutnya -->
+          <section class="mb-6">
+            <h2 class="text-2xl font-bold mb-4 section-title dark:text-blue-400">Apa Selanjutnya?</h2>
+            
+            <p class="mb-4">
+              Kamu sekarang sudah mengenal jenis grafik penting lainnya: Scatter Plot, dan memahami konsep dasar korelasi visual.
+            </p>
+            
+            <p class="mb-4">
+              Besok, kita akan membahas topik penting: <strong>Memilih Jenis Grafik yang Tepat</strong>. Kita sudah belajar beberapa jenis (Bar, Line, Pie, Scatter). Kapan sebaiknya menggunakan masing-masing? Memilih visualisasi yang salah bisa menyesatkan, jadi penting untuk tahu kapan harus pakai yang mana.
+            </p>
+            
+            <div class="bg-green-50 border-l-4 border-green-500 p-4 mt-6 dark:bg-green-900/20 dark:border-green-400">
+              <p class="font-semibold dark:text-green-300">
+                Sampai jumpa besok!
+              </p>
+            </div>
+          </section>
+        </div>
+        
+        <footer class="mt-10 pt-6 border-t border-gray-200 dark:border-gray-700">
+          <div class="flex justify-between items-center">
+            <a href="hari17.html" class="px-5 py-2 bg-gray-200 rounded-lg hover:bg-gray-300 transition dark:bg-gray-700 dark:hover:bg-gray-600">
+              ← Hari 17: Kustomisasi Grafik
+            </a>
+            <a href="hari19.html" class="px-5 py-2 cta-button text-white rounded-lg font-semibold">
+              Hari 19: Memilih Grafik yang Tepat →
+            </a>
+          </div>
+        </footer>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer py-12">
+    <div class="container mx-auto px-4">
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+        <div>
+          <h4 class="text-lg font-bold mb-4">Navigasi Cepat</h4>
+          <ul class="space-y-2">
+            <li><a href="#" class="hover:text-blue-300 transition">Kuartal 1</a></li>
+            <li><a href="#" class="hover:text-blue-300 transition">Kuartal 2</a></li>
+            <li><a href="#" class="hover:text-blue-300 transition">Kuartal 3</a></li>
+            <li><a href="#" class="hover:text-blue-300 transition">Kuartal 4</a></li>
+          </ul>
+        </div>
+        
+        <div>
+          <h4 class="text-lg font-bold mb-4">Resources</h4>
+          <ul class="space-y-2">
+            <li><a href="#" class="hover:text-blue-300 transition">Checklist Keterampilan</a></li>
+            <li><a href="#" class="hover:text-blue-300 transition">Contoh Portofolio</a></li>
+            <li><a href="#" class="hover:text-blue-300 transition">Pertanyaan Interview</a></li>
+          </ul>
+        </div>
+        
+        <div>
+          <h4 class="text-lg font-bold mb-4">Kontak</h4>
+          <p class="mb-2">Email: kontak@data365.com</p>
+          <div class="flex space-x-4 mt-4">
+            <a href="#" class="text-gray-400 hover:text-white">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24"><path d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616-.054 2.281 1.581 4.415 3.949 4.89-.693.188-1.452.232-2.224.084.626 1.956 2.444 3.379 4.6 3.419-2.07 1.623-4.678 2.348-7.29 2.04 2.179 1.397 4.768 2.212 7.548 2.212 9.142 0 14.307-7.721 13.995-14.646.962-.695 1.797-1.562 2.457-2.549z"/></svg>
+            </a>
+            <a href="#" class="text-gray-400 hover:text-white">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm3 8h-1.35c-.538 0-.65.221-.65.778v1.222h2l-.209 2h-1.791v7h-3v-7h-2v-2h2v-2.308c0-1.769.931-2.692 3.029-2.692h1.971v3z"/></svg>
+            </a>
+          </div>
+        </div>
+        
+        <div>
+          <h4 class="text-lg font-bold mb-4">Newsletter</h4>
+          <p class="mb-4">Dapatkan tips analisis data langsung ke inbox Anda</p>
+          <form class="flex">
+            <input type="email" placeholder="Email Anda" class="px-4 py-2 rounded-l-lg w-full dark:bg-gray-700 dark:text-white">
+            <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-r-lg">Daftar</button>
+          </form>
+        </div>
+      </div>
+      
+      <div class="border-t border-gray-700 pt-8 text-center">
+        <p>&copy; 2025 Buku Panduan Data Analisis 365 Hari. Hak Cipta Dilindungi.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Dark Mode Toggle -->
+  <button id="dark-toggle" class="fixed bottom-6 right-6 w-12 h-12 rounded-full bg-gray-800 text-white shadow-lg flex items-center justify-center z-30">
+    <svg id="dark-icon" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/>
+    </svg>
+    <svg id="light-icon" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/>
+    </svg>
+  </button>
+
+  <script>
+    // Dark Mode Toggle
+    const darkToggle = document.getElementById('dark-toggle');
+    const darkIcon = document.getElementById('dark-icon');
+    const lightIcon = document.getElementById('light-icon');
+    const htmlElement = document.documentElement;
+
+    darkToggle.addEventListener('click', () => {
+      htmlElement.classList.toggle('dark');
+      localStorage.theme = htmlElement.classList.contains('dark') ? 'dark' : 'light';
+      
+      if (htmlElement.classList.contains('dark')) {
+        darkIcon.classList.remove('hidden');
+        lightIcon.classList.add('hidden');
+        darkToggle.classList.add('bg-gray-700');
+      } else {
+        darkIcon.classList.add('hidden');
+        lightIcon.classList.remove('hidden');
+        darkToggle.classList.remove('bg-gray-700');
+      }
+    });
+
+    // Set initial theme based on localStorage or system preference
+    if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+      htmlElement.classList.add('dark');
+      darkIcon.classList.remove('hidden');
+      lightIcon.classList.add('hidden');
+      darkToggle.classList.add('bg-gray-700');
+    } else {
+      htmlElement.classList.remove('dark');
+      darkIcon.classList.add('hidden');
+      lightIcon.classList.remove('hidden');
+      darkToggle.classList.remove('bg-gray-700');
+    }
+
+    // Data for charts
+    const students = ['Andi', 'Budi', 'Citra', 'Doni', 'Eka', 'Fani', 'Gita', 'Hadi'];
+    const mathScores = [85, 92, 75, 65, 88, 70, 95, 60];
+    const scienceScores = [90, 95, 68, 70, 92, 68, 97, 62];
+    const languageScores = [78, 88, 82, 72, 85, 75, 90, 65];
+
+    // Scatter Plot Introduction
+    const introCtx = document.getElementById('scatterIntroChart').getContext('2d');
+    const introChart = new Chart(introCtx, {
+      type: 'scatter',
+      data: {
+        datasets: [{
+          label: 'Siswa',
+          data: [
+            {x: 85, y: 90, name: 'Andi'},
+            {x: 92, y: 95, name: 'Budi'},
+            {x: 75, y: 68, name: 'Citra'},
+            {x: 65, y: 70, name: 'Doni'}
+          ],
+          backgroundColor: '#3B82F6',
+          pointRadius: 10,
+          pointHoverRadius: 12
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          tooltip: {
+            callbacks: {
+              label: function(context) {
+                return `${context.raw.name}: Mat ${context.raw.x}, Sains ${context.raw.y}`;
+              }
+            }
+          },
+          title: {
+            display: true,
+            text: 'Contoh Scatter Plot',
+            font: {
+              size: 16
+            }
+          }
+        },
+        scales: {
+          x: {
+            title: {
+              display: true,
+              text: 'Nilai Matematika'
+            },
+            min: 60,
+            max: 100
+          },
+          y: {
+            title: {
+              display: true,
+              text: 'Nilai Sains'
+            },
+            min: 60,
+            max: 100
+          }
+        }
+      }
+    });
+
+    // Math vs Science Chart
+    const mathScienceCtx = document.getElementById('mathScienceChart').getContext('2d');
+    const mathScienceChart = new Chart(mathScienceCtx, {
+      type: 'scatter',
+      data: {
+        datasets: [{
+          label: 'Siswa',
+          data: students.map((student, i) => ({x: mathScores[i], y: scienceScores[i], name: student})),
+          backgroundColor: '#3B82F6',
+          pointRadius: 8,
+          pointHoverRadius: 10
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          tooltip: {
+            callbacks: {
+              label: function(context) {
+                return `${context.raw.name}: Mat ${context.raw.x}, Sains ${context.raw.y}`;
+              }
+            }
+          },
+          title: {
+            display: true,
+            text: 'Hubungan Nilai Matematika dan Sains',
+            font: {
+              size: 16
+            }
+          }
+        },
+        scales: {
+          x: {
+            title: {
+              display: true,
+              text: 'Nilai Matematika'
+            },
+            min: 50,
+            max: 100
+          },
+          y: {
+            title: {
+              display: true,
+              text: 'Nilai Sains'
+            },
+            min: 50,
+            max: 100
+          }
+        }
+      }
+    });
+
+    // Language vs Science Chart
+    const langScienceCtx = document.getElementById('languageScienceChart').getContext('2d');
+    const langScienceChart = new Chart(langScienceCtx, {
+      type: 'scatter',
+      data: {
+        datasets: [{
+          label: 'Siswa',
+          data: students.map((student, i) => ({x: languageScores[i], y: scienceScores[i], name: student})),
+          backgroundColor: '#10B981',
+          pointRadius: 8,
+          pointHoverRadius: 10
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          tooltip: {
+            callbacks: {
+              label: function(context) {
+                return `${context.raw.name}: Bahasa ${context.raw.x}, Sains ${context.raw.y}`;
+              }
+            }
+          },
+          title: {
+            display: true,
+            text: 'Hubungan Nilai Bahasa dan Sains',
+            font: {
+              size: 16
+            }
+          }
+        },
+        scales: {
+          x: {
+            title: {
+              display: true,
+              text: 'Nilai Bahasa'
+            },
+            min: 60,
+            max: 100
+          },
+          y: {
+            title: {
+              display: true,
+              text: 'Nilai Sains'
+            },
+            min: 50,
+            max: 100
+          }
+        }
+      }
+    });
+  </script>
+</body>
+</html>
