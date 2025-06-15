@@ -1,0 +1,1182 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hari 15: Excel Sebagai Detektif - Fungsi Logika IF</title>
+  
+  <!-- Tailwind CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Fira+Code&display=swap" rel="stylesheet">
+  
+  <style>
+    :root {
+      --primary: #2563eb;
+      --secondary: #8b5cf6;
+      --success: #10B981;
+      --warning: #F59E0B;
+      --danger: #EF4444;
+      --light-bg: #f9fafb;
+      --dark-bg: #1f2937;
+    }
+    
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: #f9fafb;
+      color: #1f2937;
+      line-height: 1.6;
+    }
+    
+    .dark-mode body {
+      background-color: #1a202c;
+      color: #e2e8f0;
+    }
+    
+    .header {
+      background-color: white;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      padding: 1rem 0;
+      position: fixed;
+      width: 100%;
+      top: 0;
+      z-index: 1000;
+    }
+    
+    .dark-mode .header {
+      background-color: #2d3748;
+    }
+    
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+    
+    .logo {
+      display: flex;
+      align-items: center;
+      text-decoration: none;
+    }
+    
+    .logo svg {
+      height: 40px;
+      width: 40px;
+      fill: none;
+      stroke: var(--primary);
+      stroke-width: 2;
+    }
+    
+    .logo-text {
+      font-weight: 700;
+      font-size: 1.25rem;
+      margin-left: 10px;
+      color: #1f2937;
+    }
+    
+    .dark-mode .logo-text {
+      color: #e2e8f0;
+    }
+    
+    .nav-links {
+      list-style: none;
+      display: flex;
+      gap: 1.5rem;
+      margin: 0;
+      padding: 0;
+    }
+    
+    .nav-links a {
+      text-decoration: none;
+      color: #1f2937;
+      font-weight: 500;
+      transition: color 0.3s;
+      font-size: 0.95rem;
+    }
+    
+    .dark-mode .nav-links a {
+      color: #e2e8f0;
+    }
+    
+    .nav-links a:hover {
+      color: var(--primary);
+    }
+    
+    .breadcrumb-container {
+      background-color: var(--light-bg);
+      padding: 15px 0;
+      margin-bottom: 20px;
+      margin-top: 70px;
+    }
+    
+    .dark-mode .breadcrumb-container {
+      background-color: #2d3748;
+    }
+    
+    .breadcrumb {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+      display: flex;
+      align-items: center;
+      font-size: 0.9rem;
+    }
+    
+    .breadcrumb a {
+      color: var(--primary);
+      text-decoration: none;
+      transition: all 0.3s;
+    }
+    
+    .breadcrumb a:hover {
+      text-decoration: underline;
+    }
+    
+    .breadcrumb span {
+      color: #9CA3AF;
+    }
+    
+    .dark-mode .breadcrumb span {
+      color: #a0aec0;
+    }
+    
+    .breadcrumb-separator {
+      margin: 0 10px;
+      color: #9CA3AF;
+    }
+    
+    .dark-mode .breadcrumb-separator {
+      color: #a0aec0;
+    }
+    
+    .learning-container {
+      padding: 20px 20px 60px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    
+    .day-content {
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+      padding: 40px;
+      margin-bottom: 50px;
+    }
+    
+    .dark-mode .day-content {
+      background-color: #2d3748;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    }
+    
+    .day-header {
+      margin-bottom: 30px;
+      padding-bottom: 20px;
+      border-bottom: 2px solid var(--light-bg);
+    }
+    
+    .dark-mode .day-header {
+      border-bottom: 2px solid #4a5568;
+    }
+    
+    .day-header h1 {
+      font-size: 2.2rem;
+      color: var(--dark-bg);
+      margin-bottom: 10px;
+      line-height: 1.3;
+    }
+    
+    .dark-mode .day-header h1 {
+      color: #e2e8f0;
+    }
+    
+    .meta-info {
+      color: #9CA3AF;
+      font-size: 1rem;
+      display: block;
+      margin-bottom: 20px;
+    }
+    
+    .dark-mode .meta-info {
+      color: #a0aec0;
+    }
+    
+    .day-content p {
+      margin-bottom: 20px;
+      line-height: 1.8;
+      font-size: 1.1rem;
+    }
+    
+    .dark-mode .day-content p {
+      color: #e2e8f0;
+    }
+    
+    .day-content section {
+      margin-bottom: 40px;
+    }
+    
+    .day-content h2 {
+      font-size: 1.7rem;
+      color: var(--primary);
+      margin-bottom: 20px;
+      padding-bottom: 10px;
+      border-bottom: 2px solid var(--light-bg);
+    }
+    
+    .dark-mode .day-content h2 {
+      border-bottom: 2px solid #4a5568;
+    }
+    
+    .day-content ol, .day-content ul {
+      padding-left: 25px;
+      margin-bottom: 25px;
+    }
+    
+    .day-content li {
+      margin-bottom: 10px;
+      line-height: 1.7;
+      font-size: 1.1rem;
+    }
+    
+    .dark-mode .day-content li {
+      color: #e2e8f0;
+    }
+    
+    .day-content strong {
+      color: var(--dark-bg);
+    }
+    
+    .dark-mode .day-content strong {
+      color: #e2e8f0;
+    }
+    
+    /* Custom styles for Day 15 content */
+    .intro-box {
+      background: linear-gradient(135deg, #e0f2fe, #dbeafe);
+      border-radius: 12px;
+      padding: 30px;
+      margin: 30px 0;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .dark-mode .intro-box {
+      background: linear-gradient(135deg, #1e3a8a, #312e81);
+    }
+    
+    .intro-icon {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      font-size: 80px;
+      opacity: 0.2;
+    }
+    
+    .function-structure {
+      background-color: #eff6ff;
+      border-radius: 10px;
+      padding: 25px;
+      margin: 25px 0;
+      border-left: 4px solid var(--primary);
+    }
+    
+    .dark-mode .function-structure {
+      background-color: #1e3a8a;
+      border-left: 4px solid var(--primary);
+    }
+    
+    .structure-formula {
+      font-family: 'Fira Code', monospace;
+      font-size: 1.4rem;
+      text-align: center;
+      margin: 20px 0;
+      padding: 15px;
+      background-color: white;
+      border-radius: 8px;
+      border: 1px solid #d1d5db;
+    }
+    
+    .dark-mode .structure-formula {
+      background-color: #2d3748;
+      border-color: #4a5568;
+    }
+    
+    .argument-card {
+      background-color: white;
+      border-radius: 8px;
+      padding: 20px;
+      margin: 15px 0;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    
+    .dark-mode .argument-card {
+      background-color: #2d3748;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+    }
+    
+    .argument-header {
+      display: flex;
+      align-items: center;
+      margin-bottom: 15px;
+    }
+    
+    .argument-number {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      background-color: var(--primary);
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      margin-right: 15px;
+    }
+    
+    .exercise-container {
+      background-color: #f9fafb;
+      border-radius: 8px;
+      padding: 25px;
+      margin: 30px 0;
+      border-left: 4px solid var(--success);
+    }
+    
+    .dark-mode .exercise-container {
+      background-color: #2d3748;
+      border-left: 4px solid var(--success);
+    }
+    
+    .exercise-header {
+      display: flex;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+    
+    .exercise-number {
+      background-color: var(--success);
+      color: white;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      margin-right: 15px;
+    }
+    
+    .exercise-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 20px 0;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    
+    .dark-mode .exercise-table {
+      box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+    }
+    
+    .exercise-table th {
+      background-color: var(--primary);
+      color: white;
+      padding: 12px 15px;
+      text-align: left;
+    }
+    
+    .dark-mode .exercise-table th {
+      background-color: #1e40af;
+    }
+    
+    .exercise-table td {
+      padding: 10px 15px;
+      border-bottom: 1px solid #e5e7eb;
+    }
+    
+    .dark-mode .exercise-table td {
+      border-bottom: 1px solid #4a5568;
+    }
+    
+    .exercise-table tr:nth-child(even) {
+      background-color: #f3f4f6;
+    }
+    
+    .dark-mode .exercise-table tr:nth-child(even) {
+      background-color: #374151;
+    }
+    
+    .formula-cell {
+      font-family: 'Fira Code', monospace;
+      background-color: #fef3c7;
+    }
+    
+    .dark-mode .formula-cell {
+      background-color: #78350f;
+    }
+    
+    .result-cell {
+      font-weight: bold;
+      text-align: center;
+    }
+    
+    .success-result {
+      color: var(--success);
+    }
+    
+    .warning-result {
+      color: var(--warning);
+    }
+    
+    .danger-result {
+      color: var(--danger);
+    }
+    
+    .interactive-formula {
+      background-color: white;
+      border-radius: 8px;
+      padding: 20px;
+      margin: 20px 0;
+      border: 1px solid #d1d5db;
+    }
+    
+    .dark-mode .interactive-formula {
+      background-color: #2d3748;
+      border-color: #4a5568;
+    }
+    
+    .formula-inputs {
+      display: flex;
+      gap: 15px;
+      flex-wrap: wrap;
+      margin-bottom: 20px;
+    }
+    
+    .input-group {
+      flex: 1;
+      min-width: 200px;
+    }
+    
+    .input-group label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: 500;
+    }
+    
+    .input-group input, .input-group select {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #d1d5db;
+      border-radius: 4px;
+      background-color: white;
+    }
+    
+    .dark-mode .input-group input, .dark-mode .input-group select {
+      background-color: #4a5568;
+      border-color: #718096;
+      color: #e2e8f0;
+    }
+    
+    .formula-result {
+      margin-top: 20px;
+      padding: 15px;
+      background-color: #f0fdf4;
+      border-radius: 8px;
+      font-family: 'Fira Code', monospace;
+      font-size: 1.2rem;
+      text-align: center;
+    }
+    
+    .dark-mode .formula-result {
+      background-color: #14532d;
+    }
+    
+    .next-lesson {
+      background: linear-gradient(135deg, #dbeafe, #ede9fe);
+      border-radius: 12px;
+      padding: 25px;
+      margin: 30px 0;
+      text-align: center;
+    }
+    
+    .dark-mode .next-lesson {
+      background: linear-gradient(135deg, #1e3a8a, #4c1d95);
+    }
+    
+    /* Lesson Footer */
+    .lesson-footer {
+      background: var(--light-bg);
+      padding: 25px;
+      border-radius: 8px;
+      margin-top: 40px;
+    }
+    
+    .dark-mode .lesson-footer {
+      background-color: #2d3748;
+    }
+    
+    .lesson-footer p {
+      font-style: italic;
+      color: #9CA3AF;
+      margin-bottom: 20px;
+    }
+    
+    .dark-mode .lesson-footer p {
+      color: #a0aec0;
+    }
+    
+    .cta-button {
+      background-color: var(--primary);
+      color: white;
+      padding: 12px 30px;
+      text-decoration: none;
+      border-radius: 5px;
+      font-weight: bold;
+      display: inline-block;
+      transition: all 0.3s;
+      font-size: 1rem;
+      border: none;
+      cursor: pointer;
+    }
+    
+    .cta-button:hover {
+      background-color: #1d4ed8;
+      transform: translateY(-3px);
+      box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+    }
+    
+    /* Footer */
+    .footer {
+      background-color: #1f2937;
+      color: white;
+      padding: 60px 0 30px;
+    }
+    
+    .dark-mode .footer {
+      background-color: #1a202c;
+    }
+    
+    .footer-links {
+      display: flex;
+      justify-content: space-between;
+      gap: 30px;
+      flex-wrap: wrap;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+    
+    .footer-links h4 {
+      margin-bottom: 20px;
+      font-size: 1.25rem;
+    }
+    
+    .footer-links ul {
+      list-style: none;
+      padding: 0;
+    }
+    
+    .footer-links ul li {
+      margin-bottom: 10px;
+    }
+    
+    .footer-links ul li a {
+      color: #a0aec0;
+      text-decoration: none;
+      transition: color 0.3s;
+      font-size: 0.95rem;
+    }
+    
+    .footer-links ul li a:hover {
+      color: white;
+    }
+    
+    .copyright {
+      text-align: center;
+      margin-top: 60px;
+      border-top: 1px solid rgba(255,255,255,0.1);
+      padding-top: 30px;
+      color: #a0aec0;
+      max-width: 1200px;
+      margin: 60px auto 0;
+      padding: 20px;
+      font-size: 0.9rem;
+    }
+    
+    /* Dark Mode Toggle */
+    .dark-toggle {
+      position: fixed;
+      bottom: 6px;
+      right: 6px;
+      width: 46px;
+      height: 46px;
+      border-radius: 50%;
+      background-color: #1f2937;
+      color: white;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 30;
+      border: none;
+      cursor: pointer;
+    }
+    
+    .dark-mode .dark-toggle {
+      background-color: #e2e8f0;
+      color: #1a202c;
+    }
+    
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+      .day-content {
+        padding: 25px;
+      }
+      
+      .day-header h1 {
+        font-size: 1.8rem;
+      }
+      
+      .day-content h2 {
+        font-size: 1.5rem;
+      }
+      
+      .footer-links {
+        flex-direction: column;
+        gap: 40px;
+      }
+      
+      .nav-links {
+        display: none;
+      }
+      
+      .formula-inputs {
+        flex-direction: column;
+      }
+    }
+    
+    @media (max-width: 480px) {
+      .day-header h1 {
+        font-size: 1.6rem;
+      }
+      
+      .day-content h2 {
+        font-size: 1.3rem;
+      }
+      
+      .structure-formula {
+        font-size: 1.1rem;
+        padding: 10px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header class="header">
+    <nav class="navbar">
+      <a href="../../../index.html" class="logo">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+          <path d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+        </svg>
+        <span class="logo-text">Home</span>
+      </a>
+
+      <!-- Desktop Navigation -->
+      <ul class="nav-links">
+        <li><a href="../../../index.html">Home</a></li>
+        <li class="dropdown">
+          <a href="#" class="dropbtn">Kuartal 1: Dasar <span class="arrow">&#9662;</span></a>
+          <div class="dropdown-content">
+            <a href="#">Bulan 1: Excel Dasar</a>
+            <a href="#">Bulan 2: Statistik Dasar</a>
+            <a href="#">Bulan 3: SQL Lanjutan</a>
+          </div>
+        </li>
+        <li class="dropdown">
+          <a href="#" class="dropbtn">Kuartal 2: Intermediate <span class="arrow">&#9662;</span></a>
+          <div class="dropdown-content">
+            <a href="#">Bulan 4-6</a>
+          </div>
+        </li>
+        <li class="dropdown">
+          <a href="#" class="dropbtn">Kuartal 3: Advanced <span class="arrow">&#9662;</span></a>
+          <div class="dropdown-content">
+            <a href="#">Bulan 7-9</a>
+          </div>
+        </li>
+        <li class="dropdown">
+          <a href="#" class="dropbtn">Kuartal 4: Spesialisasi <span class="arrow">&#9662;</span></a>
+          <div class="dropdown-content">
+            <a href="#">Bulan 10-12</a>
+          </div>
+        </li>
+        <li><a href="#">Resources</a></li>
+        <li><a href="#">Dataset & Tools</a></li>
+        <li><a href="../../about.html">About</a></li>
+      </ul>
+
+      <!-- Mobile Menu Button -->
+      <button id="mobile-menu" class="md:hidden text-gray-800 dark:text-white">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+        </svg>
+      </button>
+    </nav>
+  </header>
+
+  <!-- Breadcrumb -->
+  <div class="breadcrumb-container">
+    <div class="breadcrumb">
+      <a href="../../../index.html">Home</a>
+      <span class="breadcrumb-separator">&gt;</span>
+      <a href="../../index.html">Kuartal 1</a>
+      <span class="breadcrumb-separator">&gt;</span>
+      <a href="../index.html">Bulan 1</a>
+      <span class="breadcrumb-separator">&gt;</span>
+      <a href="./index.html">Minggu 3</a>
+      <span class="breadcrumb-separator">&gt;</span>
+      <span>Hari 15</span>
+    </div>
+  </div>
+
+  <!-- Main Content -->
+  <main class="learning-container">
+    <article class="day-content">
+      <header class="day-header">
+        <h1>Hari 15: Excel Sebagai Detektif - Fungsi Logika IF</h1>
+        <p class="meta-info">Kuartal 1: Dasar | Bulan 1: Excel Dasar</p>
+      </header>
+
+      <div class="intro-box">
+        <div class="intro-icon">🔍</div>
+        <p>Selamat datang di minggu ketiga! Kamu sudah menempuh perjalanan yang cukup jauh. Dua minggu pertama kita fokus pada dasar-dasar Excel: memasukkan data, memformat, menghitung dengan rumus dan fungsi dasar, mengurutkan, dan menyaring. Sekarang, saatnya naik level sedikit!</p>
+        <p>Hari ini, kita akan berkenalan dengan salah satu fungsi paling powerful dan sering digunakan di Excel (dan juga dalam pemrograman secara umum): fungsi IF. Fungsi ini memungkinkan Excel membuat keputusan atau melakukan tindakan berbeda berdasarkan suatu kondisi yang kita tentukan.</p>
+        <p>Anggap saja fungsi IF ini seperti memberi instruksi pada Excel: <strong>"JIKA kondisi ini terpenuhi, lakukan A. JIKA TIDAK, lakukan B."</strong></p>
+      </div>
+
+      <section>
+        <h2>Mengapa Fungsi IF Penting?</h2>
+        <p>Fungsi IF membuka banyak kemungkinan untuk otomatisasi dan analisis yang lebih cerdas:</p>
+        <ul>
+          <li><strong>Mengklasifikasikan Data:</strong> Memberi label pada data berdasarkan kriteria (misal, "Lulus"/"Tidak Lulus" berdasarkan nilai, "Target Tercapai"/"Belum Tercapai" berdasarkan penjualan).</li>
+          <li><strong>Melakukan Perhitungan Bersyarat:</strong> Menghitung sesuatu hanya jika kondisi tertentu terpenuhi (misal, memberikan diskon 10% hanya jika kategori barang adalah "Buah", seperti yang kita lakukan manual kemarin!).</li>
+          <li><strong>Menampilkan Pesan Kustom:</strong> Menampilkan teks yang berbeda tergantung pada nilai sel lain.</li>
+        </ul>
+      </section>
+
+      <section>
+        <h2>Struktur Fungsi IF</h2>
+        <p>Fungsi IF memiliki tiga argumen (bagian di dalam tanda kurung), dipisahkan oleh titik koma (;) atau koma (,):</p>
+        
+        <div class="function-structure">
+          <div class="structure-formula">=IF(logical_test; value_if_true; value_if_false)</div>
+          
+          <div class="argument-card">
+            <div class="argument-header">
+              <div class="argument-number">1</div>
+              <h3>logical_test (Tes Logika)</h3>
+            </div>
+            <p>Ini adalah kondisi yang ingin kamu uji. Kondisi ini harus menghasilkan jawaban TRUE (Benar) atau FALSE (Salah). Biasanya melibatkan operator perbandingan:</p>
+            <ul>
+              <li><code>=</code> : Sama dengan</li>
+              <li><code>></code> : Lebih besar dari</li>
+              <li><code><</code> : Lebih kecil dari</li>
+              <li><code>>=</code>: Lebih besar dari atau sama dengan</li>
+              <li><code><=</code>: Lebih kecil dari atau sama dengan</li>
+              <li><code><></code>: Tidak sama dengan</li>
+            </ul>
+            <p><strong>Contoh tes logika:</strong> <code>C3>=75</code> (Apakah nilai di sel C3 lebih besar dari atau sama dengan 75?), <code>B3="Buah"</code> (Apakah teks di sel B3 sama dengan "Buah"?).</p>
+          </div>
+          
+          <div class="argument-card">
+            <div class="argument-header">
+              <div class="argument-number">2</div>
+              <h3>value_if_true (Nilai Jika Benar)</h3>
+            </div>
+            <p>Ini adalah hasil yang akan ditampilkan atau perhitungan yang akan dilakukan oleh Excel jika logical_test menghasilkan TRUE.</p>
+          </div>
+          
+          <div class="argument-card">
+            <div class="argument-header">
+              <div class="argument-number">3</div>
+              <h3>value_if_false (Nilai Jika Salah)</h3>
+            </div>
+            <p>Ini adalah hasil yang akan ditampilkan atau perhitungan yang akan dilakukan jika logical_test menghasilkan FALSE.</p>
+          </div>
+          
+          <p><strong>Ingat:</strong> Jika kamu ingin menampilkan teks sebagai hasil (seperti "Lulus" atau "Buah"), teks tersebut harus diapit tanda kutip ganda (<code>"teks"</code>). Jika hasilnya angka atau rumus lain, tidak perlu tanda kutip.</p>
+        </div>
+      </section>
+
+      <section>
+        <h2>Latihan Fungsi IF: Status Kelulusan Siswa</h2>
+        <p>Mari kita terapkan fungsi IF pada sheet Nilai Siswa. Kita akan menambahkan kolom baru untuk menentukan status kelulusan berdasarkan nilai rata-rata siswa. Anggap saja batas kelulusan (KKM) adalah 75.</p>
+        
+        <div class="exercise-container">
+          <div class="exercise-header">
+            <div class="exercise-number">1</div>
+            <div>
+              <h3>Hitung Rata-rata (Jika Belum)</h3>
+              <p>Pastikan kamu sudah punya kolom yang menghitung rata-rata nilai per siswa (misalnya di kolom G, dari latihan Hari 9).</p>
+            </div>
+          </div>
+          
+          <div class="exercise-header">
+            <div class="exercise-number">2</div>
+            <div>
+              <h3>Buat Kolom Status</h3>
+              <p>Tambahkan kolom baru di sebelah kanan (misalnya di H). Beri judul di H1: <strong>Status Kelulusan</strong>.</p>
+            </div>
+          </div>
+          
+          <div class="exercise-header">
+            <div class="exercise-number">3</div>
+            <div>
+              <h3>Tulis Rumus IF</h3>
+              <p>Di sel H3 (baris Andi), kita akan tulis rumus IF untuk mengecek apakah rata-rata nilai Andi (di G3) >= 75.</p>
+              <p class="formula-cell">=IF(G3>=75; "Lulus"; "Remedial")</p>
+              <p><strong>Mari kita bedah:</strong></p>
+              <ul>
+                <li><code>G3>=75</code>: Ini tes logika-nya. Apakah nilai di G3 lebih besar atau sama dengan 75?</li>
+                <li><code>"Lulus"</code>: Ini value_if_true. Jika G3 >= 75, tampilkan teks "Lulus".</li>
+                <li><code>"Remedial"</code>: Ini value_if_false. Jika G3 < 75, tampilkan teks "Remedial".</li>
+              </ul>
+            </div>
+          </div>
+          
+          <div class="exercise-header">
+            <div class="exercise-number">4</div>
+            <div>
+              <h3>Tekan Enter</h3>
+              <p>Excel akan mengevaluasi rata-rata Andi dan menampilkan statusnya.</p>
+            </div>
+          </div>
+          
+          <div class="exercise-header">
+            <div class="exercise-number">5</div>
+            <div>
+              <h3>Gunakan AutoFill</h3>
+              <p>Salin rumus IF ini ke bawah untuk semua siswa dengan menyeret pojok kanan bawah sel H3.</p>
+            </div>
+          </div>
+          
+          <p>Sekarang kamu punya kolom status yang otomatis terisi berdasarkan nilai rata-rata setiap siswa!</p>
+          
+          <table class="exercise-table">
+            <thead>
+              <tr>
+                <th>Nama Siswa</th>
+                <th>Rata-rata</th>
+                <th>Rumus</th>
+                <th>Status Kelulusan</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Andi</td>
+                <td>85</td>
+                <td class="formula-cell">=IF(G3>=75; "Lulus"; "Remedial")</td>
+                <td class="result-cell success-result">Lulus</td>
+              </tr>
+              <tr>
+                <td>Budi</td>
+                <td>72</td>
+                <td class="formula-cell">=IF(G4>=75; "Lulus"; "Remedial")</td>
+                <td class="result-cell danger-result">Remedial</td>
+              </tr>
+              <tr>
+                <td>Citra</td>
+                <td>90</td>
+                <td class="formula-cell">=IF(G5>=75; "Lulus"; "Remedial")</td>
+                <td class="result-cell success-result">Lulus</td>
+              </tr>
+              <tr>
+                <td>Dewi</td>
+                <td>68</td>
+                <td class="formula-cell">=IF(G6>=75; "Lulus"; "Remedial")</td>
+                <td class="result-cell danger-result">Remedial</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section>
+        <h2>Latihan Fungsi IF: Diskon Otomatis</h2>
+        <p>Ingat latihan diskon di Hari 8, dimana kita memberi diskon 10% hanya untuk kategori "Buah" secara manual? Sekarang kita bisa otomatiskan dengan IF!</p>
+        
+        <div class="exercise-container">
+          <div class="exercise-header">
+            <div class="exercise-number">1</div>
+            <div>
+              <h3>Cari Kolom Kategori dan Total Harga</h3>
+              <p>Pastikan kamu tahu di kolom mana Kategori (misal, B) dan Total Harga (misal, E) berada.</p>
+            </div>
+          </div>
+          
+          <div class="exercise-header">
+            <div class="exercise-number">2</div>
+            <div>
+              <h3>Buat Kolom Diskon (atau Modifikasi)</h3>
+              <p>Jika sudah ada kolom Diskon (misal, F), kita modifikasi rumusnya. Jika belum, buat kolom baru.</p>
+            </div>
+          </div>
+          
+          <div class="exercise-header">
+            <div class="exercise-number">3</div>
+            <div>
+              <h3>Tulis Rumus IF untuk Diskon</h3>
+              <p>Di sel F2 (baris Apel), tulis rumus:</p>
+              <p class="formula-cell">=IF(B2="Buah"; E2*10%; 0)</p>
+              <p><strong>Bedah rumus:</strong></p>
+              <ul>
+                <li><code>B2="Buah"</code>: Tes logika. Apakah kategori di B2 adalah "Buah"?</li>
+                <li><code>E2*10%</code>: Value if true. Jika ya, hitung 10% dari Total Harga (E2).</li>
+                <li><code>0</code>: Value if false. Jika bukan "Buah", diskonnya adalah 0.</li>
+              </ul>
+            </div>
+          </div>
+          
+          <div class="exercise-header">
+            <div class="exercise-number">4</div>
+            <div>
+              <h3>Tekan Enter</h3>
+            </div>
+          </div>
+          
+          <div class="exercise-header">
+            <div class="exercise-number">5</div>
+            <div>
+              <h3>Gunakan AutoFill</h3>
+              <p>Salin rumus ini ke bawah untuk semua item belanja.</p>
+            </div>
+          </div>
+          
+          <p>Lihat! Sekarang diskon 10% hanya diterapkan pada baris yang kategorinya "Buah", baris lain otomatis mendapat diskon 0. Jauh lebih efisien daripada manual!</p>
+          
+          <table class="exercise-table">
+            <thead>
+              <tr>
+                <th>Item</th>
+                <th>Kategori</th>
+                <th>Total Harga</th>
+                <th>Rumus Diskon</th>
+                <th>Diskon</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Apel</td>
+                <td>Buah</td>
+                <td>Rp 50.000</td>
+                <td class="formula-cell">=IF(B2="Buah"; E2*10%; 0)</td>
+                <td class="result-cell success-result">Rp 5.000</td>
+              </tr>
+              <tr>
+                <td>Susu</td>
+                <td>Minuman</td>
+                <td>Rp 30.000</td>
+                <td class="formula-cell">=IF(B3="Buah"; E3*10%; 0)</td>
+                <td class="result-cell">Rp 0</td>
+              </tr>
+              <tr>
+                <td>Jeruk</td>
+                <td>Buah</td>
+                <td>Rp 40.000</td>
+                <td class="formula-cell">=IF(B4="Buah"; E4*10%; 0)</td>
+                <td class="result-cell success-result">Rp 4.000</td>
+              </tr>
+              <tr>
+                <td>Roti</td>
+                <td>Bakery</td>
+                <td>Rp 25.000</td>
+                <td class="formula-cell">=IF(B5="Buah"; E5*10%; 0)</td>
+                <td class="result-cell">Rp 0</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <div class="interactive-formula">
+        <h3>Simulator Fungsi IF</h3>
+        <p>Coba fungsi IF dengan berbagai parameter:</p>
+        
+        <div class="formula-inputs">
+          <div class="input-group">
+            <label for="condition">Kondisi (logical_test)</label>
+            <select id="condition">
+              <option value=">=">>= (Lebih besar atau sama dengan)</option>
+              <option value="<="><= (Lebih kecil atau sama dengan)</option>
+              <option value=">">> (Lebih besar)</option>
+              <option value="<">< (Lebih kecil)</option>
+              <option value="==">= (Sama dengan)</option>
+              <option value="!=">!= (Tidak sama dengan)</option>
+            </select>
+          </div>
+          
+          <div class="input-group">
+            <label for="threshold">Nilai Pembanding</label>
+            <input type="number" id="threshold" value="75" min="0" max="100">
+          </div>
+          
+          <div class="input-group">
+            <label for="value1">Nilai Jika Benar</label>
+            <input type="text" id="value1" value="Lulus">
+          </div>
+          
+          <div class="input-group">
+            <label for="value2">Nilai Jika Salah</label>
+            <input type="text" id="value2" value="Remedial">
+          </div>
+        </div>
+        
+        <div class="formula-result" id="formula-result">
+          =IF(A1 >= 75; "Lulus"; "Remedial")
+        </div>
+      </div>
+
+      <div class="next-lesson">
+        <h2>Apa Selanjutnya?</h2>
+        <p>Fungsi IF adalah alat yang sangat fundamental. Kamu akan sering menggunakannya dalam berbagai analisis.</p>
+        <p>Besok, kita akan berlatih lebih lanjut dengan fungsi IF, mungkin mencoba IF Bertingkat (Nested IF), yaitu IF di dalam IF, untuk menangani lebih dari dua kondisi. Kita juga akan melihat fungsi logika lain seperti AND dan OR yang bisa digabungkan dengan IF.</p>
+        <p>Jangan ragu untuk bereksperimen dengan fungsi IF pada data lain. Coba buat kondisi yang berbeda! Jangan lupa Simpan pekerjaanmu. Sampai jumpa besok!</p>
+      </div>
+
+      <footer class="lesson-footer">
+        <p><em>Tips Hari Ini:</em> Latih fungsi IF dengan membuat berbagai skenario. Semakin sering digunakan, semakin mahir kamu menggunakannya.</p>
+        <a href="hari16.html" class="cta-button">Lanjut ke Fungsi IF Bertingkat</a>
+      </footer>
+    </article>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-links">
+      <div>
+        <h4>Navigasi Cepat</h4>
+        <ul>
+          <li><a href="#">Kuartal 1</a></li>
+          <li><a href="#">Kuartal 2</a></li>
+          <li><a href="#">Kuartal 3</a></li>
+          <li><a href="#">Kuartal 4</a></li>
+        </ul>
+      </div>
+      
+      <div>
+        <h4>Resources</h4>
+        <ul>
+          <li><a href="#">Checklist Keterampilan</a></li>
+          <li><a href="#">Contoh Portofolio</a></li>
+          <li><a href="#">Pertanyaan Interview</a></li>
+        </ul>
+      </div>
+      
+      <div>
+        <h4>Kontak</h4>
+        <p>Email: kontak@data365.com</p>
+      </div>
+    </div>
+    
+    <div class="copyright">
+      <p>&copy; 2025 Buku Panduan Data Analisis 365 Hari. Hak Cipta Dilindungi.</p>
+    </div>
+  </footer>
+
+  <!-- Dark Mode Toggle -->
+  <button id="dark-toggle" class="dark-toggle">
+    <svg id="dark-icon" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/>
+    </svg>
+    <svg id="light-icon" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/>
+    </svg>
+  </button>
+
+  <script>
+    // Mobile Menu Toggle
+    const mobileMenu = document.getElementById('mobile-menu');
+    const sidebar = document.getElementById('sidebar');
+    const overlay = document.getElementById('overlay');
+
+    mobileMenu.addEventListener('click', () => {
+      sidebar.classList.toggle('translate-x-full');
+      overlay.classList.toggle('hidden');
+    });
+
+    overlay.addEventListener('click', () => {
+      sidebar.classList.add('translate-x-full');
+      overlay.classList.add('hidden');
+    });
+
+    // Dark Mode Toggle
+    const darkToggle = document.getElementById('dark-toggle');
+    const darkIcon = document.getElementById('dark-icon');
+    const lightIcon = document.getElementById('light-icon');
+
+    darkToggle.addEventListener('click', () => {
+      document.body.classList.toggle('dark-mode');
+
+      if (document.body.classList.contains('dark-mode')) {
+        darkIcon.classList.remove('hidden');
+        lightIcon.classList.add('hidden');
+        darkToggle.classList.add('bg-gray-700');
+      } else {
+        darkIcon.classList.add('hidden');
+        lightIcon.classList.remove('hidden');
+        darkToggle.classList.remove('bg-gray-700');
+      }
+    });
+
+    // Close dropdowns when clicking outside
+    document.addEventListener('click', (e) => {
+      const dropdowns = document.querySelectorAll('.dropdown');
+      dropdowns.forEach(dropdown => {
+        if (!dropdown.contains(e.target)) {
+          const content = dropdown.querySelector('.dropdown-content');
+          if (content) content.style.display = 'none';
+        }
+      });
+    });
+
+    // Fungsi IF Simulator
+    const conditionSelect = document.getElementById('condition');
+    const thresholdInput = document.getElementById('threshold');
+    const value1Input = document.getElementById('value1');
+    const value2Input = document.getElementById('value2');
+    const formulaResult = document.getElementById('formula-result');
+
+    function updateFormula() {
+      const conditionMap = {
+        '>=': '>=',
+        '<=': '<=',
+        '>': '>',
+        '<': '<',
+        '==': '=',
+        '!=': '<>'
+      };
+      
+      const conditionSymbol = conditionMap[conditionSelect.value];
+      const threshold = thresholdInput.value;
+      const value1 = value1Input.value;
+      const value2 = value2Input.value;
+      
+      formulaResult.textContent = `=IF(A1 ${conditionSymbol} ${threshold}; "${value1}"; "${value2}")`;
+    }
+
+    conditionSelect.addEventListener('change', updateFormula);
+    thresholdInput.addEventListener('input', updateFormula);
+    value1Input.addEventListener('input', updateFormula);
+    value2Input.addEventListener('input', updateFormula);
+
+    // Initialize
+    updateFormula();
+  </script>
+</body>
+</html>
