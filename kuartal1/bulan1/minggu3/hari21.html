@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hari 21: Review Minggu Ketiga & Kuis Santai - Kuartal 1</title>
+    
+    <!-- Tailwind CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Fira+Code&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary: #2563eb;
+            --secondary: #10B981;
+            --accent: #8b5cf6;
+            --light-bg: #f9fafb;
+            --dark-bg: #1f2937;
+            --text: #1F2937;
+            --muted: #9CA3AF;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f9fafb;
+            color: var(--text);
+            line-height: 1.6;
+        }
+        
+        .card {
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .breadcrumb a {
+            color: var(--primary);
+            transition: all 0.3s;
+        }
+        
+        .breadcrumb a:hover {
+            text-decoration: underline;
+        }
+        
+        .quiz-option {
+            transition: all 0.2s;
+        }
+        
+        .quiz-option:hover {
+            background-color: #e0f2fe;
+            transform: translateX(5px);
+        }
+        
+        .answer-reveal {
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .answer-reveal::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to bottom, rgba(249,250,251,0) 80%, rgba(249,250,251,1) 100%);
+        }
+        
+        .answer-reveal.revealed::before {
+            display: none;
+        }
+        
+        .dark-mode {
+            background-color: #1a202c;
+            color: #e2e8f0;
+        }
+        
+        .dark-mode .card {
+            background-color: #2d3748;
+        }
+        
+        .dark-mode .quiz-option:hover {
+            background-color: #2d3748;
+        }
+        
+        .dark-mode .answer-reveal::before {
+            background: linear-gradient(to bottom, rgba(26,32,44,0) 80%, rgba(26,32,44,1) 100%);
+        }
+    </style>
+</head>
+<body class="relative">
+    <!-- Header -->
+    <header class="bg-gradient-to-r from-blue-600 to-indigo-700 text-white p-4 fixed w-full z-40">
+        <div class="container mx-auto flex justify-between items-center">
+            <div class="flex items-center">
+                <a href="index.html" class="flex items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+                    </svg>
+                    <h1 class="text-xl font-bold">Buku Panduan Skill</h1>
+                </a>
+            </div>
+            
+            <!-- Desktop Navigation -->
+            <nav class="hidden md:block">
+                <ul class="flex space-x-4">
+                    <li><a href="index.html" class="hover:text-blue-200 transition">Home</a></li>
+                    <li class="dropdown relative">
+                        <a href="#" class="hover:text-blue-200 transition flex items-center">
+                            Kuartal 1: Dasar <span class="arrow ml-1">&#9662;</span>
+                        </a>
+                        <div class="dropdown-content absolute bg-white text-gray-800 rounded-md shadow-lg py-2 mt-1">
+                            <a href="#" class="block px-4 py-2 hover:bg-blue-100">Bulan 1: Excel Dasar</a>
+                            <a href="#" class="block px-4 py-2 hover:bg-blue-100">Bulan 2: Statistik Dasar</a>
+                            <a href="#" class="block px-4 py-2 hover:bg-blue-100">Bulan 3: SQL Lanjutan</a>
+                        </div>
+                    </li>
+                    <li class="dropdown relative">
+                        <a href="#" class="hover:text-blue-200 transition flex items-center">
+                            Kuartal 2: Intermediate <span class="arrow ml-1">&#9662;</span>
+                        </a>
+                        <div class="dropdown-content absolute bg-white text-gray-800 rounded-md shadow-lg py-2 mt-1">
+                            <a href="#" class="block px-4 py-2 hover:bg-blue-100">Bulan 4-6</a>
+                        </div>
+                    </li>
+                    <li><a href="about.html" class="hover:text-blue-200 transition">About</a></li>
+                </ul>
+            </nav>
+            
+            <!-- Mobile Menu Button -->
+            <button id="mobile-menu" class="md:hidden text-white">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                </svg>
+            </button>
+        </div>
+    </header>
+    
+    <!-- Breadcrumb -->
+    <div class="breadcrumb-container bg-gray-100 py-3 mt-16">
+        <div class="container mx-auto px-4">
+            <div class="breadcrumb flex items-center text-sm">
+                <a href="../../../index.html">Home</a>
+                <span class="mx-2 text-gray-500">›</span>
+                <a href="../../index.html">Kuartal 1</a>
+                <span class="mx-2 text-gray-500">›</span>
+                <a href="../index.html">Bulan 1</a>
+                <span class="mx-2 text-gray-500">›</span>
+                <a href="./index.html">Minggu 3</a>
+                <span class="mx-2 text-gray-500">›</span>
+                <span class="text-gray-700">Hari 21</span>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Main Content -->
+    <main class="pt-6 pb-16 px-4 md:px-0">
+        <div class="container mx-auto">
+            <article class="bg-white rounded-xl shadow-md p-6 md:p-8 mb-8">
+                <header class="mb-8 pb-4 border-b border-gray-200">
+                    <h1 class="text-2xl md:text-3xl font-bold text-gray-800 mb-2">Hari 21: Review Minggu Ketiga & Kuis Santai Lagi!</h1>
+                    <p class="text-gray-600">Kuartal 1: Dasar | Bulan 1: Excel Dasar</p>
+                </header>
+                
+                <div class="prose max-w-none">
+                    <div class="bg-blue-50 border-l-4 border-blue-500 p-4 rounded mb-8">
+                        <p class="font-bold text-blue-700 mb-2">🎉 Selamat!</p>
+                        <p>Kamu sudah berhasil menaklukkan minggu ketiga dari perjalanan 365 hari kita! Minggu ini kita sudah masuk ke beberapa fitur Excel yang lebih canggih dan fundamental untuk analisis data, yaitu fungsi logika dan pengenalan PivotTable. Kamu juga sudah belajar memilih visualisasi yang tepat.</p>
+                        <p class="mt-2">Seperti biasa di hari ketujuh setiap minggunya (hari ke-21 total), saatnya kita berhenti sejenak, me-review apa saja yang sudah kita pelajari, dan menguji pemahaman dengan kuis santai. Mari kita pastikan fondasi kita semakin kuat!</p>
+                    </div>
+                    
+                    <section class="mb-10">
+                        <h2 class="text-xl md:text-2xl font-bold text-gray-800 mb-4 pb-2 border-b border-gray-200">Rangkuman Minggu Ketiga: Logika, Visualisasi Tepat & PivotTable Intro</h2>
+                        <p class="mb-4">Minggu ini kita sudah membahas topik-topik penting berikut:</p>
+                        
+                        <ol class="list-decimal pl-6 space-y-4 mb-6">
+                            <li>
+                                <strong>Fungsi Logika IF (Hari 15):</strong> Kita belajar fungsi IF yang memungkinkan Excel membuat keputusan. Strukturnya <code class="bg-gray-100 px-2 py-1 rounded">=IF(logical_test; value_if_true; value_if_false)</code>. Kita berlatih menggunakannya untuk menentukan status kelulusan dan memberikan diskon otomatis.
+                            </li>
+                            <li>
+                                <strong>IF Lanjutan (Nested IF, AND, OR) (Hari 16):</strong> Kita meningkatkan kemampuan logika kita dengan belajar Nested IF (IF di dalam IF) untuk menangani lebih dari dua hasil. Kita juga belajar menggabungkan IF dengan AND (semua kondisi benar) dan OR (salah satu kondisi benar) untuk membuat keputusan berdasarkan beberapa kriteria.
+                            </li>
+                            <li>
+                                <strong>Kustomisasi Grafik Dasar (Hari 17):</strong> Kita belajar cara membuat grafik (Bar, Line, Pie) menjadi lebih informatif dan menarik dengan mengkustomisasi elemen-elemennya, seperti Judul Grafik, Judul Sumbu, Label Data, Legenda, Warna, dan Garis Kisi, menggunakan tab Chart Design, Format, dan tombol cepat (+, Kuas, Corong).
+                            </li>
+                            <li>
+                                <strong>Scatter Plot & Korelasi Dasar (Hari 18):</strong> Kita mengenal Scatter Plot untuk melihat hubungan antara dua variabel numerik. Kita belajar menginterpretasi pola sebaran titik (korelasi positif, negatif, tidak ada) dan sekilas tentang koefisien korelasi.
+                            </li>
+                            <li>
+                                <strong>Memilih Jenis Grafik yang Tepat (Hari 19):</strong> Kita membahas panduan kapan sebaiknya menggunakan Bar/Column Chart (perbandingan kategori), Line Chart (tren waktu), Pie Chart (proporsi keseluruhan), dan Scatter Plot (hubungan antar variabel numerik).
+                            </li>
+                            <li>
+                                <strong>Pengenalan PivotTable (Hari 20):</strong> Kita diperkenalkan pada PivotTable, fitur super cepat untuk meringkas dan menganalisis data besar. Kita belajar syarat data yang baik untuk PivotTable, cara membuatnya (Insert > PivotTable), dan mengenal area kerjanya (PivotTable Fields: Filters, Columns, Rows, Values).
+                            </li>
+                        </ol>
+                        
+                        <div class="bg-green-50 border-l-4 border-green-500 p-4 rounded">
+                            <p class="font-bold text-green-700">Setelah minggu ketiga ini, kamu seharusnya sudah bisa:</p>
+                            <ul class="list-disc pl-6 mt-2 space-y-1">
+                                <li>Menggunakan fungsi IF, Nested IF, AND, dan OR untuk otomatisasi keputusan.</li>
+                                <li>Mengkustomisasi grafik dasar agar lebih jelas dan menarik.</li>
+                                <li>Membuat dan menginterpretasi Scatter Plot sederhana.</li>
+                                <li>Memilih jenis grafik yang paling sesuai untuk tujuan analisis tertentu.</li>
+                                <li>Membuat area PivotTable kosong dari data tabel.</li>
+                            </ul>
+                            <p class="mt-3 font-bold">Keterampilan Excel-mu benar-benar berkembang pesat! 🚀</p>
+                        </div>
+                    </section>
+                    
+                    <section class="mb-10">
+                        <h2 class="text-xl md:text-2xl font-bold text-gray-800 mb-6 pb-2 border-b border-gray-200">Kuis Santai Minggu Ketiga</h2>
+                        <p class="mb-6">Mari uji ingatanmu lagi! Pilih jawaban yang paling tepat.</p>
+                        
+                        <div class="space-y-6">
+                            <!-- Question 1 -->
+                            <div class="card bg-white rounded-lg p-5">
+                                <p class="font-bold mb-3">1. Rumus <code class="bg-gray-100 px-2 py-1 rounded">=IF(A1>10; "Besar"; "Kecil")</code> akan menghasilkan "Besar" jika nilai di sel A1 adalah...</p>
+                                <div class="space-y-2 pl-4">
+                                    <div class="quiz-option flex items-start p-3 rounded cursor-pointer">
+                                        <span class="mr-3 font-bold">a.</span>
+                                        <span>10</span>
+                                    </div>
+                                    <div class="quiz-option flex items-start p-3 rounded cursor-pointer">
+                                        <span class="mr-3 font-bold">b.</span>
+                                        <span>5</span>
+                                    </div>
+                                    <div class="quiz-option flex items-start p-3 rounded cursor-pointer">
+                                        <span class="mr-3 font-bold">c.</span>
+                                        <span>11</span>
+                                    </div>
+                                    <div class="quiz-option flex items-start p-3 rounded cursor-pointer">
+                                        <span class="mr-3 font-bold">d.</span>
+                                        <span>"Sepuluh"</span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Question 2 -->
+                            <div class="card bg-white rounded-lg p-5">
+                                <p class="font-bold mb-3">2. Kamu ingin memberi status "Target Tercapai" jika penjualan (di B1) >= 1000 DAN jumlah transaksi (di C1) >= 50. Fungsi logika yang tepat untuk dimasukkan ke dalam logical_test fungsi IF adalah...</p>
+                                <div class="space-y-2 pl-4">
+                                    <div class="quiz-option flex items-start p-3 rounded cursor-pointer">
+                                        <span class="mr-3 font-bold">a.</span>
+                                        <span><code>OR(B1>=1000; C1>=50)</code></span>
+                                    </div>
+                                    <div class="quiz-option flex items-start p-3 rounded cursor-pointer">
+                                        <span class="mr-3 font-bold">b.</span>
+                                        <span><code>AND(B1>=1000; C1>=50)</code></span>
+                                    </div>
+                                    <div class="quiz-option flex items-start p-3 rounded cursor-pointer">
+                                        <span class="mr-3 font-bold">c.</span>
+                                        <span><code>NESTEDIF(B1>=1000; C1>=50)</code></span>
+                                    </div>
+                                    <div class="quiz-option flex items-start p-3 rounded cursor-pointer">
+                                        <span class="mr-3 font-bold">d.</span>
+                                        <span><code>IF(B1>=1000; C1>=50)</code></span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Question 3 -->
+                            <div class="card bg-white rounded-lg p-5">
+                                <p class="font-bold mb-3">3. Untuk menambahkan label nilai angka langsung di atas batang pada Column Chart, kamu akan menggunakan tombol + (Chart Elements) dan mencentang...</p>
+                                <div class="space-y-2 pl-4">
+                                    <div class="quiz-option flex items-start p-3 rounded cursor-pointer">
+                                        <span class="mr-3 font-bold">a.</span>
+                                        <span>Axis Titles</span>
+                                    </div>
+                                    <div class="quiz-option flex items-start p-3 rounded cursor-pointer">
+                                        <span class="mr-3 font-bold">b.</span>
+                                        <span>Chart Title</span>
+                                    </div>
+                                    <div class="quiz-option flex items-start p-3 rounded cursor-pointer">
+                                        <span class="mr-3 font-bold">c.</span>
+                                        <span>Data Labels</span>
+                                    </div>
+                                    <div class="quiz-option flex items-start p-3 rounded cursor-pointer">
+                                        <span class="mr-3 font-bold">d.</span>
+                                        <span>Legend</span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Question 4 -->
+                            <div class="card bg-white rounded-lg p-5">
+                                <p class="font-bold mb-3">4. Scatter Plot paling cocok digunakan untuk...</p>
+                                <div class="space-y-2 pl-4">
+                                    <div class="quiz-option flex items-start p-3 rounded cursor-pointer">
+                                        <span class="mr-3 font-bold">a.</span>
+                                        <span>Menampilkan tren penjualan bulanan.</span>
+                                    </div>
+                                    <div class="quiz-option flex items-start p-3 rounded cursor-pointer">
+                                        <span class="mr-3 font-bold">b.</span>
+                                        <span>Membandingkan jumlah siswa di setiap kelas.</span>
+                                    </div>
+                                    <div class="quiz-option flex items-start p-3 rounded cursor-pointer">
+                                        <span class="mr-3 font-bold">c.</span>
+                                        <span>Menyelidiki hubungan antara lama waktu tidur dan tingkat energi.</span>
+                                    </div>
+                                    <div class="quiz-option flex items-start p-3 rounded cursor-pointer">
+                                        <span class="mr-3 font-bold">d.</span>
+                                        <span>Menunjukkan persentase jenis buah yang terjual.</span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Question 5 -->
+                            <div class="card bg-white rounded-lg p-5">
+                                <p class="font-bold mb-3">5. Kamu ingin membandingkan populasi 5 kota besar di Indonesia. Jenis grafik yang paling sesuai adalah...</p>
+                                <div class="space-y-2 pl-4">
+                                    <div class="quiz-option flex items-start p-3 rounded cursor-pointer">
+                                        <span class="mr-3 font-bold">a.</span>
+                                        <span>Line Chart</span>
+                                    </div>
+                                    <div class="quiz-option flex items-start p-3 rounded cursor-pointer">
+                                        <span class="mr-3 font-bold">b.</span>
+                                        <span>Pie Chart</span>
+                                    </div>
+                                    <div class="quiz-option flex items-start p-3 rounded cursor-pointer">
+                                        <span class="mr-3 font-bold">c.</span>
+                                        <span>Bar Chart/Column Chart</span>
+                                    </div>
+                                    <div class="quiz-option flex items-start p-3 rounded cursor-pointer">
+                                        <span class="mr-3 font-bold">d.</span>
+                                        <span>Scatter Plot</span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Question 6 -->
+                            <div class="card bg-white rounded-lg p-5">
+                                <p class="font-bold mb-3">6. Sebelum membuat PivotTable, syarat data yang baik adalah...</p>
+                                <div class="space-y-2 pl-4">
+                                    <div class="quiz-option flex items-start p-3 rounded cursor-pointer">
+                                        <span class="mr-3 font-bold">a.</span>
+                                        <span>Memiliki baris kosong untuk pemisah.</span>
+                                    </div>
+                                    <div class="quiz-option flex items-start p-3 rounded cursor-pointer">
+                                        <span class="mr-3 font-bold">b.</span>
+                                        <span>Setiap kolom memiliki header yang unik.</span>
+                                    </div>
+                                    <div class="quiz-option flex items-start p-3 rounded cursor-pointer">
+                                        <span class="mr-3 font-bold">c.</span>
+                                        <span>Menggabungkan beberapa sel untuk judul utama.</span>
+                                    </div>
+                                    <div class="quiz-option flex items-start p-3 rounded cursor-pointer">
+                                        <span class="mr-3 font-bold">d.</span>
+                                        <span>Tidak perlu header kolom.</span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Question 7 -->
+                            <div class="card bg-white rounded-lg p-5">
+                                <p class="font-bold mb-3">7. Di panel PivotTable Fields, area mana yang digunakan untuk meletakkan field numerik yang ingin dijumlahkan atau dihitung rata-ratanya?</p>
+                                <div class="space-y-2 pl-4">
+                                    <div class="quiz-option flex items-start p-3 rounded cursor-pointer">
+                                        <span class="mr-3 font-bold">a.</span>
+                                        <span>FILTERS</span>
+                                    </div>
+                                    <div class="quiz-option flex items-start p-3 rounded cursor-pointer">
+                                        <span class="mr-3 font-bold">b.</span>
+                                        <span>COLUMNS</span>
+                                    </div>
+                                    <div class="quiz-option flex items-start p-3 rounded cursor-pointer">
+                                        <span class="mr-3 font-bold">c.</span>
+                                        <span>ROWS</span>
+                                    </div>
+                                    <div class="quiz-option flex items-start p-3 rounded cursor-pointer">
+                                        <span class="mr-3 font-bold">d.</span>
+                                        <span>VALUES</span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Question 8 -->
+                            <div class="card bg-white rounded-lg p-5">
+                                <p class="font-bold mb-3">8. Untuk membuat PivotTable dari data yang sudah ada, kamu biasanya pergi ke tab...</p>
+                                <div class="space-y-2 pl-4">
+                                    <div class="quiz-option flex items-start p-3 rounded cursor-pointer">
+                                        <span class="mr-3 font-bold">a.</span>
+                                        <span>Data</span>
+                                    </div>
+                                    <div class="quiz-option flex items-start p-3 rounded cursor-pointer">
+                                        <span class="mr-3 font-bold">b.</span>
+                                        <span>Formulas</span>
+                                    </div>
+                                    <div class="quiz-option flex items-start p-3 rounded cursor-pointer">
+                                        <span class="mr-3 font-bold">c.</span>
+                                        <span>Insert</span>
+                                    </div>
+                                    <div class="quiz-option flex items-start p-3 rounded cursor-pointer">
+                                        <span class="mr-3 font-bold">d.</span>
+                                        <span>View</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="mt-8 p-5 bg-yellow-50 rounded-lg">
+                            <h3 class="text-lg font-bold mb-3">Jawaban:</h3>
+                            <div class="answer-reveal relative max-h-20 overflow-hidden" id="answer-section">
+                                <p class="text-gray-700">(Scroll ke bawah untuk melihat jawaban)</p>
+                                <p class="mt-3">1. c. 11 (karena 11 > 10)</p>
+                                <p>2. b. AND(B1>=1000; C1>=50)</p>
+                                <p>3. c. Data Labels</p>
+                                <p>4. c. Menyelidiki hubungan antara lama waktu tidur dan tingkat energi (keduanya numerik).</p>
+                                <p>5. c. Bar Chart/Column Chart (membandingkan nilai antar kategori kota).</p>
+                                <p>6. b. Setiap kolom memiliki header yang unik.</p>
+                                <p>7. d. VALUES</p>
+                                <p>8. c. Insert</p>
+                            </div>
+                            <button id="reveal-answers" class="mt-4 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition">Tampilkan Semua Jawaban</button>
+                        </div>
+                        
+                        <div class="mt-6 text-center">
+                            <p class="font-bold text-lg">Bagaimana hasilnya? Semoga semakin percaya diri! PivotTable mungkin masih terasa baru, tapi jangan khawatir, kita akan mempraktikkannya lebih lanjut.</p>
+                        </div>
+                    </section>
+                    
+                    <section class="mb-8">
+                        <h2 class="text-xl md:text-2xl font-bold text-gray-800 mb-4 pb-2 border-b border-gray-200">Bersiap untuk Minggu Keempat!</h2>
+                        <div class="bg-purple-50 border-l-4 border-purple-500 p-4 rounded">
+                            <p class="mb-4">Minggu depan, kita akan benar-benar memanfaatkan kekuatan PivotTable. Kita akan belajar:</p>
+                            
+                            <ul class="list-disc pl-6 space-y-2 mb-4">
+                                <li>Membangun laporan PivotTable dengan drag-and-drop.</li>
+                                <li>Mengubah fungsi ringkasan (dari SUM ke COUNT, AVERAGE, dll.).</li>
+                                <li>Mengelompokkan data (Grouping) di PivotTable (misal, per bulan, per rentang angka).</li>
+                                <li>Menambahkan filter dan slicer ke PivotTable.</li>
+                                <li>Membuat PivotChart (grafik yang terhubung langsung ke PivotTable).</li>
+                            </ul>
+                            
+                            <p class="font-bold">Selain itu, kita juga akan belajar fungsi pencarian yang sangat populer: VLOOKUP.</p>
+                            <p class="mt-3">Pastikan kamu beristirahat akhir pekan ini. Minggu keempat akan penuh dengan alat analisis Excel yang sangat praktis!</p>
+                        </div>
+                        
+                        <div class="mt-6 text-center">
+                            <p class="text-xl font-bold text-gray-800 mb-4">Selamat atas pencapaian tiga minggu ini! Sampai jumpa di hari ke-22! 👏</p>
+                            <a href="hari22.html" class="inline-block bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-8 rounded-full transition transform hover:translate-y-1 shadow-lg">
+                                Lanjut ke Hari 22
+                            </a>
+                        </div>
+                    </section>
+                </div>
+            </article>
+        </div>
+    </main>
+    
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-12">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
+                <div>
+                    <h4 class="text-lg font-bold mb-4">Navigasi Cepat</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="hover:text-blue-300 transition">Kuartal 1</a></li>
+                        <li><a href="#" class="hover:text-blue-300 transition">Kuartal 2</a></li>
+                        <li><a href="#" class="hover:text-blue-300 transition">Kuartal 3</a></li>
+                        <li><a href="#" class="hover:text-blue-300 transition">Kuartal 4</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="text-lg font-bold mb-4">Resources</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="hover:text-blue-300 transition">Checklist Keterampilan</a></li>
+                        <li><a href="#" class="hover:text-blue-300 transition">Contoh Portofolio</a></li>
+                        <li><a href="#" class="hover:text-blue-300 transition">Pertanyaan Interview</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="text-lg font-bold mb-4">Kontak</h4>
+                    <p class="mb-2">Email: kontak@data365.com</p>
+                    <div class="flex space-x-4 mt-4">
+                        <a href="#" class="text-gray-400 hover:text-white">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616-.054 2.281 1.581 4.415 3.949 4.89-.693.188-1.452.232-2.224.084.626 1.956 2.444 3.379 4.6 3.419-2.07 1.623-4.678 2.348-7.29 2.04 2.179 1.397 4.768 2.212 7.548 2.212 9.142 0 14.307-7.721 13.995-14.646.962-.695 1.797-1.562 2.457-2.549z"/>
+                            </svg>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M12 0c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm3 8h-1.35c-.538 0-.65.221-.65.778v1.222h2l-.209 2h-1.791v7h-3v-7h-2v-2h2v-2.308c0-1.769.931-2.692 3.029-2.692h1.971v3z"/>
+                            </svg>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-700 pt-8 text-center">
+                <p>&copy; 2025 Buku Panduan Data Analisis 365 Hari. Hak Cipta Dilindungi.</p>
+            </div>
+        </div>
+    </footer>
+    
+    <!-- Dark Mode Toggle -->
+    <button id="dark-toggle" class="fixed bottom-6 right-6 w-12 h-12 rounded-full bg-gray-800 text-white shadow-lg flex items-center justify-center z-30">
+        <svg id="dark-icon" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/>
+        </svg>
+        <svg id="light-icon" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/>
+        </svg>
+    </button>
+    
+    <script>
+        // Mobile Menu Toggle
+        const mobileMenu = document.getElementById('mobile-menu');
+        const sidebar = document.getElementById('sidebar');
+        const overlay = document.getElementById('overlay');
+        
+        mobileMenu.addEventListener('click', () => {
+            sidebar.classList.toggle('translate-x-full');
+            overlay.classList.toggle('hidden');
+        });
+        
+        overlay.addEventListener('click', () => {
+            sidebar.classList.add('translate-x-full');
+            overlay.classList.add('hidden');
+        });
+        
+        // Dark Mode Toggle
+        const darkToggle = document.getElementById('dark-toggle');
+        const darkIcon = document.getElementById('dark-icon');
+        const lightIcon = document.getElementById('light-icon');
+        
+        darkToggle.addEventListener('click', () => {
+            document.body.classList.toggle('dark-mode');
+            
+            if (document.body.classList.contains('dark-mode')) {
+                darkIcon.classList.remove('hidden');
+                lightIcon.classList.add('hidden');
+                darkToggle.classList.add('bg-gray-700');
+            } else {
+                darkIcon.classList.add('hidden');
+                lightIcon.classList.remove('hidden');
+                darkToggle.classList.remove('bg-gray-700');
+            }
+        });
+        
+        // Reveal answers functionality
+        const revealButton = document.getElementById('reveal-answers');
+        const answerSection = document.getElementById('answer-section');
+        
+        revealButton.addEventListener('click', () => {
+            answerSection.classList.add('revealed');
+            revealButton.style.display = 'none';
+            answerSection.style.maxHeight = 'none';
+        });
+        
+        // Quiz option highlighting
+        document.querySelectorAll('.quiz-option').forEach(option => {
+            option.addEventListener('click', function() {
+                // Remove highlight from all options in this question
+                this.parentNode.querySelectorAll('.quiz-option').forEach(el => {
+                    el.classList.remove('bg-blue-100', 'border-blue-400');
+                });
+                
+                // Add highlight to clicked option
+                this.classList.add('bg-blue-100', 'border', 'border-blue-400');
+            });
+        });
+    </script>
+</body>
+</html>
