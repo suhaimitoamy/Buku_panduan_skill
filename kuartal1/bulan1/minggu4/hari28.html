@@ -1,0 +1,769 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hari 28: Review Minggu 4 & Kuis Pamungkas</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .celebration-gradient {
+            background: linear-gradient(135deg, #8B5CF6, #3B82F6, #10B981);
+            background-size: 200% 200%;
+            animation: gradientBG 10s ease infinite;
+        }
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        .review-card {
+            transition: all 0.3s;
+            border-left: 4px solid #3B82F6;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        }
+        .review-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px rgba(0,0,0,0.1);
+        }
+        .quiz-option {
+            transition: all 0.2s;
+            cursor: pointer;
+            border: 2px solid #e5e7eb;
+        }
+        .quiz-option:hover {
+            background-color: #f3f4f6;
+            transform: translateY(-2px);
+        }
+        .correct-answer {
+            background-color: #d1fae5 !important;
+            border-color: #10B981 !important;
+            box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.2);
+        }
+        .incorrect-answer {
+            background-color: #fee2e2 !important;
+            border-color: #ef4444 !important;
+        }
+        .answer-explanation {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease-out;
+        }
+        .reveal-button {
+            background: linear-gradient(135deg, #3B82F6, #8B5CF6);
+            transition: all 0.3s;
+        }
+        .reveal-button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(59, 130, 246, 0.4);
+        }
+        .month-badge {
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        .confetti {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background-color: #f0f;
+            border-radius: 50%;
+            animation: fall linear forwards;
+        }
+        @keyframes fall {
+            to { transform: translateY(100vh) rotate(360deg); }
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Header -->
+    <header class="celebration-gradient text-white py-12 relative overflow-hidden">
+        <!-- Confetti Effect -->
+        <div id="confetti-container"></div>
+        
+        <div class="container mx-auto px-4 text-center relative z-10">
+            <div class="inline-block bg-white bg-opacity-20 rounded-full p-5 mb-4 month-badge">
+                <i class="fas fa-trophy text-4xl"></i>
+            </div>
+            <h1 class="text-3xl md:text-4xl font-bold mb-2">Hari 28: Review Minggu Keempat!</h1>
+            <p class="text-xl text-blue-100 max-w-2xl mx-auto">
+                Selamat! Kamu telah menyelesaikan Bulan Pertama perjalanan analisis datamu
+            </p>
+            <div class="mt-6">
+                <div class="inline-flex bg-white text-blue-600 font-bold px-6 py-2 rounded-full shadow-lg">
+                    <i class="fas fa-calendar-alt mr-2"></i> Minggu 4: PivotTable & VLOOKUP
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-4 py-8 max-w-4xl">
+        <!-- Celebration -->
+        <div class="text-center mb-12">
+            <h2 class="text-2xl font-bold text-gray-800 mb-4">Luar Biasa! 🎉</h2>
+            <p class="text-lg text-gray-600 max-w-2xl mx-auto">
+                Kamu telah menyelesaikan 28 hari pembelajaran intensif Excel untuk analisis data. 
+                Ini adalah pencapaian yang fantastis!
+            </p>
+            <div class="mt-6 flex justify-center">
+                <div class="bg-yellow-100 border-l-4 border-yellow-500 p-4 max-w-xl rounded-lg shadow">
+                    <p class="flex items-center text-left">
+                        <i class="fas fa-lightbulb text-yellow-500 text-2xl mr-3"></i>
+                        <span><span class="font-semibold">Rayakan momen ini!</span> Bulan pertama adalah fondasi terpenting dalam perjalananmu menjadi analis data. Keterampilan Excel yang kamu kuasai akan menjadi dasar untuk materi selanjutnya.</span>
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Minggu 4 Review -->
+        <div class="bg-white rounded-xl shadow-lg p-6 mb-8">
+            <h2 class="text-2xl font-bold text-gray-800 mb-6 pb-2 border-b border-gray-200 flex items-center">
+                <i class="fas fa-sync-alt text-blue-600 mr-2"></i>
+                Rangkuman Minggu Keempat
+            </h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Hari 22 -->
+                <div class="review-card p-5 bg-white">
+                    <div class="flex items-center mb-3">
+                        <div class="bg-blue-100 text-blue-800 rounded-full w-8 h-8 flex items-center justify-center mr-3">
+                            22
+                        </div>
+                        <h3 class="font-bold text-lg">PivotTable Dasar</h3>
+                    </div>
+                    <ul class="list-disc pl-6 space-y-2 text-gray-600">
+                        <li>Membuat laporan ringkasan dengan drag-and-drop</li>
+                        <li>Memahami area ROWS, COLUMNS, VALUES, FILTERS</li>
+                        <li>Contoh praktis: Total penjualan per kategori</li>
+                        <li>Pivoting data untuk perspektif berbeda</li>
+                    </ul>
+                </div>
+                
+                <!-- Hari 23 -->
+                <div class="review-card p-5 bg-white">
+                    <div class="flex items-center mb-3">
+                        <div class="bg-green-100 text-green-800 rounded-full w-8 h-8 flex items-center justify-center mr-3">
+                            23
+                        </div>
+                        <h3 class="font-bold text-lg">Fungsi & Format</h3>
+                    </div>
+                    <ul class="list-disc pl-6 space-y-2 text-gray-600">
+                        <li>Mengubah fungsi ringkasan (SUM → AVERAGE, COUNT)</li>
+                        <li>Memformat angka sebagai mata uang</li>
+                        <li>Distinct Count untuk nilai unik</li>
+                        <li>Kustomisasi tampilan PivotTable</li>
+                    </ul>
+                </div>
+                
+                <!-- Hari 24 -->
+                <div class="review-card p-5 bg-white">
+                    <div class="flex items-center mb-3">
+                        <div class="bg-purple-100 text-purple-800 rounded-full w-8 h-8 flex items-center justify-center mr-3">
+                            24
+                        </div>
+                        <h3 class="font-bold text-lg">Grouping Data</h3>
+                    </div>
+                    <ul class="list-disc pl-6 space-y-2 text-gray-600">
+                        <li>Mengelompokkan tanggal (hari→bulan→kuartal)</li>
+                        <li>Membuat rentang numerik (kelompok harga)</li>
+                        <li>Analisis tren dan distribusi</li>
+                        <li>Studi kasus: Penjualan bulanan</li>
+                    </ul>
+                </div>
+                
+                <!-- Hari 25 -->
+                <div class="review-card p-5 bg-white">
+                    <div class="flex items-center mb-3">
+                        <div class="bg-red-100 text-red-800 rounded-full w-8 h-8 flex items-center justify-center mr-3">
+                            25
+                        </div>
+                        <h3 class="font-bold text-lg">Filter & Slicer</h3>
+                    </div>
+                    <ul class="list-disc pl-6 space-y-2 text-gray-600">
+                        <li>Area FILTERS untuk filter global</li>
+                        <li>Slicer interaktif untuk dashboard</li>
+                        <li>Filter langsung di baris/kolom</li>
+                        <li>Koneksi Slicer ke multiple PivotTable</li>
+                    </ul>
+                </div>
+                
+                <!-- Hari 26 -->
+                <div class="review-card p-5 bg-white">
+                    <div class="flex items-center mb-3">
+                        <div class="bg-yellow-100 text-yellow-800 rounded-full w-8 h-8 flex items-center justify-center mr-3">
+                            26
+                        </div>
+                        <h3 class="font-bold text-lg">PivotChart</h3>
+                    </div>
+                    <ul class="list-disc pl-6 space-y-2 text-gray-600">
+                        <li>Visualisasi dinamis terhubung ke PivotTable</li>
+                        <li>Otomatis update saat data berubah</li>
+                        <li>Filter langsung dari grafik</li>
+                        <li>Kustomisasi tampilan chart</li>
+                    </ul>
+                </div>
+                
+                <!-- Hari 27 -->
+                <div class="review-card p-5 bg-white">
+                    <div class="flex items-center mb-3">
+                        <div class="bg-indigo-100 text-indigo-800 rounded-full w-8 h-8 flex items-center justify-center mr-3">
+                            27
+                        </div>
+                        <h3 class="font-bold text-lg">VLOOKUP</h3>
+                    </div>
+                    <ul class="list-disc pl-6 space-y-2 text-gray-600">
+                        <li>Menggabungkan data antar tabel</li>
+                        <li>Sintaks: =VLOOKUP(nilai_cari, tabel_ref, kolom, FALSE)</li>
+                        <li>Mengambil data dari tabel master</li>
+                        <li>Studi kasus: Produk & penjualan</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="mt-8 bg-blue-50 p-5 rounded-lg shadow-inner">
+                <h3 class="font-bold text-lg mb-3 flex items-center">
+                    <i class="fas fa-check-circle text-blue-600 mr-2"></i>
+                    Apa yang Sudah Kamu Kuasai?
+                </h3>
+                <ul class="list-disc pl-6 space-y-2">
+                    <li>Membuat laporan ringkasan kompleks dengan PivotTable</li>
+                    <li>Mengelompokkan data dan membuat analisis tren</li>
+                    <li>Membangun dashboard interaktif dengan Slicer dan PivotChart</li>
+                    <li>Menggabungkan data dari berbagai sumber dengan VLOOKUP</li>
+                    <li>Mengotomatiskan proses analisis data rutin</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Kuis Section -->
+        <div class="bg-white rounded-xl shadow-lg p-6 mb-8">
+            <h2 class="text-2xl font-bold text-gray-800 mb-6 pb-2 border-b border-gray-200 flex items-center">
+                <i class="fas fa-pencil-alt text-red-600 mr-2"></i>
+                Kuis Pamungkas Bulan Pertama
+            </h2>
+            
+            <div class="mb-6 text-center">
+                <p class="text-lg">Uji pemahamanmu dengan 8 pertanyaan terakhir di bulan pertama ini!</p>
+                <div class="mt-4 bg-yellow-100 inline-block px-4 py-2 rounded-lg shadow">
+                    <i class="fas fa-clock mr-2"></i>Waktu: 10 menit
+                </div>
+            </div>
+            
+            <!-- Question 1 -->
+            <div class="quiz-item mb-8">
+                <div class="flex items-start mb-4">
+                    <div class="bg-gray-200 text-gray-800 rounded-full w-8 h-8 flex items-center justify-center mr-3 mt-1 flex-shrink-0">
+                        1
+                    </div>
+                    <div>
+                        <h3 class="font-bold text-lg">Di panel PivotTable Fields, area mana yang digunakan untuk menentukan label baris?</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-3 mt-3">
+                            <div class="quiz-option p-3 border rounded-lg" data-correct="false">
+                                a. FILTERS
+                            </div>
+                            <div class="quiz-option p-3 border rounded-lg" data-correct="false">
+                                b. COLUMNS
+                            </div>
+                            <div class="quiz-option p-3 border rounded-lg" data-correct="true">
+                                c. ROWS
+                            </div>
+                            <div class="quiz-option p-3 border rounded-lg" data-correct="false">
+                                d. VALUES
+                            </div>
+                        </div>
+                        <div class="answer-explanation mt-3">
+                            <div class="bg-green-50 p-3 rounded-lg border border-green-200">
+                                <p class="font-semibold text-green-700">
+                                    <i class="fas fa-check-circle mr-2"></i>Jawaban Benar: c. ROWS
+                                </p>
+                                <p class="mt-2">Area ROWS menentukan label baris di laporan ringkasan PivotTable. Contoh: Jika kamu menempatkan "Kategori" di area ROWS, setiap kategori akan menjadi baris terpisah di laporan.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Question 2 -->
+            <div class="quiz-item mb-8">
+                <div class="flex items-start mb-4">
+                    <div class="bg-gray-200 text-gray-800 rounded-full w-8 h-8 flex items-center justify-center mr-3 mt-1 flex-shrink-0">
+                        2
+                    </div>
+                    <div>
+                        <h3 class="font-bold text-lg">Bagaimana cara mengubah fungsi ringkasan dari SUM ke AVERAGE?</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-3 mt-3">
+                            <div class="quiz-option p-3 border rounded-lg" data-correct="false">
+                                a. Klik kanan nilai > Number Format > Average
+                            </div>
+                            <div class="quiz-option p-3 border rounded-lg" data-correct="true">
+                                b. Klik kanan nilai > Summarize Values By > Average
+                            </div>
+                            <div class="quiz-option p-3 border rounded-lg" data-correct="false">
+                                c. Klik kanan nilai > Group > Average
+                            </div>
+                            <div class="quiz-option p-3 border rounded-lg" data-correct="false">
+                                d. Klik kanan nilai > PivotTable Options > Average
+                            </div>
+                        </div>
+                        <div class="answer-explanation mt-3">
+                            <div class="bg-green-50 p-3 rounded-lg border border-green-200">
+                                <p class="font-semibold text-green-700">
+                                    <i class="fas fa-check-circle mr-2"></i>Jawaban Benar: b. Summarize Values By > Average
+                                </p>
+                                <p class="mt-2">Menu "Summarize Values By" digunakan untuk mengubah fungsi agregasi di area VALUES. Pilihan ini memungkinkan kamu mengganti perhitungan dari penjumlahan (SUM) menjadi rata-rata (AVERAGE), jumlah data (COUNT), nilai maksimum (MAX), atau minimum (MIN).</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Question 3 -->
+            <div class="quiz-item mb-8">
+                <div class="flex items-start mb-4">
+                    <div class="bg-gray-200 text-gray-800 rounded-full w-8 h-8 flex items-center justify-center mr-3 mt-1 flex-shrink-0">
+                        3
+                    </div>
+                    <div>
+                        <h3 class="font-bold text-lg">Bagaimana cara mengelompokkan data tanggal per kuartal?</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-3 mt-3">
+                            <div class="quiz-option p-3 border rounded-lg" data-correct="false">
+                                a. Filter > By Quarter
+                            </div>
+                            <div class="quiz-option p-3 border rounded-lg" data-correct="false">
+                                b. Sort > By Quarter
+                            </div>
+                            <div class="quiz-option p-3 border rounded-lg" data-correct="true">
+                                c. Group... > Pilih Quarters
+                            </div>
+                            <div class="quiz-option p-3 border rounded-lg" data-correct="false">
+                                d. Summarize Values By > Quarter
+                            </div>
+                        </div>
+                        <div class="answer-explanation mt-3">
+                            <div class="bg-green-50 p-3 rounded-lg border border-green-200">
+                                <p class="font-semibold text-green-700">
+                                    <i class="fas fa-check-circle mr-2"></i>Jawaban Benar: c. Group... > Pilih Quarters
+                                </p>
+                                <p class="mt-2">Fitur Grouping digunakan untuk mengelompokkan data tanggal ke dalam periode waktu seperti hari, bulan, kuartal, atau tahun. Setelah mengklik kanan pada sel tanggal, pilih "Group" lalu tentukan periode yang diinginkan.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Question 4 -->
+            <div class="quiz-item mb-8">
+                <div class="flex items-start mb-4">
+                    <div class="bg-gray-200 text-gray-800 rounded-full w-8 h-8 flex items-center justify-center mr-3 mt-1 flex-shrink-0">
+                        4
+                    </div>
+                    <div>
+                        <h3 class="font-bold text-lg">Apa nama tombol interaktif untuk memfilter PivotTable?</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-3 mt-3">
+                            <div class="quiz-option p-3 border rounded-lg" data-correct="false">
+                                a. Filter
+                            </div>
+                            <div class="quiz-option p-3 border rounded-lg" data-correct="false">
+                                b. Sorter
+                            </div>
+                            <div class="quiz-option p-3 border rounded-lg" data-correct="true">
+                                c. Slicer
+                            </div>
+                            <div class="quiz-option p-3 border rounded-lg" data-correct="false">
+                                d. Grouper
+                            </div>
+                        </div>
+                        <div class="answer-explanation mt-3">
+                            <div class="bg-green-50 p-3 rounded-lg border border-green-200">
+                                <p class="font-semibold text-green-700">
+                                    <i class="fas fa-check-circle mr-2"></i>Jawaban Benar: c. Slicer
+                                </p>
+                                <p class="mt-2">Slicer adalah komponen visual interaktif untuk memfilter data PivotTable dan PivotChart. Keunggulannya adalah tampilannya yang intuitif dan memungkinkan multi-select dengan mudah, cocok untuk pembuatan dashboard.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Question 5 -->
+            <div class="quiz-item mb-8">
+                <div class="flex items-start mb-4">
+                    <div class="bg-gray-200 text-gray-800 rounded-full w-8 h-8 flex items-center justify-center mr-3 mt-1 flex-shrink-0">
+                        5
+                    </div>
+                    <div>
+                        <h3 class="font-bold text-lg">Grafik yang terhubung langsung ke PivotTable disebut?</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-3 mt-3">
+                            <div class="quiz-option p-3 border rounded-lg" data-correct="false">
+                                a. Smart Chart
+                            </div>
+                            <div class="quiz-option p-3 border rounded-lg" data-correct="false">
+                                b. Linked Chart
+                            </div>
+                            <div class="quiz-option p-3 border rounded-lg" data-correct="false">
+                                c. Dynamic Chart
+                            </div>
+                            <div class="quiz-option p-3 border rounded-lg" data-correct="true">
+                                d. PivotChart
+                            </div>
+                        </div>
+                        <div class="answer-explanation mt-3">
+                            <div class="bg-green-50 p-3 rounded-lg border border-green-200">
+                                <p class="font-semibold text-green-700">
+                                    <i class="fas fa-check-circle mr-2"></i>Jawaban Benar: d. PivotChart
+                                </p>
+                                <p class="mt-2">PivotChart adalah grafik yang secara dinamis terhubung ke PivotTable. Ketika kamu mengubah filter, struktur, atau data di PivotTable, PivotChart akan otomatis memperbarui tampilannya tanpa perlu membuat grafik baru.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Question 6 -->
+            <div class="quiz-item mb-8">
+                <div class="flex items-start mb-4">
+                    <div class="bg-gray-200 text-gray-800 rounded-full w-8 h-8 flex items-center justify-center mr-3 mt-1 flex-shrink-0">
+                        6
+                    </div>
+                    <div>
+                        <h3 class="font-bold text-lg">Dalam VLOOKUP, apa arti angka 3 di =VLOOKUP(A2, Sheet2!$B$1:$D$10, 3, FALSE)?</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-3 mt-3">
+                            <div class="quiz-option p-3 border rounded-lg" data-correct="false">
+                                a. Mencari nilai di baris ke-3
+                            </div>
+                            <div class="quiz-option p-3 border rounded-lg" data-correct="true">
+                                b. Mengambil nilai dari kolom ke-3 di tabel referensi
+                            </div>
+                            <div class="quiz-option p-3 border rounded-lg" data-correct="false">
+                                c. Mencari 3 kecocokan
+                            </div>
+                            <div class="quiz-option p-3 border rounded-lg" data-correct="false">
+                                d. Menggunakan pencarian mendekati
+                            </div>
+                        </div>
+                        <div class="answer-explanation mt-3">
+                            <div class="bg-green-50 p-3 rounded-lg border border-green-200">
+                                <p class="font-semibold text-green-700">
+                                    <i class="fas fa-check-circle mr-2"></i>Jawaban Benar: b. Mengambil nilai dari kolom ke-3
+                                </p>
+                                <p class="mt-2">Angka ketiga menunjukkan indeks kolom pada tabel referensi yang akan diambil nilainya. Penomoran dimulai dari 1 untuk kolom pertama di rentang yang ditentukan. Contoh: Jika rentangnya B1:D10, kolom B=1, C=2, D=3.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Question 7 -->
+            <div class="quiz-item mb-8">
+                <div class="flex items-start mb-4">
+                    <div class="bg-gray-200 text-gray-800 rounded-full w-8 h-8 flex items-center justify-center mr-3 mt-1 flex-shrink-0">
+                        7
+                    </div>
+                    <div>
+                        <h3 class="font-bold text-lg">Argumen FALSE dalam VLOOKUP digunakan untuk?</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-3 mt-3">
+                            <div class="quiz-option p-3 border rounded-lg" data-correct="false">
+                                a. Pencarian tidak case-sensitive
+                            </div>
+                            <div class="quiz-option p-3 border rounded-lg" data-correct="false">
+                                b. Mengabaikan sel kosong
+                            </div>
+                            <div class="quiz-option p-3 border rounded-lg" data-correct="true">
+                                c. Mencari kecocokan persis (Exact Match)
+                            </div>
+                            <div class="quiz-option p-3 border rounded-lg" data-correct="false">
+                                d. Mengurutkan hasil
+                            </div>
+                        </div>
+                        <div class="answer-explanation mt-3">
+                            <div class="bg-green-50 p-3 rounded-lg border border-green-200">
+                                <p class="font-semibold text-green-700">
+                                    <i class="fas fa-check-circle mr-2"></i>Jawaban Benar: c. Kecocokan persis
+                                </p>
+                                <p class="mt-2">FALSE memastikan VLOOKUP hanya mengembalikan nilai jika ada kecocokan persis. Jika tidak ditemukan, akan muncul error #N/A. Ini berbeda dengan TRUE (atau 1) yang mencari nilai terdekat, namun memerlukan tabel referensi yang sudah diurutkan.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Question 8 -->
+            <div class="quiz-item mb-8">
+                <div class="flex items-start mb-4">
+                    <div class="bg-gray-200 text-gray-800 rounded-full w-8 h-8 flex items-center justify-center mr-3 mt-1 flex-shrink-0">
+                        8
+                    </div>
+                    <div>
+                        <h3 class="font-bold text-lg">Rumus VLOOKUP yang benar untuk mengambil Nama Kota berdasarkan Kode Pos?</h3>
+                        <div class="grid grid-cols-1 gap-3 mt-3">
+                            <div class="quiz-option p-3 border rounded-lg" data-correct="true">
+                                a. =VLOOKUP(B2, Alamat!$A$1:$E$100, 4, FALSE)
+                            </div>
+                            <div class="quiz-option p-3 border rounded-lg" data-correct="false">
+                                b. =VLOOKUP(B2, Alamat!$A$1:$E$100, "Nama Kota", FALSE)
+                            </div>
+                            <div class="quiz-option p-3 border rounded-lg" data-correct="false">
+                                c. =VLOOKUP(Alamat!$A$1:$E$100, B2, 4, FALSE)
+                            </div>
+                            <div class="quiz-option p-3 border rounded-lg" data-correct="false">
+                                d. =VLOOKUP(B2, Alamat!$D$1:$D$100, 1, FALSE)
+                            </div>
+                        </div>
+                        <div class="answer-explanation mt-3">
+                            <div class="bg-green-50 p-3 rounded-lg border border-green-200">
+                                <p class="font-semibold text-green-700">
+                                    <i class="fas fa-check-circle mr-2"></i>Jawaban Benar: a. =VLOOKUP(B2, Alamat!$A$1:$E$100, 4, FALSE)
+                                </p>
+                                <p class="mt-2">Syarat utama VLOOKUP adalah nilai yang dicari (Kode Pos) harus berada di kolom pertama tabel referensi. Kolom Nama Kota harus berada di posisi ke-4 dari kolom pertama tabel referensi. Tanda $ membuat referensi absolut sehingga tidak berubah saat disalin.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Results -->
+            <div id="quiz-results" class="hidden text-center p-6 bg-blue-50 rounded-lg shadow-inner">
+                <h3 class="text-xl font-bold mb-4">Hasil Kuismu</h3>
+                <div class="text-4xl font-bold mb-4" id="score-display">0/8</div>
+                <div class="mb-6 text-lg" id="result-message"></div>
+                <button id="retry-btn" class="bg-blue-600 text-white px-6 py-2 rounded-lg font-semibold hover:bg-blue-700 transition">
+                    <i class="fas fa-redo mr-2"></i>Coba Lagi
+                </button>
+            </div>
+            
+            <!-- Reveal Button -->
+            <div class="text-center mt-8">
+                <button id="reveal-answers" class="reveal-button text-white px-8 py-3 rounded-lg font-bold text-lg">
+                    <i class="fas fa-eye mr-2"></i>Tampilkan Jawaban
+                </button>
+            </div>
+        </div>
+
+        <!-- Next Day Preview -->
+        <div class="bg-gradient-to-r from-purple-50 to-indigo-50 rounded-xl shadow-lg p-6 mb-8">
+            <h2 class="text-2xl font-bold text-gray-800 mb-4 flex items-center">
+                <i class="fas fa-arrow-right text-purple-600 mr-3"></i>
+                Bersiap untuk Hari 29: Statistik Deskriptif!
+            </h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                <div>
+                    <p class="mb-4">
+                        Setelah menguasai Excel, kita akan masuk ke inti analisis data: <span class="font-bold text-purple-600">Statistik Deskriptif</span>. 
+                        Keterampilan Excel yang sudah kamu kuasai akan menjadi alat penting untuk menerapkan konsep statistik.
+                    </p>
+                    
+                    <div class="bg-white p-5 rounded-lg border border-purple-300 mb-6 shadow">
+                        <h3 class="font-bold text-lg mb-3 flex items-center">
+                            <i class="fas fa-calculator text-blue-600 mr-2"></i>
+                            Yang Akan Kamu Pelajari
+                        </h3>
+                        <ul class="list-disc pl-6 space-y-2">
+                            <li><span class="font-semibold">Ukuran Pemusatan:</span> Mean, Median, Modus</li>
+                            <li><span class="font-semibold">Ukuran Penyebaran:</span> Range, Varians, Standar Deviasi</li>
+                            <li><span class="font-semibold">Distribusi Data:</span> Skewness, Kurtosis</li>
+                            <li><span class="font-semibold">Visualisasi:</span> Histogram, Box Plot</li>
+                            <li><span class="font-semibold">Aplikasi Excel:</span> Fungsi statistik & Analysis ToolPak</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="text-center">
+                    <div class="inline-block bg-purple-100 p-6 rounded-full mb-4 shadow-lg">
+                        <i class="fas fa-chart-line text-purple-600 text-4xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3">Level Berikutnya Menantimu!</h3>
+                    <p class="text-gray-600">
+                        Statistik adalah bahasa dasar analisis data. Pemahaman ini akan membuka kemampuan analisis yang lebih dalam.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Navigation & Closing -->
+        <div class="flex flex-col items-center py-8">
+            <!-- Navigation Buttons -->
+            <div class="flex justify-between w-full max-w-xl mb-8">
+                <a href="hari27.html" class="bg-blue-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-blue-700 transition shadow-md flex items-center">
+                    <i class="fas fa-arrow-left mr-2"></i> Hari 27: VLOOKUP
+                </a>
+                <a href="hari29.html" class="bg-green-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-green-700 transition shadow-md flex items-center">
+                    Hari 29: Statistik <i class="fas fa-arrow-right ml-2"></i>
+                </a>
+            </div>
+            
+            <!-- Closing Message -->
+            <div class="text-center max-w-2xl">
+                <h3 class="text-2xl font-bold mb-4">Selamat atas Penyelesaian Bulan Pertama! 🎓</h3>
+                <p class="text-lg text-gray-600 mb-6">
+                    "Data is the new oil, but analytics is the combustion engine." - Peter Sondergaard
+                </p>
+                <div class="bg-gradient-to-r from-yellow-50 to-orange-50 border-l-4 border-yellow-500 p-5 rounded-r shadow">
+                    <p class="font-semibold text-lg">
+                        <i class="fas fa-calendar-check mr-2 text-yellow-600"></i>
+                        Kita lanjutkan perjalanan di Hari 29: Pengantar Statistik Deskriptif
+                    </p>
+                    <p class="mt-3 text-gray-600">
+                        Istirahatlah yang cukup, rayakan pencapaianmu, dan siapkan diri untuk level analisis yang lebih dalam!
+                    </p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-12 mt-8">
+        <div class="container mx-auto px-4 text-center">
+            <p class="text-xl font-bold mb-4">Panduan Data Analisis 365 Hari</p>
+            <p class="text-gray-400 max-w-2xl mx-auto mb-6">
+                Dari dasar Excel hingga analisis data profesional - langkah demi langkah
+            </p>
+            <div class="flex justify-center space-x-6 mb-6">
+                <a href="#" class="text-gray-400 hover:text-white transition"><i class="fab fa-youtube fa-lg"></i></a>
+                <a href="#" class="text-gray-400 hover:text-white transition"><i class="fab fa-github fa-lg"></i></a>
+                <a href="#" class="text-gray-400 hover:text-white transition"><i class="fab fa-linkedin fa-lg"></i></a>
+            </div>
+            <p class="text-gray-500 text-sm">
+                &copy; 2025 Buku Panduan Data Analisis 365 Hari. Hak Cipta Dilindungi.
+            </p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Confetti effect
+            function createConfetti() {
+                const container = document.getElementById('confetti-container');
+                const colors = ['#ff0000', '#00ff00', '#0000ff', '#ffff00', '#ff00ff', '#00ffff'];
+                
+                for (let i = 0; i < 150; i++) {
+                    const confetti = document.createElement('div');
+                    confetti.className = 'confetti';
+                    confetti.style.left = Math.random() * 100 + 'vw';
+                    confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                    confetti.style.animationDuration = (Math.random() * 3 + 2) + 's';
+                    confetti.style.opacity = Math.random() * 0.5 + 0.5;
+                    confetti.style.width = (Math.random() * 10 + 5) + 'px';
+                    confetti.style.height = confetti.style.width;
+                    
+                    container.appendChild(confetti);
+                    
+                    // Remove confetti after animation
+                    setTimeout(() => {
+                        confetti.remove();
+                    }, 5000);
+                }
+            }
+            
+            createConfetti();
+            setInterval(createConfetti, 5000);
+            
+            // Quiz functionality
+            const quizOptions = document.querySelectorAll('.quiz-option');
+            const revealButton = document.getElementById('reveal-answers');
+            const quizResults = document.getElementById('quiz-results');
+            const scoreDisplay = document.getElementById('score-display');
+            const resultMessage = document.getElementById('result-message');
+            const retryButton = document.getElementById('retry-btn');
+            
+            let score = 0;
+            let answeredQuestions = 0;
+            
+            // Handle option selection
+            quizOptions.forEach(option => {
+                option.addEventListener('click', function() {
+                    if (this.classList.contains('correct-answer') return;
+                    
+                    const isCorrect = this.getAttribute('data-correct') === 'true';
+                    const parentItem = this.closest('.quiz-item');
+                    
+                    if (isCorrect) {
+                        this.classList.add('correct-answer');
+                        score++;
+                    } else {
+                        this.classList.add('incorrect-answer');
+                        // Highlight correct answer
+                        const correctOption = parentItem.querySelector('.quiz-option[data-correct="true"]');
+                        correctOption.classList.add('correct-answer');
+                    }
+                    
+                    answeredQuestions++;
+                    
+                    // Show explanation
+                    const explanation = parentItem.querySelector('.answer-explanation');
+                    explanation.style.maxHeight = explanation.scrollHeight + 'px';
+                    
+                    // Show results when all questions answered
+                    if (answeredQuestions === 8) {
+                        showResults();
+                    }
+                });
+            });
+            
+            // Show results
+            function showResults() {
+                quizResults.classList.remove('hidden');
+                scoreDisplay.textContent = `${score}/8`;
+                
+                if (score >= 6) {
+                    resultMessage.innerHTML = `
+                        <div class="text-green-600 font-bold mb-2 text-xl">
+                            <i class="fas fa-check-circle mr-2"></i>Luar Biasa! Pemahamanmu sangat solid.
+                        </div>
+                        <p>Kamu siap untuk tantangan statistik di hari berikutnya!</p>
+                    `;
+                } else if (score >= 4) {
+                    resultMessage.innerHTML = `
+                        <div class="text-yellow-600 font-bold mb-2 text-xl">
+                            <i class="fas fa-check-circle mr-2"></i>Bagus! Pemahamanmu sudah cukup baik.
+                        </div>
+                        <p>Review materi minggu ini akan membantumu lebih siap untuk materi statistik.</p>
+                    `;
+                } else {
+                    resultMessage.innerHTML = `
+                        <div class="text-red-600 font-bold mb-2 text-xl">
+                            <i class="fas fa-exclamation-triangle mr-2"></i>Perlu review lebih lanjut.
+                        </div>
+                        <p>Gunakan tombol "Coba Lagi" untuk mempelajari kembali materi minggu ini.</p>
+                    `;
+                }
+            }
+            
+            // Retry quiz
+            retryButton.addEventListener('click', function() {
+                // Reset quiz
+                quizOptions.forEach(option => {
+                    option.classList.remove('correct-answer', 'incorrect-answer');
+                });
+                
+                document.querySelectorAll('.answer-explanation').forEach(exp => {
+                    exp.style.maxHeight = '0';
+                });
+                
+                quizResults.classList.add('hidden');
+                score = 0;
+                answeredQuestions = 0;
+            });
+            
+            // Reveal all answers
+            revealButton.addEventListener('click', function() {
+                document.querySelectorAll('.answer-explanation').forEach(exp => {
+                    exp.style.maxHeight = exp.scrollHeight + 'px';
+                });
+                
+                document.querySelectorAll('.quiz-option[data-correct="true"]').forEach(option => {
+                    option.classList.add('correct-answer');
+                });
+                
+                this.disabled = true;
+                this.innerHTML = '<i class="fas fa-check mr-2"></i>Jawaban Ditampilkan';
+                this.classList.remove('reveal-button');
+                this.classList.add('bg-gray-500', 'cursor-not-allowed');
+            });
+        });
+    </script>
+</body>
+</html>

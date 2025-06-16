@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hari 29: Persiapan Proyek Mini</title>
+    <style>
+        :root {
+            --primary: #2c6fbb;
+            --secondary: #e9f2fa;
+            --accent: #ff6b35;
+            --week4: #8e44ad;
+            --week5: #27ae60;
+            --excel-green: #217346;
+        }
+        
+        * {
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f8f9fa;
+            line-height: 1.6;
+            color: #333;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .header {
+            text-align: center;
+            padding: 20px 0;
+            margin-bottom: 30px;
+            position: relative;
+        }
+        
+        .week-badge {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: var(--week5);
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.8em;
+            font-weight: bold;
+        }
+        
+        h1 {
+            color: var(--primary);
+            margin-bottom: 10px;
+            padding-bottom: 15px;
+            border-bottom: 2px dashed var(--accent);
+        }
+        
+        h2 {
+            color: var(--primary);
+            border-left: 4px solid var(--accent);
+            padding-left: 10px;
+            margin-top: 30px;
+        }
+        
+        .highlight {
+            background-color: var(--secondary);
+            padding: 25px;
+            border-radius: 10px;
+            margin: 20px 0;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        }
+        
+        .info-box {
+            background-color: #fff8f0;
+            border-left: 4px solid var(--accent);
+            padding: 15px 20px;
+            margin: 25px 0;
+            font-size: 0.95em;
+        }
+        
+        .checklist {
+            background-color: #f0faf5;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+        
+        .dataset-preview {
+            margin: 25px 0;
+            overflow-x: auto;
+        }
+        
+        .excel-header {
+            background-color: var(--excel-green);
+            color: white;
+            font-weight: bold;
+            padding: 8px 12px;
+            border-top-left-radius: 5px;
+            border-top-right-radius: 5px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .excel-header span {
+            margin-left: 10px;
+        }
+        
+        .excel-table {
+            width: 100%;
+            border-collapse: collapse;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+            border: 1px solid #ddd;
+        }
+        
+        .excel-table th {
+            background-color: #e6f4ea;
+            color: var(--excel-green);
+            font-weight: 600;
+            padding: 10px 12px;
+            text-align: left;
+            border: 1px solid #d0d7de;
+            position: sticky;
+            top: 0;
+        }
+        
+        .excel-table td {
+            padding: 8px 12px;
+            border: 1px solid #eaecef;
+            font-size: 0.9em;
+        }
+        
+        .excel-table tr:nth-child(even) {
+            background-color: #f8f9fa;
+        }
+        
+        .excel-table tr:hover {
+            background-color: #f1f8ff;
+        }
+        
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid #ddd;
+        }
+        
+        .nav-card {
+            width: 48%;
+            padding: 15px;
+            border-radius: 8px;
+            transition: all 0.3s;
+        }
+        
+        .nav-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .prev {
+            background-color: #f8f0ff;
+            border: 1px solid var(--week4);
+        }
+        
+        .next {
+            background-color: #f0fff4;
+            border: 1px solid var(--week5);
+            text-align: right;
+        }
+        
+        .week-tag {
+            display: inline-block;
+            padding: 3px 10px;
+            border-radius: 12px;
+            font-size: 0.75em;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        
+        .week4 {
+            background-color: var(--week4);
+            color: white;
+        }
+        
+        .week5 {
+            background-color: var(--week5);
+            color: white;
+        }
+        
+        .nav-title {
+            font-weight: bold;
+            margin: 5px 0;
+            color: var(--primary);
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 8px 20px;
+            background-color: var(--primary);
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: 600;
+            margin-top: 10px;
+            transition: all 0.3s;
+        }
+        
+        .btn:hover {
+            background-color: #235a9e;
+        }
+        
+        ul {
+            padding-left: 20px;
+        }
+        
+        li {
+            margin-bottom: 10px;
+        }
+        
+        strong {
+            color: var(--primary);
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="week-badge">Minggu 5</div>
+        <h1>Hari 29: Bersiap untuk Aksi - Persiapan Proyek Mini Pertama!</h1>
+        <p>Persiapan Analisis Data dengan Excel</p>
+    </div>
+    
+    <div class="highlight">
+        <p>Selamat! Sebulan pertama hampir berakhir. Kamu telah menguasai:</p>
+        <ul>
+            <li>Memasukkan & memformat data</li>
+            <li>Rumus, fungsi (SUM, AVERAGE, VLOOKUP), Sort/Filter</li>
+            <li>Grafik dan <strong>PivotTable</strong></li>
+        </ul>
+        <p>Kini saatnya uji keterampilanmu dalam <strong>Proyek Mini</strong>!</p>
+        
+        <div class="info-box">
+            💡 <em>Ini bukan ujian, tapi kesempatan mempraktikkan ilmu dengan skenario dunia nyata (skala kecil).</em>
+        </div>
+    </div>
+    
+    <h2>Tujuan Proyek Mini 1</h2>
+    <p>Analisis dataset penjualan bulanan toko "Maju Jaya" dengan:</p>
+    <ul>
+        <li><strong>Pembersihan data</strong> (jika diperlukan)</li>
+        <li><strong>Fungsi dasar</strong>: SUM, AVERAGE, COUNT, MIN/MAX</li>
+        <li><strong>Sort & Filter</strong> jawab pertanyaan spesifik</li>
+        <li><strong>PivotTable</strong> ringkas data multidimensi</li>
+        <li><strong>Grafik</strong> (Bar/Pie Chart) visualisasi temuan</li>
+        <li><strong>Kesimpulan</strong> wawasan dari analisis</li>
+    </ul>
+    
+    <h2>Dataset: Penjualan Toko "Maju Jaya"</h2>
+    
+    <div class="dataset-preview">
+        <div class="excel-header">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="white">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6z"></path>
+                <path d="M14 2v6h6"></path>
+            </svg>
+            <span>Preview Dataset - Toko Maju Jaya.xlsx</span>
+        </div>
+        
+        <table class="excel-table">
+            <thead>
+                <tr>
+                    <th>Tanggal</th>
+                    <th>ID Transaksi</th>
+                    <th>Nama Pelanggan</th>
+                    <th>Kategori</th>
+                    <th>Produk</th>
+                    <th>Jumlah</th>
+                    <th>Harga Satuan</th>
+                    <th>Total</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>2025-01-05</td>
+                    <td>TRX001</td>
+                    <td>Budi Santoso</td>
+                    <td>Makanan Ringan</td>
+                    <td>Keripik Kentang</td>
+                    <td>3</td>
+                    <td>15,000</td>
+                    <td>45,000</td>
+                </tr>
+                <tr>
+                    <td>2025-01-05</td>
+                    <td>TRX002</td>
+                    <td>Siti Rahayu</td>
+                    <td>Minuman</td>
+                    <td>Air Mineral</td>
+                    <td>5</td>
+                    <td>5,000</td>
+                    <td>25,000</td>
+                </tr>
+                <tr>
+                    <td>2025-01-06</td>
+                    <td>TRX003</td>
+                    <td>Agus Wijaya</td>
+                    <td>Kebutuhan Pokok</td>
+                    <td>Beras 5kg</td>
+                    <td>2</td>
+                    <td>65,000</td>
+                    <td>130,000</td>
+                </tr>
+                <tr>
+                    <td>2025-01-07</td>
+                    <td>TRX004</td>
+                    <td>Dewi Lestari</td>
+                    <td>Alat Tulis</td>
+                    <td>Buku Tulis</td>
+                    <td>10</td>
+                    <td>7,500</td>
+                    <td>75,000</td>
+                </tr>
+                <tr>
+                    <td>2025-01-08</td>
+                    <td>TRX005</td>
+                    <td>Budi Santoso</td>
+                    <td>Minuman</td>
+                    <td>Jus Jeruk</td>
+                    <td>2</td>
+                    <td>12,000</td>
+                    <td>24,000</td>
+                </tr>
+                <tr>
+                    <td>2025-01-09</td>
+                    <td>TRX006</td>
+                    <td>Rina Permata</td>
+                    <td>Makanan Ringan</td>
+                    <td>Biskuit Coklat</td>
+                    <td>4</td>
+                    <td>8,000</td>
+                    <td>32,000</td>
+                </tr>
+                <tr>
+                    <td>2025-01-10</td>
+                    <td>TRX007</td>
+                    <td>Hendra Kurnia</td>
+                    <td>Kebutuhan Pokok</td>
+                    <td>Minyak Goreng</td>
+                    <td>3</td>
+                    <td>25,000</td>
+                    <td>75,000</td>
+                </tr>
+                <tr>
+                    <td>2025-01-11</td>
+                    <td>TRX008</td>
+                    <td>Siti Rahayu</td>
+                    <td>Alat Tulis</td>
+                    <td>Pulpen</td>
+                    <td>5</td>
+                    <td>3,000</td>
+                    <td>15,000</td>
+                </tr>
+            </tbody>
+        </table>
+        
+        <div class="info-box">
+            ℹ️ <strong>Catatan:</strong> 
+            Dataset lengkap (50 baris) sudah tersedia dan akan digunakan langsung pada proyek mini besok. 
+            Tidak perlu download file terpisah!
+        </div>
+    </div>
+    
+    <p><strong>Karakteristik Dataset:</strong></p>
+    <ul>
+        <li>Total 50 baris transaksi (ditampilkan preview 8 baris)</li>
+        <li>Data fiktif yang realistis</li>
+        <li>Format sudah siap untuk analisis di Excel</li>
+    </ul>
+    
+    <div class="info-box">
+        ⚠️ <strong>Langkah Pertama Analis:</strong><br>
+        Periksa struktur data, tipe data, nilai kosong/aneh <em>sebelum</em> analisis!
+    </div>
+    
+    <h2>Rencana Pengerjaan (Hari 30)</h2>
+    <ol>
+        <li>
+            <strong>Memuat & Memeriksa Data</strong><br>
+            Buka file → Cek konsistensi & bersihkan masalah
+        </li>
+        <li>
+            <strong>Analisis Deskriptif</strong><br>
+            Gunakan fungsi dasar untuk statistik ringkas (<em>contoh: total penjualan, produk terlaris</em>)
+        </li>
+        <li>
+            <strong>Jawab Pertanyaan dengan Sort/Filter</strong><br>
+            <em>Contoh pertanyaan:</em>
+            <ul>
+                <li>"Siapa pelanggan dengan belanja tertinggi?"</li>
+                <li>"Produk apa saja dalam kategori 'Minuman'?"</li>
+            </ul>
+        </li>
+        <li>
+            <strong>PivotTable</strong><br>
+            Buat ringkasan:
+            <ul>
+                <li>Total penjualan per kategori</li>
+                <li>Jumlah transaksi per pelanggan</li>
+            </ul>
+        </li>
+        <li>
+            <strong>Visualisasi Data</strong><br>
+            Buat ≥1 grafik (<em>contoh: Bar Chart penjualan per kategori</em>)
+        </li>
+        <li>
+            <strong>Kesimpulan</strong><br>
+            Tulis wawasan (<em>contoh: "Kategori Kebutuhan Pokok dominan"</em>)
+        </li>
+    </ol>
+    
+    <h2>Persiapan Wajib</h2>
+    <div class="checklist">
+        <ul>
+            <li>✅ Akses <strong>Microsoft Excel</strong> (atau Google Sheets/LibreOffice Calc)</li>
+            <li>✅ Semangat eksperimen & rasa ingin tahu!</li>
+            <li>✅ Dataset sudah tersedia (lihat preview di atas)</li>
+        </ul>
+        <div class="info-box">
+            💬 <em>"Jangan takut salah — proses belajar melibatkan coba-coba!"</em>
+        </div>
+    </div>
+    
+    <h2>Apa Selanjutnya?</h2>
+    <p><strong>Besok (Hari 30):</strong> Langkah demi langkah analisis dataset "Maju Jaya"!</p>
+    <div class="info-box">
+        ✨ <strong>Siap jadi analis data sungguhan? Dataset sudah siap di Excel Anda!</strong>
+    </div>
+    
+    <div class="nav-container">
+        <!-- Navigasi ke Hari 28 (Minggu 4) -->
+        <div class="nav-card prev">
+            <div class="week-tag week4">Minggu 4</div>
+            <div class="nav-title">Hari 28: Pengenalan VLOOKUP</div>
+            <p>Menguasai fungsi lookup untuk analisis data</p>
+            <a href="hari28.html" class="btn">← Hari 28</a>
+        </div>
+        
+        <!-- Navigasi ke Hari 30 (Minggu 5) -->
+        <div class="nav-card next">
+            <div class="week-tag week5">Minggu 5</div>
+            <div class="nav-title">Hari 30: Proyek Mini Analisis Data</div>
+            <p>Implementasi praktis semua teknik Excel</p>
+            <a href="hari30.html" class="btn">Hari 30 →</a>
+        </div>
+    </div>
+</body>
+</html>
