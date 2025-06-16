@@ -1,0 +1,747 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hari 30: Proyek Mini 1 - Analisis Penjualan Toko Maju Jaya</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root {
+      --primary: #3B82F6;
+      --secondary: #10B981;
+      --accent: #8B5CF6;
+      --background: #FFFFFF;
+      --text: #1F2937;
+      --muted: #9CA3AF;
+      --light-bg: #f9fafb;
+      --dark-bg: #112937;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      color: var(--text);
+      background-color: var(--background);
+      line-height: 1.6;
+    }
+
+    .header {
+      background-color: var(--background);
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+
+    .breadcrumb-container {
+      background-color: var(--light-bg);
+    }
+
+    .day-content {
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+    }
+
+    .lesson-card {
+      transition: all 0.3s ease;
+      border-left: 4px solid var(--primary);
+    }
+
+    .lesson-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 15px rgba(0,0,0,0.1);
+    }
+
+    .step-card {
+      background-color: #f0f9ff;
+      border-radius: 8px;
+      border-left: 4px solid var(--secondary);
+    }
+
+    .step-number {
+      background-color: var(--primary);
+      color: white;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+    }
+
+    .btn-primary {
+      background-color: var(--primary);
+      color: white;
+      padding: 10px 20px;
+      border-radius: 6px;
+      transition: all 0.3s ease;
+    }
+
+    .btn-primary:hover {
+      background-color: #2563eb;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 8px rgba(37, 99, 235, 0.2);
+    }
+
+    .project-timeline {
+      height: 8px;
+      background-color: #e5e7eb;
+      border-radius: 4px;
+      overflow: hidden;
+      position: relative;
+      margin: 20px 0;
+    }
+
+    .project-progress {
+      height: 100%;
+      background-color: var(--secondary);
+      border-radius: 4px;
+    }
+
+    .project-highlight {
+      background-color: #dbeafe;
+      padding: 3px 6px;
+      border-radius: 4px;
+      font-weight: 500;
+    }
+
+    .dataset-sample {
+      font-family: monospace;
+      background-color: #f3f4f6;
+      padding: 10px;
+      border-radius: 6px;
+      overflow-x: auto;
+    }
+
+    .excel-formula {
+      font-family: monospace;
+      background-color: #e5e7eb;
+      padding: 3px 6px;
+      border-radius: 4px;
+    }
+
+    .project-checklist input[type="checkbox"]:checked + label {
+      text-decoration: line-through;
+      color: var(--muted);
+    }
+  </style>
+</head>
+<body class="bg-gray-50">
+  <!-- Header -->
+  <header class="header py-4">
+    <div class="container mx-auto px-4">
+      <div class="flex items-center justify-between">
+        <a href="index.html" class="flex items-center text-xl font-bold text-blue-600">
+          <i class="fas fa-book mr-2"></i>
+          Panduan Data 365
+        </a>
+        <div class="hidden md:flex space-x-6">
+          <a href="index.html" class="text-gray-700 hover:text-blue-600">Home</a>
+          <div class="relative group">
+            <button class="text-gray-700 hover:text-blue-600 flex items-center">
+              Kuartal 1 <i class="fas fa-chevron-down ml-1 text-xs"></i>
+            </button>
+            <div class="absolute hidden group-hover:block bg-white shadow-lg rounded-md mt-2 p-2 min-w-[200px]">
+              <a href="../bulan1/index.html" class="block px-4 py-2 hover:bg-blue-50 rounded">Bulan 1: Excel Dasar</a>
+              <a href="../bulan2/index.html" class="block px-4 py-2 hover:bg-blue-50 rounded">Bulan 2: Statistik Dasar</a>
+              <a href="#" class="block px-4 py-2 hover:bg-blue-50 rounded">Bulan 3: SQL Lanjutan</a>
+            </div>
+          </div>
+          <a href="#" class="text-gray-700 hover:text-blue-600">Kuartal 2</a>
+          <a href="#" class="text-gray-700 hover:text-blue-600">Resources</a>
+          <a href="#" class="text-gray-700 hover:text-blue-600">About</a>
+        </div>
+        <button class="md:hidden text-gray-700">
+          <i class="fas fa-bars text-xl"></i>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Breadcrumb - Diperbaiki untuk struktur direktori -->
+  <div class="breadcrumb-container py-3">
+    <div class="container mx-auto px-4">
+      <nav class="flex text-sm text-gray-600">
+        <a href="index.html" class="text-blue-600 hover:underline">Home</a>
+        <span class="mx-2">/</span>
+        <a href="../kuartal1.html" class="text-blue-600 hover:underline">Kuartal 1</a>
+        <span class="mx-2">/</span>
+        <a href="../bulan1/index.html" class="text-blue-600 hover:underline">Excel Dasar</a>
+        <span class="mx-2">/</span>
+        <a href="index.html" class="text-blue-600 hover:underline">Minggu 4</a>
+        <span class="mx-2">/</span>
+        <span class="text-gray-500">Hari 30: Proyek Mini 1</span>
+      </nav>
+    </div>
+  </div>
+
+  <!-- Main Content -->
+  <main class="container mx-auto px-4 py-8">
+    <div class="max-w-4xl mx-auto">
+      <!-- Header Section -->
+      <div class="text-center mb-12">
+        <div class="inline-block bg-blue-100 text-blue-800 text-sm font-semibold px-4 py-1 rounded-full mb-4">
+          Kuartal 1: Excel Dasar | Minggu 4 | Hari 30
+        </div>
+        <h1 class="text-3xl md:text-4xl font-bold text-gray-800 mb-4">Proyek Mini 1: Analisis Penjualan Toko Maju Jaya</h1>
+        <p class="text-lg text-gray-600 max-w-2xl mx-auto">
+          Terapkan semua keterampilan Excel yang sudah kamu pelajari dalam proyek analisis data pertamamu!
+        </p>
+
+        <div class="project-timeline mt-8">
+          <div class="project-progress" style="width: 100%"></div>
+        </div>
+        <p class="text-sm text-gray-600 mt-2">Selamat! Kamu telah menyelesaikan 100% materi Bulan 1: Excel Dasar</p>
+      </div>
+
+      <!-- Introduction -->
+      <div class="day-content p-6 md:p-8 mb-8">
+        <div class="prose max-w-none">
+          <div class="bg-blue-50 p-6 rounded-lg mb-8">
+            <p class="text-blue-800">
+              <i class="fas fa-lightbulb mr-2"></i>
+              <strong>Selamat datang di hari ke-30, hari tonggak sejarah bulan pertamamu!</strong> Hari ini adalah saatnya menerapkan semua keterampilan Excel yang sudah kamu asah selama sebulan terakhir dalam Proyek Mini Pertama kita.
+            </p>
+          </div>
+
+          <div class="bg-gradient-to-r from-blue-50 to-indigo-50 p-6 rounded-lg mb-8">
+            <h2 class="text-xl font-bold text-blue-800 mb-4">Apa yang akan kita lakukan hari ini?</h2>
+            <p class="mb-4">
+              Kita akan menganalisis data penjualan bulanan Toko Kelontong "Maju Jaya" menggunakan semua keterampilan Excel yang sudah dipelajari:
+            </p>
+            <ul class="list-disc pl-6 space-y-2">
+              <li>Memuat dan memeriksa data</li>
+              <li>Analisis deskriptif dengan fungsi Excel</li>
+              <li>Menjawab pertanyaan dengan Sort & Filter</li>
+              <li>Meringkas data dengan PivotTable</li>
+              <li>Memvisualisasikan temuan dengan grafik</li>
+              <li>Menarik kesimpulan dari analisis</li>
+            </ul>
+            <p class="mt-4 font-medium">
+              Jangan gugup! Anggap ini sebagai kesempatan bermain detektif data. Saya akan memandumu langkah demi langkah.
+            </p>
+          </div>
+
+          <!-- Dataset Section -->  
+          <div class="mb-8">  
+            <h2 class="text-2xl font-bold text-gray-800 mb-4 pb-2 border-b">Langkah 0: Siapkan Datamu</h2>  
+            <p class="mb-4">  
+              Download dataset penjualan Toko Maju Jaya untuk bulan Januari 2024:  
+            </p>  
+            <div class="flex flex-col sm:flex-row gap-4 mb-6">  
+              <a href="#" class="btn-primary inline-flex items-center justify-center">  
+                <i class="fas fa-download mr-2"></i> Download Dataset (CSV)  
+              </a>  
+              <button class="bg-green-600 text-white px-4 py-2 rounded-lg flex items-center justify-center">  
+                <i class="fas fa-copy mr-2"></i> Salin Data  
+              </button>  
+            </div>  
+
+            <div class="mb-6">  
+              <h3 class="text-lg font-semibold mb-3">Struktur Dataset:</h3>  
+              <div class="dataset-sample mb-4">  
+                Tanggal,ID Transaksi,Pelanggan,Kategori,Produk,Jumlah,Harga Satuan,Total Harga<br>  
+                2024-01-05,TX001,Budi,Makanan Ringan,Keripik Kentang,2,15000,30000<br>  
+                2024-01-05,TX002,Ani,Minuman,Susu UHT,1,10000,10000<br>  
+                2024-01-06,TX003,Dewi,Sembako,Beras,1,50000,50000<br>  
+                ... (total 30 transaksi)  
+              </div>  
+
+              <p class="mb-4">  
+                <strong>Kolom Dataset:</strong>  
+              </p>  
+              <ul class="list-disc pl-6 space-y-1">  
+                <li><span class="font-semibold">Tanggal:</span> Tanggal transaksi</li>  
+                <li><span class="font-semibold">ID Transaksi:</span> Kode unik transaksi</li>  
+                <li><span class="font-semibold">Pelanggan:</span> Nama pelanggan</li>  
+                <li><span class="font-semibold">Kategori:</span> Kategori produk (Makanan Ringan, Minuman, Sembako)</li>  
+                <li><span class="font-semibold">Produk:</span> Nama produk yang dibeli</li>  
+                <li><span class="font-semibold">Jumlah:</span> Jumlah item yang dibeli</li>  
+                <li><span class="font-semibold">Harga Satuan:</span> Harga per item (Rp)</li>
+                <li><span class="font-semibold">Total Harga:</span> Total nilai transaksi (Rp)</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Project Steps -->
+          <div class="mb-8">
+            <h2 class="text-2xl font-bold text-gray-800 mb-6 pb-2 border-b">Langkah-langkah Proyek</h2>
+
+            <!-- Step 1 -->
+            <div class="lesson-card p-6 mb-6">
+              <div class="flex items-start mb-4">
+                <div class="step-number mr-4 flex-shrink-0">1</div>
+                <div>
+                  <h3 class="text-xl font-bold text-gray-800">Langkah 1: Memuat dan Memeriksa Data</h3>
+                  <p class="text-gray-600 mt-1">Persiapan awal untuk analisis</p>
+                </div>
+              </div>
+
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="step-card p-4">
+                  <h4 class="font-semibold text-gray-700 mb-3 flex items-center">
+                    <i class="fas fa-file-import text-blue-600 mr-2"></i> Memuat Data</h4>
+                  <ul class="list-disc pl-6 space-y-2 text-sm">
+                    <li>Buka file CSV di Excel atau tempel data ke sheet baru</li>
+                    <li>Jika data dalam satu kolom, gunakan <span class="project-highlight">Text to Columns</span> (Data > Text to Columns)</li>
+                    <li>Pilih <span class="project-highlight">Delimited</span>, centang <span class="project-highlight">Comma</span>, klik Finish</li>
+                  </ul>
+                </div>
+
+                <div class="step-card p-4">
+                  <h4 class="font-semibold text-gray-700 mb-3 flex items-center">
+                    <i class="fas fa-search text-green-600 mr-2"></i> Memeriksa Data</h4>
+                  <ul class="list-disc pl-6 space-y-2 text-sm">
+                    <li>Pastikan setiap kolom memiliki header yang jelas</li>
+                    <li>Format kolom: Bold header, tambahkan borders</li>
+                    <li>Format <span class="project-highlight">Harga Satuan</span> dan <span class="project-highlight">Total Harga</span> sebagai Currency (Rp)</li>
+                    <li>Sesuaikan lebar kolom agar data terbaca</li>
+                    <li>Periksa data kosong atau nilai aneh (jumlah negatif)</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            <!-- Step 2 --> 
+            <div class="lesson-card p-6 mb-6"> 
+              <div class="flex items-start mb-4"> 
+                <div class="step-number mr-4 flex-shrink-0">2</div> 
+                <div> 
+                  <h3 class="text-xl font-bold text-gray-800">Langkah 2: Analisis Deskriptif Dasar</h3> 
+                  <p class="text-gray-600 mt-1">Gunakan fungsi Excel untuk statistik kunci</p> 
+                </div> 
+              </div> 
+              
+              <p class="mb-4">Buat area analisis di bawah tabel data:</p> 
+              
+              <div class="overflow-x-auto mb-4"> 
+                <table class="min-w-full border-collapse border border-gray-300"> 
+                  <thead> 
+                    <tr class="bg-gray-100"> 
+                      <th class="border border-gray-300 px-4 py-2">Metrik</th> 
+                      <th class="border border-gray-300 px-4 py-2">Fungsi</th> 
+                      <th class="border border-gray-300 px-4 py-2">Hasil</th> 
+                    </tr> 
+                  </thead> 
+                  <tbody> 
+                    <tr> 
+                      <td class="border border-gray-300 px-4 py-2">Total Penjualan</td> 
+                      <td class="border border-gray-300 px-4 py-2"><span class="excel-formula">=SUM(H2:H31)</span></td> 
+                      <td class="border border-gray-300 px-4 py-2">Rp 1,587,000</td> 
+                    </tr> 
+                    <tr> 
+                      <td class="border border-gray-300 px-4 py-2">Rata-rata Transaksi</td> 
+                      <td class="border border-gray-300 px-4 py-2"><span class="excel-formula">=AVERAGE(H2:H31)</span></td> 
+                      <td class="border border-gray-300 px-4 py-2">Rp 52,900</td> 
+                    </tr> 
+                    <tr> 
+                      <td class="border border-gray-300 px-4 py-2">Jumlah Transaksi</td> 
+                      <td class="border border-gray-300 px-4 py-2"><span class="excel-formula">=COUNTA(B2:B31)</span></td>
+                      <td class="border border-gray-300 px-4 py-2">30</td> 
+                    </tr> 
+                    <tr> 
+                      <td class="border border-gray-300 px-4 py-2">Total Item Terjual</td> 
+                      <td class="border border-gray-300 px-4 py-2"><span class="excel-formula">=SUM(F2:F31)</span></td> 
+                      <td class="border border-gray-300 px-4 py-2">65</td> 
+                    </tr> 
+                    <tr> 
+                      <td class="border border-gray-300 px-4 py-2">Transaksi Terbesar</td> 
+                      <td class="border border-gray-300 px-4 py-2"><span class="excel-formula">=MAX(H2:H31)</span></td> 
+                      <td class="border border-gray-300 px-4 py-2">Rp 150,000</td> 
+                    </tr> 
+                    <tr> 
+                      <td class="border border-gray-300 px-4 py-2">Transaksi Terkecil</td> 
+                      <td class="border border-gray-300 px-4 py-2"><span class="excel-formula">=MIN(H2:H31)</span></td> 
+                      <td class="border border-gray-300 px-4 py-2">Rp 10,000</td> 
+                    </tr> 
+                  </tbody> 
+                </table> 
+              </div> 
+              
+              <p class="text-sm text-gray-600"><i>Catatan: Sesuaikan range sel (H2:H31) sesuai dengan lokasi data di sheetmu</i></p> 
+            </div>
+            
+            <!-- Step 3 --> 
+            <div class="lesson-card p-6 mb-6"> 
+              <div class="flex items-start mb-4"> 
+                <div class="step-number mr-4 flex-shrink-0">3</div> 
+                <div> 
+                  <h3 class="text-xl font-bold text-gray-800">Langkah 3: Menjawab Pertanyaan dengan Sort & Filter</h3> 
+                  <p class="text-gray-600 mt-1">Gunakan fitur filter untuk analisis spesifik</p> 
+                </div> 
+              </div> 
+              
+              <div class="mb-4"> 
+                <h4 class="font-semibold text-gray-700 mb-3 flex items-center"> 
+                  <i class="fas fa-filter text-purple-600 mr-2"></i> Aktifkan Filter: 
+                </h4> 
+                <p>Klik dalam tabel > Tab Data > Filter</p>
+              </div>
+
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="step-card p-4">
+                  <h4 class="font-semibold text-gray-700 mb-3">1. Transaksi Terbesar/Terkecil</h4>
+                  <ul class="list-disc pl-6 space-y-2 text-sm">
+                    <li>Sort kolom <span class="project-highlight">Total Harga</span> (Largest to Smallest)</li>
+                    <li>Lihat detail transaksi terbesar (pelanggan, produk)</li>
+                    <li>Sort kolom <span class="project-highlight">Total Harga</span> (Smallest to Largest)</li>
+                    <li>Lihat detail transaksi terkecil</li>
+                  </ul>
+                </div>
+
+                <div class="step-card p-4">
+                  <h4 class="font-semibold text-gray-700 mb-3">2. Penjualan Kategori "Makanan Ringan"</h4>
+                  <ul class="list-disc pl-6 space-y-2 text-sm">
+                    <li>Filter kolom <span class="project-highlight">Kategori</span>, pilih "Makanan Ringan"</li>
+                    <li>Lihat produk apa saja yang termasuk</li>
+                    <li>Hitung total penjualan kategori ini</li>
+                  </ul>
+                </div>
+
+                <div class="step-card p-4">
+                  <h4 class="font-semibold text-gray-700 mb-3">3. Pembelian Pelanggan "Ani"</h4>
+                  <ul class="list-disc pl-6 space-y-2 text-sm">
+                    <li>Filter kolom <span class="project-highlight">Pelanggan</span>, pilih "Ani"</li>
+                    <li>Lihat apa saja yang dibeli Ani</li>
+                    <li>Hitung total belanja Ani</li>
+                  </ul>
+                </div>
+
+                <div class="step-card p-4">
+                  <h4 class="font-semibold text-gray-700 mb-3">4. Transaksi Minggu Pertama (1-7 Jan)</h4>
+                  <ul class="list-disc pl-6 space-y-2 text-sm">
+                    <li>Filter kolom <span class="project-highlight">Tanggal</span> > Date Filters > Between...</li>
+                    <li>Masukkan 01/01/2024 dan 07/01/2024</li>
+                    <li>Lihat transaksi di minggu pertama</li>
+                    <li>Bandingkan dengan minggu lainnya</li>
+                  </ul>
+                </div>
+              </div>
+
+              <p class="mt-4 text-sm text-gray-600"><i>Jangan lupa Clear Filter setelah selesai menjawab satu pertanyaan</i></p>
+            </div>
+
+            <!-- Step 4 -->
+            <div class="lesson-card p-6 mb-6">
+              <div class="flex items-start mb-4">
+                <div class="step-number mr-4 flex-shrink-0">4</div>
+                <div>
+                  <h3 class="text-xl font-bold text-gray-800">Langkah 4: Analisis Mendalam dengan PivotTable</h3>
+                  <p class="text-gray-600 mt-1">Buat PivotTable di sheet baru</p>
+                </div>
+              </div>
+
+              <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+                <div class="step-card p-4">
+                  <h4 class="font-semibold text-gray-700 mb-3">PivotTable 1: Penjualan per Kategori</h4>
+                  <ul class="list-disc pl-6 space-y-2 text-sm">
+                    <li>Insert > PivotTable > New Worksheet</li>
+                    <li>Seret <span class="project-highlight">Kategori</span> ke ROWS</li>
+                    <li>Seret <span class="project-highlight">Total Harga</span> ke VALUES (SUM)</li>
+                    <li>Format angka sebagai Currency</li>
+                    <li>Urutkan dari terbesar ke terkecil</li>
+                  </ul>
+                </div>
+
+                <div class="step-card p-4">
+                  <h4 class="font-semibold text-gray-700 mb-3">PivotTable 2: Transaksi per Pelanggan</h4>
+                  <ul class="list-disc pl-6 space-y-2 text-sm">
+                    <li>Buat PivotTable baru</li>
+                    <li>Seret <span class="project-highlight">Pelanggan</span> ke ROWS</li>
+                    <li>Seret <span class="project-highlight">ID Transaksi</span> ke VALUES (COUNT)</li>
+                    <li>Ubah nama kolom menjadi "Jumlah Transaksi"</li>
+                    <li>Urutkan dari terbanyak</li>
+                  </ul>
+                </div>
+
+                <div class="step-card p-4">
+                  <h4 class="font-semibold text-gray-700 mb-3">PivotTable 3: Item Terjual per Produk</h4>
+                  <ul class="list-disc pl-6 space-y-2 text-sm">
+                    <li>Buat PivotTable baru</li>
+                    <li>Seret <span class="project-highlight">Produk</span> ke ROWS</li>
+                    <li>Seret <span class="project-highlight">Jumlah</span> ke VALUES (SUM)</li>
+                    <li>Ubah nama kolom menjadi "Jumlah Terjual"</li>
+                    <li>Urutkan dari terbanyak</li>
+                  </ul>
+                </div>
+              </div>
+
+              <div class="bg-yellow-50 border-l-4 border-yellow-500 p-4 rounded-r mb-4">
+                <h4 class="font-semibold text-gray-700 mb-2 flex items-center">
+                  <i class="fas fa-lightbulb text-yellow-500 mr-2"></i> Tip Analisis Tambahan:
+                </h4>
+                <p>Coba buat PivotTable untuk melihat penjualan per hari atau kombinasi kategori dan pelanggan!</p>
+              </div>
+            </div>
+
+            <!-- Step 5 -->
+            <div class="lesson-card p-6 mb-6">
+              <div class="flex items-start mb-4">
+                <div class="step-number mr-4 flex-shrink-0">5</div>
+                <div>
+                  <h3 class="text-xl font-bold text-gray-800">Langkah 5: Visualisasi Temuan</h3>
+                  <p class="text-gray-600 mt-1">Buat grafik dari PivotTable</p>
+                </div>
+              </div>
+
+              <div class="mb-6">
+                <h4 class="font-semibold text-gray-700 mb-3">Contoh: Grafik Penjualan per Kategori</h4>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div>
+                    <ul class="list-disc pl-6 space-y-2">
+                      <li>Klik di dalam PivotTable 1 (Penjualan per Kategori)</li>
+                      <li>Pergi ke PivotTable Analyze > PivotChart</li>
+                      <li>Pilih <span class="project-highlight">Column Chart</span> atau <span class="project-highlight">Bar Chart</span></li>
+                      <li>Klik OK</li>
+                    </ul>
+
+                    <div class="mt-4">
+                      <h4 class="font-semibold text-gray-700 mb-2">Kustomisasi Grafik:</h4>
+                      <ul class="list-disc pl-6 space-y-1">
+                        <li>Beri judul yang jelas: "Total Penjualan per Kategori Produk - Januari 2024"</li>
+                        <li>Tambah label data</li>
+                        <li>Format sumbu nilai sebagai Currency (Rp)</li>
+                        <li>Ubah warna kolom sesuai kategori</li>
+                      </ul>
+                    </div>
+                  </div>
+                  <div class="bg-gray-100 border border-gray-300 rounded-lg flex items-center justify-center p-4">
+                    <div class="text-center text-gray-500">
+                      <i class="fas fa-chart-bar text-4xl mb-2"></i>
+                      <p>Grafik Penjualan per Kategori</p>
+                      <p class="text-sm mt-2">(Akan muncul setelah kamu membuatnya di Excel)</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="bg-blue-50 border-l-4 border-blue-500 p-4 rounded-r">
+                <h4 class="font-semibold text-gray-700 mb-2 flex items-center">
+                  <i class="fas fa-star text-blue-500 mr-2"></i> Tantangan:
+                </h4>
+                <p>Buat grafik lain dari PivotTable yang kamu buat (Jumlah transaksi per pelanggan atau item terjual per produk)</p>
+              </div>
+            </div>
+
+            <!-- Step 6 -->
+            <div class="lesson-card p-6 mb-6">
+              <div class="flex items-start mb-4">
+                <div class="step-number mr-4 flex-shrink-0">6</div>
+                <div>
+                  <h3 class="text-xl font-bold text-gray-800">Langkah 6: Menarik Kesimpulan</h3>
+                  <p class="text-gray-600 mt-1">Sintesis temuan menjadi wawasan</p>
+                </div>
+              </div>
+
+              <p class="mb-4">Berdasarkan semua analisis, tuliskan 2-3 poin kesimpulan utama:</p>
+
+              <div class="bg-gray-50 border border-gray-300 rounded-lg p-6 mb-4">
+                <h4 class="font-semibold text-gray-700 mb-4">Contoh Kesimpulan: </h4>
+                <ul class="list-disc pl-6 space-y-3">
+                  <li>Total penjualan Toko Maju Jaya di bulan Januari 2024 adalah <span class="project-highlight">Rp 1,587,000</span> dengan rata-rata transaksi sebesar Rp 52,900.</li>
+                  <li>Kategori produk dengan penjualan tertinggi adalah <span class="project-highlight">Sembako</span> (Rp 650,000), menyumbang 41% dari total penjualan.</li>
+                  <li>Pelanggan paling aktif adalah <span class="project-highlight">Budi</span> dengan 8 transaksi, diikuti oleh Ani dengan 7 transaksi.</li>
+                  <li>Produk <span class="project-highlight">Beras</span> merupakan item yang paling banyak terjual (15 paket), sementara <span class="project-highlight">Keripik Kentang</span> adalah produk makanan ringan terpopuler.</li>
+                </ul>
+              </div>
+
+              <p class="text-sm text-gray-600"><i>Buat kesimpulan di sheet tempat kamu melakukan analisis atau di sheet PivotTable/Grafik</i></p>
+            </div>
+
+            <!-- Step 7 -->
+            <div class="lesson-card p-6 mb-6">
+              <div class="flex items-start mb-4">
+                <div class="step-number mr-4 flex-shrink-0">7</div>
+                <div>
+                  <h3 class="text-xl font-bold text-gray-800">Langkah 7: Simpan Hasil Kerjamu</h3>
+                  <p class="text-gray-600 mt-1">Dokumentasikan pencapaianmu</p>
+                </div>
+              </div>
+
+              <div class="step-card p-4">
+                <ul class="list-disc pl-6 space-y-3">
+                  <li>Simpan file Excel dengan nama: <span class="project-highlight">Proyek Mini 1 - Analisis Maju Jaya - [Namamu].xlsx</span></li>
+                  <li>Pastikan semua sheet terorganisir dengan baik</li>
+                  <li>Tambahkan judul dan nama di sheet pertama</li>
+                </ul>
+              </div>
+
+              <div class="mt-6 bg-green-50 border-l-4 border-green-500 p-6 rounded-lg">
+                <h3 class="text-xl font-bold text-gray-800 mb-3 flex items-center">
+                  <i class="fas fa-medal text-green-600 mr-2"></i> Selamat!
+                </h3>
+                <p class="mb-4">
+                  Kamu baru saja menyelesaikan proyek analisis data pertamamu dari awal hingga akhir menggunakan Excel. Kamu telah mempraktikkan:
+                </p>
+                <ul class="list-disc pl-6 space-y-2">
+                  <li>Pembersihan data (formatting)</li>
+                  <li>Analisis deskriptif (fungsi Excel)</li>
+                  <li>Menjawab pertanyaan (sort/filter)</li>
+                  <li>Meringkas data (PivotTable)</li>
+                  <li>Memvisualisasikan (grafik)</li>
+                  <li>Menarik kesimpulan</li>
+                </ul>
+                <p class="mt-4 font-medium">
+                  Ini adalah fondasi yang sangat baik. Di bulan-bulan berikutnya, kita akan membangun di atas ini dengan alat dan teknik yang lebih canggih. Rayakan pencapaian ini!
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Project Checklist -->
+          <div class="day-content p-6 md:p-8 mb-8">
+            <h2 class="text-2xl font-bold text-gray-800 mb-6 pb-2 border-b">Checklist Proyek</h2>
+
+            <div class="project-checklist">
+              <div class="flex items-center mb-4">
+                <input type="checkbox" id="step1" class="mr-3 h-5 w-5">
+                <label for="step1" class="text-lg">Memuat dan memeriksa data</label>
+              </div>
+
+              <div class="flex items-center mb-4">
+                <input type="checkbox" id="step2" class="mr-3 h-5 w-5">
+                <label for="step2" class="text-lg">Analisis deskriptif dengan fungsi</label>
+              </div>
+
+              <div class="flex items-center mb-4">
+                <input type="checkbox" id="step3" class="mr-3 h-5 w-5">
+                <label for="step3" class="text-lg">Menjawab pertanyaan dengan Sort & Filter</label>
+              </div>
+
+              <div class="flex items-center mb-4">
+                <input type="checkbox" id="step4" class="mr-3 h-5 w-5">
+                <label for="step4" class="text-lg">Membuat PivotTable analisis</label>
+              </div>
+
+              <div class="flex items-center mb-4">
+                <input type="checkbox" id="step5" class="mr-3 h-5 w-5">
+                <label for="step5" class="text-lg">Memvisualisasikan temuan dengan grafik</label>
+              </div>
+
+              <div class="flex items-center mb-4">
+                <input type="checkbox" id="step6" class="mr-3 h-5 w-5">
+                <label for="step6" class="text-lg">Menarik kesimpulan dari analisis</label>
+              </div>
+
+              <div class="flex items-center mb-4">
+                <input type="checkbox" id="step7" class="mr-3 h-5 w-5">
+                <label for="step7" class="text-lg">Menyimpan file dengan nama yang sesuai</label>
+              </div>
+            </div>
+          </div>
+
+          <!-- Next Steps -->
+          <div class="bg-gradient-to-r from-blue-50 to-indigo-50 p-6 rounded-lg mb-8">
+            <h2 class="text-xl font-bold text-blue-800 mb-4">Apa Selanjutnya?</h2>
+            <p class="mb-4"> Besok kita memulai Bulan 2: Statistik Dasar! Kita akan belajar konsep statistik penting untuk analisis data: </p>
+            <ul class="list-disc pl-6 space-y-2">
+              <li>Ukuran pemusatan data (mean, median, modus)</li>
+              <li>Ukuran penyebaran data (range, variansi, standar deviasi)</li>
+              <li>Distribusi data dan bentuk distribusi</li>
+              <li>Korelasi antara variabel</li>
+            </ul>
+            <p class="mt-4 font-medium">
+              Persiapkan diri untuk naik level dalam keterampilan analisis datamu!
+            </p>
+          </div>
+
+          <!-- Navigation - Diperbaiki untuk hari 31 di bulan2/minggu5 -->
+          <div class="flex justify-between mt-12">
+            <a href="hari29.html" class="btn-primary inline-flex items-center">
+              <i class="fas fa-arrow-left mr-2"></i> Hari Sebelumnya
+            </a>
+            <a href="../../bulan2/minggu5/hari31.html" class="btn-primary inline-flex items-center">
+              Hari Selanjutnya <i class="fas fa-arrow-right ml-2"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="bg-gray-800 text-white py-12 mt-12">
+    <div class="container mx-auto px-4">
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+        <div>
+          <h4 class="text-lg font-bold mb-4">Navigasi Cepat</h4>
+          <ul class="space-y-2">
+            <li><a href="#" class="hover:text-blue-300 transition">Kuartal 1</a></li>
+            <li><a href="#" class="hover:text-blue-300 transition">Kuartal 2</a></li>
+            <li><a href="#" class="hover:text-blue-300 transition">Kuartal 3</a></li>
+            <li><a href="#" class="hover:text-blue-300 transition">Kuartal 4</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 class="text-lg font-bold mb-4">Excel Dasar</h4>
+          <ul class="space-y-2">
+            <li><a href="#" class="hover:text-blue-300 transition">Formula Dasar</a></li>
+            <li><a href="#" class="hover:text-blue-300 transition">Fungsi Statistik</a></li>
+            <li><a href="#" class="hover:text-blue-300 transition">PivotTable</a></li>
+            <li><a href="#" class="hover:text-blue-300 transition">Visualisasi Data</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 class="text-lg font-bold mb-4">Resources</h4>
+          <ul class="space-y-2">
+            <li><a href="#" class="hover:text-blue-300 transition">Download Dataset</a></li>
+            <li><a href="#" class="hover:text-blue-300 transition">Template Excel</a></li>
+            <li><a href="#" class="hover:text-blue-300 transition">Cheat Sheet</a></li>
+            <li><a href="#" class="hover:text-blue-300 transition">Forum Diskusi</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 class="text-lg font-bold mb-4">Kontak</h4>
+          <p class="text-gray-300 mb-4">Email: kontak@data365.com</p>
+          <div class="flex space-x-4">
+            <a href="#" class="text-gray-300 hover:text-white">
+              <i class="fab fa-twitter"></i>
+            </a>
+            <a href="#" class="text-gray-300 hover:text-white">
+              <i class="fab fa-facebook"></i>
+            </a>
+            <a href="#" class="text-gray-300 hover:text-white">
+              <i class="fab fa-instagram"></i>
+            </a>
+            <a href="#" class="text-gray-300 hover:text-white">
+              <i class="fab fa-linkedin"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="border-t border-gray-700 pt-8 text-center text-gray-400">
+        <p>&copy; 2025 Buku Panduan Data Analisis 365 Hari. Hak Cipta Dilindungi.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Simulasi interaktif checklist
+    document.addEventListener('DOMContentLoaded', function() {
+      const checkboxes = document.querySelectorAll('.project-checklist input[type="checkbox"]');
+      const progressBar = document.querySelector('.project-progress');
+      let progress = 0;
+
+      checkboxes.forEach(checkbox => {
+        checkbox.addEventListener('change', function() {
+          const label = this.nextElementSibling;
+          if (this.checked) {
+            label.classList.add('line-through', 'text-gray-500');
+            progress += 14.28; // 100% / 7 steps
+          } else {
+            label.classList.remove('line-through', 'text-gray-500');
+            progress -= 14.28;
+          }
+          progressBar.style.width = Math.min(100, Math.max(0, progress)) + '%';
+        });
+      });
+    });
+  </script>
+</body>
+</html>
