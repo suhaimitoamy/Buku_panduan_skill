@@ -1,0 +1,828 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hari 22: Membangun PivotTable Pertama - Excel Dasar</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #3B82F6;
+            --secondary: #10B981;
+            --accent: #8B5CF6;
+            --background: #FFFFFF;
+            --text: #1F2937;
+            --muted: #9CA3AF;
+            --light-bg: #f9fafb;
+            --dark-bg: #112937;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            color: var(--text);
+            background-color: var(--background);
+            line-height: 1.6;
+        }
+
+        .header {
+            background-color: var(--background);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .breadcrumb-container {
+            background-color: var(--light-bg);
+        }
+
+        .day-content {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        }
+
+        .lesson-card {
+            transition: all 0.3s ease;
+            border-left: 4px solid var(--primary);
+        }
+
+        .lesson-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 15px rgba(0,0,0,0.1);
+        }
+
+        .pivot-area {
+            min-height: 80px;
+            border: 2px dashed #cbd5e1;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .pivot-area.hovered {
+            border-color: var(--primary);
+            background-color: #dbeafe;
+        }
+
+        .field-item {
+            background-color: #e0f2fe;
+            border-radius: 4px;
+            padding: 8px 12px;
+            cursor: grab;
+            transition: all 0.2s ease;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        .field-item:hover {
+            background-color: #bae6fd;
+        }
+
+        .pivot-table {
+            border-collapse: collapse;
+            width: 100%;
+            font-size: 0.9rem;
+        }
+
+        .pivot-table th {
+            background-color: #e0f2fe;
+            text-align: left;
+            padding: 8px 12px;
+            border: 1px solid #cbd5e1;
+        }
+
+        .pivot-table td {
+            padding: 8px 12px;
+            border: 1px solid #cbd5e1;
+        }
+
+        .pivot-table .subtotal {
+            background-color: #f0f9ff;
+            font-weight: 600;
+        }
+
+        .pivot-table .grand-total {
+            background-color: #dbeafe;
+            font-weight: 700;
+        }
+
+        .interactive-demo {
+            background-color: #f0f9ff;
+            border-radius: 12px;
+            border: 1px solid #dbeafe;
+        }
+
+        .btn-primary {
+            background-color: var(--primary);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            background-color: #2563eb;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(37, 99, 235, 0.2);
+        }
+
+        .step-icon {
+            background-color: var(--primary);
+            color: white;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+
+        .footer {
+            background-color: var(--dark-bg);
+            color: white;
+        }
+
+        @media (max-width: 768px) {
+            .pivot-container {
+                flex-direction: column;
+            }
+
+            .fields-panel {
+                width: 100%;
+                margin-bottom: 20px;
+            }
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Header -->
+    <header class="header py-4">
+        <div class="container mx-auto px-4">
+            <div class="flex items-center justify-between">
+                <a href="index.html" class="flex items-center text-xl font-bold text-blue-600">
+                    <i class="fas fa-book mr-2"></i>
+                    Panduan Data 365
+                </a>
+                <div class="hidden md:flex space-x-6">
+                    <a href="index.html" class="text-gray-700 hover:text-blue-600">Home</a>
+                    <div class="relative group">
+                        <button class="text-gray-700 hover:text-blue-600 flex items-center">
+                            Kuartal 1 <i class="fas fa-chevron-down ml-1 text-xs"></i>
+                        </button>
+                        <div class="absolute hidden group-hover:block bg-white shadow-lg rounded-md mt-2 p-2 min-w-[200px]">
+                            <a href="#" class="block px-4 py-2 hover:bg-blue-50 rounded">Bulan 1: Excel Dasar</a>
+                            <a href="#" class="block px-4 py-2 hover:bg-blue-50 rounded">Bulan 2: Statistik Dasar</a>
+                            <a href="#" class="block px-4 py-2 hover:bg-blue-50 rounded">Bulan 3: SQL Lanjutan</a>
+                        </div>
+                    </div>
+                    <a href="#" class="text-gray-700 hover:text-blue-600">Kuartal 2</a>
+                    <a href="#" class="text-gray-700 hover:text-blue-600">Resources</a>
+                    <a href="#" class="text-gray-700 hover:text-blue-600">About</a>
+                </div>
+                <button class="md:hidden text-gray-700">
+                    <i class="fas fa-bars text-xl"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Breadcrumb -->
+    <div class="breadcrumb-container py-3">
+        <div class="container mx-auto px-4">
+            <nav class="flex text-sm text-gray-600">
+                <a href="index.html" class="text-blue-600 hover:underline">Home</a>
+                <span class="mx-2">/</span>
+                <a href="kuartal1.html" class="text-blue-600 hover:underline">Kuartal 1</a>
+                <span class="mx-2">/</span>
+                <a href="excel-dasar.html" class="text-blue-600 hover:underline">Excel Dasar</a>
+                <span class="mx-2">/</span>
+                <a href="#" class="text-blue-600 hover:underline">Minggu 4</a>
+                <span class="mx-2">/</span>
+                <span class="text-gray-500">Hari 22: PivotTable</span>
+            </nav>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-4 py-8">
+        <div class="max-w-4xl mx-auto">
+            <!-- Header Section -->
+            <div class="text-center mb-12">
+                <div class="inline-block bg-blue-100 text-blue-800 text-sm font-semibold px-4 py-1 rounded-full mb-4">
+                    Kuartal 1: Excel Dasar | Minggu 4 | Hari 22
+                </div>
+                <h1 class="text-3xl md:text-4xl font-bold text-gray-800 mb-4">Membangun PivotTable pertama: Drag, Drop, Ringkas!</h1>
+                <p class="text-lg text-gray-600 max-w-2xl mx-auto">
+                    Pelajari cara membuat laporan ringkasan dengan mudah hanya dengan menyeret field di Excel
+                </p>
+            </div>
+
+            <!-- Lesson Content -->
+            <div class="day-content p-6 md:p-8 mb-8">
+                <div class="prose max-w-none">
+                    <div class="bg-blue-50 p-6 rounded-lg mb-8">
+                        <p class="text-blue-800 mb-0">
+                            <i class="fas fa-lightbulb mr-2"></i>
+                            <strong>Selamat datang di minggu keempat!</strong> Minggu lalu kita sudah berkenalan dengan PivotTable dan menyiapkan 'kanvas' kosongnya. Hari ini kita akan mengisi kanvas tersebut!
+                        </p>
+                    </div>
+
+                    <h2 class="text-2xl font-bold text-gray-800 mt-8 mb-4 pb-2 border-b">Pusat Kendali: Panel PivotTable Fields</h2>
+                    <div class="flex items-start mb-6">
+                        <div class="step-icon mr-4 flex-shrink-0">1</div>
+                        <p>
+                            Di bagian atas panel, ada daftar semua kolom dari data sumber (Tanggal, Pelanggan, Kategori, Produk, Jumlah, Harga Satuan, Total Penjualan). Di bagian bawah ada empat area:
+                        </p>
+                        <ul class="list-disc pl-8 mt-3 space-y-2">
+                            <li><strong>ROWS:</strong> Menentukan label baris di tabel ringkasan</li>
+                            <li><strong>COLUMNS:</strong> Menentukan label kolom</li>
+                            <li><strong>VALUES:</strong> Field numeric yang ingin dihitung (dijumlahkan, dirata-rata, dll)</li>
+                            <li><strong>FILTERS:</strong> Untuk menyaring keseluruhan laporan</li>
+                        </ul>
+                    </div>
+
+                    <div class="interactive-demo p-6 mb-12">
+                        <h3 class="text-xl font-bold text-gray-800 mb-4">Simulasi Panel PivotTable</h3>
+
+                        <div class="flex pivot-container mb-6">
+                            <div class="fields-panel w-1/3 pr-4">
+                                <h4 class="font-semibold text-gray-700 mb-3">Fields Tersedia:</h4>
+                                <div class="space-y-3" id="fields-container">
+                                    <div class="field-item" draggable="true" data-field="kategori">Kategori</div>
+                                    <div class="field-item" draggable="true" data-field="produk">Produk</div>
+                                    <div class="field-item" draggable="true" data-field="pelanggan">Pelanggan</div>
+                                    <div class="field-item" draggable="true" data-field="total_penjualan">Total Penjualan</div>
+                                    <div class="field-item" draggable="true" data-field="jumlah">Jumlah</div>
+                                </div>
+                            </div>
+
+                            <div class="pivot-areas w-2/3">
+                                <h4 class="font-semibold text-gray-700 mb-3">Area PivotTable:</h4>
+                                <div class="grid grid-cols-2 gap-4">
+                                    <div>
+                                        <div class="text-sm font-medium text-gray-700 mb-2">ROWS</div>
+                                        <div class="pivot-area" id="rows-area" data-area="rows"></div>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-gray-700 mb-2">COLUMNS</div>
+                                        <div class="pivot-area" id="columns-area" data-area="columns"></div>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-gray-700 mb-2">VALUES</div>
+                                        <div class="pivot-area" id="values-area" data-area="values"></div>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-gray-700 mb-2">FILTERS</div>
+                                        <div class="pivot-area" id="filters-area" data-area="filters"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mt-8">
+                            <h4 class="font-semibold text-gray-700 mb-3">Hasil PivotTable:</h4>
+                            <div id="pivot-result">
+                                <div class="text-center py-10 text-gray-500">
+                                    <i class="fas fa-table text-3xl mb-3"></i>
+                                    <p>Seret field ke area untuk melihat hasil PivotTable</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <h2 class="text-2xl font-bold text-gray-800 mt-12 mb-4 pb-2 border-b">Latihan Membangun PivotTable</h2>
+
+                    <!-- Latihan 1 -->
+                    <div class="lesson-card bg-white p-6 rounded-lg mb-8">
+                        <div class="flex items-start mb-4">
+                            <div class="step-icon mr-4 flex-shrink-0">1</div>
+                            <div>
+                                <h3 class="text-xl font-bold text-gray-800">Latihan 1: Total Penjualan per Kategori Produk</h3>
+                                <p class="text-gray-600 mt-1">Pertanyaan: Berapa total penjualan untuk setiap kategori produk?</p>
+                            </div>
+                        </div>
+
+                        <div class="flex items-start mb-4">
+                            <div class="bg-blue-100 text-blue-800 rounded-full w-8 h-8 flex items-center justify-center mr-3 flex-shrink-0">
+                                <i class="fas fa-mouse-pointer"></i>
+                            </div>
+                            <div>
+                                <p><strong>Langkah-langkah:</strong></p>
+                                <ol class="list-decimal pl-6 mt-2 space-y-2">
+                                    <li>Pastikan PivotTable aktif (klik di area PivotTable)</li>
+                                    <li>Seret field <span class="bg-blue-100 px-2 py-1 rounded">Kategori</span> ke area <span class="bg-green-100 px-2 py-1 rounded">ROWS</span></li>
+                                    <li>Seret field <span class="bg-blue-100 px-2 py-1 rounded">Total Penjualan</span> ke area <span class="bg-yellow-100 px-2 py-1 rounded">VALUES</span></li>
+                                </ol>
+                            </div>
+                        </div>
+
+                        <div class="mt-4">
+                            <h4 class="font-medium text-gray-700 mb-2">Hasil:</h4>
+                            <div class="overflow-x-auto">
+                                <table class="pivot-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Kategori</th>
+                                            <th>Total Penjualan</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>Buah</td>
+                                            <td>Rp 1.250.000</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Minuman</td>
+                                            <td>Rp 850.000</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Roti</td>
+                                            <td>Rp 1.100.000</td>
+                                        </tr>
+                                        <tr class="grand-total">
+                                            <td><strong>Grand Total</strong></td>
+                                            <td><strong>Rp 3.200.000</strong></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Latihan 2 -->
+                    <div class="lesson-card bg-white p-6 rounded-lg mb-8">
+                        <div class="flex items-start mb-4">
+                            <div class="step-icon mr-4 flex-shrink-0">2</div>
+                            <div>
+                                <h3 class="text-xl font-bold text-gray-800">Latihan 2: Jumlah Transaksi per Pelanggan</h3>
+                                <p class="text-gray-600 mt-1">Pertanyaan: Berapa kali masing-masing pelanggan melakukan transaksi?</p>
+                            </div>
+                        </div>
+
+                        <div class="flex items-start mb-4">
+                            <div class="bg-blue-100 text-blue-800 rounded-full w-8 h-8 flex items-center justify-center mr-3 flex-shrink-0">
+                                <i class="fas fa-mouse-pointer"></i>
+                            </div>
+                            <div>
+                                <p><strong>Langkah-langkah:</strong></p>
+                                <ol class="list-decimal pl-6 mt-2 space-y-2">
+                                    <li>Bersihkan PivotTable sebelumnya</li>
+                                    <li>Seret field <span class="bg-blue-100 px-2 py-1 rounded">Pelanggan</span> ke area <span class="bg-green-100 px-2 py-1 rounded">ROWS</span></li>
+                                    <li>Seret field <span class="bg-blue-100 px-2 py-1 rounded">Pelanggan</span> ke area <span class="bg-yellow-100 px-2 py-1 rounded">VALUES</span> (Excel otomatis menghitung COUNT)</li>
+                                </ol>
+                            </div>
+                        </div>
+
+                        <div class="mt-4">
+                            <h4 class="font-medium text-gray-700 mb-2">Hasil:</h4>
+                            <div class="overflow-x-auto">
+                                <table class="pivot-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Pelanggan</th>
+                                            <th>Jumlah Transaksi</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>Budi</td>
+                                            <td>5</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Citra</td>
+                                            <td>3</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Dewa</td>
+                                            <td>4</td>
+                                        </tr>
+                                        <tr class="grand-total">
+                                            <td><strong>Grand Total</strong></td>
+                                            <td><strong>12</strong></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Latihan 3 -->
+                    <div class="lesson-card bg-white p-6 rounded-lg mb-8">
+                        <div class="flex items-start mb-4">
+                            <div class="step-icon mr-4 flex-shrink-0">3</div>
+                            <div>
+                                <h3 class="text-xl font-bold text-gray-800">Latihan 3: Total Penjualan per Kategori dan Produk</h3>
+                                <p class="text-gray-600 mt-1">Pertanyaan: Berapa total penjualan untuk setiap produk, dikelompokkan berdasarkan kategorinya?</p>
+                            </div>
+                        </div>
+
+                        <div class="flex items-start mb-4">
+                            <div class="bg-blue-100 text-blue-800 rounded-full w-8 h-8 flex items-center justify-center mr-3 flex-shrink-0">
+                                <i class="fas fa-mouse-pointer"></i>
+                            </div>
+                            <div>
+                                <p><strong>Langkah-langkah:</strong></p>
+                                <ol class="list-decimal pl-6 mt-2 space-y-2">
+                                    <li>Bersihkan PivotTable sebelumnya</li>
+                                    <li>Seret field <span class="bg-blue-100 px-2 py-1 rounded">Kategori</span> ke area <span class="bg-green-100 px-2 py-1 rounded">ROWS</span></li>
+                                    <li>Seret field <span class="bg-blue-100 px-2 py-1 rounded">Produk</span> ke area <span class="bg-green-100 px-2 py-1 rounded">ROWS</span> di bawah Kategori</li>
+                                    <li>Seret field <span class="bg-blue-100 px-2 py-1 rounded">Total Penjualan</span> ke area <span class="bg-yellow-100 px-2 py-1 rounded">VALUES</span></li>
+                                </ol>
+                            </div>
+                        </div>
+
+                        <div class="mt-4">
+                            <h4 class="font-medium text-gray-700 mb-2">Hasil:</h4>
+                            <div class="overflow-x-auto">
+                                <table class="pivot-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Kategori</th>
+                                            <th>Produk</th>
+                                            <th>Total Penjualan</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td rowspan="2">Buah</td>
+                                            <td>Apel</td>
+                                            <td>Rp 750.000</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Pisang</td>
+                                            <td>Rp 500.000</td>
+                                        </tr>
+                                        <tr class="subtotal">
+                                            <td colspan="2"><strong>Total Buah</strong></td>
+                                            <td><strong>Rp 1.250.000</strong></td>
+                                        </tr>
+                                        <tr>
+                                            <td rowspan="2">Minuman</td>
+                                            <td>Susu UHT</td>
+                                            <td>Rp 400.000</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Kopi Instan</td>
+                                            <td>Rp 450.000</td>
+                                        </tr>
+                                        <tr class="subtotal">
+                                            <td colspan="2"><strong>Total Minuman</strong></td>
+                                            <td><strong>Rp 850.000</strong></td>
+                                        </tr>
+                                        <tr>
+                                            <td rowspan="2">Roti</td>
+                                            <td>Roti Tawar</td>
+                                            <td>Rp 600.000</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Roti Sobek</td>
+                                            <td>Rp 500.000</td>
+                                        </tr>
+                                        <tr class="subtotal">
+                                            <td colspan="2"><strong>Total Roti</strong></td>
+                                            <td><strong>Rp 1.100.000</strong></td>
+                                        </tr>
+                                        <tr class="grand-total">
+                                            <td colspan="2"><strong>Grand Total</strong></td>
+                                            <td><strong>Rp 3.200.000</strong></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <h2 class="text-2xl font-bold text-gray-800 mt-12 mb-4 pb-2 border-b">Mengubah Tata Letak dengan Mudah (Pivoting)</h2>
+                    <div class="bg-white p-6 rounded-lg mb-8">
+                        <p class="mb-4">
+                            Keindahan PivotTable adalah fleksibilitasnya. Bagaimana jika kita ingin melihat Kategori sebagai Kolom, bukan Baris?
+                        </p>
+
+                        <div class="flex items-start mb-4">
+                            <div class="bg-blue-100 text-blue-800 rounded-full w-8 h-8 flex items-center justify-center mr-3 flex-shrink-0">
+                                <i class="fas fa-sync-alt"></i>
+                            </div>
+                            <div>
+                                <p><strong>Cara memutar (pivot) tampilan:</strong></p>
+                                <ol class="list-decimal pl-6 mt-2 space-y-2">
+                                    <li>Klik dan tahan field <span class="bg-blue-100 px-2 py-1 rounded">Kategori</span> di area ROWS</li>
+                                    <li>Seret field tersebut ke area <span class="bg-purple-100 px-2 py-1 rounded">COLUMNS</span></li>
+                                </ol>
+                            </div>
+                        </div>
+
+                        <div class="mt-6">
+                            <h4 class="font-medium text-gray-700 mb-2">Hasil setelah pivot:</h4>
+                            <div class="overflow-x-auto">
+                                <table class="pivot-table">
+                                    <thead>
+                                        <tr>
+                                            <th rowspan="2">Produk</th>
+                                            <th colspan="3" class="text-center">Kategori</th>
+                                            <th rowspan="2">Grand Total</th>
+                                        </tr>
+                                        <tr>
+                                            <th>Buah</th>
+                                            <th>Minuman</th>
+                                            <th>Roti</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody> 
+                                        <tr> 
+                                            <td>Apel</td> 
+                                            <td>Rp 750.000</td> 
+                                            <td>-</td> 
+                                            <td>-</td> 
+                                            <td>Rp 750.000</td> 
+                                        </tr> 
+                                        <tr> 
+                                            <td>Pisang</td> 
+                                            <td>Rp 500.000</td> 
+                                            <td>-</td> 
+                                            <td>-</td> 
+                                            <td>Rp 500.000</td> 
+                                        </tr> 
+                                        <tr> 
+                                            <td>Susu UHT</td> 
+                                            <td>-</td> 
+                                            <td>Rp 400.000</td> 
+                                            <td>-</td> 
+                                            <td>Rp 400.000</td> 
+                                        </tr> 
+                                        <tr> 
+                                            <td>Kopi Instan</td> 
+                                            <td>-</td> 
+                                            <td>Rp 450.000</td> 
+                                            <td>-</td> 
+                                            <td>Rp 450.000</td> 
+                                        </tr> 
+                                        <tr> 
+                                            <td>Roti Tawar</td> 
+                                            <td>-</td> 
+                                            <td>-</td> 
+                                            <td>Rp 600.000</td> 
+                                            <td>Rp 600.000</td> 
+                                        </tr> 
+                                        <tr> 
+                                            <td>Roti Sobek</td> 
+                                            <td>-</td> 
+                                            <td>-</td> 
+                                            <td>Rp 500.000</td> 
+                                            <td>Rp 500.000</td> 
+                                        </tr> 
+                                        <tr class="grand-total"> 
+                                            <td><strong>Grand Total</strong></td> 
+                                            <td><strong>Rp 1.250.000</strong></td> 
+                                            <td><strong>Rp 850.000</strong></td> 
+                                            <td><strong>Rp 1.100.000</strong></td>
+                                            <td><strong>Rp 3.200.000</strong></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-green-50 border-l-4 border-green-500 p-6 rounded-lg mb-8">
+                        <h3 class="text-xl font-bold text-gray-800 mb-3">Apa Selanjutnya?</h3>
+                        <p class="mb-4">
+                            Hari ini kamu sudah berhasil membangun beberapa laporan PivotTable sederhana dengan drag-and-drop.
+                            Kamu sudah merasakan kecepatan dan fleksibilitasnya.
+                        </p>
+                        <p class="mb-4">
+                            Besok, kita akan menjelajahi lebih lanjut apa yang bisa dilakukan di PivotTable:
+                        </p>
+                        <ul class="list-disc pl-6 space-y-2">
+                            <li>Mengubah fungsi ringkasan di area VALUES (dari SUM ke AVERAGE, COUNT, MAX, MIN)</li>
+                            <li>Memformat angka di dalam PivotTable agar lebih mudah dibaca</li>
+                            <li>Sedikit tentang mengatur tampilan dan layout PivotTable</li>
+                        </ul>
+                        <p class="mt-4 font-medium">
+                            Teruslah bereksperimen! Coba seret field lain ke berbagai area dan lihat ringkasan apa yang bisa kamu hasilkan.
+                        </p>
+                    </div>
+
+                    <div class="flex justify-between mt-12">
+                        <a href="../minggu3/hari21.html" class="btn-primary inline-flex items-center">
+                            <i class="fas fa-arrow-left mr-2"></i> Hari Sebelumnya
+                        </a>
+                        <a href="hari23.html" class="btn-primary inline-flex items-center">
+                            Hari Selanjutnya <i class="fas fa-arrow-right ml-2"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer py-12">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+                <div> 
+                    <h4 class="text-lg font-bold mb-4 text-white">Navigasi Cepat</h4> 
+                    <ul class="space-y-2"> 
+                        <li><a href="#" class="text-gray-300 hover:text-white">Kuartal 1</a></li> 
+                        <li><a href="#" class="text-gray-300 hover:text-white">Kuartal 2</a></li> 
+                        <li><a href="#" class="text-gray-300 hover:text-white">Kuartal 3</a></li> 
+                        <li><a href="#" class="text-gray-300 hover:text-white">Kuartal 4</a></li> 
+                    </ul> 
+                </div> 
+                <div> 
+                    <h4 class="text-lg font-bold mb-4 text-white">Excel Dasar</h4> 
+                    <ul class="space-y-2"> 
+                        <li><a href="#" class="text-gray-300 hover:text-white">Formula Dasar</a></li> 
+                        <li><a href="#" class="text-gray-300 hover:text-white">Fungsi Statistik</a></li> 
+                        <li><a href="#" class="text-gray-300 hover:text-white">PivotTable</a></li> 
+                        <li><a href="#" class="text-gray-300 hover:text-white">Visualisasi Data</a></li> 
+                    </ul> 
+                </div> 
+                <div> 
+                    <h4 class="text-lg font-bold mb-4 text-white">Resources</h4> 
+                    <ul class="space-y-2"> 
+                        <li><a href="#" class="text-gray-300 hover:text-white">Download Dataset</a></li> 
+                        <li><a href="#" class="text-gray-300 hover:text-white">Template Excel</a></li> 
+                        <li><a href="#" class="text-gray-300 hover:text-white">Cheat Sheet</a></li> 
+                        <li><a href="#" class="text-gray-300 hover:text-white">Forum Diskusi</a></li> 
+                    </ul> 
+                </div> 
+                <div> 
+                    <h4 class="text-lg font-bold mb-4 text-white">Kontak</h4> 
+                    <p class="text-gray-300 mb-4">Email: kontak@data365.com</p> 
+                    <div class="flex space-x-4"> 
+                        <a href="#" class="text-gray-300 hover:text-white"> 
+                            <i class="fab fa-twitter text-xl"></i> 
+                        </a> 
+                        <a href="#" class="text-gray-300 hover:text-white"> 
+                            <i class="fab fa-facebook text-xl"></i> 
+                        </a> 
+                        <a href="#" class="text-gray-300 hover:text-white"> 
+                            <i class="fab fa-instagram text-xl"></i> 
+                        </a> 
+                        <a href="#" class="text-gray-300 hover:text-white"> 
+                            <i class="fab fa-linkedin text-xl"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="border-t border-gray-700 pt-8 text-center text-gray-400">
+                <p>&copy; 2025 Buku Panduan Data Analisis 365 Hari. Hak Cipta Dilindungi.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Drag and drop functionality for PivotTable simulation
+        document.addEventListener('DOMContentLoaded', function() {
+            const fields = document.querySelectorAll('.field-item');
+            const areas = document.querySelectorAll('.pivot-area');
+            const resultContainer = document.getElementById('pivot-result');
+
+            let draggedField = null;
+
+            // Add drag event listeners to fields
+            fields.forEach(field => {
+                field.addEventListener('dragstart', function(e) {
+                    draggedField = this;
+                    this.classList.add('opacity-50');
+                });
+                
+                field.addEventListener('dragend', function() {
+                    this.classList.remove('opacity-50');
+                    draggedField = null;
+                });
+            });
+
+            // Add drag event listeners to areas
+            areas.forEach(area => {
+                area.addEventListener('dragover', function(e) {
+                    e.preventDefault();
+                    this.classList.add('hovered');
+                });
+                
+                area.addEventListener('dragleave', function() {
+                    this.classList.remove('hovered');
+                });
+                
+                area.addEventListener('drop', function(e) {
+                    e.preventDefault();
+                    this.classList.remove('hovered');
+
+                    if (draggedField) {
+                        // Create a clone of the dragged field
+                        const fieldClone = draggedField.cloneNode(true);
+                        fieldClone.classList.remove('field-item');
+                        fieldClone.classList.add('bg-blue-200', 'text-blue-800', 'inline-block', 'px-3', 'py-2', 'rounded', 'mr-2', 'mb-2');
+                        fieldClone.setAttribute('draggable', 'false');
+
+                        // Add remove button
+                        const removeBtn = document.createElement('span');
+                        removeBtn.innerHTML = 'x';
+                        removeBtn.classList.add('ml-2', 'cursor-pointer', 'text-red-600');
+                        removeBtn.addEventListener('click', function() {
+                            fieldClone.remove();
+                            updatePivotTable();
+                        });
+
+                        fieldClone.appendChild(removeBtn);
+                        this.appendChild(fieldClone);
+
+                        updatePivotTable();
+                    }
+                });
+            });
+
+            // Function to update PivotTable result based on fields in areas
+            function updatePivotTable() {
+                const rowsArea = document.getElementById('rows-area');
+                const columnsArea = document.getElementById('columns-area');
+                const valuesArea = document.getElementById('values-area');
+
+                const rows = Array.from(rowsArea.children).map(el => el.dataset.field);
+                const columns = Array.from(columnsArea.children).map(el => el.dataset.field);
+                const values = Array.from(valuesArea.children).map(el => el.dataset.field);
+
+                if (rows.length === 0 && columns.length === 0 && values.length === 0) {
+                    resultContainer.innerHTML = `
+                        <div class="text-center py-10 text-gray-500">
+                            <i class="fas fa-table text-3xl mb-3"></i>
+                            <p>Seret field ke area untuk melihat hasil PivotTable</p>
+                        </div>
+                    `;
+                    return;
+                }
+
+                // Simple result simulation
+                let tableHTML = `
+                    <div class="overflow-x-auto">
+                        <table class="pivot-table">
+                            <thead>
+                                <tr>
+                `;
+
+                // Add columns headers
+                if (columns.length > 0) {
+                    tableHTML += '<th>&nbsp;</th>';
+                    columns.forEach(col => {
+                        tableHTML += `<th>${col.replace('_',' ')}</th>`;
+                    });
+                    tableHTML += '<th>Total</th>';
+                } else if (rows.length > 0) {
+                    tableHTML += `<th>${rows[0].replace('_',' ')}</th>`;
+                    tableHTML += `<th>${values[0] ? values[0].replace('_',' ') : 'Value'}</th>`;
+                }
+
+                tableHTML += '</tr></thead><tbody>';
+
+                // Add rows data
+                if (rows.length > 0 && !columns.length) {
+                    const rowData = {
+                        'kategori': ['Buah', 'Minuman', 'Roti'],
+                        'produk': ['Apel', 'Pisang', 'Susu UHT', 'Kopi Instan', 'Roti Tawar', 'Roti Sobek'], 
+                        'pelanggan': ['Budi', 'Citra', 'Dewa']
+                    };
+
+                    rowData[rows[0]].forEach(item => {
+                        tableHTML += `
+                            <tr>
+                                <td>${item}</td>
+                                <td>${getRandomValue(values[0])}</td>
+                            </tr>
+                        `;
+                    });
+
+                    tableHTML += `
+                        <tr class="grand-total">
+                            <td><strong>Grand Total</strong></td>
+                            <td><strong>${getGrandTotal(values[0])}</strong></td>
+                        </tr>
+                    `;
+                }
+
+                tableHTML += '</tbody></table></div>';
+
+                resultContainer.innerHTML = tableHTML;
+            }
+
+            function getRandomValue(field) {
+                if (field === 'total_penjualan') {
+                    return 'Rp ' + Math.floor(Math.random() * 1000000).toLocaleString('id-ID');
+                } else if (field === 'jumlah') {
+                    return Math.floor(Math.random() * 100);
+                }
+                return 'Value';
+            }
+
+            function getGrandTotal(field) {
+                if (field === 'total_penjualan') {
+                    return 'Rp ' + Math.floor(Math.random() * 3000000).toLocaleString('id-ID');
+                } else if (field === 'jumlah') {
+                    return Math.floor(Math.random() * 500);
+                }
+                return 'Total';
+            }
+        });
+    </script>
+</body>
+</html>
