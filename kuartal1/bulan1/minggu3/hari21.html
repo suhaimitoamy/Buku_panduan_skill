@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hari 21: Mengelompokkan Data di PivotTable - Grouping! (Minggu 3)</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #2563eb;
+            --secondary: #10B981;
+            --accent: #8b5cf6;
+            --dark-bg: #1a202c;
+            --light-bg: #f9fafb;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--light-bg);
+            color: #1f2937;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .dark-mode {
+            background-color: var(--dark-bg);
+            color: #e2e8f0;
+        }
+
+        .dark-mode .card {
+            background-color: #2d3748;
+            border-color: #4a5568;
+        }
+
+        .card {
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            border-radius: 0.75rem;
+            overflow: hidden;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .breadcrumb {
+            padding: 0.75rem 0;
+            background-color: #edf2f7;
+        }
+
+        .breadcrumb a {
+            color: var(--primary);
+            transition: color 0.2s;
+        }
+
+        .breadcrumb a:hover {
+            color: #1e40af;
+            text-decoration: underline;
+        }
+
+        .lesson-content h2 {
+            border-left: 4px solid var(--primary);
+            padding-left: 1rem;
+        }
+
+        .exercise-box {
+            background-color: #dbeafe;
+            border-left: 4px solid var(--primary);
+        }
+
+        .tip-box {
+            background-color: #dcfce7;
+            border-left: 4px solid var(--secondary);
+        }
+
+        .dark-mode .exercise-box {
+            background-color: #2d3748;
+            border-left: 4px solid var(--primary);
+        }
+
+        .dark-mode .tip-box {
+            background-color: #1a4531;
+            border-left: 4px solid var(--secondary);
+        }
+
+        .btn-primary {
+            background-color: var(--primary);
+            transition: all 0.3s;
+        }
+
+        .btn-primary:hover {
+            background-color: #1e40af;
+            transform: translateY(-2px);
+        }
+
+        .btn-next {
+            background-color: var(--secondary);
+            transition: all 0.3s;
+        }
+
+        .btn-next:hover {
+            background-color: #0e8e6d;
+            transform: translateY(-2px);
+        }
+
+        .pivot-step {
+            position: relative;
+            padding-left: 2.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .pivot-step:before {
+            content: counter(step);
+            counter-increment: step;
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 2rem;
+            height: 2rem;
+            background-color: var(--primary);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+
+        .step-container {
+            counter-reset: step;
+        }
+
+        .screenshot {
+            border: 1px solid #cbd5e0;
+            border-radius: 0.5rem;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+        }
+
+        .dark-mode .screenshot {
+            border-color: #4a5568;
+        }
+
+        .keyboard-shortcut {
+            background-color: #e5e7eb;
+            padding: 0.25rem 0.5rem;
+            border-radius: 0.25rem;
+            font-family: monospace;
+            font-size: 0.9rem;
+        }
+
+        .dark-mode .keyboard-shortcut {
+            background-color: #4a5568;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->  
+    <header class="bg-gradient-to-r from-blue-600 to-indigo-700 text-white p-4 fixed w-full z-40">  
+        <div class="container mx-auto flex justify-between items-center">  
+            <div class="flex items-center">  
+                <a href="index.html" class="flex items-center">  
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">  
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/>  
+                    </svg>  
+                    <h1 class="text-xl font-bold">Buku Panduan Skill</h1>  
+                </a>  
+            </div>  
+        </div>  
+    </header>  
+
+    <!-- Breadcrumb -->
+    <div class="breadcrumb pt-20">  
+        <div class="container mx-auto px-4">  
+            <a href="index.html">Home</a> >  
+            <a href="#">Kuartal 1</a> >  
+            <a href="#">Bulan 1</a> >  
+            <a href="#">Minggu 3</a> >  
+            <span class="text-gray-600">Hari 21</span>  
+        </div>  
+    </div>  
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-4 py-8 pt-24">  
+        <div class="max-w-4xl mx-auto">  
+            <article class="bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden card">  
+                <!-- Header -->
+                <div class="bg-gradient-to-r from-blue-500 to-indigo-600 text-white p-6">  
+                    <div class="flex items-center mb-4">  
+                        <div class="bg-white bg-opacity-20 rounded-full p-3 mr-4">  
+                            <i class="fas fa-table text-2xl"></i>  
+                        </div>  
+                        <div>
+                            <h1 class="text-2xl md:text-3xl font-bold">Hari 21: Mengelompokkan Data di PivotTable - Grouping!</h1>  
+                            <p class="text-blue-100 mt-1">Kuartal 1: Dasar | Bulan 1: Excel Dasar | Minggu 3: PivotTable Lanjutan</p>  
+                        </div>
+                    </div>  
+                    <div class="flex flex-wrap gap-2">
+                        <span class="bg-blue-400 bg-opacity-30 px-3 py-1 rounded-full text-sm">Excel</span>
+                        <span class="bg-blue-400 bg-opacity-30 px-3 py-1 rounded-full text-sm">PivotTable</span>
+                        <span class="bg-blue-400 bg-opacity-30 px-3 py-1 rounded-full text-sm">Data Analysis</span>
+                    </div>
+                </div>
+
+                <!-- Lesson Content -->
+                <div class="p-6 lesson-content">
+                    <div class="flex items-start mb-6">
+                        <div class="bg-blue-100 dark:bg-blue-900 rounded-full p-3 mr-4">
+                            <i class="fas fa-coffee text-blue-600 dark:text-blue-300 text-xl"></i>
+                        </div>
+                        <p class="text-gray-700 dark:text-gray-300">
+                            Selamat pagi! Kemarin kita sudah belajar mengubah fungsi ringkasan (SUM, AVERAGE, COUNT) dan memformat angka di PivotTable. Laporan ringkasanmu pasti sudah lebih informatif sekarang.
+                        </p>
+                    </div>
+
+                    <p class="mb-6">
+                        Namun, seringkali kita ingin melihat ringkasan data dalam kelompok yang lebih besar daripada kategori individual yang ada di data asli. Misalnya, melihat total penjualan bukan per tanggal, tapi per bulan atau per kuartal. Atau, jika kita punya data usia pelanggan, kita mungkin ingin melihat ringkasan per kelompok usia (misal, 20-29 tahun, 30-39 tahun, dst.), bukan per usia individual.
+                    </p>
+
+                    <p class="mb-6 font-semibold">
+                        Di sinilah fitur <span class="text-blue-600">Grouping (Mengelompokkan)</span> di PivotTable sangat berguna. Fitur ini memungkinkan kita membuat kelompok kustom dari data tanggal atau numerik secara otomatis.
+                    </p>
+
+                    <div class="bg-blue-50 dark:bg-blue-900 p-4 rounded-lg mb-8">
+                        <h2 class="text-xl font-bold text-blue-800 dark:text-blue-200 mb-3 flex items-center">
+                            <i class="fas fa-question-circle mr-2"></i> Mengapa Grouping di PivotTable itu Penting?
+                        </h2>
+                        <p class="mb-3">Grouping membantu kita untuk:</p>
+                        <ul class="list-disc pl-6 space-y-2">
+                            <li><span class="font-semibold">Melihat Tren Tingkat Tinggi:</span> Menganalisis data berdasarkan periode waktu yang lebih luas (bulan, kuartal, tahun) daripada tanggal individual.</li>
+                            <li><span class="font-semibold">Analisis Distribusi:</span> Memahami bagaimana data numerik tersebar dalam rentang-rentang tertentu (misal, kelompok harga, kelompok usia).</li>
+                            <li><span class="font-semibold">Menyederhanakan Laporan:</span> Mengurangi jumlah baris atau kolom dalam PivotTable dengan menggabungkan item-item terkait.</li>
+                        </ul>
+                    </div>
+
+                    <div class="mb-8">
+                        <h2 class="text-xl font-bold mb-4">Grouping Data Tanggal</h2>
+                        <p class="mb-4">
+                            Ini adalah salah satu penggunaan grouping yang paling umum. Excel sangat pintar dalam mengenali dan mengelompokkan tanggal.
+                        </p>
+                        <p class="mb-6 italic text-gray-600 dark:text-gray-400">
+                            Mari kita gunakan sheet Data Penjualan dan PivotTable yang sudah ada.
+                        </p>
+
+                        <div class="exercise-box p-5 rounded-lg mb-6">
+                            <h3 class="font-bold text-lg mb-3 flex items-center">
+                                <i class="fas fa-dumbbell text-blue-600 mr-2"></i> Latihan 1: Meringkas Total Penjualan per Bulan
+                            </h3>
+
+                            <div class="step-container">
+                                <div class="pivot-step">
+                                    <h4 class="font-semibold mb-2">1. Siapkan PivotTable</h4>
+                                    <p>Buat PivotTable baru atau bersihkan yang lama. Seret field <span class="font-mono bg-gray-200 dark:bg-gray-700 px-2 py-1 rounded">Tanggal</span> ke area <span class="font-semibold">ROWS</span> dan <span class="font-mono bg-gray-200 dark:bg-gray-700 px-2 py-1 rounded">Total Penjualan</span> ke area <span class="font-semibold">VALUES</span> (pastikan fungsinya SUM).</p>
+                                    <p class="mt-2 italic">Kamu akan melihat PivotTable menampilkan total penjualan untuk setiap tanggal unik. Ini terlalu rinci jika kita ingin melihat tren bulanan.</p>
+                                </div>
+
+                                <div class="pivot-step">
+                                    <h4 class="font-semibold mb-2">2. Klik Kanan pada Tanggal</h4>
+                                    <p>Klik kanan pada salah satu tanggal di kolom baris PivotTable.</p>
+                                </div>
+
+                                <div class="pivot-step">
+                                    <h4 class="font-semibold mb-2">3. Pilih Group</h4>
+                                    <p>Pilih "Group..." (Kelompokkan...) dari menu.</p>
+                                </div>
+
+                                <div class="pivot-step">
+                                    <h4 class="font-semibold mb-2">4. Dialog Grouping</h4>
+                                    <p>Sebuah jendela "Grouping" akan muncul. Excel biasanya otomatis mendeteksi rentang tanggal (Start at, End at).</p>
+                                    <ul class="list-disc pl-6 mt-2">
+                                        <li>Di bagian "By" (Berdasarkan), kamu akan melihat beberapa pilihan periode waktu: Seconds, Minutes, Hours, Days, Months, Quarters, Years.</li>
+                                        <li>Pilih <span class="font-semibold">Months</span>: Klik pada Months untuk memilihnya (pastikan hanya Months yang ter-highlight biru). Jika Days juga ter-highlight, klik untuk menonaktifkannya.</li>
+                                        <li>Kamu juga bisa memilih Years jika datamu mencakup beberapa tahun dan ingin dikelompokkan per tahun juga.</li>
+                                    </ul>
+                                </div>
+
+                                <div class="pivot-step">
+                                    <h4 class="font-semibold mb-2">5. Klik OK</h4>
+                                    <p>Lihat PivotTable-mu! Excel secara ajaib mengelompokkan semua tanggal ke dalam bulan yang sesuai (misalnya, "Jan" untuk Januari) dan menampilkan total penjualan untuk setiap bulan tersebut. Jauh lebih ringkas dan mudah melihat performa bulanan!</p>
+                                </div>
+                            </div>
+
+                            <div class="mt-6 p-4 bg-white dark:bg-gray-700 rounded-lg">
+                                <h4 class="font-bold mb-3">Contoh Hasil Grouping Tanggal:</h4>
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                    <div>
+                                        <p class="text-sm text-gray-600 dark:text-gray-400 mb-2">Sebelum Grouping:</p>
+                                        <div class="screenshot bg-gray-100 dark:bg-gray-800 p-3">
+                                            <div class="flex justify-between border-b pb-1">
+                                                <span>Tanggal</span>
+                                                <span>Total Penjualan</span>
+                                            </div>
+                                            <div class="flex justify-between py-1">
+                                                <span>01/01/2023</span>
+                                                <span>Rp 1.250.000</span>
+                                            </div>
+                                            <div class="flex justify-between py-1">
+                                                <span>02/01/2023</span>
+                                                <span>Rp 980.000</span>
+                                            </div>
+                                            <div class="flex justify-between py-1">
+                                                <span>03/01/2023</span>
+                                                <span>Rp 1.750.000</span>
+                                            </div>
+                                            <div class="text-gray-500 text-sm py-1">... 28 baris lainnya ...</div>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <p class="text-sm text-gray-600 dark:text-gray-400 mb-2">Setelah Grouping:</p>
+                                        <div class="screenshot bg-gray-100 dark:bg-gray-800 p-3">
+                                            <div class="flex justify-between border-b pb-1">
+                                                <span>Bulan</span>
+                                                <span>Total Penjualan</span>
+                                            </div>
+                                            <div class="flex justify-between py-1">
+                                                <span>Jan 2023</span>
+                                                <span>Rp 35.420.000</span>
+                                            </div>
+                                            <div class="flex justify-between py-1">
+                                                <span>Feb 2023</span>
+                                                <span>Rp 42.150.000</span>
+                                            </div>
+                                            <div class="flex justify-between py-1">
+                                                <span>Mar 2023</span>
+                                                <span>Rp 38.750.000</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="tip-box p-4 rounded-lg">
+                            <h4 class="font-bold mb-2 flex items-center">
+                                <i class="fas fa-lightbulb text-green-600 mr-2"></i> Eksplorasi Grouping Tanggal Lain:
+                            </h4>
+                            <p>Coba ulangi langkah grouping, tapi kali ini pilih <span class="font-semibold">Quarters</span> dan <span class="font-semibold">Years</span> (jika relevan dengan datamu). Kamu bisa memilih beberapa periode sekaligus (misal, Months dan Years).</p>
+                            <p class="mt-2"><span class="font-semibold">Ungrouping:</span> Jika ingin mengembalikan ke tampilan tanggal individual, klik kanan lagi pada tanggal/bulan yang sudah dikelompokkan, lalu pilih "Ungroup...".</p>
+                        </div>
+                    </div>
+
+                    <div class="mb-8">
+                        <h2 class="text-xl font-bold mb-4">Grouping Data Numerik</h2>
+                        <p class="mb-4">
+                            Selain tanggal, kita juga bisa mengelompokkan data numerik ke dalam rentang-rentang tertentu.
+                        </p>
+
+                        <div class="exercise-box p-5 rounded-lg mb-6">
+                            <h3 class="font-bold text-lg mb-3 flex items-center">
+                                <i class="fas fa-dumbbell text-blue-600 mr-2"></i> Latihan 2: Meringkas Jumlah Transaksi berdasarkan Rentang Total Penjualan
+                            </h3>
+                            <p class="mb-4">Misalnya, kita ingin tahu: Berapa banyak transaksi yang total penjualannya antara 0-50000, 50001-100000, dst.?</p>
+
+                            <div class="step-container">
+                                <div class="pivot-step">
+                                    <h4 class="font-semibold mb-2">1. Siapkan PivotTable</h4>
+                                    <p>Bersihkan PivotTable. Seret <span class="font-mono bg-gray-200 dark:bg-gray-700 px-2 py-1 rounded">Total Penjualan</span> ke area <span class="font-semibold">ROWS</span>. Seret <span class="font-mono bg-gray-200 dark:bg-gray-700 px-2 py-1 rounded">Total Penjualan</span> lagi ke area <span class="font-semibold">VALUES</span>, tapi kali ini ubah fungsi ringkasannya menjadi COUNT (Klik kanan > Summarize Values By > Count).</p>
+                                    <p class="mt-2 italic">Sekarang PivotTable menampilkan setiap nilai Total Penjualan unik dan berapa kali nilai itu muncul (Count).</p>
+                                </div>
+
+                                <div class="pivot-step">
+                                    <h4 class="font-semibold mb-2">2. Klik Kanan pada Angka</h4>
+                                    <p>Klik kanan pada salah satu angka di kolom baris Total Penjualan.</p>
+                                </div>
+
+                                <div class="pivot-step">
+                                    <h4 class="font-semibold mb-2">3. Pilih Group</h4>
+                                    <p>Pilih "Group..."</p>
+                                </div>
+
+                                <div class="pivot-step">
+                                    <h4 class="font-semibold mb-2">4. Dialog Grouping (Angka)</h4>
+                                    <p>Jendela Grouping akan muncul, sedikit berbeda untuk angka.</p>
+                                    <ul class="list-disc pl-6 mt-2">
+                                        <li>Excel akan mencoba menebak nilai awal (Start at) dan akhir (End at).</li>
+                                        <li>Yang penting adalah bagian "By" (Berdasarkan). Ini menentukan ukuran setiap kelompok/rentang. Misalnya, jika kita ingin kelompok per 50000, ketik 50000 di sini.</li>
+                                    </ul>
+                                </div>
+
+                                <div class="pivot-step">
+                                    <h4 class="font-semibold mb-2">5. Klik OK</h4>
+                                    <p>PivotTable akan mengelompokkan nilai Total Penjualan ke dalam rentang-rentang (misal, 1-50000, 50001-100000) dan menampilkan jumlah transaksi (Count) untuk setiap rentang tersebut. Ini memberi kita gambaran distribusi ukuran transaksi.</p>
+                                </div>
+                            </div>
+
+                            <div class="mt-6 p-4 bg-white dark:bg-gray-700 rounded-lg">
+                                <h4 class="font-bold mb-3">Contoh Hasil Grouping Numerik:</h4>
+                                <div class="screenshot bg-gray-100 dark:bg-gray-800 p-3">
+                                    <div class="flex justify-between border-b pb-1">
+                                        <span>Rentang Penjualan</span>
+                                        <span>Jumlah Transaksi</span>
+                                    </div>
+                                    <div class="flex justify-between py-1">
+                                        <span>Rp 0 - Rp 50.000</span>
+                                        <span>42</span>
+                                    </div>
+                                    <div class="flex justify-between py-1">
+                                        <span>Rp 50.001 - Rp 100.000</span>
+                                        <span>35</span>
+                                    </div>
+                                    <div class="flex justify-between py-1">
+                                        <span>Rp 100.001 - Rp 150.000</span>
+                                        <span>28</span>
+                                    </div>
+                                    <div class="flex justify-between py-1">
+                                        <span>Rp 150.001 - Rp 200.000</span>
+                                        <span>15</span>
+                                    </div>
+                                    <div class="flex justify-between py-1">
+                                        <span>Rp 200.001 - Rp 250.000</span>
+                                        <span>8</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="tip-box p-4 rounded-lg">
+                                <h4 class="font-bold mb-2 flex items-center">
+                                    <i class="fas fa-lightbulb text-green-600 mr-2"></i> Tips Grouping Numerik:
+                                </h4>
+                                <ul class="list-disc pl-6">
+                                    <li>Ubah nilai <span class="font-semibold">"By"</span> untuk membuat rentang yang lebih besar atau lebih kecil</li>
+                                    <li>Atur <span class="font-semibold">"Starting at"</span> dan <span class="font-semibold">"Ending at"</span> untuk menentukan batas rentang</li>
+                                    <li><span class="font-semibold">Ungrouping:</span> Sama seperti tanggal, klik kanan pada rentang angka yang sudah dikelompokkan, lalu pilih "Ungroup..."</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-indigo-900 dark:to-blue-900 p-6 rounded-lg mb-8">
+                        <h2 class="text-xl font-bold mb-4">Apa Selanjutnya?</h2>
+                        <p class="mb-4">
+                            Fitur Grouping ini menambah dimensi analisis yang kuat pada PivotTable, memungkinkanmu melihat data dari perspektif yang lebih luas atau terstruktur.
+                        </p>
+                        <p class="mb-4">
+                            Besok, kita akan melengkapi persenjataan PivotTable kita dengan belajar cara menambahkan <span class="font-semibold">Filter dan Slicer</span>. Filter memungkinkan kita menyaring data di dalam PivotTable, sementara Slicer adalah tombol interaktif yang membuat proses filtering menjadi lebih visual dan mudah, terutama saat membuat dashboard.
+                        </p>
+                        <p class="font-semibold">
+                            Teruslah berlatih dengan Grouping pada data tanggal dan angka! Jangan lupa Simpan pekerjaanmu. Sampai jumpa besok!
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Lesson Footer -->
+                <div class="bg-gray-100 dark:bg-gray-700 p-6">
+                    <div class="flex flex-col sm:flex-row justify-between items-center gap-4">
+                        <div class="flex-1">
+                            <div class="flex items-start">
+                                <i class="fas fa-lightbulb text-yellow-500 mt-1 mr-3"></i>
+                                <p class="text-gray-700 dark:text-gray-300">
+                                    <span class="font-semibold">Tips Hari Ini:</span> Gunakan Grouping untuk melihat pola tren bulanan pada data penjualan. Coba kelompokkan data usia pelanggan untuk melihat distribusi demografi!
+                                </p>
+                            </div>
+                        </div>
+                        <a href="../minggu4/hari22.html" class="btn-next text-white px-6 py-3 rounded-lg font-semibold shadow-md hover:shadow-lg transition">
+                            Lanjut ke Hari 22 <i class="fas fa-arrow-right ml-2"></i>
+                        </a>
+                    </div>
+                </div>
+            </article>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-12 mt-12">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
+                <div>
+                    <h4 class="text-lg font-bold mb-4">Navigasi Cepat</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="hover:text-blue-300 transition">Kuartal 1</a></li>
+                        <li><a href="#" class="hover:text-blue-300 transition">Kuartal 2</a></li>
+                        <li><a href="#" class="hover:text-blue-300 transition">Kuartal 3</a></li>
+                        <li><a href="#" class="hover:text-blue-300 transition">Kuartal 4</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="text-lg font-bold mb-4">Resources</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="hover:text-blue-300 transition">Checklist Keterampilan</a></li>
+                        <li><a href="#" class="hover:text-blue-300 transition">Contoh Portofolio</a></li>
+                        <li><a href="#" class="hover:text-blue-300 transition">Pertanyaan Interview</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="text-lg font-bold mb-4">Kontak</h4>
+                    <p class="mb-2">Email: kontak@data365.com</p>
+                    <div class="flex space-x-4 mt-4">
+                        <a href="#" class="text-gray-400 hover:text-white">
+                            <i class="fab fa-twitter text-xl"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white">
+                            <i class="fab fa-facebook text-xl"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white">
+                            <i class="fab fa-github text-xl"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="border-t border-gray-700 pt-8 text-center">
+                <p>&copy; 2025 Buku Panduan Data Analisis 365 Hari. Hak Cipta Dilindungi.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Dark Mode Toggle -->
+    <button id="dark-toggle" class="fixed bottom-6 right-6 w-12 h-12 rounded-full bg-gray-800 text-white shadow-lg flex items-center justify-center z-30">
+        <i id="dark-icon" class="fas fa-moon hidden"></i>
+        <i id="light-icon" class="fas fa-sun"></i>
+    </button>
+
+    <script>
+        // Dark Mode Toggle
+        const darkToggle = document.getElementById('dark-toggle');
+        const darkIcon = document.getElementById('dark-icon');
+        const lightIcon = document.getElementById('light-icon');
+
+        darkToggle.addEventListener('click', () => {
+            document.body.classList.toggle('dark-mode');
+
+            if (document.body.classList.contains('dark-mode')) {
+                darkIcon.classList.remove('hidden');
+                lightIcon.classList.add('hidden');
+                darkToggle.classList.add('bg-gray-700');
+            } else {
+                darkIcon.classList.add('hidden');
+                lightIcon.classList.remove('hidden');
+                darkToggle.classList.remove('bg-gray-700');
+            }
+        });
+
+        // Scroll to top function
+        function scrollToTop() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        }
+    </script>
+</body>
+</html>
