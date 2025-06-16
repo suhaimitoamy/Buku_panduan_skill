@@ -1,0 +1,705 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hari 1: Selamat Datang di Dunia Analisis Data - Kuartal 1</title>
+    <!-- Tailwind CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Fira+Code&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #3B82F6;
+            --secondary: #10B981;
+            --accent: #8B5CF6;
+            --background: #FFFFFF;
+            --text: #1F2937;
+            --muted: #9CA3AF;
+            --light-bg: #f9fafb;
+            --dark-bg: #1f2937;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            color: var(--text);
+            background-color: var(--background);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header */
+        .header {
+            background-color: var(--background);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            padding: 1rem 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+        }
+
+        .logo svg {
+            height: 40px;
+            width: 40px;
+            fill: none;
+            stroke: var(--primary);
+            stroke-width: 2;
+        }
+
+        .logo-text {
+            font-family: 'Inter', sans-serif;
+            font-weight: 700;
+            font-size: 1.25rem;
+            margin-left: 10px;
+            color: var(--text);
+        }
+
+        .nav-links {
+            list-style: none;
+            display: flex;
+            gap: 1.5rem;
+            margin: 0;
+            padding: 0;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text);
+            font-weight: 500;
+            transition: color 0.3s;
+            font-size: 0.95rem;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+
+        .dropdown {
+            position: relative;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: white;
+            min-width: 200px;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.1);
+            z-index: 1;
+            border-radius: 0.375rem;
+            padding: 0.5rem 0;
+        }
+
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+
+        .dropdown-content a {
+            color: var(--text);
+            padding: 0.75rem 1rem;
+            text-decoration: none;
+            display: block;
+            transition: background-color 0.2s;
+            font-size: 0.9rem;
+        }
+
+        .dropdown-content a:hover {
+            background-color: #dbeafe;
+        }
+
+        /* Breadcrumb */
+        .breadcrumb-container {
+            background-color: var(--light-bg);
+            padding: 15px 0;
+            margin-bottom: 20px;
+        }
+
+        .breadcrumb {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            align-items: center;
+            font-size: 0.9rem;
+        }
+
+        .breadcrumb a {
+            color: var(--primary);
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+
+        .breadcrumb a:hover {
+            text-decoration: underline;
+        }
+
+        .breadcrumb span {
+            color: var(--muted);
+        }
+
+        .breadcrumb-separator {
+            margin: 0 10px;
+            color: var(--muted);
+        }
+
+        /* Main Content */
+        .learning-container {
+            padding: 120px 20px 60px;
+        }
+
+        .day-content {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            padding: 40px;
+            margin-bottom: 50px;
+        }
+
+        .day-header {
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid var(--light-bg);
+        }
+
+        .day-header h1 {
+            font-family: 'Inter', sans-serif;
+            font-weight: 700;
+            font-size: 2.2rem;
+            color: var(--dark-bg);
+            margin-bottom: 10px;
+            line-height: 1.3;
+        }
+
+        .meta-info {
+            color: var(--muted);
+            font-size: 1rem;
+            display: block;
+            margin-bottom: 20px;
+        }
+
+        .day-content p {
+            margin-bottom: 20px;
+            line-height: 1.8;
+            font-size: 1.1rem;
+        }
+
+        .day-content section {
+            margin-bottom: 40px;
+        }
+
+        .day-content h2 {
+            font-family: 'Inter', sans-serif;
+            font-weight: 600;
+            font-size: 1.7rem;
+            color: var(--primary);
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--light-bg);
+        }
+
+        .day-content ol, .day-content ul {
+            padding-left: 25px;
+            margin-bottom: 25px;
+        }
+
+        .day-content li {
+            margin-bottom: 10px;
+            line-height: 1.7;
+            font-size: 1.1rem;
+        }
+
+        .day-content strong {
+            color: var(--dark-bg);
+        }
+
+        .illustration-box {
+            background-color: #f0f9ff;
+            border-left: 4px solid var(--primary);
+            padding: 20px;
+            margin: 25px 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .info-card {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            margin-bottom: 15px;
+        }
+
+        /* Lesson Footer */
+        .lesson-footer {
+            background: var(--light-bg);
+            padding: 25px;
+            border-radius: 8px;
+            margin-top: 40px;
+        }
+
+        .lesson-footer p {
+            font-style: italic;
+            color: var(--muted);
+            margin-bottom: 20px;
+        }
+
+        .cta-button {
+            background-color: var(--secondary);
+            color: white;
+            padding: 12px 30px;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+            display: inline-block;
+            transition: all 0.3s;
+            font-size: 1rem;
+            border: none;
+            cursor: pointer;
+        }
+
+        .cta-button:hover {
+            background-color: #0e8e6d;
+            transform: translateY(-3px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+        }
+
+        /* Footer */
+        .footer {
+            background-color: var(--dark-bg);
+            color: white;
+            padding: 60px 0 30px;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: space-between;
+            gap: 30px;
+            flex-wrap: wrap;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .footer-links h4 {
+            font-family: 'Inter', sans-serif;
+            font-weight: 600;
+            margin-bottom: 20px;
+            font-size: 1.25rem;
+        }
+
+        .footer-links ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .footer-links ul li {
+            margin-bottom: 10px;
+        }
+
+        .footer-links ul li a {
+            color: var(--muted);
+            text-decoration: none;
+            transition: color 0.3s;
+            font-size: 0.95rem;
+        }
+
+        .footer-links ul li a:hover {
+            color: white;
+        }
+
+        .copyright {
+            text-align: center;
+            margin-top: 60px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            padding-top: 30px;
+            color: var(--muted);
+            max-width: 1200px;
+            margin: 60px auto 0;
+            padding: 20px;
+            font-size: 0.9rem;
+        }
+
+        /* Mobile Menu */
+        #mobile-menu {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--text);
+        }
+
+        #sidebar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 280px;
+            background: white;
+            box-shadow: 2px 0 10px rgba(0,0,0,0.1);
+            transform: translateX(-100%);
+            transition: transform 0.3s ease;
+            z-index: 1000;
+            padding-top: 70px;
+            overflow-y: auto;
+        }
+
+        #overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 999;
+            display: none;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+            
+            #mobile-menu {
+                display: block;
+            }
+            
+            .learning-container {
+                padding: 100px 15px 40px;
+            }
+            
+            .day-content {
+                padding: 25px;
+            }
+            
+            .day-header h1 {
+                font-size: 1.8rem;
+            }
+            
+            .day-content h2 {
+                font-size: 1.5rem;
+            }
+            
+            .footer-links {
+                flex-direction: column;
+                gap: 40px;
+            }
+            
+            .breadcrumb {
+                flex-wrap: wrap;
+                row-gap: 5px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .day-header h1 {
+                font-size: 1.6rem;
+            }
+            
+            .day-content h2 {
+                font-size: 1.3rem;
+            }
+            
+            .info-card {
+                flex: 0 0 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <nav class="navbar">
+            <a href="../../../index.html" class="logo">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                    <path d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+                </svg>
+                <span class="logo-text">Home</span>
+            </a>
+
+            <!-- Desktop Navigation -->
+            <ul class="nav-links">
+                <li><a href="../../../index.html">Home</a></li>
+                
+                <li class="dropdown">
+                    <a href="#" class="flex items-center">
+                        Kuartal 1: Dasar <span class="ml-1">&#9662;</span>
+                    </a>
+                    <div class="dropdown-content">
+                        <a href="#">Bulan 1: Excel Dasar</a>
+                        <a href="#">Bulan 2: Statistik Dasar</a>
+                        <a href="#">Bulan 3: SQL Lanjutan</a>
+                    </div>
+                </li>
+                
+                <li class="dropdown">
+                    <a href="#" class="flex items-center">
+                        Kuartal 2: Intermediate <span class="ml-1">&#9662;</span>
+                    </a>
+                    <div class="dropdown-content">
+                        <a href="#">Bulan 4-6</a>
+                    </div>
+                </li>
+                
+                <li class="dropdown">
+                    <a href="#" class="flex items-center">
+                        Kuartal 3: Advanced <span class="ml-1">&#9662;</span>
+                    </a>
+                    <div class="dropdown-content">
+                        <a href="#">Bulan 7-9</a>
+                    </div>
+                </li>
+                
+                <li class="dropdown">
+                    <a href="#" class="flex items-center">
+                        Kuartal 4: Spesialisasi <span class="ml-1">&#9662;</span>
+                    </a>
+                    <div class="dropdown-content">
+                        <a href="#">Bulan 10-12</a>
+                    </div>
+                </li>
+                
+                <li><a href="#">Resources</a></li>
+                <li><a href="#">Dataset & Tools</a></li>
+                <li><a href="../../about.html">About</a></li>
+            </ul>
+
+            <!-- Mobile Menu Button -->
+            <button id="mobile-menu">≡</button>
+        </nav>
+    </header>
+
+    <!-- Mobile Sidebar -->
+    <aside id="sidebar" class="fixed top-0 left-0 h-full w-64 bg-white shadow-lg z-50 transform -translate-x-full transition-transform duration-300 pt-16">
+        <div class="p-4 overflow-y-auto">
+            <ul class="space-y-2">
+                <li><a href="../../../index.html" class="block py-2 px-4 hover:bg-blue-100 rounded">Home</a></li>
+                
+                <li class="dropdown">
+                    <a href="#" class="block py-2 px-4 hover:bg-blue-100 rounded flex justify-between items-center">
+                        Kuartal 1: Dasar <span class="arrow">&#9662;</span>
+                    </a>
+                    <div class="dropdown-content ml-4">
+                        <a href="#" class="block py-2 px-4 hover:bg-blue-100 rounded">Bulan 1: Excel Dasar</a>
+                        <a href="#" class="block py-2 px-4 hover:bg-blue-100 rounded">Bulan 2: Statistik Dasar</a>
+                        <a href="#" class="block py-2 px-4 hover:bg-blue-100 rounded">Bulan 3: SQL Lanjutan</a>
+                    </div>
+                </li>
+                
+                <li class="dropdown">
+                    <a href="#" class="block py-2 px-4 hover:bg-blue-100 rounded flex justify-between items-center">
+                        Kuartal 2: Intermediate <span class="arrow">&#9662;</span>
+                    </a>
+                    <div class="dropdown-content ml-4">
+                        <a href="#" class="block py-2 px-4 hover:bg-blue-100 rounded">Bulan 4-6</a>
+                    </div>
+                </li>
+                
+                <li class="dropdown">
+                    <a href="#" class="block py-2 px-4 hover:bg-blue-100 rounded flex justify-between items-center">
+                        Kuartal 3: Advanced <span class="arrow">&#9662;</span>
+                    </a>
+                    <div class="dropdown-content ml-4">
+                        <a href="#" class="block py-2 px-4 hover:bg-blue-100 rounded">Bulan 7-9</a>
+                    </div>
+                </li>
+                
+                <li class="dropdown">
+                    <a href="#" class="block py-2 px-4 hover:bg-blue-100 rounded flex justify-between items-center">
+                        Kuartal 4: Spesialisasi <span class="arrow">&#9662;</span>
+                    </a>
+                    <div class="dropdown-content ml-4">
+                        <a href="#" class="block py-2 px-4 hover:bg-blue-100 rounded">Bulan 10-12</a>
+                    </div>
+                </li>
+                
+                <li><a href="#" class="block py-2 px-4 hover:bg-blue-100 rounded">Resources</a></li>
+                <li><a href="#" class="block py-2 px-4 hover:bg-blue-100 rounded">Dataset & Tools</a></li>
+                <li><a href="../../about.html" class="block py-2 px-4 hover:bg-blue-100 rounded">About</a></li>
+            </ul>
+        </div>
+    </aside>
+
+    <!-- Overlay for Mobile Menu -->
+    <div id="overlay" class="fixed inset-0 bg-black bg-opacity-50 z-40 hidden"></div>
+
+    <!-- Breadcrumb -->
+    <div class="breadcrumb-container">
+        <div class="breadcrumb">
+            <a href="../../../index.html">Home</a>
+            <span class="breadcrumb-separator">&gt;</span>
+            <a href="../../index.html">Kuartal 1</a>
+            <span class="breadcrumb-separator">&gt;</span>
+            <a href="../index.html">Bulan 1</a>
+            <span class="breadcrumb-separator">&gt;</span>
+            <a href="./index.html">Minggu 1</a>
+            <span class="breadcrumb-separator">&gt;</span>
+            <span>Hari 1</span>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <main class="container learning-container">
+        <article class="day-content">
+            <header class="day-header">
+                <h1>Hari 1: Selamat Datang di Dunia Analisis Data!</h1>
+                <p class="meta-info">Kuartal 1: Dasar | Bulan 1: Excel Dasar</p>
+            </header>
+
+            <p>Selamat datang di hari pertama perjalanan 365 hari kita untuk menguasai materi analisis data. Buku panduan ini dirancang untuk membimbingmu dari nol hingga menjadi profesional.</p>
+
+            <section id="apa-itu">
+                <h2>Apa Itu Analisis Data?</h2>
+                <p><strong>Analisis data</strong> adalah proses memeriksa, membersihkan, mengubah, dan memodelkan data untuk mendapatkan informasi yang berguna dan mendukung pengambilan keputusan.</p>
+                <ol>
+                    <li><strong>Memeriksa (Inspecting):</strong> Meninjau data secara keseluruhan.</li>
+                    <li><strong>Membersihkan (Cleaning):</strong> Menghapus data yang tidak relevan atau salah.</li>
+                    <li><strong>Mengubah (Transforming):</strong> Mengelompokkan dan menyusun ulang data.</li>
+                    <li><strong>Memodelkan (Modeling):</strong> Menemukan pola dan kesimpulan dari data tersebut.</li>
+                </ol>
+            </section>
+
+            <section id="mengapa-penting">
+                <h2>Mengapa Analisis Data Itu Penting?</h2>
+                <ol>
+                    <li><strong>Keputusan Lebih Baik.</strong> Data jadi dasar, bukan tebakan.</li>
+                    <li><strong>Pahami Pelanggan:</strong> Tahu kebutuhan mereka lebih tepat.</li>
+                    <li><strong>Efisiensi Operasional:</strong> Perbaiki proses yang boros.</li>
+                    <li><strong>Lihat Peluang:</strong> Tangkap tren lebih cepat dari kompetitor.</li>
+                    <li><strong>Ukur Kinerja:</strong> Evaluasi strategi bisnis dengan akurat.</li>
+                    <li><strong>Pecahkan Masalah Kompleks:</strong> Contohnya prediksi penyakit atau cuaca.</li>
+                </ol>
+            </section>
+
+            <section id="contoh">
+                <h2>Contoh Nyata Analisis Data</h2>
+                <ul>
+                    <li>Perusahaan retail menganalisis pola belanja untuk membuat diskon yang tepat sasaran.</li>
+                    <li>Aplikasi transportasi seperti Gojek menggunakan data lokasi untuk optimalkan rute pengemudi.</li>
+                    <li>Website e-commerce mempersonalisasi rekomendasi berdasarkan data interaksi pengguna.</li>
+                </ul>
+
+                <div class="illustration-box">
+                    <h3 class="text-xl font-bold" style="color: var(--primary); margin-top: 0;">Ilustrasi Proses Analisis Data</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+                        <div class="info-card">
+                            <strong style="color: var(--primary);">1. Data Mentah</strong>
+                            <p>Transaksi penjualan, log pengguna, sensor IoT</p>
+                        </div>
+                        <div class="info-card">
+                            <strong style="color: var(--primary);">2. Proses Analisis</strong>
+                            <p>Pembersihan, transformasi, pemodelan</p>
+                        </div>
+                        <div class="info-card">
+                            <strong style="color: var(--primary);">3. Insight</strong>
+                            <p>Pola, tren, prediksi, rekomendasi</p>
+                        </div>
+                        <div class="info-card">
+                            <strong style="color: var(--primary);">4. Keputusan</strong>
+                            <p>Strategi bisnis, optimisasi, inovasi</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <footer class="lesson-footer">
+                <p><em>Tips Hari Ini:</em> Jangan terburu-buru. Pahami konsep dasarnya dulu, praktik bisa menyusul. Analisis data adalah keterampilan yang membutuhkan ketelitian dan kesabaran.</p>
+                <a href="hari2.html" class="cta-button">Lanjut ke Hari 2</a>
+            </footer>
+        </article>
+    </main>
+
+    <footer class="footer">
+        <div class="footer-links">
+            <div>
+                <h4>Navigasi Cepat</h4>
+                <ul>
+                    <li><a href="#">Kuartal 1</a></li>
+                    <li><a href="#">Kuartal 2</a></li>
+                    <li><a href="#">Kuartal 3</a></li>
+                    <li><a href="#">Kuartal 4</a></li>
+                </ul>
+            </div>
+
+            <div>
+                <h4>Resources</h4>
+                <ul>
+                    <li><a href="#">Checklist Keterampilan</a></li>
+                    <li><a href="#">Contoh Portofolio</a></li>
+                    <li><a href="#">Pertanyaan Interview</a></li>
+                </ul>
+            </div>
+
+            <div>
+                <h4>Kontak</h4>
+                <p>Email: kontak@data365.com</p>
+                <div class="flex space-x-4 mt-4">
+                    <a href="#" class="text-gray-400 hover:text-white">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24"><path d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616-.054 2.281 1.581 4.415 3.949 4.89-.693.188-1.452.232-2.224.084.626 1.956 2.444 3.379 4.6 3.419-2.07 1.623-4.678 2.348-7.29 2.04 2.179 1.397 4.768 2.212 7.548 2.212 9.142 0 14.307-7.721 13.995-14.646.962-.695 1.797-1.562 2.457-2.549z"/></svg>
+                    </a>
+                    <a href="#" class="text-gray-400 hover:text-white">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm3 8h-1.35c-.538 0-.65.221-.65.778v1.222h2l-.209 2h-1.791v7h-3v-7h-2v-2h2v-2.308c0-1.769.931-2.692 3.029-2.692h1.971v3z"/></svg>
+                    </a>
+                    <a href="#" class="text-gray-400 hover:text-white">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="copyright">
+            <p>&copy; 2025 Buku Panduan Data Analisis 365 Hari. Hak Cipta Dilindungi.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile Menu Toggle
+        const mobileMenu = document.getElementById('mobile-menu');
+        const sidebar = document.getElementById('sidebar');
+        const overlay = document.getElementById('overlay');
+
+        mobileMenu.addEventListener('click', () => {
+            sidebar.classList.toggle('-translate-x-full');
+            overlay.classList.toggle('hidden');
+        });
+
+        overlay.addEventListener('click', () => {
+            sidebar.classList.add('-translate-x-full');
+            overlay.classList.add('hidden');
+        });
+
+        // Close dropdowns when clicking outside
+        document.addEventListener('click', (e) => {
+            const dropdowns = document.querySelectorAll('.dropdown');
+            dropdowns.forEach(dropdown => {
+                if (!dropdown.contains(e.target)) {
+                    const content = dropdown.querySelector('.dropdown-content');
+                    if (content) content.style.display = 'none';
+                }
+            });
+        });
+    </script>
+</body>
+</html>
