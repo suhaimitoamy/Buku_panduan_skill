@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hari 27: VLOOKUP Excel - Fungsi Pencarian Data</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .formula-gradient {
+            background: linear-gradient(135deg, #3B82F6, #10B981);
+        }
+        .table-master {
+            border-collapse: collapse;
+            width: 100%;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        .table-master th {
+            background-color: #3B82F6;
+            color: white;
+        }
+        .table-master td, .table-master th {
+            border: 1px solid #e5e7eb;
+            padding: 8px 12px;
+            text-align: left;
+        }
+        .table-master tr:nth-child(even) {
+            background-color: #f3f4f6;
+        }
+        .vlookup-card {
+            border-left: 4px solid #8B5CF6;
+            transition: all 0.3s;
+        }
+        .vlookup-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 15px rgba(0,0,0,0.1);
+        }
+        .argument-highlight {
+            background-color: #dbeafe;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-weight: 500;
+        }
+        .exercise-step {
+            position: relative;
+            padding-left: 40px;
+            margin-bottom: 30px;
+        }
+        .step-number {
+            position: absolute;
+            left: 0;
+            top: 0;
+            background-color: #10B981;
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+        .formula-box {
+            font-family: monospace;
+            font-size: 1.1rem;
+            background-color: #1F2937;
+            color: #F9FAFB;
+            padding: 15px;
+            border-radius: 8px;
+            overflow-x: auto;
+        }
+        .formula-arg {
+            color: #60A5FA;
+        }
+        .formula-func {
+            color: #FBBF24;
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Header -->
+    <header class="formula-gradient text-white py-8">
+        <div class="container mx-auto px-4 text-center">
+            <div class="inline-block bg-white bg-opacity-20 rounded-full p-4 mb-4">
+                <i class="fas fa-search text-3xl"></i>
+            </div>
+            <h1 class="text-3xl md:text-4xl font-bold mb-2">Hari 27: VLOOKUP - Fungsi Pencarian Excel</h1>
+            <p class="text-xl text-blue-100 max-w-2xl mx-auto">
+                Kuasai fungsi paling penting untuk menggabungkan data antar tabel
+            </p>
+            <div class="mt-4 flex flex-wrap justify-center gap-2">
+                <span class="bg-white bg-opacity-30 px-4 py-1 rounded-full">Excel</span>
+                <span class="bg-white bg-opacity-30 px-4 py-1 rounded-full">Data Integration</span>
+                <span class="bg-white bg-opacity-30 px-4 py-1 rounded-full">Lookup</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-4 py-8 max-w-4xl">
+        <!-- Intro -->
+        <div class="bg-white rounded-xl shadow-lg p-6 mb-8">
+            <div class="flex items-start">
+                <div class="bg-blue-100 text-blue-800 rounded-full p-3 mr-4">
+                    <i class="fas fa-database text-xl"></i>
+                </div>
+                <div>
+                    <h2 class="text-2xl font-bold text-gray-800 mb-3">Selamat pagi, Integrator Data!</h2>
+                    <p class="mb-3">
+                        Saat data tersebar di banyak tabel, VLOOKUP menjadi senjata utama untuk menghubungkannya. Fungsi ini mencari nilai di satu tabel dan mengambil informasi terkait dari tabel lain.
+                    </p>
+                    <div class="bg-blue-50 p-4 rounded-lg border border-blue-200">
+                        <p class="font-semibold flex items-start">
+                            <i class="fas fa-lightbulb text-yellow-500 mr-2 mt-1"></i>
+                            Analogi: VLOOKUP seperti asisten yang membawa daftar ID produk ke gudang, lalu kembali dengan nama dan harga produk yang sesuai!
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Why VLOOKUP -->
+        <div class="bg-white rounded-xl shadow-lg p-6 mb-8">
+            <h2 class="text-2xl font-bold text-gray-800 mb-6 pb-2 border-b">
+                <i class="fas fa-star text-yellow-500 mr-2"></i>
+                Mengapa VLOOKUP Penting?
+            </h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="bg-green-50 p-4 rounded-lg">
+                    <h3 class="font-bold text-lg mb-3 flex items-center">
+                        <i class="fas fa-link text-green-600 mr-2"></i> Menggabungkan Data
+                    </h3>
+                    <p>Menghubungkan informasi dari tabel berbeda berdasarkan kunci unik (ID Produk, ID Pelanggan).</p>
+                </div>
+                <div class="bg-blue-50 p-4 rounded-lg">
+                    <h3 class="font-bold text-lg mb-3 flex items-center">
+                        <i class="fas fa-sync text-blue-600 mr-2"></i> Otomatisasi Pembaruan
+                    </h3>
+                    <p>Perubahan di tabel master otomatis tercermin di semua tempat yang menggunakan VLOOKUP.</p>
+                </div>
+                <div class="bg-purple-50 p-4 rounded-lg">
+                    <h3 class="font-bold text-lg mb-3 flex items-center">
+                        <i class="fas fa-ban text-purple-600 mr-2"></i> Mengurangi Duplikasi
+                    </h3>
+                    <p>Hanya simpan data master di satu tempat, gunakan VLOOKUP untuk mengaksesnya.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Syntax -->
+        <div class="bg-white rounded-xl shadow-lg p-6 mb-8">
+            <h2 class="text-2xl font-bold text-gray-800 mb-6 pb-2 border-b">
+                <i class="fas fa-code text-blue-600 mr-2"></i>
+                Struktur Fungsi VLOOKUP
+            </h2>
+            
+            <div class="formula-box mb-6">
+                <span class="formula-func">=VLOOKUP(</span>
+                <span class="formula-arg">lookup_value</span>,
+                <span class="formula-arg">table_array</span>,
+                <span class="formula-arg">col_index_num</span>,
+                <span class="formula-arg">[range_lookup]</span>
+                <span class="formula-func">)</span>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="vlookup-card p-4">
+                    <h3 class="font-bold text-lg mb-3 flex items-center">
+                        <div class="bg-blue-600 text-white rounded-full w-6 h-6 flex items-center justify-center mr-2">1</div>
+                        lookup_value
+                    </h3>
+                    <p>Nilai yang dicari (biasanya ID/referensi)</p>
+                    <p class="text-sm mt-2"><i>Contoh: <span class="bg-gray-200 px-2 rounded">C2</span> (ID Produk)</i></p>
+                </div>
+                <div class="vlookup-card p-4">
+                    <h3 class="font-bold text-lg mb-3 flex items-center">
+                        <div class="bg-green-600 text-white rounded-full w-6 h-6 flex items-center justify-center mr-2">2</div>
+                        table_array
+                    </h3>
+                    <p>Rentang tabel referensi (gunakan $ untuk absolut)</p>
+                    <p class="text-sm mt-2"><i>Contoh: <span class="bg-gray-200 px-2 rounded">'Master Produk'!$A$2:$C$7</span></i></p>
+                </div>
+                <div class="vlookup-card p-4">
+                    <h3 class="font-bold text-lg mb-3 flex items-center">
+                        <div class="bg-purple-600 text-white rounded-full w-6 h-6 flex items-center justify-center mr-2">3</div>
+                        col_index_num
+                    </h3>
+                    <p>Nomor kolom data yang ingin diambil (dimulai dari 1)</p>
+                    <p class="text-sm mt-2"><i>Contoh: <span class="bg-gray-200 px-2 rounded">2</span> untuk Nama Produk</i></p>
+                </div>
+                <div class="vlookup-card p-4">
+                    <h3 class="font-bold text-lg mb-3 flex items-center">
+                        <div class="bg-red-600 text-white rounded-full w-6 h-6 flex items-center justify-center mr-2">4</div>
+                        [range_lookup]
+                    </h3>
+                    <p>FALSE untuk kecocokan persis (wajib!)</p>
+                    <p class="text-sm mt-2"><i>Contoh: <span class="bg-gray-200 px-2 rounded">FALSE</span></i></p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Data Tables -->
+        <div class="bg-white rounded-xl shadow-lg p-6 mb-8">
+            <h2 class="text-2xl font-bold text-gray-800 mb-6 pb-2 border-b">
+                <i class="fas fa-table text-green-600 mr-2"></i>
+                Data Latihan
+            </h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div>
+                    <h3 class="font-bold text-lg mb-3 flex items-center">
+                        <i class="fas fa-database text-blue-600 mr-2"></i> Tabel Master Produk
+                    </h3>
+                    <table class="table-master">
+                        <thead>
+                            <tr>
+                                <th>ID Produk</th>
+                                <th>Nama Produk</th>
+                                <th>Harga Satuan</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>P001</td>
+                                <td>Apel</td>
+                                <td>Rp 5.000</td>
+                            </tr>
+                            <tr>
+                                <td>P002</td>
+                                <td>Susu UHT 1L</td>
+                                <td>Rp 18.000</td>
+                            </tr>
+                            <tr>
+                                <td>P003</td>
+                                <td>Roti Tawar</td>
+                                <td>Rp 12.000</td>
+                            </tr>
+                            <tr>
+                                <td>P004</td>
+                                <td>Pisang</td>
+                                <td>Rp 3.000</td>
+                            </tr>
+                            <tr>
+                                <td>P005</td>
+                                <td>Roti Sobek</td>
+                                <td>Rp 15.000</td>
+                            </tr>
+                            <tr>
+                                <td>P006</td>
+                                <td>Kopi Instan</td>
+                                <td>Rp 1.500</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div>
+                    <h3 class="font-bold text-lg mb-3 flex items-center">
+                        <i class="fas fa-shopping-cart text-purple-600 mr-2"></i> Tabel Data Penjualan
+                    </h3>
+                    <table class="table-master">
+                        <thead>
+                            <tr>
+                                <th>Tanggal</th>
+                                <th>Pelanggan</th>
+                                <th>ID Produk</th>
+                                <th>Jumlah</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>2024-01-05</td>
+                                <td>Budi</td>
+                                <td>P001</td>
+                                <td>10</td>
+                            </tr>
+                            <tr>
+                                <td>2024-01-05</td>
+                                <td>Citra</td>
+                                <td>P002</td>
+                                <td>5</td>
+                            </tr>
+                            <tr>
+                                <td>2024-01-06</td>
+                                <td>Budi</td>
+                                <td>P003</td>
+                                <td>3</td>
+                            </tr>
+                            <tr>
+                                <td>2024-01-07</td>
+                                <td>Dewa</td>
+                                <td>P004</td>
+                                <td>8</td>
+                            </tr>
+                            <tr>
+                                <td>2024-01-08</td>
+                                <td>Citra</td>
+                                <td>P005</td>
+                                <td>2</td>
+                            </tr>
+                            <tr>
+                                <td>2024-01-09</td>
+                                <td>Budi</td>
+                                <td>P006</td>
+                                <td>10</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Exercise -->
+        <div class="bg-white rounded-xl shadow-lg p-6 mb-8">
+            <h2 class="text-2xl font-bold text-gray-800 mb-6 pb-2 border-b">
+                <i class="fas fa-dumbbell text-red-600 mr-2"></i>
+                Latihan: Menggunakan VLOOKUP
+            </h2>
+            
+            <div class="exercise-step">
+                <div class="step-number">1</div>
+                <h3 class="font-bold text-lg mb-3">Tambahkan Kolom Nama Produk</h3>
+                <p>Di tabel Penjualan, tambahkan kolom baru "Nama Produk" di sebelah "ID Produk"</p>
+                <div class="mt-4 p-4 bg-gray-100 rounded-lg">
+                    <div class="font-mono text-sm">=VLOOKUP(<span class="text-blue-600">C2</span>, <span class="text-green-600">'Master Produk'!$A$2:$C$7</span>, <span class="text-purple-600">2</span>, <span class="text-red-600">FALSE</span>)</div>
+                </div>
+                <div class="mt-3 text-sm text-gray-600">
+                    <i class="fas fa-info-circle mr-2 text-blue-500"></i>
+                    C2: ID Produk pertama | Kolom 2: Nama Produk | FALSE: Kecocokan persis
+                </div>
+            </div>
+            
+            <div class="exercise-step">
+                <div class="step-number">2</div>
+                <h3 class="font-bold text-lg mb-3">Tambahkan Kolom Harga Satuan</h3>
+                <p>Tambahkan kolom "Harga Satuan" di sebelah "Nama Produk"</p>
+                <div class="mt-4 p-4 bg-gray-100 rounded-lg">
+                    <div class="font-mono text-sm">=VLOOKUP(<span class="text-blue-600">C2</span>, <span class="text-green-600">'Master Produk'!$A$2:$C$7</span>, <span class="text-purple-600">3</span>, <span class="text-red-600">FALSE</span>)</div>
+                </div>
+                <div class="mt-3 text-sm text-gray-600">
+                    <i class="fas fa-info-circle mr-2 text-blue-500"></i>
+                    Kolom 3: Harga Satuan | Referensi tabel tetap sama
+                </div>
+            </div>
+            
+            <div class="exercise-step">
+                <div class="step-number">3</div>
+                <h3 class="font-bold text-lg mb-3">Hitung Total Penjualan</h3>
+                <p>Tambahkan kolom "Total Penjualan" dengan rumus: Jumlah × Harga Satuan</p>
+                <div class="mt-4 p-4 bg-gray-100 rounded-lg">
+                    <div class="font-mono text-sm">=D2 * E2</div>
+                </div>
+                <div class="mt-3">
+                    <table class="table-master">
+                        <thead>
+                            <tr>
+                                <th>ID Produk</th>
+                                <th>Nama Produk</th>
+                                <th>Harga Satuan</th>
+                                <th>Jumlah</th>
+                                <th>Total Penjualan</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>P001</td>
+                                <td>Apel</td>
+                                <td>Rp 5.000</td>
+                                <td>10</td>
+                                <td>Rp 50.000</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Limitations -->
+        <div class="bg-white rounded-xl shadow-lg p-6 mb-8">
+            <h2 class="text-2xl font-bold text-gray-800 mb-6 pb-2 border-b">
+                <i class="fas fa-exclamation-triangle text-yellow-500 mr-2"></i>
+                Batasan VLOOKUP
+            </h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="bg-red-50 p-4 rounded-lg border-l-4 border-red-500">
+                    <h3 class="font-bold text-lg mb-2 flex items-center">
+                        <i class="fas fa-arrow-left mr-2"></i> Hanya Mencari ke Kanan
+                    </h3>
+                    <p>VLOOKUP hanya bisa mengambil data dari kolom di sebelah kanan kolom pencarian.</p>
+                </div>
+                <div class="bg-red-50 p-4 rounded-lg border-l-4 border-red-500">
+                    <h3 class="font-bold text-lg mb-2 flex items-center">
+                        <i class="fas fa-search mr-2"></i> Kolom Pencarian Pertama
+                    </h3>
+                    <p>Nilai yang dicari harus di kolom pertama tabel referensi.</p>
+                </div>
+                <div class="bg-red-50 p-4 rounded-lg border-l-4 border-red-500">
+                    <h3 class="font-bold text-lg mb-2 flex items-center">
+                        <i class="fas fa-tachometer-alt mr-2"></i> Performa Data Besar
+                    </h3>
+                    <p>Bisa lambat jika digunakan pada dataset sangat besar.</p>
+                </div>
+                <div class="bg-red-50 p-4 rounded-lg border-l-4 border-red-500">
+                    <h3 class="font-bold text-lg mb-2 flex items-center">
+                        <i class="fas fa-copy mr-2"></i> Duplikat Nilai Pencarian
+                    </h3>
+                    <p>Hanya mengembalikan hasil pertama jika ada duplikat di kolom pencarian.</p>
+                </div>
+            </div>
+            
+            <div class="mt-6 bg-blue-50 p-4 rounded-lg">
+                <h3 class="font-bold text-lg mb-2 flex items-center">
+                    <i class="fas fa-lightbulb text-blue-600 mr-2"></i> Solusi Alternatif
+                </h3>
+                <p>Untuk kasus lebih kompleks, gunakan:</p>
+                <ul class="list-disc pl-6 mt-2">
+                    <li><span class="font-bold">XLOOKUP</span> (Excel terbaru) - Lebih fleksibel dan powerful</li>
+                    <li><span class="font-bold">INDEX/MATCH</span> - Kombinasi fungsi untuk pencarian lebih advance</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Next Steps -->
+        <div class="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl shadow-lg p-6 mb-8">
+            <h2 class="text-2xl font-bold text-gray-800 mb-4 flex items-center">
+                <i class="fas fa-arrow-right text-blue-600 mr-3"></i>
+                Apa Selanjutnya?
+            </h2>
+            
+            <div class="flex flex-col md:flex-row gap-6 items-center">
+                <div class="flex-1">
+                    <p class="mb-4">
+                        Kamu telah mempelajari salah satu fungsi terpenting di Excel! VLOOKUP adalah keterampilan wajib untuk analis data.
+                    </p>
+                    
+                    <div class="bg-white p-4 rounded-lg border border-blue-300">
+                        <h3 class="font-bold text-lg mb-3 flex items-center">
+                            <i class="fas fa-sync-alt text-green-600 mr-2"></i>
+                            Hari 28: Review Minggu 4
+                        </h3>
+                        <p>
+                            Besok kita akan mereview semua yang telah dipelajari di minggu keempat: PivotTable, PivotChart, dan VLOOKUP.
+                        </p>
+                    </div>
+                </div>
+                <div class="text-center">
+                    <button class="bg-green-600 text-white px-6 py-3 rounded-lg font-bold hover:bg-green-700 transition">
+                        <i class="fas fa-book mr-2"></i>
+                        Siapkan Diri untuk Review!
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Navigation -->
+        <div class="flex justify-between mt-12">
+            <a href="hari26.html" class="bg-blue-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-blue-700 transition">
+                <i class="fas fa-arrow-left mr-2"></i> Hari 26: PivotChart
+            </a>
+            <a href="hari28.html" class="bg-purple-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-purple-700 transition">
+                Hari 28: Review Minggu 4 <i class="fas fa-arrow-right ml-2"></i>
+            </a>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-12 mt-12">
+        <div class="container mx-auto px-4 text-center">
+            <p class="text-xl font-bold mb-4">Panduan Data Analisis 365 Hari</p>
+            <p class="text-gray-400 max-w-2xl mx-auto mb-6">
+                Kuasai Excel, SQL, Python, dan teknik analisis data profesional langkah demi langkah
+            </p>
+            <div class="flex justify-center space-x-6 mb-6">
+                <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-youtube fa-lg"></i></a>
+                <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-github fa-lg"></i></a>
+                <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-linkedin fa-lg"></i></a>
+            </div>
+            <p class="text-gray-500 text-sm">
+                &copy; 2025 Buku Panduan Data Analisis 365 Hari. Hak Cipta Dilindungi.
+            </p>
+        </div>
+    </footer>
+</body>
+</html>
