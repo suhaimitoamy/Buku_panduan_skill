@@ -1,0 +1,689 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hari 23: Menggali Lebih Dalam PivotTable - Fungsi & Format</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        :root {
+            --primary: #3B82F6;
+            --secondary: #10B981;
+            --accent: #8B5CF6;
+            --background: #FFFFFF;
+            --text: #1F2937;
+            --light-bg: #f9fafb;
+            --dark-bg: #112937;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            color: var(--text);
+            background-color: var(--background);
+            line-height: 1.6;
+        }
+
+        .header {
+            background-color: var(--background);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .breadcrumb-container {
+            background-color: var(--light-bg);
+        }
+
+        .day-content {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        }
+
+        .lesson-card {
+            transition: all 0.3s ease;
+            border-left: 4px solid var(--primary);
+        }
+
+        .lesson-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 15px rgba(0,0,0,0.1);
+        }
+
+        .pivot-area {
+            min-height: 80px;
+            border: 2px dashed #cbd5e1;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .pivot-area.hovered {
+            border-color: var(--primary);
+            background-color: #dbeafe;
+        }
+
+        .field-item {
+            background-color: #e0f2fe;
+            border-radius: 4px;
+            padding: 8px 12px;
+            cursor: grab;
+            transition: all 0.2s ease;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        .field-item:hover {
+            background-color: #bae6fd;
+        }
+
+        .pivot-table {
+            border-collapse: collapse;
+            width: 100%;
+            font-size: 0.9rem;
+        }
+
+        .pivot-table th {
+            background-color: #e0f2fe;
+            text-align: left;
+            padding: 8px 12px;
+            border: 1px solid #cbd5e1;
+        }
+
+        .pivot-table td {
+            padding: 8px 12px;
+            border: 1px solid #cbd5e1;
+        }
+
+        .pivot-table .subtotal {
+            background-color: #f0f9ff;
+            font-weight: 600;
+        }
+
+        .pivot-table .grand-total {
+            background-color: #dbeafe;
+            font-weight: 700;
+        }
+
+        .interactive-demo {
+            background-color: #f0f9ff;
+            border-radius: 12px;
+            border: 1px solid #dbeafe;
+        }
+
+        .btn-primary {
+            background-color: var(--primary);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            background-color: #2563eb;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(37, 99, 235, 0.2);
+        }
+
+        .step-icon {
+            background-color: var(--primary);
+            color: white;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+
+        .footer {
+            background-color: var(--dark-bg);
+            color: white;
+        }
+
+        .summary-options {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 16px;
+            margin: 20px 0;
+        }
+
+        .option-card {
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 16px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .option-card:hover {
+            border-color: var(--primary);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+        }
+
+        .option-card.active {
+            border-color: var(--primary);
+            background-color: #dbeafe;
+        }
+
+        .format-options {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin: 15px 0;
+        }
+
+        .format-btn {
+            padding: 8px 16px;
+            border: 1px solid #cbd5e1;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .format-btn:hover {
+            background-color: #e2e8f0;
+        }
+
+        .format-btn.active {
+            background-color: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        @media (max-width: 768px) {
+            .pivot-container {
+                flex-direction: column;
+            }
+
+            .fields-panel {
+                width: 100%;
+                margin-bottom: 20px;
+            }
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Header -->
+    <header class="header py-4">
+        <div class="container mx-auto px-4">
+            <div class="flex items-center justify-between">
+                <a href="index.html" class="flex items-center text-xl font-bold text-blue-600">
+                    <i class="fas fa-book mr-2"></i>
+                    Panduan Data 365
+                </a>
+                <div class="hidden md:flex space-x-6">
+                    <a href="index.html" class="text-gray-700 hover:text-blue-600">Home</a>
+                    <div class="relative group">
+                        <button class="text-gray-700 hover:text-blue-600 flex items-center">
+                            Kuartal 1 <i class="fas fa-chevron-down ml-1 text-xs"></i>
+                        </button>
+                        <div class="absolute hidden group-hover:block bg-white shadow-lg rounded-md mt-2 p-2 min-w-[200px]">
+                            <a href="#" class="block px-4 py-2 hover:bg-blue-50 rounded">Bulan 1: Excel Dasar</a>
+                            <a href="#" class="block px-4 py-2 hover:bg-blue-50 rounded">Bulan 2: Statistik Dasar</a>
+                            <a href="#" class="block px-4 py-2 hover:bg-blue-50 rounded">Bulan 3: SQL Lanjutan</a>
+                        </div>
+                    </div>
+                    <a href="#" class="text-gray-700 hover:text-blue-600">Kuartal 2</a>
+                    <a href="#" class="text-gray-700 hover:text-blue-600">Resources</a>
+                    <a href="#" class="text-gray-700 hover:text-blue-600">About</a>
+                </div>
+                <button class="md:hidden text-gray-700">
+                    <i class="fas fa-bars text-xl"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Breadcrumb -->
+    <div class="breadcrumb-container py-3">
+        <div class="container mx-auto px-4">
+            <nav class="flex text-sm text-gray-600">
+                <a href="index.html" class="text-blue-600 hover:underline">Home</a>
+                <span class="mx-2">/</span>
+                <a href="kuartal1.html" class="text-blue-600 hover:underline">Kuartal 1</a>
+                <span class="mx-2">/</span>
+                <a href="excel-dasar.html" class="text-blue-600 hover:underline">Excel Dasar</a>
+                <span class="mx-2">/</span>
+                <a href="#" class="text-blue-600 hover:underline">Minggu 4</a>
+                <span class="mx-2">/</span>
+                <span class="text-gray-500">Hari 23: Fungsi & Format PivotTable</span>
+            </nav>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-4 py-8">
+        <div class="max-w-4xl mx-auto">
+            <!-- Header Section -->
+            <div class="text-center mb-12">
+                <div class="inline-block bg-blue-100 text-blue-800 text-sm font-semibold px-4 py-1 rounded-full mb-4">
+                    Kuartal 1: Excel Dasar | Minggu 4 | Hari 23
+                </div>
+                <h1 class="text-3xl md:text-4xl font-bold text-gray-800 mb-4">Menggali Lebih Dalam PivotTable: Fungsi & Format</h1>
+                <p class="text-lg text-gray-600 max-w-2xl mx-auto">
+                    Menguasai fungsi ringkasan dan pemformatan angka untuk analisis yang lebih powerful
+                </p>
+            </div>
+
+            <!-- Lesson Content -->
+            <div class="day-content p-6 md:p-8 mb-8">
+                <div class="prose max-w-none">
+                    <div class="bg-blue-50 p-6 rounded-lg mb-8">
+                        <p class="text-blue-800 mb-0">
+                            <i class="fas fa-lightbulb mr-2"></i>
+                            <strong>Selamat pagi, PivotTable explorer!</strong> Kemarin kita sudah merasakan keajaiban drag-and-drop untuk membuat ringkasan data instan. Hari ini, kita akan menggali lebih dalam kemampuan PivotTable dengan mempelajari fungsi ringkasan dan pemformatan angka.
+                        </p>
+                    </div>
+
+                    <div class="bg-gradient-to-r from-blue-50 to-indigo-50 p-6 rounded-lg mb-8">
+                        <h2 class="text-xl font-bold text-blue-800 mb-4">Apa yang akan kita pelajari hari ini?</h2>
+                        <ul class="list-disc pl-6 space-y-2">
+                            <li><span class="font-semibold">Mengubah Fungsi Ringkasan</span>: Menggunakan SUM, AVERAGE, COUNT, MAX, MIN di area VALUES</li>
+                            <li><span class="font-semibold">Memformat Angka</span>: Menampilkan nilai dalam format mata uang atau dengan pemisah ribuan</li>
+                            <li><span class="font-semibold">Tip Tampilan</span>: Mengubah layout dan gaya PivotTable</li>
+                        </ul>
+                    </div>
+
+                    <h2 class="text-2xl font-bold text-gray-800 mt-8 mb-4 pb-2 border-b">Mengubah Fungsi Ringkasan di Area VALUES</h2>
+                    <p class="mb-4">
+                        Secara default, ketika kamu menyeret field numerik ke area VALUES, Excel menggunakan fungsi SUM. Untuk field teks, Excel menggunakan COUNT. Tapi kita bisa mengubahnya!
+                    </p>
+                    
+                    <div class="summary-options mb-6">
+                        <div class="option-card" onclick="selectSummary('sum')">
+                            <h3 class="font-bold text-lg mb-2"><i class="fas fa-calculator text-blue-600 mr-2"></i> SUM (Jumlah)</h3>
+                            <p>Menjumlahkan semua nilai dalam kelompok. Cocok untuk total penjualan, pendapatan, dll.</p>
+                        </div>
+                        <div class="option-card" onclick="selectSummary('average')">
+                            <h3 class="font-bold text-lg mb-2"><i class="fas fa-chart-line text-green-600 mr-2"></i> AVERAGE (Rata-rata)</h3>
+                            <p>Menghitung nilai rata-rata dalam kelompok. Cocok untuk rata-rata transaksi, nilai ujian, dll.</p>
+                        </div>
+                        <div class="option-card" onclick="selectSummary('count')">
+                            <h3 class="font-bold text-lg mb-2"><i class="fas fa-list-ol text-purple-600 mr-2"></i> COUNT (Jumlah Data)</h3>
+                            <p>Menghitung jumlah entri dalam kelompok. Cocok untuk jumlah transaksi, jumlah siswa, dll.</p>
+                        </div>
+                        <div class="option-card" onclick="selectSummary('max')">
+                            <h3 class="font-bold text-lg mb-2"><i class="fas fa-arrow-up text-red-600 mr-2"></i> MAX (Maksimum)</h3>
+                            <p>Menampilkan nilai tertinggi dalam kelompok. Cocok untuk penjualan tertinggi, nilai maksimal, dll.</p>
+                        </div>
+                        <div class="option-card" onclick="selectSummary('min')">
+                            <h3 class="font-bold text-lg mb-2"><i class="fas fa-arrow-down text-yellow-600 mr-2"></i> MIN (Minimum)</h3>
+                            <p>Menampilkan nilai terendah dalam kelompok. Cocok untuk penjualan terendah, nilai minimal, dll.</p>
+                        </div>
+                    </div>
+
+                    <div class="lesson-card bg-white p-6 rounded-lg mb-8">
+                        <div class="flex items-start mb-4">
+                            <div class="step-icon mr-4 flex-shrink-0">1</div>
+                            <div>
+                                <h3 class="text-xl font-bold text-gray-800">Latihan 1: Rata-rata Total Penjualan per Kategori</h3>
+                                <p class="text-gray-600 mt-1">Mengubah fungsi ringkasan dari SUM menjadi AVERAGE</p>
+                            </div>
+                        </div>
+
+                        <div class="flex items-start mb-4">
+                            <div class="bg-blue-100 text-blue-800 rounded-full w-8 h-8 flex items-center justify-center mr-3 flex-shrink-0">
+                                <i class="fas fa-mouse-pointer"></i>
+                            </div>
+                            <div>
+                                <p><strong>Langkah-langkah:</strong></p>
+                                <ol class="list-decimal pl-6 mt-2 space-y-2">
+                                    <li>Siapkan PivotTable dengan Kategori di ROWS dan Sum of Total Penjualan di VALUES</li>
+                                    <li>Klik kanan pada salah satu angka di kolom nilai</li>
+                                    <li>Pilih <span class="font-semibold">Summarize Values By</span> → <span class="font-semibold">Average</span></li>
+                                    <li>Lihat perubahan! Judul kolom menjadi "Average of Total Penjualan"</li>
+                                </ol>
+                            </div>
+                        </div>
+
+                        <div class="mt-4">
+                            <h4 class="font-medium text-gray-700 mb-2">Hasil:</h4>
+                            <div class="overflow-x-auto">
+                                <table class="pivot-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Kategori</th>
+                                            <th>Rata-rata Penjualan</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>Buah</td>
+                                            <td>Rp 55.000</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Minuman</td>
+                                            <td>Rp 47.222</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Roti</td>
+                                            <td>Rp 32.000</td>
+                                        </tr>
+                                        <tr class="grand-total">
+                                            <td><strong>Grand Total</strong></td>
+                                            <td><strong>Rp 41.500</strong></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="lesson-card bg-white p-6 rounded-lg mb-8">
+                        <div class="flex items-start mb-4">
+                            <div class="step-icon mr-4 flex-shrink-0">2</div>
+                            <div>
+                                <h3 class="text-xl font-bold text-gray-800">Latihan 2: Jumlah Jenis Produk Berbeda per Pelanggan</h3>
+                                <p class="text-gray-600 mt-1">Menggunakan fungsi COUNT dan Distinct Count</p>
+                            </div>
+                        </div>
+
+                        <div class="flex items-start mb-4">
+                            <div class="bg-blue-100 text-blue-800 rounded-full w-8 h-8 flex items-center justify-center mr-3 flex-shrink-0">
+                                <i class="fas fa-mouse-pointer"></i>
+                            </div>
+                            <div>
+                                <p><strong>Langkah-langkah:</strong></p>
+                                <ol class="list-decimal pl-6 mt-2 space-y-2">
+                                    <li>Bersihkan PivotTable</li>
+                                    <li>Seret Pelanggan ke ROWS</li>
+                                    <li>Seret Produk ke VALUES (secara default akan Count of Produk)</li>
+                                    <li>Klik panah dropdown Count of Produk di area VALUES</li>
+                                    <li>Pilih <span class="font-semibold">Value Field Settings</span></li>
+                                    <li>Scroll ke bawah dan pilih <span class="font-semibold">Distinct Count</span> (jika tersedia)</li>
+                                </ol>
+                            </div>
+                        </div>
+
+                        <div class="mt-4">
+                            <h4 class="font-medium text-gray-700 mb-2">Perbandingan:</h4>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div>
+                                    <h5 class="font-semibold text-gray-700 mb-2">Count (Jumlah semua produk)</h5>
+                                    <div class="overflow-x-auto">
+                                        <table class="pivot-table">
+                                            <thead>
+                                                <tr>
+                                                    <th>Pelanggan</th>
+                                                    <th>Jumlah Produk</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>Budi</td>
+                                                    <td>5</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Citra</td>
+                                                    <td>3</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Dewa</td>
+                                                    <td>4</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                <div>
+                                    <h5 class="font-semibold text-gray-700 mb-2">Distinct Count (Jenis produk berbeda)</h5>
+                                    <div class="overflow-x-auto">
+                                        <table class="pivot-table">
+                                            <thead>
+                                                <tr>
+                                                    <th>Pelanggan</th>
+                                                    <th>Jenis Produk</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>Budi</td>
+                                                    <td>3</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Citra</td>
+                                                    <td>3</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Dewa</td>
+                                                    <td>2</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <h2 class="text-2xl font-bold text-gray-800 mt-12 mb-4 pb-2 border-b">Memformat Angka di PivotTable</h2>
+                    <p class="mb-4">
+                        Angka penjualan atau rata-rata lebih mudah dibaca jika diformat sebagai mata uang atau dengan pemisah ribuan.
+                    </p>
+
+                    <div class="lesson-card bg-white p-6 rounded-lg mb-8">
+                        <div class="flex items-start mb-4">
+                            <div class="step-icon mr-4 flex-shrink-0">3</div>
+                            <div>
+                                <h3 class="text-xl font-bold text-gray-800">Latihan 3: Memformat Total Penjualan sebagai Mata Uang</h3>
+                                <p class="text-gray-600 mt-1">Menampilkan nilai dalam format Rupiah</p>
+                            </div>
+                        </div>
+
+                        <div class="flex items-start mb-4">
+                            <div class="bg-blue-100 text-blue-800 rounded-full w-8 h-8 flex items-center justify-center mr-3 flex-shrink-0">
+                                <i class="fas fa-mouse-pointer"></i>
+                            </div>
+                            <div>
+                                <p><strong>Langkah-langkah:</strong></p>
+                                <ol class="list-decimal pl-6 mt-2 space-y-2">
+                                    <li>Siapkan PivotTable dengan Kategori di ROWS dan Sum of Total Penjualan di VALUES</li>
+                                    <li>Klik kanan pada salah satu angka di kolom nilai</li>
+                                    <li>Pilih <span class="font-semibold">Number Format...</span></li>
+                                    <li>Di jendela Format Cells, pilih <span class="font-semibold">Currency</span></li>
+                                    <li>Atur simbol menjadi Rp (IDR), jumlah desimal, dan format negatif</li>
+                                    <li>Klik OK</li>
+                                </ol>
+                            </div>
+                        </div>
+
+                        <div class="mt-4">
+                            <h4 class="font-medium text-gray-700 mb-2">Format Angka:</h4>
+                            <div class="format-options">
+                                <div class="format-btn" onclick="selectFormat('general')">Umum</div>
+                                <div class="format-btn" onclick="selectFormat('currency')">Mata Uang (Rp)</div>
+                                <div class="format-btn" onclick="selectFormat('accounting')">Akuntansi</div>
+                                <div class="format-btn" onclick="selectFormat('number')">Angka (1,000)</div>
+                                <div class="format-btn" onclick="selectFormat('percent')">Persentase</div>
+                            </div>
+                            
+                            <div class="mt-4 overflow-x-auto">
+                                <table class="pivot-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Kategori</th>
+                                            <th>Total Penjualan</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>Buah</td>
+                                            <td id="format-example">Rp 1.250.000</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Minuman</td>
+                                            <td>Rp 850.000</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Roti</td>
+                                            <td>Rp 1.100.000</td>
+                                        </tr>
+                                        <tr class="grand-total">
+                                            <td><strong>Grand Total</strong></td>
+                                            <td><strong>Rp 3.200.000</strong></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <h2 class="text-2xl font-bold text-gray-800 mt-12 mb-4 pb-2 border-b">Tip Tampilan (Layout & Style)</h2>
+                    <p class="mb-4">
+                        Selain fungsi dan format, kamu juga bisa mengubah tampilan PivotTable untuk membuatnya lebih informatif.
+                    </p>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                        <div class="p-4 border rounded-lg">
+                            <h3 class="font-bold text-lg mb-3"><i class="fas fa-palette text-blue-600 mr-2"></i> PivotTable Styles</h3>
+                            <p>Mengubah skema warna dan gaya tabel. Coba berbagai gaya untuk menemukan yang paling sesuai dengan laporanmu.</p>
+                        </div>
+                        <div class="p-4 border rounded-lg">
+                            <h3 class="font-bold text-lg mb-3"><i class="fas fa-table text-green-600 mr-2"></i> Report Layout</h3>
+                            <p>Mengubah tata letak menjadi bentuk tabular yang lebih mirip tabel biasa, atau bentuk kompak untuk menghemat ruang.</p>
+                        </div>
+                        <div class="p-4 border rounded-lg">
+                            <h3 class="font-bold text-lg mb-3"><i class="fas fa-calculator text-purple-600 mr-2"></i> Grand Totals</h3>
+                            <p>Menampilkan atau menyembunyikan total keseluruhan dan subtotal untuk setiap kelompok.</p>
+                        </div>
+                    </div>
+
+                    <div class="bg-gradient-to-r from-green-50 to-teal-50 border-l-4 border-green-500 p-6 rounded-lg mb-8">
+                        <h3 class="text-xl font-bold text-gray-800 mb-3">Apa Selanjutnya?</h3>
+                        <p class="mb-4">
+                            Kamu sekarang bisa mengontrol fungsi ringkasan dan format angka di PivotTable, membuatnya lebih fleksibel dan mudah dibaca.
+                        </p>
+                        <p class="mb-4">
+                            Besok, kita akan belajar salah satu fitur keren lainnya dari PivotTable: <span class="font-semibold">Grouping (Mengelompokkan)</span>. Kita bisa mengelompokkan data tanggal (misal, per bulan atau kuartal) atau data numerik (misal, per rentang usia atau harga) secara otomatis di dalam PivotTable. Ini sangat berguna untuk analisis tren atau distribusi.
+                        </p>
+                        <p class="font-medium">
+                            Teruslah berlatih dengan PivotTable! Coba berbagai kombinasi fungsi dan format untuk mendapatkan insight terbaik dari datamu.
+                        </p>
+                    </div>
+
+                    <div class="flex justify-between mt-12">
+                        <a href="hari22.html" class="btn-primary inline-flex items-center">
+                            <i class="fas fa-arrow-left mr-2"></i> Hari Sebelumnya
+                        </a>
+                        <a href="hari24.html" class="btn-primary inline-flex items-center">
+                            Hari Selanjutnya <i class="fas fa-arrow-right ml-2"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer py-12">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+                <div> 
+                    <h4 class="text-lg font-bold mb-4 text-white">Navigasi Cepat</h4> 
+                    <ul class="space-y-2"> 
+                        <li><a href="#" class="text-gray-300 hover:text-white">Kuartal 1</a></li> 
+                        <li><a href="#" class="text-gray-300 hover:text-white">Kuartal 2</a></li> 
+                        <li><a href="#" class="text-gray-300 hover:text-white">Kuartal 3</a></li> 
+                        <li><a href="#" class="text-gray-300 hover:text-white">Kuartal 4</a></li> 
+                    </ul> 
+                </div> 
+                <div> 
+                    <h4 class="text-lg font-bold mb-4 text-white">Excel Dasar</h4> 
+                    <ul class="space-y-2"> 
+                        <li><a href="#" class="text-gray-300 hover:text-white">Formula Dasar</a></li> 
+                        <li><a href="#" class="text-gray-300 hover:text-white">Fungsi Statistik</a></li> 
+                        <li><a href="#" class="text-gray-300 hover:text-white">PivotTable</a></li> 
+                        <li><a href="#" class="text-gray-300 hover:text-white">Visualisasi Data</a></li> 
+                    </ul> 
+                </div> 
+                <div> 
+                    <h4 class="text-lg font-bold mb-4 text-white">Resources</h4> 
+                    <ul class="space-y-2"> 
+                        <li><a href="#" class="text-gray-300 hover:text-white">Download Dataset</a></li> 
+                        <li><a href="#" class="text-gray-300 hover:text-white">Template Excel</a></li> 
+                        <li><a href="#" class="text-gray-300 hover:text-white">Cheat Sheet</a></li> 
+                        <li><a href="#" class="text-gray-300 hover:text-white">Forum Diskusi</a></li> 
+                    </ul> 
+                </div> 
+                <div> 
+                    <h4 class="text-lg font-bold mb-4 text-white">Kontak</h4> 
+                    <p class="text-gray-300 mb-4">Email: kontak@data365.com</p> 
+                    <div class="flex space-x-4"> 
+                        <a href="#" class="text-gray-300 hover:text-white"> 
+                            <i class="fab fa-twitter text-xl"></i> 
+                        </a> 
+                        <a href="#" class="text-gray-300 hover:text-white"> 
+                            <i class="fab fa-facebook text-xl"></i> 
+                        </a> 
+                        <a href="#" class="text-gray-300 hover:text-white"> 
+                            <i class="fab fa-instagram text-xl"></i> 
+                        </a> 
+                        <a href="#" class="text-gray-300 hover:text-white"> 
+                            <i class="fab fa-linkedin text-xl"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="border-t border-gray-700 pt-8 text-center text-gray-400">
+                <p>&copy; 2025 Buku Panduan Data Analisis 365 Hari. Hak Cipta Dilindungi.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Fungsi untuk memilih ringkasan
+        function selectSummary(type) {
+            // Hapus kelas active dari semua card
+            document.querySelectorAll('.option-card').forEach(card => {
+                card.classList.remove('active');
+            });
+            
+            // Tambahkan kelas active ke card yang diklik
+            event.currentTarget.classList.add('active');
+            
+            // Di aplikasi nyata, ini akan mengubah fungsi ringkasan di PivotTable
+            console.log(`Fungsi ringkasan dipilih: ${type}`);
+        }
+        
+        // Fungsi untuk memilih format angka
+        function selectFormat(type) {
+            // Hapus kelas active dari semua tombol
+            document.querySelectorAll('.format-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            
+            // Tambahkan kelas active ke tombol yang diklik
+            event.currentTarget.classList.add('active');
+            
+            // Ubah format contoh
+            const exampleCell = document.getElementById('format-example');
+            switch(type) {
+                case 'currency':
+                    exampleCell.textContent = 'Rp 1.250.000';
+                    break;
+                case 'accounting':
+                    exampleCell.textContent = 'Rp 1.250.000';
+                    break;
+                case 'number':
+                    exampleCell.textContent = '1.250.000';
+                    break;
+                case 'percent':
+                    exampleCell.textContent = '1250000%';
+                    break;
+                case 'general':
+                default:
+                    exampleCell.textContent = '1250000';
+            }
+        }
+        
+        // Inisialisasi format default
+        document.addEventListener('DOMContentLoaded', function() {
+            selectFormat('currency');
+            document.querySelector('.option-card:nth-child(1)').classList.add('active');
+        });
+    </script>
+</body>
+</html>
