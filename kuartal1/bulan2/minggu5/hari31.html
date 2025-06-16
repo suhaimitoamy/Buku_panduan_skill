@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hari 31: Pengantar Statistik Deskriptif - Mean, Median, Modus</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #3B82F6;
+            --secondary: #10B981;
+            --accent: #8B5CF6;
+            --background: #FFFFFF;
+            --text: #1F2937;
+            --muted: #9CA3AF;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            color: var(--text);
+            background-color: var(--background);
+            line-height: 1.6;
+        }
+
+        .header {
+            background-color: var(--background);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .breadcrumb-container {
+            background-color: #f9fafb;
+        }
+
+        .lesson-card {
+            transition: all 0.3s ease;
+            border-left: 4px solid var(--primary);
+        }
+
+        .concept-box {
+            background-color: #f0f9ff;
+            border-radius: 8px;
+            border-left: 4px solid var(--accent);
+        }
+
+        .formula {
+            font-family: monospace;
+            background-color: #e5e7eb;
+            padding: 3px 6px;
+            border-radius: 4px;
+        }
+
+        .comparison-table th {
+            background-color: #dbeafe;
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Header -->
+    <header class="header py-4">
+        <div class="container mx-auto px-4">
+            <div class="flex items-center justify-between">
+                <a href="index.html" class="flex items-center text-xl font-bold text-blue-600">
+                    <i class="fas fa-book mr-2"></i>
+                    Panduan Data 365
+                </a>
+                <div class="hidden md:flex space-x-6">
+                    <a href="index.html" class="text-gray-700 hover:text-blue-600">Home</a>
+                    <div class="relative group">
+                        <button class="text-gray-700 hover:text-blue-600 flex items-center">
+                            Kuartal 1 <i class="fas fa-chevron-down ml-1 text-xs"></i>
+                        </button>
+                        <div class="absolute hidden group-hover:block bg-white shadow-lg rounded-md mt-2 p-2 min-w-[200px]">
+                            <a href="#" class="block px-4 py-2 hover:bg-blue-50 rounded">Bulan 1: Excel Dasar</a>
+                            <a href="../bulan2/minggu5/hari31.html" class="block px-4 py-2 hover:bg-blue-50 rounded">Bulan 2: Statistik Dasar</a>
+                        </div>
+                    </div>
+                    <a href="#" class="text-gray-700 hover:text-blue-600">Resources</a>
+                    <a href="#" class="text-gray-700 hover:text-blue-600">About</a>
+                </div>
+                <button class="md:hidden text-gray-700">
+                    <i class="fas fa-bars text-xl"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Breadcrumb -->
+    <div class="breadcrumb-container py-3">
+        <div class="container mx-auto px-4">
+            <nav class="flex text-sm text-gray-600">
+                <a href="index.html" class="text-blue-600 hover:underline">Home</a>
+                <span class="mx-2">/</span>
+                <a href="kuartal1.html" class="text-blue-600 hover:underline">Kuartal 1</a>
+                <span class="mx-2">/</span>
+                <a href="../bulan2/index.html" class="text-blue-600 hover:underline">Bulan 2</a>
+                <span class="mx-2">/</span>
+                <a href="#" class="text-blue-600 hover:underline">Minggu 5</a>
+                <span class="mx-2">/</span>
+                <span class="text-gray-500">Hari 31: Statistik Deskriptif</span>
+            </nav>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-4 py-8">
+        <div class="max-w-4xl mx-auto">
+            <!-- Header Section -->
+            <div class="text-center mb-12">
+                <div class="inline-block bg-blue-100 text-blue-800 text-sm font-semibold px-4 py-1 rounded-full mb-4">
+                    Kuartal 1: Statistik Dasar | Minggu 5 | Hari 31
+                </div>
+                <h1 class="text-3xl md:text-4xl font-bold text-gray-800 mb-4">
+                    Memahami Data Lebih Dalam: Pengantar Statistik Deskriptif
+                </h1>
+                <p class="text-lg text-gray-600 max-w-2xl mx-auto">
+                    Menguasai Mean, Median, dan Modus untuk Analisis Data yang Lebih Bermakna
+                </p>
+            </div>
+
+            <!-- Introduction -->
+            <div class="bg-white rounded-xl shadow-md overflow-hidden mb-8">
+                <div class="bg-gradient-to-r from-blue-500 to-indigo-600 text-white p-6">
+                    <h2 class="text-2xl font-bold mb-3">Selamat Datang di Bulan Kedua!</h2>
+                    <p>
+                        Bulan pertama kita fokus membangun fondasi kuat di Excel. Sekarang kita tambahkan pemahaman statistik untuk melihat cerita di balik angka.
+                    </p>
+                </div>
+                
+                <div class="p-6">
+                    <div class="flex items-start mb-6">
+                        <div class="bg-blue-100 text-blue-800 rounded-full p-3 mr-4">
+                            <i class="fas fa-lightbulb text-xl"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-bold text-gray-800 mb-2">Apa Itu Statistik Deskriptif?</h3>
+                            <p class="mb-4">
+                                Bayangkan kamu punya sekantong kelereng berbagai ukuran. Statistik deskriptif adalah cara menjelaskan isi kantong tanpa menunjukkan tiap kelereng:
+                            </p>
+                            <ul class="list-disc pl-6 space-y-2">
+                                <li>"Rata-rata ukurannya segini" <span class="font-semibold">(Mean)</span></li>
+                                <li>"Ukuran tengahnya segini" <span class="font-semibold">(Median)</span></li>
+                                <li>"Warna paling banyak adalah biru" <span class="font-semibold">(Modus)</span></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Central Tendency -->
+            <div class="mb-8">
+                <h2 class="text-2xl font-bold text-gray-800 mb-6 pb-2 border-b">Ukuran Pemusatan Data</h2>
+                
+                <!-- Mean -->
+                <div class="lesson-card bg-white p-6 rounded-lg mb-6">
+                    <div class="flex items-center mb-4">
+                        <div class="bg-blue-500 text-white rounded-full w-10 h-10 flex items-center justify-center mr-4">
+                            1
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-800">Mean (Rata-rata)</h3>
+                    </div>
+                    
+                    <div class="concept-box p-5 mb-4">
+                        <p><span class="font-semibold">Definisi:</span> Jumlah semua nilai dibagi jumlah data</p>
+                        <p class="formula mt-2 mb-3">Mean = Σxᵢ / n</p>
+                        <div class="mb-3">
+                            <span class="font-semibold">Contoh:</span> Nilai ujian: 70, 80, 85, 90, 100
+                        </div>
+                        <p>Mean = (70+80+85+90+100) / 5 = 85</p>
+                        <p class="mt-3"><i class="fas fa-laptop-code mr-2 text-blue-500"></i> Fungsi Excel: <span class="formula">=AVERAGE(range)</span></p>
+                    </div>
+                    
+                    <div class="bg-yellow-50 border-l-4 border-yellow-500 p-4 rounded-r">
+                        <h4 class="font-semibold text-gray-700 mb-2 flex items-center">
+                            <i class="fas fa-exclamation-triangle text-yellow-500 mr-2"></i> Kelemahan Mean
+                        </h4>
+                        <p>Sensitif terhadap nilai ekstrem. Contoh: Pendapatan Rp 5jt, 6jt, 7jt, 8jt, <span class="font-semibold">100jt</span></p>
+                        <p>Mean = (5+6+7+8+100)/5 = <span class="font-semibold">Rp 25.2jt</span> (tidak mewakili mayoritas)</p>
+                    </div>
+                </div>
+
+                <!-- Median -->
+                <div class="lesson-card bg-white p-6 rounded-lg mb-6">
+                    <div class="flex items-center mb-4">
+                        <div class="bg-blue-500 text-white rounded-full w-10 h-10 flex items-center justify-center mr-4">
+                            2
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-800">Median (Nilai Tengah)</h3>
+                    </div>
+                    
+                    <div class="concept-box p-5 mb-4">
+                        <p><span class="font-semibold">Definisi:</span> Nilai di posisi tengah setelah data diurutkan</p>
+                        <div class="mt-3 mb-4">
+                            <span class="font-semibold">Cara mencari:</span>
+                            <ul class="list-disc pl-6 space-y-2 mt-2">
+                                <li>Urutkan data dari terkecil ke terbesar</li>
+                                <li>Jika jumlah data ganjil: ambil nilai tengah</li>
+                                <li>Jika jumlah data genap: rata-rata dua nilai tengah</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+                            <div>
+                                <p class="font-semibold">Contoh Ganjil:</p>
+                                <p>70, 80, 85, 90, 100</p>
+                                <p>Median = 85</p>
+                            </div>
+                            <div>
+                                <p class="font-semibold">Contoh Genap:</p>
+                                <p>70, 80, 85, 90, 100, 105</p>
+                                <p>Median = (85 + 90)/2 = 87.5</p>
+                            </div>
+                        </div>
+                        
+                        <p class="mt-4"><i class="fas fa-laptop-code mr-2 text-blue-500"></i> Fungsi Excel: <span class="formula">=MEDIAN(range)</span></p>
+                    </div>
+                    
+                    <div class="bg-green-50 border-l-4 border-green-500 p-4 rounded-r">
+                        <h4 class="font-semibold text-gray-700 mb-2 flex items-center">
+                            <i class="fas fa-star text-green-500 mr-2"></i> Keunggulan Median
+                        </h4>
+                        <p>Tidak terpengaruh nilai ekstrem. Pada contoh pendapatan sebelumnya:</p>
+                        <p>Data: Rp 5jt, 6jt, 7jt, 8jt, 100jt → Median = <span class="font-semibold">Rp 7jt</span></p>
+                    </div>
+                </div>
+
+                <!-- Modus -->
+                <div class="lesson-card bg-white p-6 rounded-lg mb-6">
+                    <div class="flex items-center mb-4">
+                        <div class="bg-blue-500 text-white rounded-full w-10 h-10 flex items-center justify-center mr-4">
+                            3
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-800">Modus (Nilai Paling Sering Muncul)</h3>
+                    </div>
+                    
+                    <div class="concept-box p-5 mb-4">
+                        <p><span class="font-semibold">Definisi:</span> Nilai atau kategori yang frekuensi kemunculannya paling tinggi</p>
+                        <div class="mt-3 mb-4">
+                            <span class="font-semibold">Karakteristik:</span>
+                            <ul class="list-disc pl-6 space-y-2 mt-2">
+                                <li>Bisa digunakan untuk data numerik dan kategorikal</li>
+                                <li>Bisa tidak ada modus (semua frekuensi sama)</li>
+                                <li>Bisa unimodal, bimodal, atau multimodal</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+                            <div>
+                                <p class="font-semibold">Contoh Numerik:</p>
+                                <p>Usia: 25, 30, 28, 35, 28, 40, 28</p>
+                                <p>Modus = 28</p>
+                            </div>
+                            <div>
+                                <p class="font-semibold">Contoh Kategorikal:</p>
+                                <p>Warna: Merah, Biru, Hijau, Kuning, Hijau, Biru, Hijau</p>
+                                <p>Modus = Hijau</p>
+                            </div>
+                        </div>
+                        
+                        <p class="mt-4"><i class="fas fa-laptop-code mr-2 text-blue-500"></i> Fungsi Excel: 
+                            <span class="formula">=MODE.SNGL(range)</span> (satu modus)<br>
+                            <span class="formula">=MODE.MULT(range)</span> (banyak modus)
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Comparison -->
+                <div class="bg-white p-6 rounded-lg shadow-md mb-8">
+                    <h3 class="text-xl font-bold text-gray-800 mb-4">Kapan Menggunakan Mean vs Median?</h3>
+                    
+                    <div class="overflow-x-auto">
+                        <table class="min-w-full comparison-table">
+                            <thead>
+                                <tr>
+                                    <th class="px-4 py-2 text-left">Situasi</th>
+                                    <th class="px-4 py-2 text-left">Rekomendasi</th>
+                                    <th class="px-4 py-2 text-left">Contoh Penggunaan</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="border-b">
+                                    <td class="px-4 py-3">Distribusi normal/simetris</td>
+                                    <td class="px-4 py-3">
+                                        <span class="font-semibold text-blue-600">Mean</span>
+                                        <i class="fas fa-check-circle text-green-500 ml-2"></i>
+                                    </td>
+                                    <td class="px-4 py-3">Nilai ujian siswa, tinggi badan</td>
+                                </tr>
+                                <tr class="border-b bg-gray-50">
+                                    <td class="px-4 py-3">Ada outlier ekstrem</td>
+                                    <td class="px-4 py-3">
+                                        <span class="font-semibold text-green-600">Median</span>
+                                        <i class="fas fa-check-circle text-green-500 ml-2"></i>
+                                    </td>
+                                    <td class="px-4 py-3">Pendapatan, harga properti</td>
+                                </tr>
+                                <tr>
+                                    <td class="px-4 py-3">Data kategorikal</td>
+                                    <td class="px-4 py-3">
+                                        <span class="font-semibold text-purple-600">Modus</span>
+                                        <i class="fas fa-check-circle text-green-500 ml-2"></i>
+                                    </td>
+                                    <td class="px-4 py-3">Produk terlaris, warna favorit</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Next Steps -->
+                <div class="bg-gradient-to-r from-blue-50 to-indigo-50 p-6 rounded-lg mb-8">
+                    <h2 class="text-xl font-bold text-blue-800 mb-4">Apa Selanjutnya?</h2>
+                    <p class="mb-4">
+                        Besok kita akan langsung mempraktikkan perhitungan Mean, Median, dan Modus di Excel menggunakan dataset nyata. Kita akan:
+                    </p>
+                    <ul class="list-disc pl-6 space-y-2">
+                        <li>Menggunakan dataset nilai siswa dan data demografi</li>
+                        <li>Menerapkan fungsi AVERAGE, MEDIAN, MODE.SNGL</li>
+                        <li>Membandingkan hasil ketiga ukuran pemusatan</li>
+                        <li>Menginterpretasikan hasil dalam konteks analisis</li>
+                    </ul>
+                    <p class="mt-4 font-medium">
+                        Persiapkan Excel-mu! Kita akan mulai menyelami data lebih dalam.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Navigation -->
+            <div class="flex justify-between mt-12">
+                <a href="../bulan1/minggu5/hari30.html" class="bg-blue-500 hover:bg-blue-600 text-white px-6 py-3 rounded-lg font-semibold inline-flex items-center">
+                    <i class="fas fa-arrow-left mr-2"></i> Hari Sebelumnya
+                </a>
+                <a href="hari32.html" class="bg-blue-500 hover:bg-blue-600 text-white px-6 py-3 rounded-lg font-semibold inline-flex items-center">
+                    Hari Selanjutnya <i class="fas fa-arrow-right ml-2"></i>
+                </a>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-12 mt-12">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+                <div>
+                    <h4 class="text-lg font-bold mb-4">Navigasi Cepat</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="hover:text-blue-300 transition">Kuartal 1</a></li>
+                        <li><a href="#" class="hover:text-blue-300 transition">Kuartal 2</a></li>
+                        <li><a href="#" class="hover:text-blue-300 transition">Kuartal 3</a></li>
+                        <li><a href="#" class="hover:text-blue-300 transition">Kuartal 4</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="text-lg font-bold mb-4">Statistik Dasar</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="hover:text-blue-300 transition">Mean, Median, Modus</a></li>
+                        <li><a href="#" class="hover:text-blue-300 transition">Ukuran Penyebaran</a></li>
+                        <li><a href="#" class="hover:text-blue-300 transition">Distribusi Data</a></li>
+                        <li><a href="#" class="hover:text-blue-300 transition">Korelasi</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="text-lg font-bold mb-4">Resources</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="hover:text-blue-300 transition">Download Dataset</a></li>
+                        <li><a href="#" class="hover:text-blue-300 transition">Cheat Sheet</a></li>
+                        <li><a href="#" class="hover:text-blue-300 transition">Latihan Interaktif</a></li>
+                        <li><a href="#" class="hover:text-blue-300 transition">Forum Diskusi</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="text-lg font-bold mb-4">Kontak</h4>
+                    <p class="mb-2">Email: kontak@data365.com</p>
+                    <div class="flex space-x-4 mt-4">
+                        <a href="#" class="text-gray-400 hover:text-white">
+                            <i class="fab fa-twitter text-xl"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white">
+                            <i class="fab fa-facebook text-xl"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white">
+                            <i class="fab fa-github text-xl"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-700 pt-8 text-center">
+                <p>&copy; 2025 Buku Panduan Data Analisis 365 Hari. Hak Cipta Dilindungi.</p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
