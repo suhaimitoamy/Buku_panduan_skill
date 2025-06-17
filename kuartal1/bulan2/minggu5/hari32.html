@@ -1,0 +1,727 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hari 32: Praktik Menghitung Mean, Median, Modus di Excel</title>
+    <style>
+        /* -- Pengaturan Dasar dan Variabel -- */
+        :root {
+            --primary-color: #3B82F6; /* Blue */
+            --secondary-color: #10B981; /* Green */
+            --accent-color: #8B5CF6; /* Purple */
+            --background-color: #FFFFFF; /* White */
+            --text-color: #1F2937; /* Dark Gray */
+            --muted-color: #9CA3AF; /* Gray */
+            --light-bg: #f9fafb;
+            --dark-bg: #1f2937;
+            --heading-font: 'Inter', sans-serif;
+            --body-font: 'Inter', sans-serif;
+            --code-font: 'Fira Code', monospace;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--body-font);
+            color: var(--text-color);
+            background-color: var(--background-color);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* -- Header dan Navigasi -- */
+        .header {
+            background-color: var(--background-color);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            padding: 1rem 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+        }
+
+        .logo svg {
+            height: 40px;
+            width: 40px;
+            fill: none;
+            stroke: var(--primary-color);
+            stroke-width: 2;
+        }
+
+        .logo-text {
+            font-family: var(--heading-font);
+            font-weight: 700;
+            font-size: 1.25rem;
+            margin-left: 10px;
+            color: var(--text-color);
+        }
+
+        .nav-links {
+            list-style: none;
+            display: flex;
+            gap: 1.5rem;
+            margin: 0;
+            padding: 0;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-color);
+            font-weight: 500;
+            transition: color 0.3s;
+            font-size: 0.95rem;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary-color);
+        }
+
+        /* -- Breadcrumb -- */
+        .breadcrumb-container {
+            background-color: var(--light-bg);
+            padding: 15px 0;
+            margin-bottom: 20px;
+        }
+
+        .breadcrumb {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            align-items: center;
+            font-size: 0.9rem;
+        }
+
+        .breadcrumb a {
+            color: var(--primary-color);
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+
+        .breadcrumb a:hover {
+            text-decoration: underline;
+        }
+
+        .breadcrumb span {
+            color: var(--muted-color);
+        }
+
+        .breadcrumb-separator {
+            margin: 0 10px;
+            color: var(--muted-color);
+        }
+
+        /* -- Learning Content -- */
+        .learning-container {
+            padding: 120px 20px 60px;
+        }
+
+        .day-content {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            padding: 40px;
+            margin-bottom: 50px;
+        }
+
+        .day-header {
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid var(--light-bg);
+        }
+
+        .day-header h1 {
+            font-family: var(--heading-font);
+            font-size: 2.2rem;
+            color: var(--dark-bg);
+            margin-bottom: 10px;
+            line-height: 1.3;
+        }
+
+        .meta-info {
+            color: var(--muted-color);
+            font-size: 1rem;
+            display: block;
+            margin-bottom: 20px;
+        }
+
+        .day-content p {
+            margin-bottom: 20px;
+            line-height: 1.8;
+            font-size: 1.1rem;
+        }
+
+        .day-content section {
+            margin-bottom: 40px;
+        }
+
+        .day-content h2 {
+            font-family: var(--heading-font);
+            font-size: 1.7rem;
+            color: var(--primary-color);
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--light-bg);
+        }
+
+        .day-content h3 {
+            font-family: var(--heading-font);
+            font-size: 1.4rem;
+            color: var(--dark-bg);
+            margin-bottom: 15px;
+        }
+
+        .day-content ol, .day-content ul {
+            padding-left: 25px;
+            margin-bottom: 25px;
+        }
+
+        .day-content li {
+            margin-bottom: 10px;
+            line-height: 1.7;
+            font-size: 1.1rem;
+        }
+
+        .day-content strong {
+            color: var(--dark-bg);
+        }
+
+        /* Tables */
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 25px 0;
+            font-size: 1rem;
+            box-shadow: 0 0 20px rgba(0,0,0,0.05);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .data-table thead tr {
+            background-color: var(--primary-color);
+            color: white;
+            text-align: left;
+        }
+
+        .data-table th,
+        .data-table td {
+            padding: 12px 15px;
+        }
+
+        .data-table tbody tr {
+            border-bottom: 1px solid #dddddd;
+        }
+
+        .data-table tbody tr:nth-of-type(even) {
+            background-color: #f3f3f3;
+        }
+
+        .data-table tbody tr:last-of-type {
+            border-bottom: 2px solid var(--primary-color);
+        }
+
+        .data-table tbody tr:hover {
+            background-color: #e6f7ff;
+        }
+
+        .code-block {
+            background-color: #2d3748;
+            color: #e2e8f0;
+            padding: 15px;
+            border-radius: 8px;
+            font-family: var(--code-font);
+            font-size: 0.95rem;
+            margin: 20px 0;
+            overflow-x: auto;
+        }
+
+        .highlight-box {
+            background-color: #f0f9ff;
+            border-left: 4px solid var(--primary-color);
+            padding: 20px;
+            margin: 25px 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .highlight-box h3 {
+            margin-top: 0;
+            color: var(--primary-color);
+        }
+
+        .flex-container {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            margin-top: 15px;
+        }
+
+        .flex-item {
+            flex: 0 0 48%;
+            margin-bottom: 15px;
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+
+        /* -- Lesson Footer -- */
+        .lesson-footer {
+            background: var(--light-bg);
+            padding: 25px;
+            border-radius: 8px;
+            margin-top: 40px;
+        }
+
+        .lesson-footer p {
+            font-style: italic;
+            color: var(--muted-color);
+            margin-bottom: 20px;
+        }
+
+        .cta-button {
+            background-color: var(--secondary-color);
+            color: white;
+            padding: 12px 30px;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+            display: inline-block;
+            transition: all 0.3s;
+            font-size: 1rem;
+            border: none;
+            cursor: pointer;
+        }
+
+        .cta-button:hover {
+            background-color: #0e8e6d;
+            transform: translateY(-3px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+        }
+
+        /* -- Footer -- */
+        .footer {
+            background-color: var(--dark-bg);
+            color: white;
+            padding: 60px 0 30px;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: space-between;
+            gap: 30px;
+            flex-wrap: wrap;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .footer-links h4 {
+            font-family: var(--heading-font);
+            margin-bottom: 20px;
+            font-size: 1.25rem;
+        }
+
+        .footer-links ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .footer-links ul li {
+            margin-bottom: 10px;
+        }
+
+        .footer-links ul li a {
+            color: var(--muted-color);
+            text-decoration: none;
+            transition: color 0.3s;
+            font-size: 0.95rem;
+        }
+
+        .footer-links ul li a:hover {
+            color: white;
+        }
+
+        .copyright {
+            text-align: center;
+            margin-top: 60px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            padding-top: 30px;
+            color: var(--muted-color);
+            max-width: 1200px;
+            margin: 60px auto 0;
+            padding: 20px;
+            font-size: 0.9rem;
+        }
+
+        /* -- Responsive Design --- */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .learning-container {
+                padding: 100px 15px 40px;
+            }
+
+            .day-content {
+                padding: 25px;
+            }
+
+            .day-header h1 {
+                font-size: 1.8rem;
+            }
+
+            .day-content h2 {
+                font-size: 1.5rem;
+            }
+
+            .day-content h3 {
+                font-size: 1.2rem;
+            }
+
+            .footer-links {
+                flex-direction: column;
+                gap: 40px;
+            }
+
+            .breadcrumb {
+                flex-wrap: wrap;
+                row-gap: 5px;
+            }
+
+            .flex-item {
+                flex: 0 0 100%;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .day-header h1 {
+                font-size: 1.6rem;
+            }
+
+            .day-content h2 {
+                font-size: 1.3rem;
+            }
+        }
+
+        /* -- Mobile Menu -- */
+        #mobile-menu {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--text-color);
+        }
+
+        #sidebar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 280px;
+            background: white;
+            box-shadow: 2px 0 10px rgba(0,0,0,0.1);
+            transform: translateX(-100%);
+            transition: transform 0.3s ease;
+            z-index: 1000;
+            padding-top: 70px;
+            overflow-y: auto;
+        }
+
+        #overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 999;
+            display: none;
+        }
+
+        @media (max-width: 768px) {
+            #mobile-menu {
+                display: block;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <nav class="navbar">
+            <a href="../../../index.html" class="logo">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                    <path d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+                </svg>
+                <span class="logo-text">Home</span>
+            </a>
+
+            <!-- Desktop Navigation -->
+            <ul class="nav-links">
+                <li><a href="../../../index.html">Home</a></li>
+                <li class="dropdown">
+                    <a href="#" class="dropbtn">Kuartal 1: Dasar <span class="arrow">&#9662;</span></a>
+                    <div class="dropdown-content">
+                        <a href="#">Bulan 1: Excel Dasar</a>
+                        <a href="#">Bulan 2: Statistik Dasar</a>
+                        <a href="#">Bulan 3: SQL Lanjutan</a>
+                    </div>
+                </li>
+                <li class="dropdown">
+                    <a href="#" class="dropbtn">Kuartal 2: Intermediate <span class="arrow">&#9662;</span></a>
+                    <div class="dropdown-content">
+                        <a href="#">Bulan 4-6</a>
+                    </div>
+                </li>
+                <li class="dropdown">
+                    <a href="#" class="dropbtn">Kuartal 3: Advanced <span class="arrow">&#9662;</span></a>
+                    <div class="dropdown-content">
+                        <a href="#">Bulan 7-9</a>
+                    </div>
+                </li>
+                <li class="dropdown">
+                    <a href="#" class="dropbtn">Kuartal 4: Spesialisasi <span class="arrow">&#9662;</span></a>
+                    <div class="dropdown-content">
+                        <a href="#">Bulan 10-12</a>
+                    </div>
+                </li>
+                <li><a href="#">Resources</a></li>
+                <li><a href="#">Dataset & Tools</a></li>
+                <li><a href="../../about.html">About</a></li>
+            </ul>
+
+            <!-- Mobile Menu Button -->
+            <button id="mobile-menu">≡</button>
+        </nav>
+    </header>
+
+    <!-- Breadcrumb -->
+    <div class="breadcrumb-container">
+        <div class="breadcrumb">
+            <a href="../../../index.html">Home</a>
+            <span class="breadcrumb-separator">&gt;</span>
+            <a href="../../index.html">Kuartal 1</a>
+            <span class="breadcrumb-separator">&gt;</span>
+            <a href="../index.html">Bulan 2</a>
+            <span class="breadcrumb-separator">&gt;</span>
+            <a href="./index.html">Minggu 5</a>
+            <span class="breadcrumb-separator">&gt;</span>
+            <span>Hari 32</span>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <main class="container learning-container">
+        <article class="day-content">
+            <header class="day-header">
+                <h1>Hari 32: Praktik Menghitung Mean, Median, Modus di Excel</h1>
+                <p class="meta-info">Kuartal 1: Dasar | Bulan 2: Statistik Dasar</p>
+            </header>
+
+            <p>Selamat pagi! Kemarin kita sudah berkenalan dengan tiga sahabat baru dari dunia statistik deskriptif: Mean (rata-rata), Median (nilai tengah), dan Modus (nilai paling sering muncul). Kita sudah paham konsepnya dan kapan sebaiknya menggunakan masing-masing.</p>
+            
+            <p>Hari ini, saatnya kita mempraktikkan perhitungannya langsung di Excel. Untungnya, Excel sudah menyediakan fungsi-fungsi bawaan yang membuat perhitungan ini menjadi sangat mudah. Kita tidak perlu lagi menghitung manual!</p>
+            
+            <p>Kita akan menggunakan dataset demografi sederhana sebagai bahan latihan.</p>
+
+            <section id="fungsi-excel">
+                <h2>Fungsi Excel untuk Ukuran Pemusatan</h2>
+                <p>Mari kita ingat kembali fungsi Excel yang relevan:</p>
+                <ul>
+                    <li><strong>Mean:</strong> <code class="code-block">=AVERAGE(range_data)</code></li>
+                    <li><strong>Median:</strong> <code class="code-block">=MEDIAN(range_data)</code></li>
+                    <li><strong>Modus (Single):</strong> <code class="code-block">=MODE.SNGL(range_data)</code> (Mengembalikan modus pertama yang ditemukan)</li>
+                    <li><strong>Modus (Multiple):</strong> <code class="code-block">=MODE.MULT(range_data)</code> (Mengembalikan semua modus jika ada lebih dari satu - ini adalah fungsi array)</li>
+                </ul>
+            </section>
+
+            <section id="dataset-latihan">
+                <h2>Dataset Latihan: Data Usia Penduduk RT 05</h2>
+                <p>Mari kita buat dataset sederhana di sheet baru. Beri nama sheet <strong>Data Demografi</strong>.</p>
+                
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Nama Warga</th>
+                            <th>Usia (Tahun)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>Pak Agus</td><td>45</td></tr>
+                        <tr><td>Bu Rina</td><td>42</td></tr>
+                        <tr><td>Andi</td><td>15</td></tr>
+                        <tr><td>Bunga</td><td>12</td></tr>
+                        <tr><td>Pak Candra</td><td>55</td></tr>
+                        <tr><td>Bu Dewi</td><td>50</td></tr>
+                        <tr><td>Eko</td><td>28</td></tr>
+                        <tr><td>Fani</td><td>25</td></tr>
+                        <tr><td>Pak Gilang</td><td>65</td></tr>
+                        <tr><td>Bu Hesti</td><td>60</td></tr>
+                        <tr><td>Ian</td><td>28</td></tr>
+                        <tr><td>Jeni</td><td>35</td></tr>
+                        <tr><td>Pak Kardi</td><td>55</td></tr>
+                    </tbody>
+                </table>
+                <p>Rapikan tabel ini dengan formatting dasar (Bold header, borders, alignment).</p>
+            </section>
+
+            <section id="latihan-perhitungan">
+                <h2>Latihan Perhitungan di Excel</h2>
+                <p>Sekarang, mari kita hitung Mean, Median, dan Modus untuk data Usia Penduduk RT 05 di bawah tabel.</p>
+                
+                <div class="highlight-box">
+                    <h3>1. Menghitung Mean (Rata-rata Usia)</h3>
+                    <ul>
+                        <li>Di sel kosong (misal, A16), ketik label: <strong>Rata-rata Usia (Mean):</strong></li>
+                        <li>Di sel sebelahnya (B16), ketik fungsi: <code class="code-block">=AVERAGE(B2:B14)</code> (sesuaikan B14 dengan baris terakhir datamu)</li>
+                        <li>Tekan Enter. Excel akan menghitung rata-rata usia penduduk</li>
+                    </ul>
+                </div>
+                
+                <div class="highlight-box">
+                    <h3>2. Menghitung Median (Usia Tengah)</h3>
+                    <ul>
+                        <li>Di sel A17, ketik label: <strong>Usia Tengah (Median):</strong></li>
+                        <li>Di sel B17, ketik fungsi: <code class="code-block">=MEDIAN(B2:B14)</code></li>
+                        <li>Tekan Enter. Excel akan menemukan nilai usia tengah setelah data diurutkan secara internal</li>
+                    </ul>
+                </div>
+                
+                <div class="highlight-box">
+                    <h3>3. Menghitung Modus (Usia Paling Umum)</h3>
+                    <ul>
+                        <li>Di sel A18, ketik label: <strong>Usia Paling Umum (Modus):</strong></li>
+                        <li>Di sel B18, kita coba gunakan <code class="code-block">=MODE.SNGL(B2:B14)</code></li>
+                        <li>Tekan Enter. Excel akan menampilkan usia yang paling sering muncul. Dalam data contoh kita, usia 28 dan 55 muncul dua kali. MODE.SNGL biasanya akan mengembalikan yang pertama ia temukan saat memproses data (mungkin 55 atau 28 tergantung urutan internal Excel)</li>
+                        <li>(Opsional - Jika ingin melihat semua modus): Fungsi MODE.MULT sedikit tricky karena menghasilkan array. Cara paling mudah di versi Excel baru adalah: pilih beberapa sel vertikal kosong (misal, B18 dan B19), ketik <code class="code-block">=MODE.MULT(B2:B14)</code> di sel B18, lalu tekan <strong>Ctrl + Shift + Enter</strong> (bukan hanya Enter). Ini akan mengisi array ke sel yang dipilih. Jika hanya ada satu modus, sel kedua akan menampilkan error #N/A. Jika versimu tidak mendukung array dinamis, mungkin hanya menampilkan modus pertama</li>
+                    </ul>
+                </div>
+            </section>
+
+            <section id="interpretasi-hasil">
+                <h2>Interpretasi Hasil</h2>
+                <p>Sekarang lihat hasil perhitunganmu:</p>
+                <ul>
+                    <li><strong>Mean (Rata-rata):</strong> Memberikan gambaran umum usia penduduk di RT 05</li>
+                    <li><strong>Median (Usia Tengah):</strong> Memberitahu kita bahwa setengah penduduk berusia di bawah nilai median, dan setengahnya lagi di atas nilai median. Bandingkan nilai Mean dan Median. Jika nilainya cukup berbeda, ini bisa mengindikasikan adanya beberapa penduduk yang usianya jauh lebih tua atau lebih muda dari mayoritas (data mungkin sedikit miring/skewed)</li>
+                    <li><strong>Modus (Usia Paling Umum):</strong> Menunjukkan kelompok usia yang paling banyak terdapat di RT 05</li>
+                </ul>
+                <p>Dalam contoh kita, Mean mungkin sekitar 40-an, Median mungkin juga sekitar 40-an, dan Modus adalah 28 dan 55. Ini menunjukkan ada kelompok usia muda (20-an) dan kelompok usia paruh baya (50-an) yang cukup menonjol.</p>
+            </section>
+
+            <section id="latihan-tambahan">
+                <h2>Latihan Tambahan</h2>
+                <ol>
+                    <li>Kembali ke sheet <strong>Nilai Siswa</strong></li>
+                    <li>Hitung Median dan Modus untuk setiap mata pelajaran (Matematika, Bahasa, Sains) di bawah perhitungan Mean yang sudah ada</li>
+                    <li>Bandingkan nilai Mean dan Median untuk setiap mata pelajaran. Apakah ada perbedaan signifikan? Apa artinya?</li>
+                    <li>Apakah ada Modus untuk nilai-nilai tersebut? Apa artinya jika tidak ada modus atau ada lebih dari satu modus?</li>
+                </ol>
+                <p><strong>Jangan lupa Simpan pekerjaanmu!</strong></p>
+            </section>
+
+            <section id="apa-selanjutnya">
+                <h2>Apa Selanjutnya?</h2>
+                <p>Kamu sekarang sudah bisa menghitung tiga ukuran pemusatan data utama menggunakan Excel dan mulai menginterpretasikan artinya. Ini adalah langkah awal yang penting dalam statistik deskriptif.</p>
+                <p>Namun, hanya mengetahui nilai pusat saja tidak cukup untuk menggambarkan data sepenuhnya. Dua kelompok data bisa memiliki Mean yang sama tapi sebarannya sangat berbeda. Oleh karena itu, besok kita akan belajar tentang <strong>Ukuran Sebaran (Measures of Dispersion)</strong>, seperti Range (Jangkauan), Varians (Variance), dan Standar Deviasi (Standard Deviation), yang mengukur seberapa menyebar data kita dari nilai pusatnya.</p>
+            </section>
+
+            <footer class="lesson-footer">
+                <p><em>Tips Hari Ini:</em> Praktikkan perhitungan ini dengan dataset berbeda untuk lebih memahami konsep mean, median, dan modus. Jangan ragu untuk mencoba fungsi MODE.MULT untuk memahami bagaimana Excel menangani data dengan lebih dari satu modus.</p>
+                <a href="hari33.html" class="cta-button">Lanjut ke Hari 33</a>
+            </footer>
+        </article>
+    </main>
+
+    <footer class="footer">
+        <div class="footer-links">
+            <div>
+                <h4>Navigasi Cepat</h4>
+                <ul>
+                    <li><a href="#">Kuartal 1</a></li>
+                    <li><a href="#">Kuartal 2</a></li>
+                    <li><a href="#">Kuartal 3</a></li>
+                    <li><a href="#">Kuartal 4</a></li>
+                </ul>
+            </div>
+
+            <div>
+                <h4>Resources</h4>
+                <ul>
+                    <li><a href="#">Checklist Keterampilan</a></li>
+                    <li><a href="#">Contoh Portofolio</a></li>
+                    <li><a href="#">Pertanyaan Interview</a></li>
+                </ul>
+            </div>
+
+            <div>
+                <h4>Kontak</h4>
+                <p>Email: suhaimitoamy@gmail.com</p>
+            </div>
+        </div>
+
+        <div class="copyright">
+            <p>&copy; 2025 Buku Panduan Data Analisis 365 Hari. Hak Cipta Dilindungi.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile Menu Toggle
+        const mobileMenu = document.getElementById('mobile-menu');
+        const sidebar = document.getElementById('sidebar');
+        const overlay = document.getElementById('overlay');
+
+        mobileMenu.addEventListener('click', () => {
+            sidebar.style.transform = 'translateX(0)';
+            overlay.style.display = 'block';
+        });
+
+        overlay.addEventListener('click', () => {
+            sidebar.style.transform = 'translateX(-100%)';
+            overlay.style.display = 'none';
+        });
+
+        // Dropdown functionality
+        const dropdowns = document.querySelectorAll('.dropdown');
+
+        dropdowns.forEach(dropdown => {
+            const dropbtn = dropdown.querySelector('.dropbtn');
+            const content = dropdown.querySelector('.dropdown-content');
+
+            if (dropbtn && content) {
+                dropbtn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    content.style.display = content.style.display === 'block' ? 'none' : 'block';
+                });
+            }
+        });
+    </script>
+</body>
+</html>
