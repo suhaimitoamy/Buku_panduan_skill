@@ -1,0 +1,968 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hari 34: Praktik Ukuran Sebaran di Excel</title>
+    <style>
+        /* -- Pengaturan Dasar dan Variabel -- */
+        :root {
+            --primary-color: #3B82F6; /* Blue */
+            --secondary-color: #10B981; /* Green */
+            --accent-color: #8B5CF6; /* Purple */
+            --background-color: #FFFFFF; /* White */
+            --text-color: #1F2937; /* Dark Gray */
+            --muted-color: #9CA3AF; /* Gray */
+            --light-bg: #f9fafb;
+            --dark-bg: #1f2937;
+            --heading-font: 'Inter', sans-serif;
+            --body-font: 'Inter', sans-serif;
+            --code-font: 'Fira Code', monospace;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--body-font);
+            color: var(--text-color);
+            background-color: var(--background-color);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* -- Header dan Navigasi -- */
+        .header {
+            background-color: var(--background-color);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            padding: 1rem 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+        }
+
+        .logo svg {
+            height: 40px;
+            width: 40px;
+            fill: none;
+            stroke: var(--primary-color);
+            stroke-width: 2;
+        }
+
+        .logo-text {
+            font-family: var(--heading-font);
+            font-weight: 700;
+            font-size: 1.25rem;
+            margin-left: 10px;
+            color: var(--text-color);
+        }
+
+        .nav-links {
+            list-style: none;
+            display: flex;
+            gap: 1.5rem;
+            margin: 0;
+            padding: 0;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-color);
+            font-weight: 500;
+            transition: color 0.3s;
+            font-size: 0.95rem;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary-color);
+        }
+
+        /* -- Breadcrumb -- */
+        .breadcrumb-container {
+            background-color: var(--light-bg);
+            padding: 15px 0;
+            margin-bottom: 20px;
+        }
+
+        .breadcrumb {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            align-items: center;
+            font-size: 0.9rem;
+        }
+
+        .breadcrumb a {
+            color: var(--primary-color);
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+
+        .breadcrumb a:hover {
+            text-decoration: underline;
+        }
+
+        .breadcrumb span {
+            color: var(--muted-color);
+        }
+
+        .breadcrumb-separator {
+            margin: 0 10px;
+            color: var(--muted-color);
+        }
+
+        /* -- Learning Content -- */
+        .learning-container {
+            padding: 120px 20px 60px;
+        }
+
+        .day-content {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            padding: 40px;
+            margin-bottom: 50px;
+        }
+
+        .day-header {
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid var(--light-bg);
+        }
+
+        .day-header h1 {
+            font-family: var(--heading-font);
+            font-size: 2.2rem;
+            color: var(--dark-bg);
+            margin-bottom: 10px;
+            line-height: 1.3;
+        }
+
+        .meta-info {
+            color: var(--muted-color);
+            font-size: 1rem;
+            display: block;
+            margin-bottom: 20px;
+        }
+
+        .day-content p {
+            margin-bottom: 20px;
+            line-height: 1.8;
+            font-size: 1.1rem;
+        }
+
+        .day-content section {
+            margin-bottom: 40px;
+        }
+
+        .day-content h2 {
+            font-family: var(--heading-font);
+            font-size: 1.7rem;
+            color: var(--primary-color);
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--light-bg);
+        }
+
+        .day-content h3 {
+            font-family: var(--heading-font);
+            font-size: 1.4rem;
+            color: var(--dark-bg);
+            margin-bottom: 15px;
+        }
+
+        .day-content ol, .day-content ul {
+            padding-left: 25px;
+            margin-bottom: 25px;
+        }
+
+        .day-content li {
+            margin-bottom: 10px;
+            line-height: 1.7;
+            font-size: 1.1rem;
+        }
+
+        .day-content strong {
+            color: var(--dark-bg);
+        }
+
+        /* Tables */
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 25px 0;
+            font-size: 1rem;
+            box-shadow: 0 0 20px rgba(0,0,0,0.05);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .data-table thead tr {
+            background-color: var(--primary-color);
+            color: white;
+            text-align: left;
+        }
+
+        .data-table th,
+        .data-table td {
+            padding: 12px 15px;
+        }
+
+        .data-table tbody tr {
+            border-bottom: 1px solid #dddddd;
+        }
+
+        .data-table tbody tr:nth-of-type(even) {
+            background-color: #f3f3f3;
+        }
+
+        .data-table tbody tr:last-of-type {
+            border-bottom: 2px solid var(--primary-color);
+        }
+
+        .data-table tbody tr:hover {
+            background-color: #e6f7ff;
+        }
+
+        /* Excel Sheet Visualization */
+        .excel-sheet {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            margin: 30px 0;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .excel-header {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 10px 15px;
+            font-weight: bold;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .excel-grid {
+            display: grid;
+            grid-template-columns: 40px repeat(3, 1fr);
+            border: 1px solid #e2e8f0;
+        }
+
+        .excel-cell {
+            padding: 10px;
+            border-right: 1px solid #e2e8f0;
+            border-bottom: 1px solid #e2e8f0;
+            min-height: 40px;
+            display: flex;
+            align-items: center;
+        }
+
+        .excel-cell.header {
+            background-color: #f1f5f9;
+            font-weight: bold;
+        }
+
+        .excel-cell.row-header {
+            background-color: #f1f5f9;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        .excel-formula {
+            background-color: #f0f9ff;
+            border-left: 3px solid var(--secondary-color);
+            padding: 8px 12px;
+            font-family: var(--code-font);
+            margin: 5px 0;
+        }
+
+        /* Code blocks */
+        .code-block {
+            background-color: #2d3748;
+            color: #e2e8f0;
+            padding: 15px;
+            border-radius: 8px;
+            font-family: var(--code-font);
+            font-size: 0.95rem;
+            margin: 20px 0;
+            overflow-x: auto;
+        }
+
+        .highlight-box {
+            background-color: #f0f9ff;
+            border-left: 4px solid var(--primary-color);
+            padding: 20px;
+            margin: 25px 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .highlight-box h3 {
+            margin-top: 0;
+            color: var(--primary-color);
+        }
+
+        .flex-container {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            margin-top: 15px;
+        }
+
+        .flex-item {
+            flex: 0 0 48%;
+            margin-bottom: 15px;
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+
+        /* -- Lesson Footer -- */
+        .lesson-footer {
+            background: var(--light-bg);
+            padding: 25px;
+            border-radius: 8px;
+            margin-top: 40px;
+        }
+
+        .lesson-footer p {
+            font-style: italic;
+            color: var(--muted-color);
+            margin-bottom: 20px;
+        }
+
+        .cta-button {
+            background-color: var(--secondary-color);
+            color: white;
+            padding: 12px 30px;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+            display: inline-block;
+            transition: all 0.3s;
+            font-size: 1rem;
+            border: none;
+            cursor: pointer;
+        }
+
+        .cta-button:hover {
+            background-color: #0e8e6d;
+            transform: translateY(-3px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+        }
+
+        /* -- Footer -- */
+        .footer {
+            background-color: var(--dark-bg);
+            color: white;
+            padding: 60px 0 30px;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: space-between;
+            gap: 30px;
+            flex-wrap: wrap;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .footer-links h4 {
+            font-family: var(--heading-font);
+            margin-bottom: 20px;
+            font-size: 1.25rem;
+        }
+
+        .footer-links ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .footer-links ul li {
+            margin-bottom: 10px;
+        }
+
+        .footer-links ul li a {
+            color: var(--muted-color);
+            text-decoration: none;
+            transition: color 0.3s;
+            font-size: 0.95rem;
+        }
+
+        .footer-links ul li a:hover {
+            color: white;
+        }
+
+        .copyright {
+            text-align: center;
+            margin-top: 60px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            padding-top: 30px;
+            color: var(--muted-color);
+            max-width: 1200px;
+            margin: 60px auto 0;
+            padding: 20px;
+            font-size: 0.9rem;
+        }
+
+        /* -- Responsive Design --- */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .learning-container {
+                padding: 100px 15px 40px;
+            }
+
+            .day-content {
+                padding: 25px;
+            }
+
+            .day-header h1 {
+                font-size: 1.8rem;
+            }
+
+            .day-content h2 {
+                font-size: 1.5rem;
+            }
+
+            .day-content h3 {
+                font-size: 1.2rem;
+            }
+
+            .footer-links {
+                flex-direction: column;
+                gap: 40px;
+            }
+
+            .breadcrumb {
+                flex-wrap: wrap;
+                row-gap: 5px;
+            }
+
+            .flex-item {
+                flex: 0 0 100%;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .day-header h1 {
+                font-size: 1.6rem;
+            }
+
+            .day-content h2 {
+                font-size: 1.3rem;
+            }
+        }
+
+        /* -- Mobile Menu -- */
+        #mobile-menu {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--text-color);
+        }
+
+        #sidebar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 280px;
+            background: white;
+            box-shadow: 2px 0 10px rgba(0,0,0,0.1);
+            transform: translateX(-100%);
+            transition: transform 0.3s ease;
+            z-index: 1000;
+            padding-top: 70px;
+            overflow-y: auto;
+        }
+
+        #overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 999;
+            display: none;
+        }
+
+        @media (max-width: 768px) {
+            #mobile-menu {
+                display: block;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <nav class="navbar">
+            <a href="../../../index.html" class="logo">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                    <path d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+                </svg>
+                <span class="logo-text">Home</span>
+            </a>
+
+            <!-- Desktop Navigation -->
+            <ul class="nav-links">
+                <li><a href="../../../index.html">Home</a></li>
+                <li class="dropdown">
+                    <a href="#" class="dropbtn">Kuartal 1: Dasar <span class="arrow">&#9662;</span></a>
+                    <div class="dropdown-content">
+                        <a href="#">Bulan 1: Excel Dasar</a>
+                        <a href="#">Bulan 2: Statistik Dasar</a>
+                        <a href="#">Bulan 3: SQL Lanjutan</a>
+                    </div>
+                </li>
+                <li class="dropdown">
+                    <a href="#" class="dropbtn">Kuartal 2: Intermediate <span class="arrow">&#9662;</span></a>
+                    <div class="dropdown-content">
+                        <a href="#">Bulan 4-6</a>
+                    </div>
+                </li>
+                <li class="dropdown">
+                    <a href="#" class="dropbtn">Kuartal 3: Advanced <span class="arrow">&#9662;</span></a>
+                    <div class="dropdown-content">
+                        <a href="#">Bulan 7-9</a>
+                    </div>
+                </li>
+                <li class="dropdown">
+                    <a href="#" class="dropbtn">Kuartal 4: Spesialisasi <span class="arrow">&#9662;</span></a>
+                    <div class="dropdown-content">
+                        <a href="#">Bulan 10-12</a>
+                    </div>
+                </li>
+                <li><a href="#">Resources</a></li>
+                <li><a href="#">Dataset & Tools</a></li>
+                <li><a href="../../about.html">About</a></li>
+            </ul>
+
+            <!-- Mobile Menu Button -->
+            <button id="mobile-menu">≡</button>
+        </nav>
+    </header>
+
+    <!-- Breadcrumb -->
+    <div class="breadcrumb-container">
+        <div class="breadcrumb">
+            <a href="../../../index.html">Home</a>
+            <span class="breadcrumb-separator">&gt;</span>
+            <a href="../../index.html">Kuartal 1</a>
+            <span class="breadcrumb-separator">&gt;</span>
+            <a href="../index.html">Bulan 2</a>
+            <span class="breadcrumb-separator">&gt;</span>
+            <a href="./index.html">Minggu 5</a>
+            <span class="breadcrumb-separator">&gt;</span>
+            <span>Hari 34</span>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <main class="container learning-container">
+        <article class="day-content">
+            <header class="day-header">
+                <h1>Hari 34: Praktik Menghitung Ukuran Sebaran di Excel</h1>
+                <p class="meta-info">Kuartal 1: Dasar | Bulan 2: Statistik Dasar</p>
+            </header>
+
+            <p>Selamat pagi! Kemarin kita sudah menyelami konsep di balik Ukuran Sebaran: Range, Varians, dan Standar Deviasi. Kita sekarang paham bahwa ukuran-ukuran ini penting untuk mengetahui seberapa bervariasi data kita di sekitar nilai pusatnya.</p>
+            
+            <p>Hari ini, kita akan mempraktikkan perhitungannya di Excel. Sama seperti Mean, Median, dan Modus, Excel menyediakan fungsi-fungsi yang membuat perhitungan ukuran sebaran ini menjadi jauh lebih mudah daripada melakukannya secara manual.</p>
+
+            <section id="fungsi-excel">
+                <h2>Fungsi Excel untuk Ukuran Sebaran</h2>
+                <p>Mari kita ingat kembali fungsi-fungsi yang relevan:</p>
+                <div class="excel-sheet">
+                    <div class="excel-header">Fungsi Ukuran Sebaran di Excel</div>
+                    <div class="excel-grid">
+                        <div class="excel-cell row-header">A</div>
+                        <div class="excel-cell header">Konsep</div>
+                        <div class="excel-cell header">Fungsi Excel</div>
+                        <div class="excel-cell header">Keterangan</div>
+                        
+                        <div class="excel-cell row-header">1</div>
+                        <div class="excel-cell">Range</div>
+                        <div class="excel-cell">=MAX(range) - MIN(range)</div>
+                        <div class="excel-cell">Tidak ada fungsi langsung</div>
+                        
+                        <div class="excel-cell row-header">2</div>
+                        <div class="excel-cell">Varians Sampel</div>
+                        <div class="excel-cell">=VAR.S(range)</div>
+                        <div class="excel-cell">Yang paling umum digunakan</div>
+                        
+                        <div class="excel-cell row-header">3</div>
+                        <div class="excel-cell">Varians Populasi</div>
+                        <div class="excel-cell">=VAR.P(range)</div>
+                        <div class="excel-cell">Digunakan saat data adalah seluruh populasi</div>
+                        
+                        <div class="excel-cell row-header">4</div>
+                        <div class="excel-cell">Standar Deviasi Sampel</div>
+                        <div class="excel-cell">=STDEV.S(range)</div>
+                        <div class="excel-cell">Yang paling umum digunakan</div>
+                        
+                        <div class="excel-cell row-header">5</div>
+                        <div class="excel-cell">Standar Deviasi Populasi</div>
+                        <div class="excel-cell">=STDEV.P(range)</div>
+                        <div class="excel-cell">Digunakan saat data adalah seluruh populasi</div>
+                    </div>
+                </div>
+                
+                <div class="highlight-box">
+                    <h3>Penting!</h3>
+                    <p>Kita biasanya menggunakan versi Sampel (.S) karena data yang kita analisis seringkali merupakan sampel dari populasi yang lebih besar.</p>
+                </div>
+            </section>
+
+            <section id="latihan-usia">
+                <h2>Latihan Perhitungan: Data Usia Penduduk RT 05</h2>
+                <p>Mari kita kembali ke sheet <strong>Data Demografi</strong> yang berisi data usia penduduk RT 05.</p>
+                
+                <div class="excel-sheet">
+                    <div class="excel-header">Data Demografi - Usia Penduduk RT 05</div>
+                    <div class="excel-grid">
+                        <div class="excel-cell row-header">A</div>
+                        <div class="excel-cell header">B</div>
+                        <div class="excel-cell header">C</div>
+                        
+                        <div class="excel-cell row-header">1</div>
+                        <div class="excel-cell">Nama Warga</div>
+                        <div class="excel-cell">Usia (Tahun)</div>
+                        
+                        <div class="excel-cell row-header">2</div>
+                        <div class="excel-cell">Pak Agus</div>
+                        <div class="excel-cell">45</div>
+                        
+                        <div class="excel-cell row-header">3</div>
+                        <div class="excel-cell">Bu Rina</div>
+                        <div class="excel-cell">42</div>
+                        
+                        <div class="excel-cell row-header">4</div>
+                        <div class="excel-cell">Andi</div>
+                        <div class="excel-cell">15</div>
+                        
+                        <div class="excel-cell row-header">5</div>
+                        <div class="excel-cell">Bunga</div>
+                        <div class="excel-cell">12</div>
+                        
+                        <div class="excel-cell row-header">6</div>
+                        <div class="excel-cell">Pak Candra</div>
+                        <div class="excel-cell">55</div>
+                        
+                        <div class="excel-cell row-header">7</div>
+                        <div class="excel-cell">Bu Dewi</div>
+                        <div class="excel-cell">50</div>
+                        
+                        <div class="excel-cell row-header">8</div>
+                        <div class="excel-cell">Eko</div>
+                        <div class="excel-cell">28</div>
+                        
+                        <div class="excel-cell row-header">9</div>
+                        <div class="excel-cell">Fani</div>
+                        <div class="excel-cell">25</div>
+                        
+                        <div class="excel-cell row-header">10</div>
+                        <div class="excel-cell">Pak Gilang</div>
+                        <div class="excel-cell">65</div>
+                        
+                        <div class="excel-cell row-header">11</div>
+                        <div class="excel-cell">Bu Hesti</div>
+                        <div class="excel-cell">60</div>
+                        
+                        <div class="excel-cell row-header">12</div>
+                        <div class="excel-cell">Ian</div>
+                        <div class="excel-cell">28</div>
+                        
+                        <div class="excel-cell row-header">13</div>
+                        <div class="excel-cell">Jeni</div>
+                        <div class="excel-cell">35</div>
+                        
+                        <div class="excel-cell row-header">14</div>
+                        <div class="excel-cell">Pak Kardi</div>
+                        <div class="excel-cell">55</div>
+                        
+                        <div class="excel-cell row-header">20</div>
+                        <div class="excel-cell">Jangkauan Usia (Range):</div>
+                        <div class="excel-cell excel-formula">=MAX(B2:B14) - MIN(B2:B14)</div>
+                        
+                        <div class="excel-cell row-header">21</div>
+                        <div class="excel-cell">Varians Usia (Sampel):</div>
+                        <div class="excel-cell excel-formula">=VAR.S(B2:B14)</div>
+                        
+                        <div class="excel-cell row-header">22</div>
+                        <div class="excel-cell">Standar Deviasi Usia (Sampel):</div>
+                        <div class="excel-cell excel-formula">=STDEV.S(B2:B14)</div>
+                        
+                        <div class="excel-cell row-header">23</div>
+                        <div class="excel-cell">Verifikasi:</div>
+                        <div class="excel-cell excel-formula">=SQRT(B21)</div>
+                    </div>
+                </div>
+                
+                <div class="highlight-box">
+                    <h3>1. Menghitung Range (Jangkauan Usia)</h3>
+                    <ul>
+                        <li>Di sel kosong (misal, A20), ketik label: <strong>Jangkauan Usia (Range):</strong></li>
+                        <li>Di sel sebelahnya (B20), ketik rumus: <code class="code-block">=MAX(B2:B14) - MIN(B2:B14)</code> (sesuaikan B14 dengan baris terakhir datamu)</li>
+                        <li>Tekan Enter. Hasilnya menunjukkan selisih antara usia tertua dan termuda di RT 05</li>
+                    </ul>
+                </div>
+                
+                <div class="highlight-box">
+                    <h3>2. Menghitung Varians Sampel Usia</h3>
+                    <ul>
+                        <li>Di sel A21, ketik label: <strong>Varians Usia (Sampel):</strong></li>
+                        <li>Di sel B21, ketik fungsi: <code class="code-block">=VAR.S(B2:B14)</code></li>
+                        <li>Tekan Enter. Hasilnya adalah angka dalam satuan "tahun kuadrat", yang agak sulit diinterpretasikan langsung, tapi menunjukkan tingkat sebaran kuadratik</li>
+                    </ul>
+                </div>
+                
+                <div class="highlight-box">
+                    <h3>3. Menghitung Standar Deviasi Sampel Usia</h3>
+                    <ul>
+                        <li>Di sel A22, ketik label: <strong>Standar Deviasi Usia (Sampel):</strong></li>
+                        <li>Di sel B22, ketik fungsi: <code class="code-block">=STDEV.S(B2:B14)</code></li>
+                        <li>Tekan Enter. Hasilnya adalah standar deviasi dalam satuan tahun. Angka ini lebih mudah diinterpretasikan: ini adalah "simpangan rata-rata" usia penduduk dari usia rata-rata (Mean) yang kita hitung di Hari 32</li>
+                        <li><strong>Cek:</strong> Kamu bisa memverifikasi bahwa Standar Deviasi adalah akar kuadrat dari Varians. Di sel kosong lain, coba hitung <code class="code-block">=SQRT(B21)</code> (dimana B21 adalah hasil Varians). Hasilnya harus sama dengan nilai di B22 (Standar Deviasi)</li>
+                    </ul>
+                </div>
+            </section>
+
+            <section id="interpretasi">
+                <h2>Interpretasi Hasil (Data Usia RT 05)</h2>
+                <p>Sekarang lihat ketiga ukuran sebaran untuk usia penduduk RT 05:</p>
+                
+                <div class="flex-container">
+                    <div class="flex-item">
+                        <h3>Range</h3>
+                        <p>Memberi tahu kita rentang usia total dari yang termuda hingga tertua.</p>
+                        <div class="stat-value">53 tahun (65-12)</div>
+                    </div>
+                    
+                    <div class="flex-item">
+                        <h3>Varians</h3>
+                        <p>Memberi ukuran numerik sebaran kuadratik (semakin besar, semakin menyebar).</p>
+                        <div class="stat-value">≈ 296 tahun²</div>
+                    </div>
+                    
+                    <div class="flex-item">
+                        <h3>Standar Deviasi</h3>
+                        <p>Ini yang paling berguna untuk interpretasi.</p>
+                        <div class="stat-value">≈ 17.2 tahun</div>
+                    </div>
+                </div>
+                
+                <div class="highlight-box">
+                    <p>Misalnya, jika Mean usia adalah 42 tahun dan Standar Deviasi adalah 17.2 tahun, ini menunjukkan bahwa usia penduduk cukup beragam, dengan banyak penduduk yang usianya bisa jadi cukup jauh (sekitar 17 tahun di atas atau di bawah) dari rata-rata 42 tahun.</p>
+                </div>
+            </section>
+
+            <section id="latihan-nilai">
+                <h2>Latihan Tambahan: Sebaran Nilai Siswa</h2>
+                <p>Sekarang, mari kita terapkan pada data di sheet <strong>Nilai Siswa</strong>.</p>
+                
+                <div class="excel-sheet">
+                    <div class="excel-header">Nilai Siswa - Perhitungan Ukuran Sebaran</div>
+                    <div class="excel-grid">
+                        <div class="excel-cell row-header">A</div>
+                        <div class="excel-cell header">B</div>
+                        <div class="excel-cell header">C</div>
+                        <div class="excel-cell header">D</div>
+                        <div class="excel-cell header">E</div>
+                        
+                        <div class="excel-cell row-header">1</div>
+                        <div class="excel-cell">Nama Siswa</div>
+                        <div class="excel-cell">Matematika</div>
+                        <div class="excel-cell">Bahasa</div>
+                        <div class="excel-cell">Sains</div>
+                        
+                        <div class="excel-cell row-header">2</div>
+                        <div class="excel-cell">Andi</div>
+                        <div class="excel-cell">85</div>
+                        <div class="excel-cell">78</div>
+                        <div class="excel-cell">90</div>
+                        
+                        <div class="excel-cell row-header">3</div>
+                        <div class="excel-cell">Budi</div>
+                        <div class="excel-cell">92</div>
+                        <div class="excel-cell">85</div>
+                        <div class="excel-cell">88</div>
+                        
+                        <div class="excel-cell row-header">4</div>
+                        <div class="excel-cell">Citra</div>
+                        <div class="excel-cell">78</div>
+                        <div class="excel-cell">90</div>
+                        <div class="excel-cell">82</div>
+                        
+                        <div class="excel-cell row-header">5</div>
+                        <div class="excel-cell">Dewi</div>
+                        <div class="excel-cell">65</div>
+                        <div class="excel-cell">92</div>
+                        <div class="excel-cell">75</div>
+                        
+                        <div class="excel-cell row-header">6</div>
+                        <div class="excel-cell">Eko</div>
+                        <div class="excel-cell">88</div>
+                        <div class="excel-cell">75</div>
+                        <div class="excel-cell">85</div>
+                        
+                        <div class="excel-cell row-header">15</div>
+                        <div class="excel-cell">Range</div>
+                        <div class="excel-cell excel-formula">=MAX(B2:B6)-MIN(B2:B6)</div>
+                        <div class="excel-cell excel-formula">=MAX(C2:C6)-MIN(C2:C6)</div>
+                        <div class="excel-cell excel-formula">=MAX(D2:D6)-MIN(D2:D6)</div>
+                        
+                        <div class="excel-cell row-header">16</div>
+                        <div class="excel-cell">Varians Sampel</div>
+                        <div class="excel-cell excel-formula">=VAR.S(B2:B6)</div>
+                        <div class="excel-cell excel-formula">=VAR.S(C2:C6)</div>
+                        <div class="excel-cell excel-formula">=VAR.S(D2:D6)</div>
+                        
+                        <div class="excel-cell row-header">17</div>
+                        <div class="excel-cell">Standar Deviasi Sampel</div>
+                        <div class="excel-cell excel-formula">=STDEV.S(B2:B6)</div>
+                        <div class="excel-cell excel-formula">=STDEV.S(C2:C6)</div>
+                        <div class="excel-cell excel-formula">=STDEV.S(D2:D6)</div>
+                    </div>
+                </div>
+                
+                <ol>
+                    <li>Di bawah perhitungan Mean, Median, Modus untuk setiap mata pelajaran (Matematika, Bahasa, Sains), tambahkan perhitungan untuk:
+                        <ul>
+                            <li><strong>Range</strong> (<code class="code-block">=MAX(range_nilai) - MIN(range_nilai)</code>)</li>
+                            <li><strong>Varians Sampel</strong> (<code class="code-block">=VAR.S(range_nilai)</code>)</li>
+                            <li><strong>Standar Deviasi Sampel</strong> (<code class="code-block">=STDEV.S(range_nilai)</code>)</li>
+                        </ul>
+                    </li>
+                    <li>Lakukan ini untuk ketiga mata pelajaran (Matematika, Bahasa, Sains)</li>
+                    <li><strong>Bandingkan Hasilnya:</strong> Mata pelajaran mana yang memiliki:
+                        <ul>
+                            <li>Range nilai terbesar/terkecil?</li>
+                            <li>Standar Deviasi terbesar/terkecil?</li>
+                        </ul>
+                    </li>
+                    <li><strong>Interpretasi:</strong> Apa arti dari Standar Deviasi yang lebih besar atau lebih kecil untuk nilai ujian? 
+                        <div class="highlight-box">
+                            <p><strong>Standar Deviasi besar</strong> berarti nilai siswa lebih beragam/menyebar; <strong>Standar Deviasi kecil</strong> berarti nilai siswa lebih seragam/konsisten di sekitar rata-rata.</p>
+                            <p>Misalnya, jika Standar Deviasi Matematika lebih kecil daripada Standar Deviasi Bahasa, ini menunjukkan bahwa nilai Matematika siswa lebih konsisten (tidak terlalu jauh dari rata-rata) dibandingkan nilai Bahasa yang mungkin lebih bervariasi.</p>
+                        </div>
+                    </li>
+                </ol>
+                
+                <div class="highlight-box">
+                    <p><strong>Jangan lupa Simpan pekerjaanmu!</strong></p>
+                </div>
+            </section>
+
+            <section id="apa-selanjutnya">
+                <h2>Apa Selanjutnya?</h2>
+                <p>Kamu sekarang tidak hanya bisa menemukan pusat data (Mean, Median, Modus) tapi juga mengukur seberapa menyebar data tersebut (Range, Varians, Standar Deviasi) menggunakan Excel. Kombinasi ukuran pemusatan dan ukuran sebaran memberikan gambaran deskriptif yang jauh lebih lengkap tentang datasetmu.</p>
+                <p>Besok, kita akan sedikit bergeser dari perhitungan statistik murni dan kembali ke fungsi Excel yang sangat berguna: <strong>Fungsi Logika Lanjutan</strong>. Kita akan melihat fungsi seperti IFERROR untuk menangani error dalam rumus dengan elegan, dan mungkin COUNTIF, SUMIF, AVERAGEIF untuk melakukan perhitungan bersyarat tanpa perlu PivotTable (berguna untuk analisis cepat).</p>
+                <p>Teruslah berlatih dan menginterpretasikan hasil statistik ini! Sampai jumpa besok!</p>
+            </section>
+
+            <footer class="lesson-footer">
+                <p><em>Tips Hari Ini:</em> Gunakan kombinasi ukuran pemusatan dan sebaran untuk mendapatkan gambaran yang lebih lengkap tentang data Anda. Misalnya, laporkan mean ± standar deviasi untuk memberikan gambaran yang lebih kaya tentang distribusi data.</p>
+                <a href="hari35.html" class="cta-button">Lanjut ke Hari 35</a>
+            </footer>
+        </article>
+    </main>
+
+    <footer class="footer">
+        <div class="footer-links">
+            <div>
+                <h4>Navigasi Cepat</h4>
+                <ul>
+                    <li><a href="#">Kuartal 1</a></li>
+                    <li><a href="#">Kuartal 2</a></li>
+                    <li><a href="#">Kuartal 3</a></li>
+                    <li><a href="#">Kuartal 4</a></li>
+                </ul>
+            </div>
+
+            <div>
+                <h4>Resources</h4>
+                <ul>
+                    <li><a href="#">Checklist Keterampilan</a></li>
+                    <li><a href="#">Contoh Portofolio</a></li>
+                    <li><a href="#">Pertanyaan Interview</a></li>
+                </ul>
+            </div>
+
+            <div>
+                <h4>Kontak</h4>
+                <p>Email: suhaimitoamy@gmail.com</p>
+            </div>
+        </div>
+
+        <div class="copyright">
+            <p>&copy; 2025 Buku Panduan Data Analisis 365 Hari. Hak Cipta Dilindungi.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile Menu Toggle
+        const mobileMenu = document.getElementById('mobile-menu');
+        const sidebar = document.getElementById('sidebar');
+        const overlay = document.getElementById('overlay');
+
+        mobileMenu.addEventListener('click', () => {
+            sidebar.style.transform = 'translateX(0)';
+            overlay.style.display = 'block';
+        });
+
+        overlay.addEventListener('click', () => {
+            sidebar.style.transform = 'translateX(-100%)';
+            overlay.style.display = 'none';
+        });
+
+        // Dropdown functionality
+        const dropdowns = document.querySelectorAll('.dropdown');
+
+        dropdowns.forEach(dropdown => {
+            const dropbtn = dropdown.querySelector('.dropbtn');
+            const content = dropdown.querySelector('.dropdown-content');
+
+            if (dropbtn && content) {
+                dropbtn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    content.style.display = content.style.display === 'block' ? 'none' : 'block';
+                });
+            }
+        });
+    </script>
+</body>
+</html>

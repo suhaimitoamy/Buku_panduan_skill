@@ -1,0 +1,833 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hari 36: Konsep Probabilitas Dasar</title>
+    <style>
+        /* -- Pengaturan Dasar dan Variabel -- */
+        :root {
+            --primary-color: #3B82F6; /* Blue */
+            --secondary-color: #10B981; /* Green */
+            --accent-color: #8B5CF6; /* Purple */
+            --background-color: #FFFFFF; /* White */
+            --text-color: #1F2937; /* Dark Gray */
+            --muted-color: #9CA3AF; /* Gray */
+            --light-bg: #f9fafb;
+            --dark-bg: #1f2937;
+            --heading-font: 'Inter', sans-serif;
+            --body-font: 'Inter', sans-serif;
+            --code-font: 'Fira Code', monospace;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--body-font);
+            color: var(--text-color);
+            background-color: var(--background-color);
+            line-height: 1.6;
+            background: linear-gradient(135deg, #f0f9ff 0%, #e6f7ff 100%);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* -- Header dan Navigasi -- */
+        .header {
+            background-color: var(--background-color);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            padding: 1rem 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+        }
+
+        .logo svg {
+            height: 40px;
+            width: 40px;
+            fill: none;
+            stroke: var(--primary-color);
+            stroke-width: 2;
+        }
+
+        .logo-text {
+            font-family: var(--heading-font);
+            font-weight: 700;
+            font-size: 1.25rem;
+            margin-left: 10px;
+            color: var(--text-color);
+        }
+
+        .nav-links {
+            list-style: none;
+            display: flex;
+            gap: 1.5rem;
+            margin: 0;
+            padding: 0;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-color);
+            font-weight: 500;
+            transition: color 0.3s;
+            font-size: 0.95rem;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary-color);
+        }
+
+        /* -- Breadcrumb -- */
+        .breadcrumb-container {
+            background-color: var(--light-bg);
+            padding: 15px 0;
+            margin-bottom: 20px;
+        }
+
+        .breadcrumb {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            align-items: center;
+            font-size: 0.9rem;
+        }
+
+        .breadcrumb a {
+            color: var(--primary-color);
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+
+        .breadcrumb a:hover {
+            text-decoration: underline;
+        }
+
+        .breadcrumb span {
+            color: var(--muted-color);
+        }
+
+        .breadcrumb-separator {
+            margin: 0 10px;
+            color: var(--muted-color);
+        }
+
+        /* -- Learning Content -- */
+        .learning-container {
+            padding: 120px 20px 60px;
+        }
+
+        .day-content {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            padding: 40px;
+            margin-bottom: 50px;
+        }
+
+        .day-header {
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid var(--light-bg);
+            text-align: center;
+        }
+
+        .day-header h1 {
+            font-family: var(--heading-font);
+            font-size: 2.2rem;
+            color: var(--dark-bg);
+            margin-bottom: 10px;
+            line-height: 1.3;
+        }
+
+        .meta-info {
+            color: var(--muted-color);
+            font-size: 1rem;
+            display: block;
+            margin-bottom: 20px;
+        }
+
+        .day-content p {
+            margin-bottom: 20px;
+            line-height: 1.8;
+            font-size: 1.1rem;
+        }
+
+        .day-content section {
+            margin-bottom: 40px;
+        }
+
+        .day-content h2 {
+            font-family: var(--heading-font);
+            font-size: 1.7rem;
+            color: var(--primary-color);
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--light-bg);
+        }
+
+        .day-content h3 {
+            font-family: var(--heading-font);
+            font-size: 1.4rem;
+            color: var(--dark-bg);
+            margin-bottom: 15px;
+        }
+
+        .day-content ol, .day-content ul {
+            padding-left: 25px;
+            margin-bottom: 25px;
+        }
+
+        .day-content li {
+            margin-bottom: 10px;
+            line-height: 1.7;
+            font-size: 1.1rem;
+        }
+
+        .day-content strong {
+            color: var(--dark-bg);
+        }
+
+        /* Probability Visualizations */
+        .probability-scale {
+            background: linear-gradient(to right, #ef4444, #10b981);
+            height: 30px;
+            border-radius: 15px;
+            margin: 30px 0;
+            position: relative;
+        }
+
+        .probability-marker {
+            position: absolute;
+            top: -10px;
+            width: 4px;
+            height: 50px;
+            background: var(--dark-bg);
+        }
+
+        .probability-label {
+            position: absolute;
+            top: 40px;
+            font-size: 0.9rem;
+            transform: translateX(-50%);
+            white-space: nowrap;
+        }
+
+        .probability-card {
+            background: white;
+            border-radius: 12px;
+            padding: 25px;
+            margin: 25px 0;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            border-left: 4px solid var(--accent-color);
+        }
+
+        .probability-title {
+            font-size: 1.3rem;
+            color: var(--accent-color);
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+        }
+
+        .probability-title i {
+            margin-right: 10px;
+            font-size: 1.5rem;
+        }
+
+        .probability-formula {
+            background: var(--light-bg);
+            padding: 15px;
+            border-radius: 8px;
+            font-family: var(--code-font);
+            margin: 15px 0;
+            text-align: center;
+            font-size: 1.2rem;
+        }
+
+        .example-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin: 30px 0;
+        }
+
+        .example-card {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            border: 1px solid #e2e8f0;
+            text-align: center;
+        }
+
+        .example-icon {
+            font-size: 3rem;
+            margin-bottom: 15px;
+            color: var(--primary-color);
+        }
+
+        .example-dice {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin: 15px auto;
+            max-width: 200px;
+        }
+
+        .dice-face {
+            width: 50px;
+            height: 50px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.2rem;
+            margin: 0 auto;
+            background: #f8fafc;
+        }
+
+        .rule-card {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            margin: 20px 0;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            border-top: 4px solid var(--secondary-color);
+        }
+
+        .rule-title {
+            font-size: 1.2rem;
+            color: var(--secondary-color);
+            margin-bottom: 15px;
+            font-weight: bold;
+        }
+
+        .importance-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        .importance-item {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            border-left: 4px solid var(--primary-color);
+            transition: transform 0.3s;
+        }
+
+        .importance-item:hover {
+            transform: translateY(-5px);
+        }
+
+        .importance-item h4 {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .importance-item h4 i {
+            margin-right: 10px;
+            color: var(--primary-color);
+        }
+
+        /* -- Lesson Footer -- */
+        .lesson-footer {
+            background: var(--light-bg);
+            padding: 25px;
+            border-radius: 8px;
+            margin-top: 40px;
+        }
+
+        .lesson-footer p {
+            font-style: italic;
+            color: var(--muted-color);
+            margin-bottom: 20px;
+        }
+
+        .cta-button {
+            background-color: var(--secondary-color);
+            color: white;
+            padding: 12px 30px;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+            display: inline-block;
+            transition: all 0.3s;
+            font-size: 1rem;
+            border: none;
+            cursor: pointer;
+        }
+
+        .cta-button:hover {
+            background-color: #0e8e6d;
+            transform: translateY(-3px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+        }
+
+        /* -- Footer -- */
+        .footer {
+            background-color: var(--dark-bg);
+            color: white;
+            padding: 60px 0 30px;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: space-between;
+            gap: 30px;
+            flex-wrap: wrap;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .footer-links h4 {
+            font-family: var(--heading-font);
+            margin-bottom: 20px;
+            font-size: 1.25rem;
+        }
+
+        .footer-links ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .footer-links ul li {
+            margin-bottom: 10px;
+        }
+
+        .footer-links ul li a {
+            color: var(--muted-color);
+            text-decoration: none;
+            transition: color 0.3s;
+            font-size: 0.95rem;
+        }
+
+        .footer-links ul li a:hover {
+            color: white;
+        }
+
+        .copyright {
+            text-align: center;
+            margin-top: 60px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            padding-top: 30px;
+            color: var(--muted-color);
+            max-width: 1200px;
+            margin: 60px auto 0;
+            padding: 20px;
+            font-size: 0.9rem;
+        }
+
+        /* -- Responsive Design --- */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .learning-container {
+                padding: 100px 15px 40px;
+            }
+
+            .day-content {
+                padding: 25px;
+            }
+
+            .day-header h1 {
+                font-size: 1.8rem;
+            }
+
+            .day-content h2 {
+                font-size: 1.5rem;
+            }
+
+            .day-content h3 {
+                font-size: 1.2rem;
+            }
+
+            .footer-links {
+                flex-direction: column;
+                gap: 40px;
+            }
+
+            .breadcrumb {
+                flex-wrap: wrap;
+                row-gap: 5px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .day-header h1 {
+                font-size: 1.6rem;
+            }
+
+            .day-content h2 {
+                font-size: 1.3rem;
+            }
+        }
+
+        /* -- Mobile Menu -- */
+        #mobile-menu {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--text-color);
+        }
+
+        #sidebar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 280px;
+            background: white;
+            box-shadow: 2px 0 10px rgba(0,0,0,0.1);
+            transform: translateX(-100%);
+            transition: transform 0.3s ease;
+            z-index: 1000;
+            padding-top: 70px;
+            overflow-y: auto;
+        }
+
+        #overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 999;
+            display: none;
+        }
+
+        @media (max-width: 768px) {
+            #mobile-menu {
+                display: block;
+            }
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <nav class="navbar">
+            <a href="../../../index.html" class="logo">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                    <path d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+                </svg>
+                <span class="logo-text">Home</span>
+            </a>
+
+            <!-- Desktop Navigation -->
+            <ul class="nav-links">
+                <li><a href="../../../index.html">Home</a></li>
+                <li class="dropdown">
+                    <a href="#" class="dropbtn">Kuartal 1: Dasar <span class="arrow">&#9662;</span></a>
+                    <div class="dropdown-content">
+                        <a href="#">Bulan 1: Excel Dasar</a>
+                        <a href="#">Bulan 2: Statistik Dasar</a>
+                        <a href="#">Bulan 3: SQL Lanjutan</a>
+                    </div>
+                </li>
+                <li class="dropdown">
+                    <a href="#" class="dropbtn">Kuartal 2: Intermediate <span class="arrow">&#9662;</span></a>
+                    <div class="dropdown-content">
+                        <a href="#">Bulan 4-6</a>
+                    </div>
+                </li>
+                <li class="dropdown">
+                    <a href="#" class="dropbtn">Kuartal 3: Advanced <span class="arrow">&#9662;</span></a>
+                    <div class="dropdown-content">
+                        <a href="#">Bulan 7-9</a>
+                    </div>
+                </li>
+                <li class="dropdown">
+                    <a href="#" class="dropbtn">Kuartal 4: Spesialisasi <span class="arrow">&#9662;</span></a>
+                    <div class="dropdown-content">
+                        <a href="#">Bulan 10-12</a>
+                    </div>
+                </li>
+                <li><a href="#">Resources</a></li>
+                <li><a href="#">Dataset & Tools</a></li>
+                <li><a href="../../about.html">About</a></li>
+            </ul>
+
+            <!-- Mobile Menu Button -->
+            <button id="mobile-menu">≡</button>
+        </nav>
+    </header>
+
+    <!-- Breadcrumb -->
+    <div class="breadcrumb-container">
+        <div class="breadcrumb">
+            <a href="../../../index.html">Home</a>
+            <span class="breadcrumb-separator">&gt;</span>
+            <a href="../../index.html">Kuartal 1</a>
+            <span class="breadcrumb-separator">&gt;</span>
+            <a href="../index.html">Bulan 2</a>
+            <span class="breadcrumb-separator">&gt;</span>
+            <a href="./index.html">Minggu 6</a>
+            <span class="breadcrumb-separator">&gt;</span>
+            <span>Hari 36</span>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <main class="container learning-container">
+        <article class="day-content">
+            <header class="day-header">
+                <h1>Hari 36: Menebak Kemungkinan - Konsep Probabilitas Dasar</h1>
+                <p class="meta-info">Kuartal 1: Dasar | Bulan 2: Statistik Dasar</p>
+            </header>
+
+            <p>Selamat datang di minggu keenam! Minggu lalu kita sudah banyak bermain dengan statistik deskriptif, belajar meringkas data dengan ukuran pemusatan (Mean, Median, Modus) dan ukuran sebaran (Range, Varians, Standar Deviasi). Kita jadi bisa menggambarkan data yang sudah terjadi.</p>
+            
+            <p>Sekarang, mari kita sedikit bergeser untuk melihat sesuatu yang belum terjadi. Bagaimana cara kita mengukur kemungkinan atau peluang suatu kejadian akan terjadi di masa depan? Di sinilah <strong>Probabilitas</strong> masuk.</p>
+            
+            <div class="probability-card">
+                <p><strong>Probabilitas</strong> adalah cabang matematika yang mempelajari ketidakpastian. Dalam analisis data, pemahaman dasar probabilitas sangat penting karena banyak teknik analisis lanjutan (seperti statistik inferensial dan machine learning) dibangun di atas konsep ini. Jangan khawatir, kita akan mulai dari yang paling dasar hari ini!</p>
+            </div>
+
+            <section id="apa-itu-probabilitas">
+                <h2>Apa Itu Probabilitas?</h2>
+                <p>Secara sederhana, probabilitas adalah ukuran numerik tentang seberapa mungkin suatu kejadian (event) akan terjadi. Nilai probabilitas selalu berkisar antara 0 dan 1 (atau 0% dan 100%).</p>
+                
+                <div class="probability-scale">
+                    <div class="probability-marker" style="left: 0%;"></div>
+                    <div class="probability-marker" style="left: 20%;"></div>
+                    <div class="probability-marker" style="left: 50%;"></div>
+                    <div class="probability-marker" style="left: 80%;"></div>
+                    <div class="probability-marker" style="left: 100%;"></div>
+                    
+                    <div class="probability-label" style="left: 0%;">0 (Tidak Mungkin)</div>
+                    <div class="probability-label" style="left: 20%;">0.2</div>
+                    <div class="probability-label" style="left: 50%;">0.5 (Kemungkinan Sama)</div>
+                    <div class="probability-label" style="left: 80%;">0.8</div>
+                    <div class="probability-label" style="left: 100%;">1 (Pasti Terjadi)</div>
+                </div>
+                
+                <ul>
+                    <li><strong>Probabilitas 0 (atau 0%)</strong>: Berarti kejadian tersebut tidak mungkin terjadi.</li>
+                    <li><strong>Probabilitas 1 (atau 100%)</strong>: Berarti kejadian tersebut pasti akan terjadi.</li>
+                    <li><strong>Probabilitas antara 0 dan 1</strong>: Menunjukkan tingkat kemungkinan. Semakin dekat ke 1, semakin mungkin terjadi; semakin dekat ke 0, semakin tidak mungkin terjadi.</li>
+                    <li><strong>Probabilitas 0.5 (atau 50%)</strong> berarti kejadian tersebut punya kemungkinan terjadi dan tidak terjadi yang sama besar.</li>
+                </ul>
+            </section>
+
+            <section id="probabilitas-klasik">
+                <h2>Konsep Dasar Probabilitas Klasik</h2>
+                <p>Cara paling intuitif untuk memahami probabilitas adalah melalui pendekatan klasik, yang berlaku ketika semua kemungkinan hasil (outcomes) dari suatu percobaan (experiment) memiliki peluang yang sama untuk terjadi.</p>
+                
+                <div class="probability-formula">
+                    P(Kejadian) = (Jumlah Hasil yang Diinginkan) / (Jumlah Total Semua Hasil yang Mungkin)
+                </div>
+                
+                <p>Mari kita lihat contoh klasik:</p>
+                
+                <div class="example-container">
+                    <div class="example-card">
+                        <div class="example-icon">
+                            <i class="fas fa-coins"></i>
+                        </div>
+                        <h3>Contoh 1: Melempar Koin Seimbang</h3>
+                        <p><strong>Percobaan:</strong> Melempar satu koin.</p>
+                        <p><strong>Semua Hasil yang Mungkin:</strong> Ada 2 hasil yang mungkin, yaitu muncul Angka (A) atau muncul Gambar (G). Jumlah total hasil = 2.</p>
+                        <p><strong>Kejadian yang Diinginkan:</strong> Misalnya, kita ingin tahu probabilitas muncul Angka.</p>
+                        <p><strong>Jumlah Hasil yang Diinginkan:</strong> Hanya ada 1 hasil yang diinginkan, yaitu Angka.</p>
+                        <p><strong>Probabilitas Muncul Angka:</strong> P(Angka) = 1 / 2 = 0.5 atau 50%.</p>
+                        <p><strong>Probabilitas Muncul Gambar:</strong> P(Gambar) = 1 / 2 = 0.5 atau 50%.</p>
+                    </div>
+                    
+                    <div class="example-card">
+                        <div class="example-icon">
+                            <i class="fas fa-dice"></i>
+                        </div>
+                        <h3>Contoh 2: Melempar Dadu Seimbang (6 Sisi)</h3>
+                        <p><strong>Percobaan:</strong> Melempar satu dadu bersisi enam.</p>
+                        <p><strong>Semua Hasil yang Mungkin:</strong> Ada 6 hasil yang mungkin: muncul mata dadu 1, 2, 3, 4, 5, atau 6. Jumlah total hasil = 6.</p>
+                        
+                        <div class="example-dice">
+                            <div class="dice-face">1</div>
+                            <div class="dice-face">2</div>
+                            <div class="dice-face">3</div>
+                            <div class="dice-face">4</div>
+                            <div class="dice-face">5</div>
+                            <div class="dice-face">6</div>
+                        </div>
+                        
+                        <p><strong>Kejadian yang Diinginkan:</strong> Misalnya, probabilitas muncul mata dadu 3.</p>
+                        <p><strong>Jumlah Hasil yang Diinginkan:</strong> Hanya ada 1 hasil (yaitu angka 3).</p>
+                        <p><strong>Probabilitas Muncul Mata Dadu 3:</strong> P(3) = 1 / 6 ≈ 0.167 atau 16.7%.</p>
+                        <p><strong>Kejadian Lain:</strong> Berapa probabilitas muncul mata dadu genap (2, 4, atau 6)?</p>
+                        <p><strong>Jumlah Hasil yang Diinginkan = 3</strong> (yaitu 2, 4, 6).</p>
+                        <p><strong>Probabilitas Muncul Genap = P(Genap) = 3 / 6 = 1 / 2 = 0.5 atau 50%.</strong></p>
+                    </div>
+                </div>
+            </section>
+
+            <section id="aturan-dasar">
+                <h2>Beberapa Aturan Dasar Probabilitas</h2>
+                
+                <div class="rule-card">
+                    <div class="rule-title">1. Probabilitas Selalu Antara 0 dan 1</div>
+                    <p>Seperti yang sudah disebutkan, 0 ≤ P(Kejadian) ≤ 1.</p>
+                </div>
+                
+                <div class="rule-card">
+                    <div class="rule-title">2. Jumlah Probabilitas Semua Hasil = 1</div>
+                    <p>Jika kamu menjumlahkan probabilitas dari semua kemungkinan hasil yang mungkin terjadi dalam suatu percobaan, totalnya harus sama dengan 1 (atau 100%).</p>
+                    <p>Contoh koin: P(Angka) + P(Gambar) = 0.5 + 0.5 = 1.</p>
+                    <p>Contoh dadu: P(1) + P(2) + P(3) + P(4) + P(5) + P(6) = (1/6) * 6 = 1.</p>
+                </div>
+                
+                <div class="rule-card">
+                    <div class="rule-title">3. Probabilitas Kejadian Komplemen</div>
+                    <p>Probabilitas suatu kejadian tidak terjadi (disebut komplemen, sering ditulis A') adalah 1 dikurangi probabilitas kejadian itu terjadi. P(A') = 1 - P(A).</p>
+                    <p>Contoh dadu: Probabilitas tidak muncul mata dadu 3 adalah P(bukan 3) = 1 - P(3) = 1 - (1/6) = 5/6 ≈ 83.3%.</p>
+                </div>
+            </section>
+
+            <section id="pentingnya-probabilitas">
+                <h2>Mengapa Probabilitas Penting dalam Analisis Data?</h2>
+                <p>Pemahaman probabilitas membantu kita untuk:</p>
+                
+                <div class="importance-grid">
+                    <div class="importance-item">
+                        <h4><i class="fas fa-question-circle"></i> Memahami Ketidakpastian</h4>
+                        <p>Data dunia nyata seringkali tidak pasti. Probabilitas memberi kita kerangka untuk mengukur ketidakpastian itu.</p>
+                    </div>
+                    
+                    <div class="importance-item">
+                        <h4><i class="fas fa-chart-line"></i> Dasar Statistik Inferensial</h4>
+                        <p>Saat kita ingin membuat kesimpulan tentang populasi berdasarkan sampel, kita menggunakan probabilitas untuk mengukur seberapa yakin kita dengan kesimpulan tersebut.</p>
+                    </div>
+                    
+                    <div class="importance-item">
+                        <h4><i class="fas fa-cogs"></i> Pemodelan</h4>
+                        <p>Banyak model prediktif (seperti model machine learning untuk klasifikasi) menghasilkan output berupa probabilitas.</p>
+                    </div>
+                    
+                    <div class="importance-item">
+                        <h4><i class="fas fa-exclamation-triangle"></i> Manajemen Risiko</h4>
+                        <p>Menilai kemungkinan terjadinya risiko tertentu berdasarkan data historis.</p>
+                    </div>
+                </div>
+                
+                <div class="probability-card">
+                    <p>Kita tidak akan menjadi ahli probabilitas dalam satu hari, tapi memahami konsep dasarnya adalah langkah penting dalam perjalanan analisis data Anda.</p>
+                </div>
+            </section>
+
+            <section id="apa-selanjutnya">
+                <h2>Apa Selanjutnya?</h2>
+                <p>Hari ini kita sudah menggores permukaan dunia probabilitas, memahami definisi dasarnya dan cara menghitung probabilitas sederhana untuk hasil yang sama mungkin.</p>
+                <p>Besok, kita akan berkenalan dengan salah satu konsep distribusi probabilitas yang paling penting dan sering muncul di alam: <strong>Distribusi Normal</strong>. Kita akan melihat bentuk kurva loncengnya yang khas dan mengapa distribusi ini sangat fundamental dalam statistik.</p>
+                <p>Teruslah berpikir tentang kemungkinan! Sampai jumpa besok!</p>
+            </section>
+
+            <footer class="lesson-footer">
+                <p><em>Tips Hari Ini:</em> Coba praktikkan konsep probabilitas dalam kehidupan sehari-hari. Ketika melihat cuaca, memperkirakan kemacetan, atau memutuskan pilihan, coba pikirkan tentang kemungkinan-kemungkinan yang ada.</p>
+                <a href="hari37.html" class="cta-button">Lanjut ke Hari 37</a>
+            </footer>
+        </article>
+    </main>
+
+    <footer class="footer">
+        <div class="footer-links">
+            <div>
+                <h4>Navigasi Cepat</h4>
+                <ul>
+                    <li><a href="#">Kuartal 1</a></li>
+                    <li><a href="#">Kuartal 2</a></li>
+                    <li><a href="#">Kuartal 3</a></li>
+                    <li><a href="#">Kuartal 4</a></li>
+                </ul>
+            </div>
+
+            <div>
+                <h4>Resources</h4>
+                <ul>
+                    <li><a href="#">Checklist Keterampilan</a></li>
+                    <li><a href="#">Contoh Portofolio</a></li>
+                    <li><a href="#">Pertanyaan Interview</a></li>
+                </ul>
+            </div>
+
+            <div>
+                <h4>Kontak</h4>
+                <p>Email: suhaimitoamy@gmail.com</p>
+            </div>
+        </div>
+
+        <div class="copyright">
+            <p>&copy; 2025 Buku Panduan Data Analisis 365 Hari. Hak Cipta Dilindungi.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile Menu Toggle
+        const mobileMenu = document.getElementById('mobile-menu');
+        const sidebar = document.getElementById('sidebar');
+        const overlay = document.getElementById('overlay');
+
+        mobileMenu.addEventListener('click', () => {
+            sidebar.style.transform = 'translateX(0)';
+            overlay.style.display = 'block';
+        });
+
+        overlay.addEventListener('click', () => {
+            sidebar.style.transform = 'translateX(-100%)';
+            overlay.style.display = 'none';
+        });
+
+        // Dropdown functionality
+        const dropdowns = document.querySelectorAll('.dropdown');
+
+        dropdowns.forEach(dropdown => {
+            const dropbtn = dropdown.querySelector('.dropbtn');
+            const content = dropdown.querySelector('.dropdown-content');
+
+            if (dropbtn && content) {
+                dropbtn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    content.style.display = content.style.display === 'block' ? 'none' : 'block';
+                });
+            }
+        });
+    </script>
+</body>
+</html>
