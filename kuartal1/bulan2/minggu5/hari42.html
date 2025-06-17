@@ -1,0 +1,666 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hari 42: Pengantar SQL dan SELECT - Kuartal 1</title>
+  
+  <!-- Tailwind CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Fira+Code&display=swap" rel="stylesheet">
+  
+  <style>
+    :root {
+      --primary: #2563eb;
+      --secondary: #10B981;
+      --accent: #8B5CF6;
+      --background: #FFFFFF;
+      --text: #1F2937;
+      --muted: #9CA3AF;
+      --light-bg: #f9fafb;
+      --dark-bg: #1f2937;
+    }
+    
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: var(--light-bg);
+      color: var(--text);
+      line-height: 1.6;
+    }
+    
+    .dark-mode {
+      background-color: var(--dark-bg);
+      color: #e2e8f0;
+    }
+    
+    .dark-mode .card {
+      background-color: #2d3748;
+    }
+    
+    .card {
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      background-color: white;
+      border-radius: 0.75rem;
+      overflow: hidden;
+    }
+    
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+    }
+    
+    .header {
+      background-color: var(--background);
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      padding: 1rem 0;
+      position: fixed;
+      width: 100%;
+      top: 0;
+      z-index: 1000;
+    }
+    
+    .learning-container {
+      padding: 140px 20px 60px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    
+    .day-content {
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+      padding: 40px;
+      margin-bottom: 50px;
+    }
+    
+    .day-header {
+      margin-bottom: 30px;
+      padding-bottom: 20px;
+      border-bottom: 2px solid var(--light-bg);
+    }
+    
+    .day-header h1 {
+      font-family: 'Inter', sans-serif;
+      font-weight: 700;
+      font-size: 2.2rem;
+      color: var(--dark-bg);
+      margin-bottom: 10px;
+      line-height: 1.3;
+    }
+    
+    .meta-info {
+      color: var(--muted);
+      font-size: 1rem;
+      display: block;
+      margin-bottom: 20px;
+    }
+    
+    .day-content p {
+      margin-bottom: 20px;
+      line-height: 1.8;
+      font-size: 1.1rem;
+    }
+    
+    .day-content h2 {
+      font-family: 'Inter', sans-serif;
+      font-weight: 700;
+      font-size: 1.7rem;
+      color: var(--primary);
+      margin: 30px 0 20px;
+      padding-bottom: 10px;
+      border-bottom: 2px solid var(--light-bg);
+    }
+    
+    .day-content ol, .day-content ul {
+      padding-left: 30px;
+      margin-bottom: 25px;
+    }
+    
+    .day-content li {
+      margin-bottom: 12px;
+      line-height: 1.7;
+      font-size: 1.1rem;
+    }
+    
+    .day-content strong {
+      color: var(--dark-bg);
+      font-weight: 600;
+    }
+    
+    .code-block {
+      background-color: #2d3748;
+      color: #e2e8f0;
+      border-radius: 8px;
+      padding: 20px;
+      margin: 25px 0;
+      font-family: 'Fira Code', monospace;
+      overflow-x: auto;
+    }
+    
+    .example-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 25px 0;
+      background-color: white;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.05);
+    }
+    
+    .example-table th, .example-table td {
+      padding: 12px 15px;
+      text-align: left;
+      border-bottom: 1px solid #e2e8f0;
+    }
+    
+    .example-table th {
+      background-color: var(--primary);
+      color: white;
+      font-weight: 600;
+    }
+    
+    .example-table tr:nth-child(even) {
+      background-color: #f8fafc;
+    }
+    
+    .example-table tr:hover {
+      background-color: #f1f5f9;
+    }
+    
+    .lesson-footer {
+      background: var(--light-bg);
+      padding: 25px;
+      border-radius: 8px;
+      margin-top: 40px;
+    }
+    
+    .cta-button {
+      background-color: var(--secondary);
+      color: white;
+      padding: 12px 30px;
+      text-decoration: none;
+      border-radius: 5px;
+      font-weight: bold;
+      display: inline-block;
+      transition: all 0.3s;
+      font-size: 1rem;
+      border: none;
+      cursor: pointer;
+      margin-top: 15px;
+    }
+    
+    .cta-button:hover {
+      background-color: #0e8e6d;
+      transform: translateY(-3px);
+      box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+    }
+    
+    .quiz-question {
+      background: white;
+      border-left: 4px solid var(--accent);
+      padding: 20px;
+      margin: 25px 0;
+      border-radius: 0 8px 8px 0;
+    }
+    
+    .quiz-option {
+      display: block;
+      margin: 10px 0;
+      padding: 10px 15px;
+      background-color: #f8fafc;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    
+    .quiz-option:hover {
+      background-color: #e2e8f0;
+    }
+    
+    .answer-section {
+      background-color: #dcfce7;
+      padding: 20px;
+      border-radius: 8px;
+      margin: 30px 0;
+    }
+    
+    @media (max-width: 768px) {
+      .learning-container {
+        padding: 120px 15px 40px;
+      }
+      
+      .day-content {
+        padding: 25px;
+      }
+      
+      .day-header h1 {
+        font-size: 1.8rem;
+      }
+      
+      .day-content h2 {
+        font-size: 1.5rem;
+      }
+    }
+  </style>
+</head>
+<body class="relative">
+  <!-- Header -->
+  <header class="header">
+    <div class="container mx-auto flex justify-between items-center px-4">
+      <div class="flex items-center">
+        <a href="index.html" class="flex items-center">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 mr-2 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+          </svg>
+          <h1 class="text-xl font-bold">Buku Panduan Skill</h1>
+        </a>
+      </div>
+      
+      <!-- Mobile Menu Button -->
+      <button id="mobile-menu" class="md:hidden text-gray-800">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+        </svg>
+      </button>
+    </div>
+  </header>
+
+  <!-- Breadcrumb -->
+  <div class="bg-gray-100 py-3">
+    <div class="container mx-auto px-4">
+      <div class="breadcrumb flex items-center text-sm">
+        <a href="index.html" class="text-blue-600 hover:underline">Home</a>
+        <span class="mx-2 text-gray-400">/</span>
+        <a href="kuartal1.html" class="text-blue-600 hover:underline">Kuartal 1: Dasar</a>
+        <span class="mx-2 text-gray-400">/</span>
+        <a href="bulan3.html" class="text-blue-600 hover:underline">Bulan 3: SQL Lanjutan</a>
+        <span class="mx-2 text-gray-400">/</span>
+        <span class="text-gray-600">Hari 42</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Content -->
+  <main class="learning-container">
+    <article class="day-content">
+      <header class="day-header">
+        <h1>Hari 42: Bahasa untuk Bertanya ke Database - Pengantar SQL dan SELECT</h1>
+        <p class="meta-info">Kuartal 1: Dasar | Bulan 3: SQL Lanjutan | Minggu 6, Hari 6</p>
+      </header>
+
+      <p class="text-lg">Selamat pagi, calon penanya data! Kemarin kita sudah menjelajahi konsep di balik Database Relasional, gudang data terstruktur yang terdiri dari tabel-tabel yang saling berhubungan. Kita tahu bahwa database ini menyimpan data dalam jumlah besar secara efisien.</p>
+      
+      <p>Sekarang pertanyaannya: <strong>Bagaimana cara kita berkomunikasi dengan database tersebut?</strong> Bagaimana cara kita meminta data spesifik yang kita butuhkan dari tabel-tabel itu? Jawabannya adalah SQL.</p>
+      
+      <section id="pengantar-sql">
+        <h2>Pengantar SQL</h2>
+        <p><strong>SQL (Structured Query Language)</strong>, sering diucapkan "sequel" atau "S-Q-L", adalah bahasa standar yang digunakan untuk mengelola dan memanipulasi data dalam database relasional. Anggap saja SQL sebagai bahasa universal yang dipahami oleh hampir semua sistem database relasional (MySQL, PostgreSQL, SQL Server, Oracle, dll.) untuk melakukan tugas-tugas seperti:</p>
+        
+        <ul>
+          <li>Mengambil (Querying) data</li>
+          <li>Menyisipkan (Inserting) data baru</li>
+          <li>Memperbarui (Updating) data yang sudah ada</li>
+          <li>Menghapus (Deleting) data</li>
+          <li>Membuat dan memodifikasi struktur database itu sendiri (tabel, kolom, dll.)</li>
+        </ul>
+        
+        <p>Bagi seorang analis data, kemampuan menulis query SQL untuk mengambil data yang relevan dari database adalah keterampilan yang sangat fundamental. Seringkali, data yang kamu butuhkan tidak tersedia dalam file Excel yang rapi, melainkan tersimpan dalam database perusahaan yang besar.</p>
+      </section>
+      
+      <section id="pernyataan-select">
+        <h2>Apa Itu Pernyataan SELECT?</h2>
+        <p>Pernyataan <code>SELECT</code> adalah perintah SQL yang digunakan untuk mengambil data dari satu atau lebih tabel dalam database. Ini adalah perintah yang akan paling sering kamu gunakan sebagai analis data.</p>
+        
+        <p>Struktur paling dasar dari pernyataan SELECT adalah:</p>
+        
+        <div class="code-block">
+          <pre><code>SELECT kolom1, kolom2, ...
+FROM nama_tabel;</code></pre>
+        </div>
+        
+        <p>Mari kita bedah:</p>
+        <ul>
+          <li><strong>SELECT</strong>: Kata kunci yang menandakan bahwa kita ingin mengambil data.</li>
+          <li><strong>kolom1, kolom2, ...</strong>: Daftar nama kolom yang ingin kamu tampilkan hasilnya. Pisahkan nama kolom dengan koma.</li>
+          <li><strong>FROM</strong>: Kata kunci yang menunjukkan dari tabel mana kita ingin mengambil data.</li>
+          <li><strong>nama_tabel</strong>: Nama tabel sumber datanya.</li>
+          <li><strong>; (Titik Koma)</strong>: Menandakan akhir dari pernyataan SQL. Meskipun tidak selalu wajib di semua sistem atau alat, ini adalah praktik yang baik untuk menggunakannya.</li>
+        </ul>
+        
+        <p class="bg-yellow-50 p-4 rounded-lg border-l-4 border-yellow-400"><strong>Penting:</strong> SQL umumnya tidak case-sensitive untuk kata kunci (seperti SELECT, FROM) dan nama tabel/kolom, tapi praktik umumnya adalah menulis kata kunci dengan huruf besar (UPPERCASE) agar lebih mudah dibaca.</p>
+      </section>
+      
+      <section id="contoh-tabel">
+        <h2>Contoh Tabel untuk Latihan SQL</h2>
+        <p>Untuk belajar SQL, kita perlu tabel contoh. Bayangkan kita punya tabel <code>Pelanggan</code> di database kita seperti ini:</p>
+        
+        <table class="example-table">
+          <thead>
+            <tr>
+              <th>IDPelanggan</th>
+              <th>NamaDepan</th>
+              <th>NamaBelakang</th>
+              <th>Kota</th>
+              <th>Email</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>1</td>
+              <td>Ani</td>
+              <td>Wijaya</td>
+              <td>Jakarta</td>
+              <td>ani.w@email.com</td>
+            </tr>
+            <tr>
+              <td>2</td>
+              <td>Budi</td>
+              <td>Santoso</td>
+              <td>Bandung</td>
+              <td>budi.s@email.com</td>
+            </tr>
+            <tr>
+              <td>3</td>
+              <td>Citra</td>
+              <td>Lestari</td>
+              <td>Surabaya</td>
+              <td>citra.l@email.com</td>
+            </tr>
+            <tr>
+              <td>4</td>
+              <td>Dedi</td>
+              <td>Haryanto</td>
+              <td>Jakarta</td>
+              <td>dedi.h@email.com</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+      
+      <section id="contoh-query">
+        <h2>Contoh Query SELECT Dasar</h2>
+        <p>Mari kita lihat beberapa contoh query SELECT menggunakan tabel <code>Pelanggan</code> di atas.</p>
+        
+        <div class="card p-6 mb-8">
+          <h3 class="text-xl font-bold mb-3">1. Mengambil Semua Kolom dari Tabel</h3>
+          <p>Jika kamu ingin mengambil semua kolom dari sebuah tabel, kamu bisa menggunakan tanda bintang (<code>*</code>) sebagai jalan pintas:</p>
+          
+          <div class="code-block mt-3">
+            <pre><code>SELECT *
+FROM Pelanggan;</code></pre>
+          </div>
+          
+          <p class="mt-3"><strong>Hasil:</strong> Query ini akan mengembalikan seluruh isi tabel Pelanggan, semua baris dan semua kolom.</p>
+        </div>
+        
+        <div class="card p-6 mb-8">
+          <h3 class="text-xl font-bold mb-3">2. Mengambil Kolom Tertentu</h3>
+          <p>Jika kamu hanya butuh beberapa kolom saja (misalnya, hanya nama depan dan kota):</p>
+          
+          <div class="code-block mt-3">
+            <pre><code>SELECT NamaDepan, Kota
+FROM Pelanggan;</code></pre>
+          </div>
+          
+          <p class="mt-3"><strong>Hasil:</strong> Query ini akan mengembalikan dua kolom (NamaDepan dan Kota) untuk semua baris (semua pelanggan).</p>
+        </div>
+        
+        <div class="card p-6">
+          <h3 class="text-xl font-bold mb-3">3. Mengubah Urutan Kolom</h3>
+          <p>Urutan kolom dalam hasil query ditentukan oleh urutan kamu menuliskannya setelah SELECT.</p>
+          
+          <div class="code-block mt-3">
+            <pre><code>SELECT Email, NamaDepan, NamaBelakang
+FROM Pelanggan;</code></pre>
+          </div>
+          
+          <p class="mt-3"><strong>Hasil:</strong> Mengembalikan kolom Email, NamaDepan, dan NamaBelakang (dalam urutan itu) untuk semua pelanggan.</p>
+        </div>
+      </section>
+      
+      <section id="menjalankan-query">
+        <h2>Menjalankan Query SQL (Sekilas Info)</h2>
+        <p>Bagaimana cara menjalankan query SQL ini? Kamu memerlukan akses ke database dan sebuah alat (SQL client atau interface) untuk menulis dan mengeksekusi query. Beberapa contoh alat:</p>
+        
+        <ul>
+          <li><strong>Alat GUI (Graphical User Interface):</strong> Seperti DBeaver, pgAdmin (untuk PostgreSQL), MySQL Workbench, SQL Server Management Studio. Ini menyediakan antarmuka visual untuk berinteraksi dengan database.</li>
+          <li><strong>Command Line Interface (CLI):</strong> Seperti psql (PostgreSQL), mysql (MySQL). Kamu mengetik perintah langsung di terminal.</li>
+          <li><strong>Terintegrasi dalam Bahasa Pemrograman:</strong> Kamu bisa menjalankan query SQL dari dalam kode Python, Java, dll. (Kita akan bahas ini jauh nanti).</li>
+          <li><strong>Platform Online/Latihan:</strong> Banyak website menyediakan lingkungan latihan SQL online (seperti SQL Fiddle, DB Fiddle, Mode Analytics SQL Tutorial).</li>
+        </ul>
+        
+        <p>Untuk saat ini, fokus kita adalah memahami cara menulis query SQL. Kita akan berasumsi punya cara untuk menjalankannya dan melihat hasilnya.</p>
+      </section>
+      
+      <section id="selanjutnya">
+        <h2>Apa Selanjutnya?</h2>
+        <p>Hari ini adalah langkah pertamamu ke dunia SQL! Kamu sudah belajar tujuan SQL dan struktur dasar perintah SELECT untuk mengambil semua atau beberapa kolom dari satu tabel.</p>
+      </section>
+      
+      <section id="review-mingguan">
+        <h2>Review Minggu Keenam & Kuis Logika, Probabilitas, SQL!</h2>
+        <p>Selamat! Kamu sudah berhasil menyelesaikan minggu keenam dari perjalanan 365 hari kita! Minggu ini kita menjelajahi area baru yang menarik: mulai dari konsep probabilitas, distribusi normal yang terkenal, memperdalam fungsi logika Excel, hingga pengenalan database relasional dan perintah dasar SQL SELECT.</p>
+        
+        <p>Ini adalah minggu yang penuh dengan konsep fundamental yang akan sangat berguna ke depannya. Seperti biasa, mari kita gunakan hari terakhir minggu ini untuk me-review apa saja yang sudah kita pelajari dan menguji pemahaman dengan kuis santai.</p>
+        
+        <h3 class="text-xl font-bold mt-6 mb-4">Rangkuman Minggu Keenam: Logika, Peluang, dan Data Terstruktur</h3>
+        <p>Minggu ini kita sudah membahas topik-topik penting berikut:</p>
+        
+        <ol>
+          <li><strong>Probabilitas Dasar (Hari 36):</strong> Kita belajar konsep probabilitas sebagai ukuran kemungkinan (0 hingga 1), dan cara menghitung probabilitas klasik untuk hasil yang sama mungkin: P(Kejadian) = (Jumlah Hasil Diinginkan) / (Jumlah Total Hasil Mungkin). Kita juga membahas aturan dasar seperti P(Total)=1 dan P(Komplemen)=1-P(Kejadian).</li>
+          <li><strong>Distribusi Normal (Hari 37):</strong> Kita mengenal kurva lonceng yang simetris, di mana Mean=Median=Modus. Kita belajar bahwa bentuknya ditentukan oleh Mean (pusat) dan Standar Deviasi (lebar/sebaran), serta Aturan Empiris 68-95-99.7 yang sangat berguna.</li>
+          <li><strong>Logika Excel Lanjutan (Hari 38):</strong> Kita mengulas IF, AND, OR, belajar fungsi NOT untuk membalik kondisi, dan fungsi IFERROR(value, value_if_error) untuk menangani error rumus dengan menampilkan nilai alternatif.</li>
+          <li><strong>Menghitung Bersyarat (Hari 39):</strong> Kita belajar fungsi COUNTIF(range, criteria), SUMIF(range, criteria, [sum_range]), dan AVERAGEIF(range, criteria, [average_range]) untuk melakukan perhitungan agregat berdasarkan satu kriteria.</li>
+          <li><strong>Menghitung Multi-Syarat (Hari 40):</strong> Kita meningkatkan kemampuan perhitungan bersyarat dengan COUNTIFS(range1, criteria1, ...), SUMIFS(sum_range, range1, criteria1, ...), dan AVERAGEIFS(average_range, range1, criteria1, ...) yang bisa menangani banyak kriteria sekaligus (logika AND).</li>
+          <li><strong>Database Relasional (Hari 41):</strong> Kita memahami konsep database relasional sebagai kumpulan tabel yang terhubung. Kita belajar tentang tabel, baris (record), kolom (field), Primary Key (identifier unik), dan Foreign Key (penghubung antar tabel).</li>
+          <li><strong>Pengantar SQL & SELECT (Hari 42):</strong> Kita mengenal SQL sebagai bahasa standar untuk database relasional dan mempelajari perintah dasarnya, SELECT kolom1, kolom2 FROM nama_tabel;, untuk mengambil data spesifik dari tabel. Kita juga belajar menggunakan SELECT * untuk mengambil semua kolom.</li>
+        </ol>
+        
+        <p>Setelah minggu keenam ini, kamu seharusnya sudah bisa:</p>
+        <ul>
+          <li>Menghitung probabilitas sederhana.</li>
+          <li>Mengenali karakteristik Distribusi Normal.</li>
+          <li>Menggunakan fungsi logika IF, AND, OR, NOT, dan IFERROR di Excel.</li>
+          <li>Menggunakan COUNTIF(S), SUMIF(S), AVERAGEIF(S) untuk perhitungan bersyarat.</li>
+          <li>Menjelaskan konsep dasar database relasional.</li>
+          <li>Menulis query SQL SELECT sederhana untuk mengambil kolom dari tabel.</li>
+        </ul>
+        
+        <p class="mt-4">Kumpulan pengetahuanmu semakin luas dan beragam!</p>
+        
+        <h3 class="text-xl font-bold mt-8 mb-4">Kuis Santai Minggu Keenam</h3>
+        <p>Mari uji pemahamanmu tentang topik minggu ini!</p>
+        
+        <div class="quiz-question">
+          <p class="font-bold mb-3">1. Jika probabilitas hujan besok adalah 0.3 (30%), berapa probabilitas besok tidak hujan?</p>
+          <div class="quiz-option">a. 0.3</div>
+          <div class="quiz-option">b. 0.5</div>
+          <div class="quiz-option">c. 0.7</div>
+          <div class="quiz-option">d. 1.0</div>
+        </div>
+        
+        <div class="quiz-question">
+          <p class="font-bold mb-3">2. Dalam Distribusi Normal yang sempurna, nilai manakah yang TIDAK selalu sama dengan yang lain?</p>
+          <div class="quiz-option">a. Mean</div>
+          <div class="quiz-option">b. Median</div>
+          <div class="quiz-option">c. Modus</div>
+          <div class="quiz-option">d. Standar Deviasi</div>
+        </div>
+        
+        <div class="quiz-question">
+          <p class="font-bold mb-3">3. Menurut Aturan Empiris 68-95-99.7, sekitar berapa persen data yang berada dalam rentang 2 Standar Deviasi dari Mean?</p>
+          <div class="quiz-option">a. 68%</div>
+          <div class="quiz-option">b. 95%</div>
+          <div class="quiz-option">c. 99.7%</div>
+          <div class="quiz-option">d. 100%</div>
+        </div>
+        
+        <div class="quiz-question">
+          <p class="font-bold mb-3">4. Fungsi Excel mana yang digunakan untuk menampilkan "Data Kosong" jika rumus VLOOKUP menghasilkan error #N/A?</p>
+          <div class="quiz-option">a. IF(VLOOKUP(...) = "#N/A", "Data Kosong", VLOOKUP(...))</div>
+          <div class="quiz-option">b. ISERROR(VLOOKUP(...), "Data Kosong")</div>
+          <div class="quiz-option">c. IFERROR(VLOOKUP(...), "Data Kosong")</div>
+          <div class="quiz-option">d. ERROR.TYPE(VLOOKUP(...), "Data Kosong")</div>
+        </div>
+        
+        <div class="quiz-question">
+          <p class="font-bold mb-3">5. Kamu ingin menghitung jumlah sel di rentang A1:A10 yang berisi teks "Lulus". Fungsi yang tepat adalah...</p>
+          <div class="quiz-option">a. =COUNT(A1:A10, "Lulus")</div>
+          <div class="quiz-option">b. =COUNTIF(A1:A10, "Lulus")</div>
+          <div class="quiz-option">c. =SUMIF(A1:A10, "Lulus")</div>
+          <div class="quiz-option">d. =COUNTIFS(A1:A10, "Lulus")</div>
+        </div>
+        
+        <div class="quiz-question">
+          <p class="font-bold mb-3">6. Untuk menjumlahkan nilai di kolom B (B1:B100) hanya jika nilai di kolom A (A1:A100) adalah "Jakarta" DAN nilai di kolom C (C1:C100) lebih besar dari 50, fungsi yang digunakan adalah...</p>
+          <div class="quiz-option">a. SUMIF(A1:A100, "Jakarta", B1:B100)</div>
+          <div class="quiz-option">b. SUMIFS(B1:B100, A1:A100, "Jakarta", C1:C100, ">50")</div>
+          <div class="quiz-option">c. SUMIFS(A1:A100, "Jakarta", C1:C100, ">50", B1:B100)</div>
+          <div class="quiz-option">d. SUM(IF(AND(A1:A100="Jakarta", C1:C100>50), B1:B100))</div>
+        </div>
+        
+        <div class="quiz-question">
+          <p class="font-bold mb-3">7. Dalam database relasional, kolom yang berfungsi sebagai identifier unik untuk setiap baris dalam sebuah tabel disebut...</p>
+          <div class="quiz-option">a. Foreign Key</div>
+          <div class="quiz-option">b. Unique Key</div>
+          <div class="quiz-option">c. Primary Key</div>
+          <div class="quiz-option">d. Candidate Key</div>
+        </div>
+        
+        <div class="quiz-question">
+          <p class="font-bold mb-3">8. Perintah SQL dasar untuk mengambil kolom Nama dan Kota dari tabel Supplier adalah...</p>
+          <div class="quiz-option">a. GET Nama, Kota FROM Supplier;</div>
+          <div class="quiz-option">b. SELECT Nama, Kota FROM Supplier;</div>
+          <div class="quiz-option">c. SELECT Nama, Kota WHERE Supplier;</div>
+          <div class="quiz-option">d. FROM Supplier SELECT Nama, Kota;</div>
+        </div>
+        
+        <div class="answer-section">
+          <h4 class="text-lg font-bold mb-3">Jawaban:</h4>
+          <p>1. c. 0.7 (1 - 0.3)</p>
+          <p>2. d. Standar Deviasi (Mean, Median, Modus sama di pusat)</p>
+          <p>3. b. 95%</p>
+          <p>4. c. IFERROR(VLOOKUP(...), "Data Kosong")</p>
+          <p>5. b. =COUNTIF(A1:A10, "Lulus")</p>
+          <p>6. b. SUMIFS(B1:B100, A1:A100, "Jakarta", C1:C100, ">50") (Ingat, sum_range duluan di SUMIFS)</p>
+          <p>7. c. Primary Key</p>
+          <p>8. b. SELECT Nama, Kota FROM Supplier;</p>
+        </div>
+        
+        <p class="mt-6">Bagaimana hasilnya? Minggu ini kita mencakup banyak dasar penting untuk analisis data modern.</p>
+      </section>
+      
+      <section id="persiapan-minggu-depan">
+        <h2>Bersiap untuk Minggu Ketujuh!</h2>
+        <p>Minggu depan, kita akan melanjutkan petualangan SQL kita:</p>
+        <ul>
+          <li>Belajar memfilter baris data menggunakan klausa WHERE.</li>
+          <li>Mengurutkan hasil query dengan ORDER BY.</li>
+          <li>Membatasi jumlah hasil dengan LIMIT.</li>
+          <li>Mungkin mulai melihat operator logika (AND, OR, NOT) dan perbandingan (=, >, <, LIKE, IN) dalam WHERE.</li>
+        </ul>
+        
+        <p>Kita akan fokus mempraktikkan cara mengambil data yang lebih spesifik dari database menggunakan SQL.</p>
+        
+        <p>Selamat atas pencapaian enam minggu ini! Istirahatlah dengan baik dan siapkan diri untuk menjadi lebih mahir dalam SQL. Sampai jumpa di hari ke-43!</p>
+      </section>
+      
+      <footer class="lesson-footer">
+        <p class="italic"><strong>Tips Hari Ini:</strong> Mulailah dengan query sederhana dan secara bertahap tingkatkan kompleksitasnya. Praktik konsisten adalah kunci menguasai SQL.</p>
+        <a href="hari43.html" class="cta-button">Lanjut ke Hari 43</a>
+      </footer>
+    </article>
+  </main>
+
+  <!-- Footer -->
+  <footer class="bg-gray-800 text-white py-12">
+    <div class="container mx-auto px-4">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
+        <div>
+          <h4 class="text-lg font-bold mb-4">Navigasi Cepat</h4>
+          <ul class="space-y-2">
+            <li><a href="#" class="hover:text-blue-300 transition">Kuartal 1</a></li>
+            <li><a href="#" class="hover:text-blue-300 transition">Kuartal 2</a></li>
+            <li><a href="#" class="hover:text-blue-300 transition">Kuartal 3</a></li>
+            <li><a href="#" class="hover:text-blue-300 transition">Kuartal 4</a></li>
+          </ul>
+        </div>
+        
+        <div>
+          <h4 class="text-lg font-bold mb-4">Resources</h4>
+          <ul class="space-y-2">
+            <li><a href="#" class="hover:text-blue-300 transition">Checklist Keterampilan</a></li>
+            <li><a href="#" class="hover:text-blue-300 transition">Contoh Portofolio</a></li>
+            <li><a href="#" class="hover:text-blue-300 transition">Pertanyaan Interview</a></li>
+          </ul>
+        </div>
+        
+        <div>
+          <h4 class="text-lg font-bold mb-4">Kontak</h4>
+          <p class="mb-2">Email: kontak@data365.com</p>
+          <div class="flex space-x-4 mt-4">
+            <a href="#" class="text-gray-400 hover:text-white">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616-.054 2.281 1.581 4.415 3.949 4.89-.693.188-1.452.232-2.224.084.626 1.956 2.444 3.379 4.6 3.419-2.07 1.623-4.678 2.348-7.29 2.04 2.179 1.397 4.768 2.212 7.548 2.212 9.142 0 14.307-7.721 13.995-14.646.962-.695 1.797-1.562 2.457-2.549z"/>
+              </svg>
+            </a>
+            <a href="#" class="text-gray-400 hover:text-white">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M12 0c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm3 8h-1.35c-.538 0-.65.221-.65.778v1.222h2l-.209 2h-1.791v7h-3v-7h-2v-2h2v-2.308c0-1.769.931-2.692 3.029-2.692h1.971v3z"/>
+              </svg>
+            </a>
+            <a href="#" class="text-gray-400 hover:text-white">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+              </svg>
+            </a>
+          </div>
+        </div>
+      </div>
+      
+      <div class="border-t border-gray-700 pt-8 text-center">
+        <p>&copy; 2025 Buku Panduan Data Analisis 365 Hari. Hak Cipta Dilindungi.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Dark Mode Toggle -->
+  <button id="dark-toggle" class="fixed bottom-6 right-6 w-12 h-12 rounded-full bg-gray-800 text-white shadow-lg flex items-center justify-center z-30">
+    <svg id="dark-icon" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/>
+    </svg>
+    <svg id="light-icon" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/>
+    </svg>
+  </button>
+
+  <script>
+    // Mobile Menu Toggle
+    const mobileMenu = document.getElementById('mobile-menu');
+    const sidebar = document.getElementById('sidebar');
+    const overlay = document.getElementById('overlay');
+    
+    // Dark Mode Toggle
+    const darkToggle = document.getElementById('dark-toggle');
+    const darkIcon = document.getElementById('dark-icon');
+    const lightIcon = document.getElementById('light-icon');
+    
+    darkToggle.addEventListener('click', () => {
+      document.body.classList.toggle('dark-mode');
+      
+      if (document.body.classList.contains('dark-mode')) {
+        darkIcon.classList.remove('hidden');
+        lightIcon.classList.add('hidden');
+        darkToggle.classList.add('bg-gray-700');
+      } else {
+        darkIcon.classList.add('hidden');
+        lightIcon.classList.remove('hidden');
+        darkToggle.classList.remove('bg-gray-700');
+      }
+    });
+  </script>
+</body>
+</html>

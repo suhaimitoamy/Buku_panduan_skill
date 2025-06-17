@@ -1,0 +1,897 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hari 41: Gudang Data Terstruktur - Pengantar Database Relasional</title>
+    <!-- Tailwind CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Fira+Code&display=swap" rel="stylesheet">
+    <style>
+        /* -- Pengaturan Dasar dan Variabel -- */
+        :root {
+            --primary-color: #3B82F6; /* Blue */
+            --secondary-color: #10B981; /* Green */
+            --accent-color: #8B5CF6; /* Purple */
+            --background-color: #FFFFFF; /* White */
+            --text-color: #1F2937; /* Dark Gray */
+            --muted-color: #9CA3AF; /* Gray */
+            --light-bg: #f9fafb;
+            --dark-bg: #1f2937;
+            --heading-font: 'Inter', sans-serif;
+            --body-font: 'Inter', sans-serif;
+            --code-font: 'Fira Code', monospace;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--body-font);
+            color: var(--text-color);
+            background-color: var(--background-color);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* -- Header dan Navigasi -- */
+        .header {
+            background-color: var(--background-color);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            padding: 1rem 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+        }
+
+        .logo svg {
+            height: 40px;
+            width: 40px;
+            fill: none;
+            stroke: var(--primary-color);
+            stroke-width: 2;
+        }
+
+        .logo-text {
+            font-family: var(--heading-font);
+            font-weight: 700;
+            font-size: 1.25rem;
+            margin-left: 10px;
+            color: var(--text-color);
+        }
+
+        .nav-links {
+            list-style: none;
+            display: flex;
+            gap: 1.5rem;
+            margin: 0;
+            padding: 0;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-color);
+            font-weight: 500;
+            transition: color 0.3s;
+            font-size: 0.95rem;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary-color);
+        }
+
+        .dropdown {
+            position: relative;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: white;
+            min-width: 200px;
+            box-shadow: 0px 8px 16px rgba(0,0,0,0.1);
+            z-index: 1;
+            border-radius: 4px;
+            padding: 10px 0;
+        }
+
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+
+        .dropdown-content a {
+            color: var(--text-color);
+            padding: 8px 16px;
+            text-decoration: none;
+            display: block;
+            font-size: 0.9rem;
+            transition: background-color 0.2s;
+        }
+
+        .dropdown-content a:hover {
+            background-color: #f3f4f6;
+        }
+
+        /* -- Breadcrumb -- */
+        .breadcrumb-container {
+            background-color: var(--light-bg);
+            padding: 15px 0;
+            margin-bottom: 20px;
+        }
+
+        .breadcrumb {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            align-items: center;
+            font-size: 0.9rem;
+        }
+
+        .breadcrumb a {
+            color: var(--primary-color);
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+
+        .breadcrumb a:hover {
+            text-decoration: underline;
+        }
+
+        .breadcrumb span {
+            color: var(--muted-color);
+        }
+
+        .breadcrumb-separator {
+            margin: 0 10px;
+            color: var(--muted-color);
+        }
+
+        /* -- Learning Content -- */
+        .learning-container {
+            padding: 120px 20px 60px;
+        }
+
+        .day-content {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            padding: 40px;
+            margin-bottom: 50px;
+        }
+
+        .day-header {
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid var(--light-bg);
+        }
+
+        .day-header h1 {
+            font-family: var(--heading-font);
+            font-size: 2.2rem;
+            color: var(--dark-bg);
+            margin-bottom: 10px;
+            line-height: 1.3;
+        }
+
+        .meta-info {
+            color: var(--muted-color);
+            font-size: 1rem;
+            display: block;
+            margin-bottom: 20px;
+        }
+
+        .day-content p {
+            margin-bottom: 20px;
+            line-height: 1.8;
+            font-size: 1.1rem;
+        }
+
+        .day-content section {
+            margin-bottom: 40px;
+        }
+
+        .day-content h2 {
+            font-family: var(--heading-font);
+            font-size: 1.7rem;
+            color: var(--primary-color);
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--light-bg);
+        }
+
+        .day-content ol, .day-content ul {
+            padding-left: 25px;
+            margin-bottom: 25px;
+        }
+
+        .day-content li {
+            margin-bottom: 10px;
+            line-height: 1.7;
+            font-size: 1.1rem;
+        }
+
+        .day-content strong {
+            color: var(--dark-bg);
+        }
+
+        /* -- Gaya Khusus untuk Hari 41 -- */
+        .step-container {
+            background-color: #f8f9fa;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+        }
+
+        .step-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .step-number {
+            background-color: var(--secondary-color);
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-right: 15px;
+            font-weight: bold;
+        }
+
+        .exercise-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .exercise-table th {
+            background-color: #e3f2fd;
+            padding: 12px 15px;
+            text-align: center;
+            font-weight: 600;
+        }
+
+        .exercise-table td {
+            padding: 10px 15px;
+            border: 1px solid #e0e0e0;
+            text-align: center;
+        }
+
+        .exercise-table tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        .exercise-table tr:hover {
+            background-color: #f1f8ff;
+        }
+
+        .formula-example {
+            background-color: #fffde7;
+            border-left: 4px solid #ffd600;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 0 8px 8px 0;
+            font-family: var(--code-font);
+            font-weight: bold;
+        }
+
+        .analysis-section {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin: 25px 0;
+        }
+
+        .analysis-card {
+            flex: 1;
+            min-width: 280px;
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+            border-top: 4px solid var(--primary-color);
+        }
+
+        .analysis-card h3 {
+            color: var(--primary-color);
+            margin-top: 0;
+        }
+
+        .question-bubble {
+            background-color: #e8f5e9;
+            padding: 15px;
+            border-radius: 10px;
+            margin: 20px 0;
+            position: relative;
+        }
+
+        .question-bubble:before {
+            content: "";
+            position: absolute;
+            width: 0;
+            height: 0;
+            border-left: 10px solid transparent;
+            border-right: 10px solid transparent;
+            border-bottom: 10px solid #e8f5e9;
+            top: -10px;
+            left: 20px;
+        }
+
+        .highlight {
+            background-color: #fff9c4;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-weight: 500;
+        }
+
+        .function-tag {
+            display: inline-block;
+            background-color: var(--accent-color);
+            color: white;
+            padding: 2px 8px;
+            border-radius: 4px;
+            margin: 0 3px;
+            font-size: 0.9em;
+        }
+
+        .key-term {
+            display: inline-block;
+            background-color: #e0f7fa;
+            color: #006064;
+            padding: 2px 8px;
+            border-radius: 4px;
+            margin: 0 3px;
+            font-weight: bold;
+        }
+
+        .rdbms-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 25px 0;
+        }
+
+        .rdbms-card {
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+            border-top: 4px solid var(--accent-color);
+        }
+
+        .rdbms-card h3 {
+            color: var(--accent-color);
+            margin-top: 0;
+            margin-bottom: 15px;
+        }
+
+        /* -- Lesson Footer -- */
+        .lesson-footer {
+            background: var(--light-bg);
+            padding: 25px;
+            border-radius: 8px;
+            margin-top: 40px;
+        }
+
+        .lesson-footer p {
+            font-style: italic;
+            color: var(--muted-color);
+            margin-bottom: 20px;
+        }
+
+        .cta-button {
+            background-color: var(--secondary-color);
+            color: white;
+            padding: 12px 30px;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+            display: inline-block;
+            transition: all 0.3s;
+            font-size: 1rem;
+            border: none;
+            cursor: pointer;
+        }
+
+        .cta-button:hover {
+            background-color: #0e8e6d;
+            transform: translateY(-3px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+        }
+
+        /* -- Footer -- */
+        .footer {
+            background-color: var(--dark-bg);
+            color: white;
+            padding: 60px 0 30px;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: space-between;
+            gap: 30px;
+            flex-wrap: wrap;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .footer-links h4 {
+            font-family: var(--heading-font);
+            margin-bottom: 20px;
+            font-size: 1.25rem;
+        }
+
+        .footer-links ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .footer-links ul li {
+            margin-bottom: 10px;
+        }
+
+        .footer-links ul li a {
+            color: var(--muted-color);
+            text-decoration: none;
+            transition: color 0.3s;
+            font-size: 0.95rem;
+        }
+
+        .footer-links ul li a:hover {
+            color: white;
+        }
+
+        .copyright {
+            text-align: center;
+            margin-top: 60px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            padding-top: 30px;
+            color: var(--muted-color);
+            max-width: 1200px;
+            margin: 60px auto 0;
+            padding: 20px;
+            font-size: 0.9rem;
+        }
+
+        /* -- Responsive Design -- */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+            
+            .learning-container {
+                padding: 100px 15px 40px;
+            }
+            
+            .day-content {
+                padding: 25px;
+            }
+            
+            .day-header h1 {
+                font-size: 1.8rem;
+            }
+            
+            .day-content h2 {
+                font-size: 1.5rem;
+            }
+            
+            .footer-links {
+                flex-direction: column;
+                gap: 40px;
+            }
+            
+            .breadcrumb {
+                flex-wrap: wrap;
+                row-gap: 5px;
+            }
+            
+            .analysis-card {
+                min-width: 100%;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .day-header h1 {
+                font-size: 1.6rem;
+            }
+            
+            .day-content h2 {
+                font-size: 1.3rem;
+            }
+        }
+
+        /* -- Mobile Menu -- */
+        #mobile-menu {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--text-color);
+        }
+
+        #sidebar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 280px;
+            background: white;
+            box-shadow: 2px 0 10px rgba(0,0,0,0.1);
+            transform: translateX(-100%);
+            transition: transform 0.3s ease;
+            z-index: 1000;
+            padding-top: 70px;
+            overflow-y: auto;
+        }
+
+        #overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 999;
+            display: none;
+        }
+
+        @media (max-width: 768px) {
+            #mobile-menu {
+                display: block;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <nav class="navbar">
+            <a href="./../../../index.html" class="logo">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                    <path d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/>
+                </svg>
+                <span class="logo-text">Home</span>
+            </a>
+
+            <!-- Desktop Navigation -->
+            <ul class="nav-links">
+                <li><a href="./../../../index.html">Home</a></li>
+                <li class="dropdown">
+                    <a href="#" class="dropbtn">Kuartal 1: Dasar <span class="arrow">&#9662;</span></a>
+                    <div class="dropdown-content">
+                        <a href="#">Bulan 1: Excel Dasar</a>
+                        <a href="#">Bulan 2: Statistik Dasar</a>
+                        <a href="#">Bulan 3: SQL Lanjutan</a>
+                    </div>
+                </li>
+                <li class="dropdown">
+                    <a href="#" class="dropbtn">Kuartal 2: Intermediate <span class="arrow">&#9662;</span></a>
+                    <div class="dropdown-content">
+                        <a href="#">Bulan 4: Database & SQL</a>
+                        <a href="#">Bulan 5: Python Dasar</a>
+                        <a href="#">Bulan 6: Visualisasi Data</a>
+                    </div>
+                </li>
+                <li class="dropdown">
+                    <a href="#" class="dropbtn">Kuartal 3: Advanced <span class="arrow">&#9662;</span></a>
+                    <div class="dropdown-content">
+                        <a href="#">Bulan 7: Analisis Lanjutan</a>
+                        <a href="#">Bulan 8: Machine Learning</a>
+                        <a href="#">Bulan 9: Big Data</a>
+                    </div>
+                </li>
+                <li class="dropdown">
+                    <a href="#" class="dropbtn">Kuartal 4: Spesialisasi <span class="arrow">&#9662;</span></a>
+                    <div class="dropdown-content">
+                        <a href="#">Bulan 10: Analisis Bisnis</a>
+                        <a href="#">Bulan 11: Analisis Keuangan</a>
+                        <a href="#">Bulan 12: Portofolio</a>
+                    </div>
+                </li>
+                <li><a href="#">Resources</a></li>
+                <li><a href="#">Dataset & Tools</a></li>
+                <li><a href="../about.html">About</a></li>
+            </ul>
+            <!-- Mobile Menu Button -->
+            <button id="mobile-menu">☰</button>
+        </nav>
+    </header>
+
+    <!-- Breadcrumb -->
+    <div class="breadcrumb-container">
+        <div class="breadcrumb">
+            <a href="./../../../index.html">Home</a>
+            <span class="breadcrumb-separator">&gt;</span>
+            <a href="#">Kuartal 2</a>
+            <span class="breadcrumb-separator">&gt;</span>
+            <a href="#">Bulan 4</a>
+            <span class="breadcrumb-separator">&gt;</span>
+            <a href="#">Minggu 3</a>
+            <span class="breadcrumb-separator">&gt;</span>
+            <span>Hari 41</span>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <main class="container learning-container">
+        <article class="day-content">
+            <header class="day-header">
+                <h1>Hari 41: Gudang Data Terstruktur - Pengantar Database Relasional</h1>
+                <p class="meta-info">Kuartal 2: Intermediate | Bulan 4: Database & SQL</p>
+            </header>
+
+            <div class="intro-section">
+                <p>Selamat pagi, calon arsitek data! Selama ini kita banyak bekerja dengan data yang tersimpan rapi dalam tabel-tabel di Excel. Excel memang hebat untuk analisis data skala kecil hingga menengah, tapi bagaimana jika datanya menjadi sangat besar dan kompleks, melibatkan jutaan baris atau banyak tabel yang saling terkait?</p>
+                <p>Di sinilah <span class="highlight">Database Relasional</span> berperan. Database relasional adalah cara standar industri untuk menyimpan, mengelola, dan mengakses data terstruktur dalam jumlah besar secara efisien dan aman. Dan bahasa utama untuk berinteraksi dengan database relasional adalah <span class="function-tag">SQL (Structured Query Language)</span>, yang akan segera kita pelajari.</p>
+                <p>Sebelum kita menyelam ke SQL, penting untuk memahami dulu konsep dasar di balik rumahnya: Database Relasional. Hari ini kita akan berkenalan dengan konsep ini.</p>
+            </div>
+
+            <section id="apa-itu-database">
+                <h2>Apa Itu Database?</h2>
+                <p>Secara umum, <span class="key-term">database</span> adalah kumpulan data yang terorganisir, biasanya disimpan secara elektronik dalam sistem komputer. Tujuannya adalah agar data mudah diakses, dikelola, dan diperbarui.</p>
+                <p>Bayangkan sebuah perpustakaan besar. Database itu seperti seluruh sistem perpustakaan tersebut, yang menyimpan ribuan buku (data) secara teratur di rak-rak (penyimpanan), dengan katalog (indeks) untuk memudahkan pencarian.</p>
+            </section>
+
+            <section id="apa-itu-database-relasional">
+                <h2>Apa Itu Database Relasional?</h2>
+                <p><span class="key-term">Database Relasional</span> adalah jenis database yang paling umum digunakan. Ciri utamanya adalah ia mengorganisir data ke dalam satu atau lebih tabel (juga disebut relasi). Tabel-tabel ini mirip seperti lembar kerja (sheet) di Excel:</p>
+                <ul>
+                    <li>Setiap tabel mewakili satu jenis entitas atau konsep (misal, tabel <span class="highlight">Pelanggan</span>, tabel <span class="highlight">Produk</span>, tabel <span class="highlight">Pesanan</span>).</li>
+                    <li>Setiap baris dalam tabel (juga disebut <span class="key-term">record</span> atau <span class="key-term">tuple</span>) mewakili satu instance spesifik dari entitas tersebut (misal, satu pelanggan tertentu, satu produk spesifik).</li>
+                    <li>Setiap kolom dalam tabel (juga disebut <span class="key-term">field</span> atau <span class="key-term">attribute</span>) mewakili satu karakteristik atau atribut dari entitas tersebut (misal, kolom <span class="highlight">NamaPelanggan</span>, <span class="highlight">Alamat</span>, <span class="highlight">Email</span> di tabel Pelanggan).</li>
+                </ul>
+            </section>
+
+            <section id="kunci-utama">
+                <h2>Kunci Utama: Hubungan (Relationship)</h2>
+                <p>Yang membuat model ini "relasional" adalah kemampuannya untuk mendefinisikan hubungan antar tabel. Hubungan ini dibuat menggunakan kunci (keys).</p>
+                
+                <div class="analysis-section">
+                    <div class="analysis-card">
+                        <h3>Primary Key (Kunci Utama)</h3>
+                        <p>Satu atau beberapa kolom dalam sebuah tabel yang nilainya unik untuk setiap baris. Primary key berfungsi sebagai identifikator unik untuk setiap record dalam tabel tersebut.</p>
+                        <p><strong>Contoh:</strong> <span class="highlight">IDPelanggan</span> di tabel Pelanggan, <span class="highlight">IDProduk</span> di tabel Produk, <span class="highlight">IDPesanan</span> di tabel Pesanan.</p>
+                    </div>
+                    
+                    <div class="analysis-card">
+                        <h3>Foreign Key (Kunci Tamu)</h3>
+                        <p>Satu atau beberapa kolom dalam sebuah tabel yang merujuk ke Primary Key di tabel lain. Foreign key inilah yang menciptakan hubungan antar tabel.</p>
+                        <p><strong>Contoh:</strong> Di tabel Pesanan, mungkin ada kolom <span class="highlight">IDPelanggan</span> (yang merujuk ke IDPelanggan di tabel Pelanggan) dan kolom <span class="highlight">IDProduk</span> (yang merujuk ke IDProduk di tabel Produk).</p>
+                    </div>
+                </div>
+                
+                <p>Dengan adanya hubungan ini, kita bisa menggabungkan informasi dari beberapa tabel. Misalnya, dari tabel Pesanan, kita bisa tahu IDPelanggan yang memesan. Dengan menggunakan IDPelanggan tersebut sebagai foreign key, kita bisa mencari detail pelanggan (nama, alamat) di tabel Pelanggan.</p>
+                
+                <div class="step-container">
+                    <div class="step-header">
+                        <div class="step-number">1</div>
+                        <h3>Contoh Hubungan Tabel</h3>
+                    </div>
+                    <table class="exercise-table">
+                        <thead>
+                            <tr>
+                                <th>Tabel</th>
+                                <th>Kolom</th>
+                                <th>Tipe Key</th>
+                                <th>Hubungan</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Pelanggan</td>
+                                <td>IDPelanggan</td>
+                                <td>Primary Key</td>
+                                <td>-</td>
+                            </tr>
+                            <tr>
+                                <td>Produk</td>
+                                <td>IDProduk</td>
+                                <td>Primary Key</td>
+                                <td>-</td>
+                            </tr>
+                            <tr>
+                                <td>Pesanan</td>
+                                <td>IDPesanan</td>
+                                <td>Primary Key</td>
+                                <td>-</td>
+                            </tr>
+                            <tr>
+                                <td>Pesanan</td>
+                                <td>IDPelanggan</td>
+                                <td>Foreign Key</td>
+                                <td>→ Pelanggan</td>
+                            </tr>
+                            <tr>
+                                <td>Pesanan</td>
+                                <td>IDProduk</td>
+                                <td>Foreign Key</td>
+                                <td>→ Produk</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <section id="keunggulan">
+                <h2>Mengapa Menggunakan Database Relasional (Dibanding Excel)?</h2>
+                <p>Untuk data yang besar dan kompleks, database relasional menawarkan banyak keuntungan dibandingkan menyimpan semuanya di satu file Excel besar:</p>
+                
+                <div class="analysis-section">
+                    <div class="analysis-card">
+                        <h3>1. Skalabilitas</h3>
+                        <p>Mampu menangani volume data yang jauh lebih besar (jutaan hingga miliaran baris) dengan performa yang baik.</p>
+                    </div>
+                    
+                    <div class="analysis-card">
+                        <h3>2. Integritas Data</h3>
+                        <p>Aturan seperti Primary Key dan Foreign Key membantu memastikan data tetap konsisten dan akurat. Misalnya, kamu tidak bisa memasukkan pesanan untuk IDPelanggan yang tidak ada di tabel Pelanggan.</p>
+                    </div>
+                    
+                    <div class="analysis-card">
+                        <h3>3. Mengurangi Redundansi</h3>
+                        <p>Dengan memecah data ke tabel-tabel yang berhubungan, kamu menghindari pengulangan informasi. Detail pelanggan cukup disimpan sekali di tabel Pelanggan, tidak perlu diulang di setiap baris pesanan.</p>
+                    </div>
+                    
+                    <div class="analysis-card">
+                        <h3>4. Akses Multi-User</h3>
+                        <p>Dirancang agar banyak pengguna bisa mengakses dan memodifikasi data secara bersamaan dengan aman (dengan mekanisme penguncian dan transaksi).</p>
+                    </div>
+                    
+                    <div class="analysis-card">
+                        <h3>5. Keamanan</h3>
+                        <p>Menyediakan fitur kontrol akses yang lebih canggih untuk menentukan siapa yang boleh melihat atau mengubah data tertentu.</p>
+                    </div>
+                    
+                    <div class="analysis-card">
+                        <h3>6. Query yang Kuat</h3>
+                        <p>SQL memungkinkan kita menulis query yang sangat fleksibel dan kuat untuk mengambil, memfilter, menggabungkan, dan menganalisis data dari berbagai tabel.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section id="contoh-rdbms">
+                <h2>Contoh Sistem Database Relasional (RDBMS)</h2>
+                <p>Perangkat lunak yang digunakan untuk membuat, mengelola, dan mengakses database relasional disebut <span class="key-term">Relational Database Management System (RDBMS)</span>. Beberapa RDBMS populer yang mungkin pernah kamu dengar:</p>
+                
+                <div class="rdbms-grid">
+                    <div class="rdbms-card">
+                        <h3>MySQL</h3>
+                        <p>Open source, sangat populer untuk web</p>
+                    </div>
+                    
+                    <div class="rdbms-card">
+                        <h3>PostgreSQL</h3>
+                        <p>Open source, kuat dan kaya fitur</p>
+                    </div>
+                    
+                    <div class="rdbms-card">
+                        <h3>SQLite</h3>
+                        <p>Open source, database ringan berbasis file, bagus untuk aplikasi kecil atau mobile</p>
+                    </div>
+                    
+                    <div class="rdbms-card">
+                        <h3>Microsoft SQL Server</h3>
+                        <p>Komersial, banyak digunakan di lingkungan Windows</p>
+                    </div>
+                    
+                    <div class="rdbms-card">
+                        <h3>Oracle Database</h3>
+                        <p>Komersial, kuat untuk skala enterprise</p>
+                    </div>
+                </div>
+                
+                <p>Kabar baiknya: Meskipun RDBMS-nya berbeda, bahasa SQL yang digunakan untuk berinteraksi dengannya sebagian besar standar dan sangat mirip antar sistem.</p>
+            </section>
+
+            <section id="selanjutnya">
+                <h2>Apa Selanjutnya?</h2>
+                <p>Hari ini kita sudah memahami konsep dasar di balik Database Relasional: tabel, baris, kolom, primary key, foreign key, dan mengapa model ini penting untuk mengelola data terstruktur.</p>
+                <p>Besok, kita akan mengambil langkah pertama ke dunia SQL. Kita akan belajar apa itu SQL, mengapa ia penting bagi analis data, dan melihat struktur dasar dari perintah SQL yang paling fundamental: <span class="highlight">SELECT</span>, yang digunakan untuk mengambil data dari tabel database.</p>
+                <p>Selamat datang di dunia database! Ini akan membuka pintu ke sumber data yang jauh lebih besar dan kompleks. Sampai jumpa besok!</p>
+            </section>
+
+            <footer class="lesson-footer">
+                <p><em>Tips Hari Ini:</em> Untuk mempraktikkan konsep database relasional, coba buat diagram sederhana hubungan antara tabel Pelanggan, Produk, dan Pesanan.</p>
+                <a href="hari42.html" class="cta-button">Lanjut ke Pengenalan SQL</a>
+            </footer>
+        </article>
+    </main>
+
+    <footer class="footer">
+        <div class="footer-links">
+            <div>
+                <h4>Navigasi Cepat</h4>
+                <ul>
+                    <li><a href="#">Kuartal 1</a></li>
+                    <li><a href="#">Kuartal 2</a></li>
+                    <li><a href="#">Kuartal 3</a></li>
+                    <li><a href="#">Kuartal 4</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4>Resources</h4>
+                <ul>
+                    <li><a href="#">Checklist Keterampilan</a></li>
+                    <li><a href="#">Contoh Portofolio</a></li>
+                    <li><a href="#">Pertanyaan Interview</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4>Kontak</h4>
+                <p>Email: kontak@data365.com</p>
+                <p>Telepon: (021) 1234-5678</p>
+            </div>
+        </div>
+        <div class="copyright">
+            <p>&copy; 2025 Buku Panduan Data Analisis 365 Hari. Hak Cipta Dilindungi.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile Menu Toggle
+        const mobileMenu = document.getElementById('mobile-menu');
+        const sidebar = document.getElementById('sidebar');
+        const overlay = document.getElementById('overlay');
+
+        mobileMenu.addEventListener('click', () => {
+            sidebar.style.transform = 'translateX(0)';
+            overlay.style.display = 'block';
+        });
+
+        overlay.addEventListener('click', () => {
+            sidebar.style.transform = 'translateX(-100%)';
+            overlay.style.display = 'none';
+        });
+
+        // Dropdown functionality for mobile
+        const dropdowns = document.querySelectorAll('.dropdown');
+
+        dropdowns.forEach(dropdown => {
+            const dropbtn = dropdown.querySelector('.dropbtn');
+            const content = dropdown.querySelector('.dropdown-content');
+
+            if (dropbtn && content) {
+                dropbtn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    content.style.display = content.style.display === 'block' ? 'none' : 'block';
+                });
+            }
+        });
+    </script>
+</body>
+</html>

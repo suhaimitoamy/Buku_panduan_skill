@@ -1,0 +1,820 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hari 39: COUNTIF, SUMIF, AVERAGEIF - Kuartal 1</title>
+  <style>
+    /* -- Pengaturan Dasar dan Variabel -- */
+    :root {
+      --primary-color: #3B82F6; /* Blue */
+      --secondary-color: #10B981; /* Green */
+      --accent-color: #8B5CF6; /* Purple */
+      --background-color: #FFFFFF; /* White */
+      --text-color: #1F2937; /* Dark Gray */
+      --muted-color: #9CA3AF; /* Gray */
+      --light-bg: #f9fafb;
+      --dark-bg: #1f2937;
+      --heading-font: 'Inter', sans-serif;
+      --body-font: 'Inter', sans-serif;
+      --code-font: 'Fira Code', monospace;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: var(--body-font);
+      color: var(--text-color);
+      background-color: var(--background-color);
+      line-height: 1.6;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    /* -- Header dan Navigasi -- */
+    .header {
+      background-color: var(--background-color);
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      padding: 1rem 0;
+      position: fixed;
+      width: 100%;
+      top: 0;
+      z-index: 1000;
+    }
+
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      text-decoration: none;
+    }
+
+    .logo svg {
+      height: 40px;
+      width: 40px;
+      fill: none;
+      stroke: var(--primary-color);
+      stroke-width: 2;
+    }
+
+    .logo-text {
+      font-family: var(--heading-font);
+      font-weight: 700;
+      font-size: 1.25rem;
+      margin-left: 10px;
+      color: var(--text-color);
+    }
+
+    .nav-links {
+      list-style: none;
+      display: flex;
+      gap: 1.5rem;
+      margin: 0;
+      padding: 0;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      color: var(--text-color);
+      font-weight: 500;
+      transition: color 0.3s;
+      font-size: 0.95rem;
+    }
+
+    .nav-links a:hover {
+      color: var(--primary-color);
+    }
+
+    /* -- Breadcrumb -- */
+    .breadcrumb-container {
+      background-color: var(--light-bg);
+      padding: 15px 0;
+      margin-bottom: 20px;
+    }
+
+    .breadcrumb {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+      display: flex;
+      align-items: center;
+      font-size: 0.9rem;
+    }
+
+    .breadcrumb a {
+      color: var(--primary-color);
+      text-decoration: none;
+      transition: all 0.3s;
+    }
+
+    .breadcrumb a:hover {
+      text-decoration: underline;
+    }
+
+    .breadcrumb span {
+      color: var(--muted-color);
+    }
+
+    .breadcrumb-separator {
+      margin: 0 10px;
+      color: var(--muted-color);
+    }
+
+    /* -- Learning Content -- */
+    .learning-container {
+      padding: 120px 20px 60px;
+    }
+
+    .day-content {
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+      padding: 40px;
+      margin-bottom: 50px;
+    }
+
+    .day-header {
+      margin-bottom: 30px;
+      padding-bottom: 20px;
+      border-bottom: 2px solid var(--light-bg);
+    }
+
+    .day-header h1 {
+      font-family: var(--heading-font);
+      font-size: 2.2rem;
+      color: var(--dark-bg);
+      margin-bottom: 10px;
+      line-height: 1.3;
+    }
+
+    .meta-info {
+      color: var(--muted-color);
+      font-size: 1rem;
+      display: block;
+      margin-bottom: 20px;
+    }
+
+    .day-content p {
+      margin-bottom: 20px;
+      line-height: 1.8;
+      font-size: 1.1rem;
+    }
+
+    .day-content section {
+      margin-bottom: 40px;
+    }
+
+    .day-content h2 {
+      font-family: var(--heading-font);
+      font-size: 1.7rem;
+      color: var(--primary-color);
+      margin-bottom: 20px;
+      padding-bottom: 10px;
+      border-bottom: 2px solid var(--light-bg);
+    }
+
+    .day-content h3 {
+      font-family: var(--heading-font);
+      font-size: 1.4rem;
+      color: var(--secondary-color);
+      margin: 25px 0 15px;
+    }
+
+    .day-content ol, .day-content ul {
+      padding-left: 25px;
+      margin-bottom: 25px;
+    }
+
+    .day-content li {
+      margin-bottom: 10px;
+      line-height: 1.7;
+      font-size: 1.1rem;
+    }
+
+    .day-content strong {
+      color: var(--dark-bg);
+    }
+
+    .highlight-box {
+      background-color: #f0f9ff;
+      border-left: 4px solid var(--primary-color);
+      padding: 20px;
+      margin: 25px 0;
+      border-radius: 0 8px 8px 0;
+    }
+
+    .highlight-box h3 {
+      margin-top: 0;
+      color: var(--primary-color);
+    }
+
+    .formula {
+      font-family: var(--code-font);
+      background-color: #f8f9fa;
+      border: 1px solid #e9ecef;
+      padding: 15px;
+      margin: 20px 0;
+      border-radius: 5px;
+      overflow-x: auto;
+    }
+
+    .formula pre {
+      margin: 0;
+      font-size: 1.1rem;
+      line-height: 1.5;
+    }
+
+    .example {
+      background-color: #f0fdf4;
+      border-left: 4px solid var(--secondary-color);
+      padding: 20px;
+      margin: 25px 0;
+      border-radius: 0 8px 8px 0;
+    }
+
+    .example h4 {
+      margin-top: 0;
+      color: var(--secondary-color);
+    }
+
+    .function-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 20px;
+      margin: 20px 0;
+    }
+
+    .function-card {
+      background: white;
+      border-radius: 8px;
+      padding: 20px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+      border-top: 4px solid var(--accent-color);
+    }
+
+    .function-card h4 {
+      color: var(--accent-color);
+      margin-top: 0;
+      margin-bottom: 15px;
+    }
+
+    .function-card .syntax {
+      background-color: #f3f4f6;
+      padding: 10px;
+      border-radius: 5px;
+      font-family: var(--code-font);
+      margin-bottom: 15px;
+    }
+
+    .exercise {
+      background-color: #fffbeb;
+      border-left: 4px solid #f59e0b;
+      padding: 20px;
+      margin: 25px 0;
+      border-radius: 0 8px 8px 0;
+    }
+
+    .exercise h4 {
+      margin-top: 0;
+      color: #f59e0b;
+    }
+
+    .exercise ul {
+      padding-left: 20px;
+    }
+
+    .exercise li {
+      margin-bottom: 15px;
+    }
+
+    .excel-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 20px 0;
+      font-size: 0.9rem;
+    }
+
+    .excel-table th {
+      background-color: #e5e7eb;
+      padding: 10px;
+      text-align: left;
+      border: 1px solid #d1d5db;
+    }
+
+    .excel-table td {
+      padding: 10px;
+      border: 1px solid #d1d5db;
+    }
+
+    /* -- Lesson Footer -- */
+    .lesson-footer {
+      background: var(--light-bg);
+      padding: 25px;
+      border-radius: 8px;
+      margin-top: 40px;
+    }
+
+    .lesson-footer p {
+      font-style: italic;
+      color: var(--muted-color);
+      margin-bottom: 20px;
+    }
+
+    .cta-button {
+      background-color: var(--secondary-color);
+      color: white;
+      padding: 12px 30px;
+      text-decoration: none;
+      border-radius: 5px;
+      font-weight: bold;
+      display: inline-block;
+      transition: all 0.3s;
+      font-size: 1rem;
+      border: none;
+      cursor: pointer;
+    }
+
+    .cta-button:hover {
+      background-color: #0e8e6d;
+      transform: translateY(-3px);
+      box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+    }
+
+    /* -- Footer -- */
+    .footer {
+      background-color: var(--dark-bg);
+      color: white;
+      padding: 60px 0 30px;
+    }
+
+    .footer-links {
+      display: flex;
+      justify-content: space-between;
+      gap: 30px;
+      flex-wrap: wrap;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    .footer-links h4 {
+      font-family: var(--heading-font);
+      margin-bottom: 20px;
+      font-size: 1.25rem;
+    }
+
+    .footer-links ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    .footer-links ul li {
+      margin-bottom: 10px;
+    }
+
+    .footer-links ul li a {
+      color: var(--muted-color);
+      text-decoration: none;
+      transition: color 0.3s;
+      font-size: 0.95rem;
+    }
+
+    .footer-links ul li a:hover {
+      color: white;
+    }
+
+    .copyright {
+      text-align: center;
+      margin-top: 60px;
+      border-top: 1px solid rgba(255,255,255,0.1);
+      padding-top: 30px;
+      color: var(--muted-color);
+      max-width: 1200px;
+      margin: 60px auto 0;
+      padding: 20px;
+      font-size: 0.9rem;
+    }
+
+    /* -- Responsive Design --- */
+    @media (max-width: 768px) {
+      .nav-links {
+        display: none;
+      }
+      
+      .learning-container {
+        padding: 100px 15px 40px;
+      }
+      
+      .day-content {
+        padding: 25px;
+      }
+      
+      .day-header h1 {
+        font-size: 1.8rem;
+      }
+      
+      .day-content h2 {
+        font-size: 1.5rem;
+      }
+      
+      .day-content h3 {
+        font-size: 1.2rem;
+      }
+      
+      .footer-links {
+        flex-direction: column;
+        gap: 40px;
+      }
+      
+      .breadcrumb {
+        flex-wrap: wrap;
+        row-gap: 5px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .day-header h1 {
+        font-size: 1.6rem;
+      }
+      
+      .day-content h2 {
+        font-size: 1.3rem;
+      }
+      
+      .day-content h3 {
+        font-size: 1.1rem;
+      }
+    }
+
+    /* -- Mobile Menu -- */
+    #mobile-menu {
+      display: none;
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      cursor: pointer;
+      color: var(--text-color);
+    }
+
+    #sidebar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 100%;
+      width: 280px;
+      background: white;
+      box-shadow: 2px 0 10px rgba(0,0,0,0.1);
+      transform: translateX(-100%);
+      transition: transform 0.3s ease;
+      z-index: 1000;
+      padding-top: 70px;
+      overflow-y: auto;
+    }
+
+    #overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.5);
+      z-index: 999;
+      display: none;
+    }
+
+    @media (max-width: 768px) {
+      #mobile-menu {
+        display: block;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header class="header">
+    <nav class="navbar">
+      <a href="../../../index.html" class="logo">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+          <path d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+        </svg>
+        <span class="logo-text">Home</span>
+      </a>
+
+      <!-- Desktop Navigation -->
+      <ul class="nav-links">
+        <li><a href="../../../index.html">Home</a></li>
+        <li class="dropdown">
+          <a href="#" class="dropbtn">Kuartal 1: Dasar <span class="arrow">&#9662;</span></a>
+          <div class="dropdown-content">
+            <a href="#">Bulan 1: Excel Dasar</a>
+            <a href="#">Bulan 2: Statistik Dasar</a>
+            <a href="#">Bulan 3: SQL Lanjutan</a>
+          </div>
+        </li>
+        <li class="dropdown">
+          <a href="#" class="dropbtn">Kuartal 2: Intermediate <span class="arrow">&#9662;</span></a>
+          <div class="dropdown-content">
+            <a href="#">Bulan 4-6</a>
+          </div>
+        </li>
+        <li class="dropdown">
+          <a href="#" class="dropbtn">Kuartal 3: Advanced <span class="arrow">&#9662;</span></a>
+          <div class="dropdown-content">
+            <a href="#">Bulan 7-9</a>
+          </div>
+        </li>
+        <li class="dropdown">
+          <a href="#" class="dropbtn">Kuartal 4: Spesialisasi <span class="arrow">&#9662;</span></a>
+          <div class="dropdown-content">
+            <a href="#">Bulan 10-12</a>
+          </div>
+        </li>
+        <li><a href="#">Resources</a></li>
+        <li><a href="#">Dataset & Tools</a></li>
+        <li><a href="../../about.html">About</a></li>
+      </ul>
+
+      <!-- Mobile Menu Button -->
+      <button id="mobile-menu">≡</button>
+    </nav>
+  </header>
+
+  <!-- Breadcrumb -->
+  <div class="breadcrumb-container">
+    <div class="breadcrumb">
+      <a href="../../../index.html">Home</a>
+      <span class="breadcrumb-separator">&gt;</span>
+      <a href="../../index.html">Kuartal 1</a>
+      <span class="breadcrumb-separator">&gt;</span>
+      <a href="../index.html">Bulan 1: Excel Dasar</a>
+      <span class="breadcrumb-separator">&gt;</span>
+      <a href="./index.html">Minggu 3</a>
+      <span class="breadcrumb-separator">&gt;</span>
+      <span>Hari 39</span>
+    </div>
+  </div>
+
+  <!-- Main Content -->
+  <main class="container learning-container">
+    <article class="day-content">
+      <header class="day-header">
+        <h1>Hari 39: Menghitung dengan Syarat - COUNTIF, SUMIF, AVERAGEIF</h1>
+        <p class="meta-info">Kuartal 1: Dasar | Bulan 1: Excel Dasar</p>
+      </header>
+
+      <p>Selamat pagi! Kemarin kita sudah memperkuat kemampuan logika kita di Excel dengan mengulas IF, AND, OR, serta mempelajari NOT dan IFERROR. Kita jadi bisa membuat rumus yang lebih cerdas dan tahan banting terhadap error.</p>
+
+      <p>Sekarang, bagaimana jika kita ingin melakukan perhitungan agregat (seperti menghitung jumlah, menjumlahkan nilai, atau mencari rata-rata) tapi hanya untuk data yang memenuhi kriteria tertentu? Tentu, kita bisa menggunakan Filter lalu menghitung manual, atau membuat PivotTable. Tapi kadang kita butuh cara yang lebih cepat dan langsung dalam bentuk fungsi, terutama untuk satu atau dua perhitungan spesifik.</p>
+
+      <p>Di sinilah fungsi <strong>COUNTIF</strong>, <strong>SUMIF</strong>, dan <strong>AVERAGEIF</strong> berperan. Fungsi-fungsi ini memungkinkan kita melakukan perhitungan bersyarat dengan mudah.</p>
+
+      <div class="function-grid">
+        <div class="function-card">
+          <h4>COUNTIF</h4>
+          <div class="syntax">=COUNTIF(range, kriteria)</div>
+          <p><strong>Tujuan:</strong> Menghitung jumlah sel yang memenuhi kriteria tertentu.</p>
+          <p><strong>Contoh:</strong> <code>=COUNTIF(D2:D36, "Minuman")</code> menghitung transaksi kategori "Minuman".</p>
+        </div>
+        
+        <div class="function-card">
+          <h4>SUMIF</h4>
+          <div class="syntax">=SUMIF(range, kriteria, [sum_range])</div>
+          <p><strong>Tujuan:</strong> Menjumlahkan nilai berdasarkan kriteria tertentu.</p>
+          <p><strong>Contoh:</strong> <code>=SUMIF(C2:C36, "Budi", H2:H36)</code> menghitung total penjualan oleh "Budi".</p>
+        </div>
+        
+        <div class="function-card">
+          <h4>AVERAGEIF</h4>
+          <div class="syntax">=AVERAGEIF(range, kriteria, [average_range])</div>
+          <p><strong>Tujuan:</strong> Menghitung rata-rata berdasarkan kriteria tertentu.</p>
+          <p><strong>Contoh:</strong> <code>=AVERAGEIF(D2:D36, "Alat Tulis", H2:H36)</code> menghitung rata-rata harga untuk "Alat Tulis".</p>
+        </div>
+      </div>
+
+      <section id="countif">
+        <h2>1. COUNTIF: Menghitung Jumlah Sel yang Memenuhi Kriteria</h2>
+        <p><strong>Tujuan:</strong> Menghitung berapa banyak sel dalam suatu rentang (range) yang memenuhi satu kriteria tertentu.</p>
+        
+        <div class="formula">
+          <pre>=COUNTIF(range, criteria)</pre>
+        </div>
+        
+        <ul>
+          <li><strong>range:</strong> Rentang sel tempat kamu ingin menghitung (misal, kolom Kategori Produk).</li>
+          <li><strong>criteria:</strong> Kondisi atau syarat yang harus dipenuhi. Bisa berupa:
+            <ul>
+              <li>Angka (misal, 100)</li>
+              <li>Teks (harus dalam tanda kutip, misal, "Buah")</li>
+              <li>Ekspresi perbandingan (harus dalam tanda kutip, misal, ">50", "<=10", "<>0" yang artinya tidak sama dengan 0)</li>
+              <li>Referensi sel (misal, A1, dimana A1 berisi kriteria)</li>
+              <li>Wildcard (karakter pengganti): * (mewakili banyak karakter) atau ? (mewakili satu karakter). Contoh: "Ap*" akan menghitung sel yang diawali "Ap".</li>
+            </ul>
+          </li>
+        </ul>
+        
+        <div class="example">
+          <h4>Contoh Penerapan (Data Penjualan Maju Jaya):</h4>
+          <ul>
+            <li>Menghitung berapa kali transaksi untuk kategori "Minuman": <code>=COUNTIF(D2:D36, "Minuman")</code> (Asumsi kolom Kategori adalah D)</li>
+            <li>Menghitung berapa transaksi yang jumlah itemnya lebih dari 5: <code>=COUNTIF(F2:F36, ">5")</code> (Asumsi kolom Jumlah Item adalah F)</li>
+            <li>Menghitung berapa transaksi yang dilakukan oleh "Ani": <code>=COUNTIF(C2:C36, "Ani")</code> (Asumsi kolom Pelanggan adalah C)</li>
+          </ul>
+        </div>
+      </section>
+
+      <section id="sumif">
+        <h2>2. SUMIF: Menjumlahkan Nilai Berdasarkan Kriteria</h2>
+        <p><strong>Tujuan:</strong> Menjumlahkan nilai dalam suatu rentang (sum_range) hanya jika sel yang bersesuaian dalam rentang lain (range) memenuhi satu kriteria tertentu.</p>
+        
+        <div class="formula">
+          <pre>=SUMIF(range, criteria, [sum_range])</pre>
+        </div>
+        
+        <ul>
+          <li><strong>range:</strong> Rentang sel tempat kriteria akan dievaluasi (sama seperti range di COUNTIF).</li>
+          <li><strong>criteria:</strong> Kriteria yang harus dipenuhi (sama seperti criteria di COUNTIF).</li>
+          <li><strong>[sum_range]</strong> (Opsional): Rentang sel yang berisi nilai-nilai yang ingin dijumlahkan. Jika dikosongkan, Excel akan menjumlahkan nilai di dalam range itu sendiri (berguna jika range berisi angka dan kamu ingin menjumlahkan angka yang memenuhi kriteria).</li>
+        </ul>
+        
+        <div class="example">
+          <h4>Contoh Penerapan (Data Penjualan Maju Jaya):</h4>
+          <ul>
+            <li>Menjumlahkan total harga penjualan untuk kategori "Kebutuhan Pokok": <code>=SUMIF(D2:D36, "Kebutuhan Pokok", H2:H36)</code> (Asumsi Kategori di D, Total Harga di H)</li>
+            <li>Menjumlahkan total harga untuk transaksi yang jumlah itemnya lebih dari 3: <code>=SUMIF(F2:F36, ">3", H2:H36)</code> (Asumsi Jumlah Item di F, Total Harga di H)</li>
+            <li>Menjumlahkan total harga penjualan yang dilakukan oleh "Budi": <code>=SUMIF(C2:C36, "Budi", H2:H36)</code> (Asumsi Pelanggan di C, Total Harga di H)</li>
+          </ul>
+        </div>
+      </section>
+
+      <section id="averageif">
+        <h2>3. AVERAGEIF: Menghitung Rata-rata Berdasarkan Kriteria</h2>
+        <p><strong>Tujuan:</strong> Menghitung rata-rata nilai dalam suatu rentang (average_range) hanya jika sel yang bersesuaian dalam rentang lain (range) memenuhi satu kriteria tertentu.</p>
+        
+        <div class="formula">
+          <pre>=AVERAGEIF(range, criteria, [average_range])</pre>
+        </div>
+        
+        <p>Argumennya sama persis dengan SUMIF, hanya saja fungsi ini menghitung rata-rata, bukan jumlah.</p>
+        <ul>
+          <li><strong>range:</strong> Rentang sel tempat kriteria dievaluasi.</li>
+          <li><strong>criteria:</strong> Kriteria yang harus dipenuhi.</li>
+          <li><strong>[average_range]</strong> (Opsional): Rentang sel yang berisi nilai-nilai yang ingin dirata-ratakan. Jika dikosongkan, Excel akan merata-ratakan nilai di dalam range.</li>
+        </ul>
+        
+        <div class="example">
+          <h4>Contoh Penerapan (Data Penjualan Maju Jaya):</h4>
+          <ul>
+            <li>Menghitung rata-rata total harga penjualan untuk kategori "Alat Tulis": <code>=AVERAGEIF(D2:D36, "Alat Tulis", H2:H36)</code></li>
+            <li>Menghitung rata-rata jumlah item terjual untuk transaksi yang total harganya di atas 20000: <code>=AVERAGEIF(H2:H36, ">20000", F2:F36)</code> (Perhatikan range dan average_range dibalik sesuai kebutuhan)</li>
+          </ul>
+        </div>
+      </section>
+
+      <section id="vs-pivottable">
+        <h2>Kapan Menggunakan Fungsi Ini vs PivotTable?</h2>
+        
+        <div class="highlight-box">
+          <h3>Gunakan COUNTIF/SUMIF/AVERAGEIF jika:</h3>
+          <ul>
+            <li>Kamu hanya perlu melakukan beberapa perhitungan bersyarat yang spesifik.</li>
+            <li>Kamu ingin hasilnya langsung muncul di sel tertentu tanpa membuat tabel ringkasan terpisah.</li>
+            <li>Kamu hanya punya satu kriteria. (Untuk multi-kriteria, kita butuh COUNTIFS/SUMIFS/AVERAGEIFS - dibahas nanti).</li>
+          </ul>
+        </div>
+        
+        <div class="highlight-box">
+          <h3>Gunakan PivotTable jika:</h3>
+          <ul>
+            <li>Kamu ingin meringkas data berdasarkan banyak kriteria atau dimensi sekaligus (misal, total penjualan per kategori DAN per pelanggan).</li>
+            <li>Kamu ingin mengeksplorasi data dengan mudah (mengubah baris/kolom, menambah/mengurangi field).</li>
+            <li>Kamu ingin membuat ringkasan yang lebih kompleks dengan grouping, subtotal, dll.</li>
+          </ul>
+        </div>
+        
+        <p>Keduanya adalah alat yang berguna, pilih yang paling sesuai dengan kebutuhan analisismu saat itu.</p>
+      </section>
+
+      <section id="exercise">
+        <h2>Latihan Praktis</h2>
+        <div class="exercise">
+          <h4>Langkah-langkah:</h4>
+          <ol>
+            <li>Buka sheet Data Penjualan Maju Jaya.</li>
+            <li>Di area kosong, gunakan COUNTIF untuk menghitung:
+              <ul>
+                <li>Jumlah transaksi kategori "Makanan Ringan".</li>
+                <li>Jumlah transaksi dengan Total Harga di bawah Rp 10.000.</li>
+              </ul>
+            </li>
+            <li>Gunakan SUMIF untuk menghitung:
+              <ul>
+                <li>Total penjualan dari pelanggan "Eka".</li>
+                <li>Total penjualan produk "Air Mineral Botol".</li>
+              </ul>
+            </li>
+            <li>Gunakan AVERAGEIF untuk menghitung:
+              <ul>
+                <li>Rata-rata jumlah item terjual untuk kategori "Kebutuhan Pokok".</li>
+                <li>Rata-rata harga satuan produk yang jumlah item terjualnya hanya 1.</li>
+              </ul>
+            </li>
+            <li>Jangan lupa Simpan pekerjaanmu!</li>
+          </ol>
+        </div>
+      </section>
+
+      <section id="next">
+        <h2>Apa Selanjutnya?</h2>
+        <p>Kamu sekarang bisa melakukan perhitungan agregat bersyarat menggunakan COUNTIF, SUMIF, dan AVERAGEIF. Ini menambah fleksibilitas analisismu di luar PivotTable.</p>
+        
+        <p>Namun, fungsi-fungsi ini hanya bisa menangani satu kriteria. Bagaimana jika kita ingin menghitung jumlah transaksi kategori "Buah" yang dilakukan oleh "Ani"? Atau menjumlahkan penjualan "Minuman" yang total harganya di atas 10.000? Untuk itu, kita butuh versi jamaknya: <strong>COUNTIFS, SUMIFS, dan AVERAGEIFS</strong>, yang akan kita pelajari besok!</p>
+      </section>
+
+      <footer class="lesson-footer">
+        <p><em>Tips Hari Ini:</em> Kuasai fungsi-fungsi bersyarat ini untuk analisis data yang lebih efisien. Mereka sangat berguna untuk membuat dashboard sederhana dan laporan cepat tanpa perlu PivotTable.</p>
+        <a href="hari40.html" class="cta-button">Lanjut ke Hari 40: COUNTIFS, SUMIFS, AVERAGEIFS</a>
+      </footer>
+    </article>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-links">
+      <div>
+        <h4>Navigasi Cepat</h4>
+        <ul>
+          <li><a href="#">Kuartal 1</a></li>
+          <li><a href="#">Kuartal 2</a></li>
+          <li><a href="#">Kuartal 3</a></li>
+          <li><a href="#">Kuartal 4</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <h4>Resources</h4>
+        <ul>
+          <li><a href="#">Checklist Keterampilan</a></li>
+          <li><a href="#">Contoh Portofolio</a></li>
+          <li><a href="#">Pertanyaan Interview</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <h4>Kontak</h4>
+        <p>Email: suhaimitoamy@gmail.com</p>
+      </div>
+    </div>
+
+    <div class="copyright">
+      <p>&copy; 2025 Buku Panduan Data Analisis 365 Hari. Hak Cipta Dilindungi.</p>
+    </div>
+  </footer>
+
+  <script>
+    // Mobile Menu Toggle
+    const mobileMenu = document.getElementById('mobile-menu');
+    const sidebar = document.getElementById('sidebar');
+    const overlay = document.getElementById('overlay');
+
+    mobileMenu.addEventListener('click', () => {
+      sidebar.style.transform = 'translateX(0)';
+      overlay.style.display = 'block';
+    });
+
+    overlay.addEventListener('click', () => {
+      sidebar.style.transform = 'translateX(-100%)';
+      overlay.style.display = 'none';
+    });
+
+    // Dropdown functionality
+    const dropdowns = document.querySelectorAll('.dropdown');
+
+    dropdowns.forEach(dropdown => {
+      const dropbtn = dropdown.querySelector('.dropbtn');
+      const content = dropdown.querySelector('.dropdown-content');
+
+      if (dropbtn && content) {
+        dropbtn.addEventListener('click', (e) => {
+          e.preventDefault();
+          content.style.display = content.style.display === 'block' ? 'none' : 'block';
+        });
+      }
+    });
+  </script>
+</body>
+</html>

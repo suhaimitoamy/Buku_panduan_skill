@@ -1,0 +1,938 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hari 51: LEFT JOIN dan RIGHT JOIN di SQL</title>
+  <!-- Tailwind CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Fira+Code&display=swap" rel="stylesheet">
+  <style>
+    /* -- Pengaturan Dasar dan Variabel -- */
+    :root {
+      --primary-color: #3B82F6;
+      --secondary-color: #10B981;
+      --accent-color: #8B5CF6;
+      --background-color: #FFFFFF;
+      --text-color: #1F2937;
+      --muted-color: #9CA3AF;
+      --light-bg: #f9fafb;
+      --dark-bg: #1f2937;
+      --heading-font: 'Inter', sans-serif;
+      --body-font: 'Inter', sans-serif;
+      --code-font: 'Fira Code', monospace;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: var(--body-font);
+      color: var(--text-color);
+      background-color: var(--background-color);
+      line-height: 1.6;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    /* -- Header dan Navigasi -- */
+    .header {
+      background-color: var(--background-color);
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      padding: 1rem 0;
+      position: fixed;
+      width: 100%;
+      top: 0;
+      z-index: 1000;
+    }
+
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      text-decoration: none;
+    }
+
+    .logo svg {
+      height: 40px;
+      width: 40px;
+      fill: none;
+      stroke: var(--primary-color);
+      stroke-width: 2;
+    }
+
+    .logo-text {
+      font-family: var(--heading-font);
+      font-weight: 700;
+      font-size: 1.25rem;
+      margin-left: 10px;
+      color: var(--text-color);
+    }
+
+    .nav-links {
+      list-style: none;
+      display: flex;
+      gap: 1.5rem;
+      margin: 0;
+      padding: 0;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      color: var(--text-color);
+      font-weight: 500;
+      transition: color 0.3s;
+      font-size: 0.95rem;
+    }
+
+    .nav-links a:hover {
+      color: var(--primary-color);
+    }
+
+    .dropdown {
+      position: relative;
+    }
+
+    .dropdown-content {
+      display: none;
+      position: absolute;
+      background-color: white;
+      min-width: 200px;
+      box-shadow: 0px 8px 16px rgba(0,0,0,0.1);
+      z-index: 1;
+      border-radius: 4px;
+      padding: 10px 0;
+    }
+
+    .dropdown:hover .dropdown-content {
+      display: block;
+    }
+
+    .dropdown-content a {
+      color: var(--text-color);
+      padding: 8px 16px;
+      text-decoration: none;
+      display: block;
+      font-size: 0.9rem;
+      transition: background-color 0.2s;
+    }
+
+    .dropdown-content a:hover {
+      background-color: #f3f4f6;
+    }
+
+    /* -- Breadcrumb -- */
+    .breadcrumb-container {
+      background-color: var(--light-bg);
+      padding: 15px 0;
+      margin-bottom: 20px;
+    }
+
+    .breadcrumb {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+      display: flex;
+      align-items: center;
+      font-size: 0.9rem;
+    }
+
+    .breadcrumb a {
+      color: var(--primary-color);
+      text-decoration: none;
+      transition: all 0.3s;
+    }
+
+    .breadcrumb a:hover {
+      text-decoration: underline;
+    }
+
+    .breadcrumb span {
+      color: var(--muted-color);
+    }
+
+    .breadcrumb-separator {
+      margin: 0 10px;
+      color: var(--muted-color);
+    }
+
+    /* -- Learning Content -- */
+    .learning-container {
+      padding: 120px 20px 60px;
+    }
+
+    .day-content {
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+      padding: 40px;
+      margin-bottom: 50px;
+    }
+
+    .day-header {
+      margin-bottom: 30px;
+      padding-bottom: 20px;
+      border-bottom: 2px solid var(--light-bg);
+    }
+
+    .day-header h1 {
+      font-family: var(--heading-font);
+      font-size: 2.2rem;
+      color: var(--dark-bg);
+      margin-bottom: 10px;
+      line-height: 1.3;
+    }
+
+    .meta-info {
+      color: var(--muted-color);
+      font-size: 1rem;
+      display: block;
+      margin-bottom: 20px;
+    }
+
+    .day-content p {
+      margin-bottom: 20px;
+      line-height: 1.8;
+      font-size: 1.1rem;
+    }
+
+    .day-content section {
+      margin-bottom: 40px;
+    }
+
+    .day-content h2 {
+      font-family: var(--heading-font);
+      font-size: 1.7rem;
+      color: var(--primary-color);
+      margin-bottom: 20px;
+      padding-bottom: 10px;
+      border-bottom: 2px solid var(--light-bg);
+    }
+
+    .day-content ol, .day-content ul {
+      padding-left: 25px;
+      margin-bottom: 25px;
+    }
+
+    .day-content li {
+      margin-bottom: 10px;
+      line-height: 1.7;
+      font-size: 1.1rem;
+    }
+
+    .day-content strong {
+      color: var(--dark-bg);
+    }
+
+    /* -- Gaya Khusus -- */
+    .step-container {
+      background-color: #f8f9fa;
+      border-radius: 10px;
+      padding: 20px;
+      margin: 20px 0;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+    }
+
+    .step-header {
+      display: flex;
+      align-items: center;
+      margin-bottom: 15px;
+    }
+
+    .step-number {
+      background-color: var(--secondary-color);
+      color: white;
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-right: 15px;
+      font-weight: bold;
+    }
+
+    .exercise-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 20px 0;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+
+    .exercise-table th {
+      background-color: #e3f2fd;
+      padding: 12px 15px;
+      text-align: center;
+      font-weight: 600;
+    }
+
+    .exercise-table td {
+      padding: 10px 15px;
+      border: 1px solid #e0e0e0;
+      text-align: center;
+    }
+
+    .exercise-table tr:nth-child(even) {
+      background-color: #f9f9f9;
+    }
+
+    .exercise-table tr:hover {
+      background-color: #f1f8ff;
+    }
+
+    .formula-example {
+      background-color: #fffde7;
+      border-left: 4px solid #ffd600;
+      padding: 15px;
+      margin: 15px 0;
+      border-radius: 0 8px 8px 0;
+      font-family: var(--code-font);
+      font-weight: bold;
+      overflow-x: auto;
+    }
+
+    .analysis-section {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      margin: 25px 0;
+    }
+
+    .analysis-card {
+      flex: 1;
+      min-width: 280px;
+      background: white;
+      border-radius: 8px;
+      padding: 20px;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+      border-top: 4px solid var(--primary-color);
+    }
+
+    .analysis-card h3 {
+      color: var(--primary-color);
+      margin-top: 0;
+    }
+
+    .question-bubble {
+      background-color: #e8f5e9;
+      padding: 15px;
+      border-radius: 10px;
+      margin: 20px 0;
+      position: relative;
+    }
+
+    .question-bubble:before {
+      content: "";
+      position: absolute;
+      width: 0;
+      height: 0;
+      border-left: 10px solid transparent;
+      border-right: 10px solid transparent;
+      border-bottom: 10px solid #e8f5e9;
+      top: -10px;
+      left: 20px;
+    }
+
+    .highlight {
+      background-color: #fff9c4;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-weight: 500;
+    }
+
+    .function-tag {
+      display: inline-block;
+      background-color: var(--accent-color);
+      color: white;
+      padding: 2px 8px;
+      border-radius: 4px;
+      margin: 0 3px;
+      font-size: 0.9em;
+    }
+
+    /* -- Lesson Footer -- */
+    .lesson-footer {
+      background: var(--light-bg);
+      padding: 25px;
+      border-radius: 8px;
+      margin-top: 40px;
+    }
+
+    .lesson-footer p {
+      font-style: italic;
+      color: var(--muted-color);
+      margin-bottom: 20px;
+    }
+
+    .cta-button {
+      background-color: var(--secondary-color);
+      color: white;
+      padding: 12px 30px;
+      text-decoration: none;
+      border-radius: 5px;
+      font-weight: bold;
+      display: inline-block;
+      transition: all 0.3s;
+      font-size: 1rem;
+      border: none;
+      cursor: pointer;
+    }
+
+    .cta-button:hover {
+      background-color: #0e8e6d;
+      transform: translateY(-3px);
+      box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+    }
+
+    /* -- Footer -- */
+    .footer {
+      background-color: var(--dark-bg);
+      color: white;
+      padding: 60px 0 30px;
+    }
+
+    .footer-links {
+      display: flex;
+      justify-content: space-between;
+      gap: 30px;
+      flex-wrap: wrap;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    .footer-links h4 {
+      font-family: var(--heading-font);
+      margin-bottom: 20px;
+      font-size: 1.25rem;
+    }
+
+    .footer-links ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    .footer-links ul li {
+      margin-bottom: 10px;
+    }
+
+    .footer-links ul li a {
+      color: var(--muted-color);
+      text-decoration: none;
+      transition: color 0.3s;
+      font-size: 0.95rem;
+    }
+
+    .footer-links ul li a:hover {
+      color: white;
+    }
+
+    .copyright {
+      text-align: center;
+      margin-top: 60px;
+      border-top: 1px solid rgba(255,255,255,0.1);
+      padding-top: 30px;
+      color: var(--muted-color);
+      max-width: 1200px;
+      margin: 60px auto 0;
+      padding: 20px;
+      font-size: 0.9rem;
+    }
+
+    /* -- Responsive Design -- */
+    @media (max-width: 768px) {
+      .nav-links {
+        display: none;
+      }
+      
+      .learning-container {
+        padding: 100px 15px 40px;
+      }
+      
+      .day-content {
+        padding: 25px;
+      }
+      
+      .day-header h1 {
+        font-size: 1.8rem;
+      }
+      
+      .day-content h2 {
+        font-size: 1.5rem;
+      }
+      
+      .footer-links {
+        flex-direction: column;
+        gap: 40px;
+      }
+      
+      .breadcrumb {
+        flex-wrap: wrap;
+        row-gap: 5px;
+      }
+      
+      .analysis-card {
+        min-width: 100%;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .day-header h1 {
+        font-size: 1.6rem;
+      }
+      
+      .day-content h2 {
+        font-size: 1.3rem;
+      }
+    }
+
+    /* -- Mobile Menu -- */
+    #mobile-menu {
+      display: none;
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      cursor: pointer;
+      color: var(--text-color);
+    }
+
+    #sidebar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 100%;
+      width: 280px;
+      background: white;
+      box-shadow: 2px 0 10px rgba(0,0,0,0.1);
+      transform: translateX(-100%);
+      transition: transform 0.3s ease;
+      z-index: 1000;
+      padding-top: 70px;
+      overflow-y: auto;
+    }
+
+    #overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.5);
+      z-index: 999;
+      display: none;
+    }
+
+    @media (max-width: 768px) {
+      #mobile-menu {
+        display: block;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header class="header">
+    <nav class="navbar">
+      <a href="./../../../index.html" class="logo">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+          <path d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/>
+        </svg>
+        <span class="logo-text">Home</span>
+      </a>
+
+      <!-- Desktop Navigation -->
+      <ul class="nav-links">
+        <li><a href="./../../../index.html">Home</a></li>
+        <li class="dropdown">
+          <a href="#" class="dropbtn">Kuartal 1: Dasar <span class="arrow">&#9662;</span></a>
+          <div class="dropdown-content">
+            <a href="#">Bulan 1: Excel Dasar</a>
+            <a href="#">Bulan 2: Statistik Dasar</a>
+            <a href="#">Bulan 3: SQL Lanjutan</a>
+          </div>
+        </li>
+        <li class="dropdown">
+          <a href="#" class="dropbtn">Kuartal 2: Intermediate <span class="arrow">&#9662;</span></a>
+          <div class="dropdown-content">
+            <a href="#">Bulan 4-6</a>
+          </div>
+        </li>
+        <li class="dropdown">
+          <a href="#" class="dropbtn">Kuartal 3: Advanced <span class="arrow">&#9662;</span></a>
+          <div class="dropdown-content">
+            <a href="#">Bulan 7-9</a>
+          </div>
+        </li>
+        <li class="dropdown">
+          <a href="#" class="dropbtn">Kuartal 4: Spesialisasi <span class="arrow">&#9662;</span></a>
+          <div class="dropdown-content">
+            <a href="#">Bulan 10-12</a>
+          </div>
+        </li>
+      </ul>
+      <!-- Mobile Menu Button -->
+      <button id="mobile-menu">☰</button>
+    </nav>
+  </header>
+
+  <!-- Breadcrumb -->
+  <div class="breadcrumb-container">
+    <div class="breadcrumb">
+      <a href="./../../../index.html">Home</a>
+      <span class="breadcrumb-separator">&gt;</span>
+      <a href="./../../../index.html">Kuartal 2</a>
+      <span class="breadcrumb-separator">&gt;</span>
+      <a href="./../index.html">Bulan 3</a>
+      <span class="breadcrumb-separator">&gt;</span>
+      <a href="./../index.html">Minggu 7</a>
+      <span class="breadcrumb-separator">&gt;</span>
+      <span>Hari 51</span>
+    </div>
+  </div>
+
+  <!-- Main Content -->
+  <main class="container learning-container">
+    <article class="day-content">
+      <header class="day-header">
+        <h1>Hari 51: Menampilkan Semua Data - LEFT JOIN dan RIGHT JOIN di SQL</h1>
+        <p class="meta-info">Kuartal 2: Intermediate | Bulan 3: SQL Lanjutan</p>
+      </header>
+
+      <div class="intro-section">
+        <p>Selamat pagi, penggabung data SQL! Kemarin kita sudah memulai petualangan JOIN dengan mempelajari INNER JOIN. Kita tahu bahwa INNER JOIN sangat berguna untuk mengambil baris yang memiliki kecocokan di kedua tabel yang digabungkan.</p>
+        <p>Namun, INNER JOIN memiliki keterbatasan: ia akan menghilangkan baris dari salah satu tabel jika tidak ada kecocokan di tabel lainnya. Ingat contoh kemarin? Pesanan 105 (dengan IDPelanggan 5 yang tidak ada di tabel Pelanggan) tidak muncul di hasil INNER JOIN. Begitu pula Pelanggan Dedi (ID 4) yang tidak punya pesanan, juga tidak muncul.</p>
+      </div>
+
+      <section id="outer-joins">
+        <h2>Memahami Outer Joins</h2>
+        <p>Bagaimana jika kita ingin skenario yang berbeda? Misalnya:</p>
+        <ul>
+          <li>Kita ingin menampilkan semua pesanan, dan jika ada informasi pelanggan yang cocok, tampilkan nama pelanggannya. Jika tidak ada pelanggan yang cocok (seperti pesanan 105), tetap tampilkan pesanan tersebut tapi mungkin dengan nama pelanggan kosong (NULL).</li>
+          <li>Atau sebaliknya, kita ingin menampilkan semua pelanggan, dan jika mereka punya pesanan, tampilkan detail pesanannya. Jika tidak punya pesanan (seperti Dedi), tetap tampilkan nama pelanggan tapi dengan detail pesanan kosong (NULL).</li>
+        </ul>
+        <p>Untuk kasus seperti ini, kita memerlukan jenis JOIN yang berbeda, yaitu <span class="highlight">Outer Joins</span>. Dua jenis Outer Join yang paling umum adalah <span class="function-tag">LEFT JOIN</span> dan <span class="function-tag">RIGHT JOIN</span>.</p>
+      </section>
+
+      <section id="left-join">
+        <h2>LEFT JOIN (atau LEFT OUTER JOIN)</h2>
+        <p>LEFT JOIN mengembalikan semua baris dari tabel kiri (tabel yang disebutkan pertama setelah FROM) dan baris yang cocok dari tabel kanan (tabel yang disebutkan setelah LEFT JOIN).</p>
+        <ul>
+          <li>Jika ada kecocokan di tabel kanan berdasarkan kondisi ON, nilai dari tabel kanan akan disertakan.</li>
+          <li>Jika tidak ada kecocokan di tabel kanan untuk suatu baris dari tabel kiri, baris dari tabel kiri tersebut tetap akan disertakan, tetapi kolom-kolom dari tabel kanan akan diisi dengan nilai NULL.</li>
+        </ul>
+        
+        <div class="step-container">
+          <div class="step-header">
+            <div class="step-number">1</div>
+            <h3>Sintaks LEFT JOIN</h3>
+          </div>
+          <div class="formula-example">
+            SELECT kolom1, kolom2, ...<br>
+            FROM tabel_kiri -- Semua baris dari sini akan diambil<br>
+            LEFT JOIN tabel_kanan<br>
+            &nbsp;&nbsp;ON tabel_kiri.kolom_kunci = tabel_kanan.kolom_kunci;
+          </div>
+        </div>
+
+        <div class="step-container">
+          <div class="step-header">
+            <div class="step-number">2</div>
+            <h3>Contoh: Menampilkan Semua Pesanan dan Nama Pelanggan (jika ada)</h3>
+          </div>
+          <p>Kita ingin menampilkan semua baris dari tabel Pesanan (tabel kiri) dan mencocokkannya dengan Pelanggan (tabel kanan).</p>
+          <div class="formula-example">
+            SELECT<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;Psn.IDPesanan,<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;Psn.Produk,<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;Psn.IDPelanggan AS Pesanan_IDPelanggan, -- ID dari tabel Pesanan<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;Plg.NamaPelanggan,<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;Plg.IDPelanggan AS Pelanggan_IDPelanggan -- ID dari tabel Pelanggan (akan NULL jika tak cocok)<br>
+            FROM Pesanan AS Psn<br>
+            LEFT JOIN Pelanggan AS Plg<br>
+            &nbsp;&nbsp;ON Psn.IDPelanggan = Plg.IDPelanggan;
+          </div>
+          <p><strong>Hasil:</strong> Akan menampilkan semua pesanan termasuk pesanan 105 dengan kolom pelanggan NULL</p>
+          <table class="exercise-table">
+            <thead>
+              <tr>
+                <th>IDPesanan</th>
+                <th>Produk</th>
+                <th>Pesanan_IDPelanggan</th>
+                <th>NamaPelanggan</th>
+                <th>Pelanggan_IDPelanggan</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>101</td>
+                <td>Buku Tulis</td>
+                <td>2</td>
+                <td>Budi</td>
+                <td>2</td>
+              </tr>
+              <tr>
+                <td>102</td>
+                <td>Pulpen</td>
+                <td>1</td>
+                <td>Ani</td>
+                <td>1</td>
+              </tr>
+              <tr>
+                <td>103</td>
+                <td>Penghapus</td>
+                <td>2</td>
+                <td>Budi</td>
+                <td>2</td>
+              </tr>
+              <tr>
+                <td>104</td>
+                <td>Buku Tulis</td>
+                <td>3</td>
+                <td>Citra</td>
+                <td>3</td>
+              </tr>
+              <tr>
+                <td>105</td>
+                <td>Pensil</td>
+                <td>5</td>
+                <td>NULL</td>
+                <td>NULL</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section id="right-join">
+        <h2>RIGHT JOIN (atau RIGHT OUTER JOIN)</h2>
+        <p>RIGHT JOIN adalah kebalikan dari LEFT JOIN. Ia mengembalikan semua baris dari tabel kanan (tabel yang disebutkan setelah RIGHT JOIN) dan baris yang cocok dari tabel kiri.</p>
+        <ul>
+          <li>Jika ada kecocokan di tabel kiri, nilai dari tabel kiri akan disertakan.</li>
+          <li>Jika tidak ada kecocokan di tabel kiri untuk suatu baris dari tabel kanan, baris dari tabel kanan tersebut tetap akan disertakan, tetapi kolom-kolom dari tabel kiri akan diisi dengan nilai NULL.</li>
+        </ul>
+        
+        <div class="step-container">
+          <div class="step-header">
+            <div class="step-number">3</div>
+            <h3>Sintaks RIGHT JOIN</h3>
+          </div>
+          <div class="formula-example">
+            SELECT kolom1, kolom2, ...<br>
+            FROM tabel_kiri<br>
+            RIGHT JOIN tabel_kanan -- Semua baris dari sini akan diambil<br>
+            &nbsp;&nbsp;ON tabel_kiri.kolom_kunci = tabel_kanan.kolom_kunci;
+          </div>
+        </div>
+
+        <div class="step-container">
+          <div class="step-header">
+            <div class="step-number">4</div>
+            <h3>Contoh: Menampilkan Semua Pelanggan dan Pesanan Mereka (jika ada)</h3>
+          </div>
+          <p>Kita ingin menampilkan semua baris dari tabel Pelanggan (tabel kanan) dan mencocokkannya dengan Pesanan (tabel kiri).</p>
+          <div class="formula-example">
+            SELECT<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;Plg.NamaPelanggan,<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;Plg.IDPelanggan AS Pelanggan_IDPelanggan,<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;Psn.IDPesanan,<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;Psn.Produk,<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;Psn.IDPelanggan AS Pesanan_IDPelanggan -- Akan NULL jika tak cocok<br>
+            FROM Pesanan AS Psn<br>
+            RIGHT JOIN Pelanggan AS Plg<br>
+            &nbsp;&nbsp;ON Psn.IDPelanggan = Plg.IDPelanggan;
+          </div>
+          <p><strong>Hasil:</strong> Akan menampilkan semua pelanggan termasuk Dedi dengan kolom pesanan NULL</p>
+          <table class="exercise-table">
+            <thead>
+              <tr>
+                <th>NamaPelanggan</th>
+                <th>Pelanggan_IDPelanggan</th>
+                <th>IDPesanan</th>
+                <th>Produk</th>
+                <th>Pesanan_IDPelanggan</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Ani</td>
+                <td>1</td>
+                <td>102</td>
+                <td>Pulpen</td>
+                <td>1</td>
+              </tr>
+              <tr>
+                <td>Budi</td>
+                <td>2</td>
+                <td>101</td>
+                <td>Buku Tulis</td>
+                <td>2</td>
+              </tr>
+              <tr>
+                <td>Budi</td>
+                <td>2</td>
+                <td>103</td>
+                <td>Penghapus</td>
+                <td>2</td>
+              </tr>
+              <tr>
+                <td>Citra</td>
+                <td>3</td>
+                <td>104</td>
+                <td>Buku Tulis</td>
+                <td>3</td>
+              </tr>
+              <tr>
+                <td>Dedi</td>
+                <td>4</td>
+                <td>NULL</td>
+                <td>NULL</td>
+                <td>NULL</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="step-container">
+          <div class="step-header">
+            <div class="step-number">5</div>
+            <h3>Tips Penggunaan LEFT JOIN vs RIGHT JOIN</h3>
+          </div>
+          <p>Sebenarnya, RIGHT JOIN jarang digunakan dalam praktik. Mengapa? Karena kamu selalu bisa mendapatkan hasil yang sama dengan LEFT JOIN hanya dengan menukar urutan tabel dalam query.</p>
+          <p>Query RIGHT JOIN sebelumnya akan menghasilkan output yang sama persis dengan query LEFT JOIN berikut:</p>
+          <div class="formula-example">
+            SELECT<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;Plg.NamaPelanggan,<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;Plg.IDPelanggan AS Pelanggan_IDPelanggan,<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;Psn.IDPesanan,<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;Psn.Produk,<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;Psn.IDPelanggan AS Pesanan_IDPelanggan<br>
+            FROM Pelanggan AS Plg -- Tabel Pelanggan sekarang di kiri<br>
+            LEFT JOIN Pesanan AS Psn -- Tabel Pesanan sekarang di kanan<br>
+            &nbsp;&nbsp;ON Plg.IDPelanggan = Psn.IDPelanggan; -- Kondisi join tetap sama
+          </div>
+          <p>Banyak praktisi lebih suka menggunakan LEFT JOIN secara konsisten karena dianggap lebih mudah dibaca (kita fokus pada tabel utama di kiri).</p>
+        </div>
+      </section>
+
+      <section id="choose-join">
+        <h2>Kapan Menggunakan INNER vs LEFT JOIN?</h2>
+        <div class="analysis-section">
+          <div class="analysis-card">
+            <h3>INNER JOIN</h3>
+            <p>Gunakan INNER JOIN jika kamu hanya peduli pada data yang memiliki kecocokan di kedua tabel. Kamu ingin melihat persimpangan data.</p>
+            <div class="formula-example">
+              SELECT ...<br>
+              FROM TabelA<br>
+              INNER JOIN TabelB<br>
+              &nbsp;&nbsp;ON TabelA.key = TabelB.key;
+            </div>
+          </div>
+          
+          <div class="analysis-card">
+            <h3>LEFT JOIN</h3>
+            <p>Gunakan LEFT JOIN jika kamu ingin mempertahankan semua baris dari tabel utama (kiri) dan menambahkan informasi dari tabel kedua jika ada kecocokan. Berguna untuk melihat semua entitas utama dan data terkaitnya (atau NULL jika tidak ada).</p>
+            <div class="formula-example">
+              SELECT ...<br>
+              FROM TabelA<br>
+              LEFT JOIN TabelB<br>
+              &nbsp;&nbsp;ON TabelA.key = TabelB.key;
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="next-steps">
+        <h2>Apa Selanjutnya?</h2>
+        <p>Kamu sekarang sudah memahami perbedaan antara <span class="function-tag">INNER JOIN</span>, <span class="function-tag">LEFT JOIN</span>, dan <span class="function-tag">RIGHT JOIN</span>, serta kapan menggunakannya. Kemampuan memilih jenis JOIN yang tepat sangat penting untuk mendapatkan hasil query yang sesuai dengan pertanyaan analisismu.</p>
+        <p>(Ada satu lagi jenis Outer Join yaitu <span class="highlight">FULL OUTER JOIN</span> yang mengembalikan semua baris dari kedua tabel, mengisi NULL jika tidak ada kecocokan di sisi lain. Namun, ini lebih jarang digunakan dan tidak didukung oleh semua sistem database seperti MySQL).</p>
+        <p>Besok, kita akan berlatih lebih lanjut dengan JOIN, mungkin mencoba menggabungkan lebih dari dua tabel sekaligus dan melihat bagaimana WHERE dan GROUP BY berinteraksi dengan JOIN.</p>
+        <p>Teruslah berlatih menggabungkan tabel! Sampai jumpa besok!</p>
+      </section>
+
+      <footer class="lesson-footer">
+        <p><em>Tips Hari Ini:</em> Gunakan diagram Venn untuk memvisualisasikan jenis JOIN yang berbeda.</p>
+        <a href="hari52.html" class="cta-button">Lanjut ke Multi-Table JOIN</a>
+      </footer>
+    </article>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-links">
+      <div>
+        <h4>Navigasi Cepat</h4>
+        <ul>
+          <li><a href="#">Kuartal 1</a></li>
+          <li><a href="#">Kuartal 2</a></li>
+          <li><a href="#">Kuartal 3</a></li>
+          <li><a href="#">Kuartal 4</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Resources</h4>
+        <ul>
+          <li><a href="#">Checklist Keterampilan</a></li>
+          <li><a href="#">Contoh Portofolio</a></li>
+          <li><a href="#">Pertanyaan Interview</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Kontak</h4>
+        <p>Email: kontak@data365.com</p>
+      </div>
+    </div>
+    <div class="copyright">
+      <p>&copy; 2025 Buku Panduan Data Analisis 365 Hari. Hak Cipta Dilindungi.</p>
+    </div>
+  </footer>
+
+  <script>
+    // Mobile Menu Toggle
+    const mobileMenu = document.getElementById('mobile-menu');
+    const sidebar = document.getElementById('sidebar');
+    const overlay = document.getElementById('overlay');
+
+    mobileMenu.addEventListener('click', () => {
+      sidebar.style.transform = 'translateX(0)';
+      overlay.style.display = 'block';
+    });
+
+    overlay.addEventListener('click', () => {
+      sidebar.style.transform = 'translateX(-100%)';
+      overlay.style.display = 'none';
+    });
+
+    // Dropdown functionality for mobile
+    const dropdowns = document.querySelectorAll('.dropdown');
+
+    dropdowns.forEach(dropdown => {
+      const dropbtn = dropdown.querySelector('.dropbtn');
+      const content = dropdown.querySelector('.dropdown-content');
+
+      if (dropbtn && content) {
+        dropbtn.addEventListener('click', (e) => {
+          e.preventDefault();
+          content.style.display = content.style.display === 'block' ? 'none' : 'block';
+        });
+      }
+    });
+  </script>
+</body>
+</html>

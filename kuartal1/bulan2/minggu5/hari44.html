@@ -1,0 +1,1029 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hari 44: Filter Lebih Canggih - Operator di Klausa WHERE</title>
+  <!-- Tailwind CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Fira+Code&display=swap" rel="stylesheet">
+  <style>
+    /* -- Pengaturan Dasar dan Variabel -- */
+    :root {
+      --primary-color: #3B82F6; /* Blue */
+      --secondary-color: #10B981; /* Green */
+      --accent-color: #8B5CF6; /* Purple */
+      --background-color: #FFFFFF; /* White */
+      --text-color: #1F2937; /* Dark Gray */
+      --muted-color: #9CA3AF; /* Gray */
+      --light-bg: #f9fafb;
+      --dark-bg: #1f2937;
+      --heading-font: 'Inter', sans-serif;
+      --body-font: 'Inter', sans-serif;
+      --code-font: 'Fira Code', monospace;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: var(--body-font);
+      color: var(--text-color);
+      background-color: var(--background-color);
+      line-height: 1.6;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    /* -- Header dan Navigasi -- */
+    .header {
+      background-color: var(--background-color);
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      padding: 1rem 0;
+      position: fixed;
+      width: 100%;
+      top: 0;
+      z-index: 1000;
+    }
+
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      text-decoration: none;
+    }
+
+    .logo svg {
+      height: 40px;
+      width: 40px;
+      fill: none;
+      stroke: var(--primary-color);
+      stroke-width: 2;
+    }
+
+    .logo-text {
+      font-family: var(--heading-font);
+      font-weight: 700;
+      font-size: 1.25rem;
+      margin-left: 10px;
+      color: var(--text-color);
+    }
+
+    .nav-links {
+      list-style: none;
+      display: flex;
+      gap: 1.5rem;
+      margin: 0;
+      padding: 0;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      color: var(--text-color);
+      font-weight: 500;
+      transition: color 0.3s;
+      font-size: 0.95rem;
+    }
+
+    .nav-links a:hover {
+      color: var(--primary-color);
+    }
+
+    .dropdown {
+      position: relative;
+    }
+
+    .dropdown-content {
+      display: none;
+      position: absolute;
+      background-color: white;
+      min-width: 200px;
+      box-shadow: 0px 8px 16px rgba(0,0,0,0.1);
+      z-index: 1;
+      border-radius: 4px;
+      padding: 10px 0;
+    }
+
+    .dropdown:hover .dropdown-content {
+      display: block;
+    }
+
+    .dropdown-content a {
+      color: var(--text-color);
+      padding: 8px 16px;
+      text-decoration: none;
+      display: block;
+      font-size: 0.9rem;
+      transition: background-color 0.2s;
+    }
+
+    .dropdown-content a:hover {
+      background-color: #f3f4f6;
+    }
+
+    /* -- Breadcrumb -- */
+    .breadcrumb-container {
+      background-color: var(--light-bg);
+      padding: 15px 0;
+      margin-bottom: 20px;
+    }
+
+    .breadcrumb {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+      display: flex;
+      align-items: center;
+      font-size: 0.9rem;
+    }
+
+    .breadcrumb a {
+      color: var(--primary-color);
+      text-decoration: none;
+      transition: all 0.3s;
+    }
+
+    .breadcrumb a:hover {
+      text-decoration: underline;
+    }
+
+    .breadcrumb span {
+      color: var(--muted-color);
+    }
+
+    .breadcrumb-separator {
+      margin: 0 10px;
+      color: var(--muted-color);
+    }
+
+    /* -- Learning Content -- */
+    .learning-container {
+      padding: 120px 20px 60px;
+    }
+
+    .day-content {
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+      padding: 40px;
+      margin-bottom: 50px;
+    }
+
+    .day-header {
+      margin-bottom: 30px;
+      padding-bottom: 20px;
+      border-bottom: 2px solid var(--light-bg);
+    }
+
+    .day-header h1 {
+      font-family: var(--heading-font);
+      font-size: 2.2rem;
+      color: var(--dark-bg);
+      margin-bottom: 10px;
+      line-height: 1.3;
+    }
+
+    .meta-info {
+      color: var(--muted-color);
+      font-size: 1rem;
+      display: block;
+      margin-bottom: 20px;
+    }
+
+    .day-content p {
+      margin-bottom: 20px;
+      line-height: 1.8;
+      font-size: 1.1rem;
+    }
+
+    .day-content section {
+      margin-bottom: 40px;
+    }
+
+    .day-content h2 {
+      font-family: var(--heading-font);
+      font-size: 1.7rem;
+      color: var(--primary-color);
+      margin-bottom: 20px;
+      padding-bottom: 10px;
+      border-bottom: 2px solid var(--light-bg);
+    }
+
+    .day-content ol, .day-content ul {
+      padding-left: 25px;
+      margin-bottom: 25px;
+    }
+
+    .day-content li {
+      margin-bottom: 10px;
+      line-height: 1.7;
+      font-size: 1.1rem;
+    }
+
+    .day-content strong {
+      color: var(--dark-bg);
+    }
+
+    /* -- Gaya Khusus untuk Hari 44 -- */
+    .step-container {
+      background-color: #f8f9fa;
+      border-radius: 10px;
+      padding: 20px;
+      margin: 20px 0;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+    }
+
+    .step-header {
+      display: flex;
+      align-items: center;
+      margin-bottom: 15px;
+    }
+
+    .step-number {
+      background-color: var(--secondary-color);
+      color: white;
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-right: 15px;
+      font-weight: bold;
+    }
+
+    .exercise-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 20px 0;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+
+    .exercise-table th {
+      background-color: #e3f2fd;
+      padding: 12px 15px;
+      text-align: center;
+      font-weight: 600;
+    }
+
+    .exercise-table td {
+      padding: 10px 15px;
+      border: 1px solid #e0e0e0;
+      text-align: center;
+    }
+
+    .exercise-table tr:nth-child(even) {
+      background-color: #f9f9f9;
+    }
+
+    .exercise-table tr:hover {
+      background-color: #f1f8ff;
+    }
+
+    .formula-example {
+      background-color: #fffde7;
+      border-left: 4px solid #ffd600;
+      padding: 15px;
+      margin: 15px 0;
+      border-radius: 0 8px 8px 0;
+      font-family: var(--code-font);
+      font-weight: bold;
+      overflow-x: auto;
+    }
+
+    .sql-example {
+      background-color: #e3f2fd;
+      border-left: 4px solid var(--primary-color);
+      padding: 15px;
+      margin: 15px 0;
+      border-radius: 0 8px 8px 0;
+      font-family: var(--code-font);
+      font-weight: bold;
+      overflow-x: auto;
+    }
+
+    .analysis-section {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      margin: 25px 0;
+    }
+
+    .analysis-card {
+      flex: 1;
+      min-width: 280px;
+      background: white;
+      border-radius: 8px;
+      padding: 20px;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+      border-top: 4px solid var(--primary-color);
+    }
+
+    .analysis-card h3 {
+      color: var(--primary-color);
+      margin-top: 0;
+    }
+
+    .question-bubble {
+      background-color: #e8f5e9;
+      padding: 15px;
+      border-radius: 10px;
+      margin: 20px 0;
+      position: relative;
+    }
+
+    .question-bubble:before {
+      content: "";
+      position: absolute;
+      width: 0;
+      height: 0;
+      border-left: 10px solid transparent;
+      border-right: 10px solid transparent;
+      border-bottom: 10px solid #e8f5e9;
+      top: -10px;
+      left: 20px;
+    }
+
+    .highlight {
+      background-color: #fff9c4;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-weight: 500;
+    }
+
+    .function-tag {
+      display: inline-block;
+      background-color: var(--accent-color);
+      color: white;
+      padding: 2px 8px;
+      border-radius: 4px;
+      margin: 0 3px;
+      font-size: 0.9em;
+    }
+
+    .sql-result {
+      background-color: #f0fdf4;
+      border: 1px solid #bbf7d0;
+      border-radius: 6px;
+      padding: 15px;
+      margin: 15px 0;
+      font-family: var(--code-font);
+    }
+
+    /* -- Lesson Footer -- */
+    .lesson-footer {
+      background: var(--light-bg);
+      padding: 25px;
+      border-radius: 8px;
+      margin-top: 40px;
+    }
+
+    .lesson-footer p {
+      font-style: italic;
+      color: var(--muted-color);
+      margin-bottom: 20px;
+    }
+
+    .cta-button {
+      background-color: var(--secondary-color);
+      color: white;
+      padding: 12px 30px;
+      text-decoration: none;
+      border-radius: 5px;
+      font-weight: bold;
+      display: inline-block;
+      transition: all 0.3s;
+      font-size: 1rem;
+      border: none;
+      cursor: pointer;
+    }
+
+    .cta-button:hover {
+      background-color: #0e8e6d;
+      transform: translateY(-3px);
+      box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+    }
+
+    /* -- Footer -- */
+    .footer {
+      background-color: var(--dark-bg);
+      color: white;
+      padding: 60px 0 30px;
+    }
+
+    .footer-links {
+      display: flex;
+      justify-content: space-between;
+      gap: 30px;
+      flex-wrap: wrap;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    .footer-links h4 {
+      font-family: var(--heading-font);
+      margin-bottom: 20px;
+      font-size: 1.25rem;
+    }
+
+    .footer-links ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    .footer-links ul li {
+      margin-bottom: 10px;
+    }
+
+    .footer-links ul li a {
+      color: var(--muted-color);
+      text-decoration: none;
+      transition: color 0.3s;
+      font-size: 0.95rem;
+    }
+
+    .footer-links ul li a:hover {
+      color: white;
+    }
+
+    .copyright {
+      text-align: center;
+      margin-top: 60px;
+      border-top: 1px solid rgba(255,255,255,0.1);
+      padding-top: 30px;
+      color: var(--muted-color);
+      max-width: 1200px;
+      margin: 60px auto 0;
+      padding: 20px;
+      font-size: 0.9rem;
+    }
+
+    /* -- Responsive Design -- */
+    @media (max-width: 768px) {
+      .nav-links {
+        display: none;
+      }
+
+      .learning-container {
+        padding: 100px 15px 40px;
+      }
+
+      .day-content {
+        padding: 25px;
+      }
+
+      .day-header h1 {
+        font-size: 1.8rem;
+      }
+
+      .day-content h2 {
+        font-size: 1.5rem;
+      }
+
+      .footer-links {
+        flex-direction: column;
+        gap: 40px;
+      }
+
+      .breadcrumb {
+        flex-wrap: wrap;
+        row-gap: 5px;
+      }
+
+      .analysis-card {
+        min-width: 100%;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .day-header h1 {
+        font-size: 1.6rem;
+      }
+
+      .day-content h2 {
+        font-size: 1.3rem;
+      }
+    }
+
+    /* -- Mobile Menu -- */
+    #mobile-menu {
+      display: none;
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      cursor: pointer;
+      color: var(--text-color);
+    }
+
+    #sidebar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 100%;
+      width: 280px;
+      background: white;
+      box-shadow: 2px 0 10px rgba(0,0,0,0.1);
+      transform: translateX(-100%);
+      transition: transform 0.3s ease;
+      z-index: 1000;
+      padding-top: 70px;
+      overflow-y: auto;
+    }
+
+    #overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.5);
+      z-index: 999;
+      display: none;
+    }
+
+    @media (max-width: 768px) {
+      #mobile-menu {
+        display: block;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header class="header">
+    <nav class="navbar">
+      <a href="./../../../index.html" class="logo">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+          <path d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/>
+        </svg>
+        <span class="logo-text">Home</span>
+      </a>
+
+      <!-- Desktop Navigation -->
+      <ul class="nav-links">
+        <li><a href="./../../../index.html">Home</a></li>
+        <li class="dropdown">
+          <a href="#" class="dropbtn">Kuartal 1: Dasar <span class="arrow">&#9662;</span></a>
+          <div class="dropdown-content">
+            <a href="#">Bulan 1: Excel Dasar</a>
+            <a href="#">Bulan 2: Statistik Dasar</a>
+            <a href="#">Bulan 3: SQL Lanjutan</a>
+          </div>
+        </li>
+        <li class="dropdown">
+          <a href="#" class="dropbtn">Kuartal 2: Intermediate <span class="arrow">&#9662;</span></a>
+          <div class="dropdown-content">
+            <a href="#">Bulan 4-6</a>
+          </div>
+        </li>
+        <li class="dropdown">
+          <a href="#" class="dropbtn">Kuartal 3: Advanced <span class="arrow">&#9662;</span></a>
+          <div class="dropdown-content">
+            <a href="#">Bulan 7-9</a>
+          </div>
+        </li>
+        <li class="dropdown">
+          <a href="#" class="dropbtn">Kuartal 4: Spesialisasi <span class="arrow">&#9662;</span></a>
+          <div class="dropdown-content">
+            <a href="#">Bulan 10-12</a>
+          </div>
+        </li>
+      </ul>
+      <!-- Mobile Menu Button -->
+      <button id="mobile-menu">☰</button>
+    </nav>
+  </header>
+
+  <!-- Breadcrumb -->
+  <div class="breadcrumb-container">
+    <div class="breadcrumb">
+      <a href="./../../../index.html">Home</a>
+      <span class="breadcrumb-separator">&gt;</span>
+      <a href="#">Kuartal 1</a>
+      <span class="breadcrumb-separator">&gt;</span>
+      <a href="#">Bulan 3: SQL Lanjutan</a>
+      <span class="breadcrumb-separator">&gt;</span>
+      <a href="#">Minggu 11</a>
+      <span class="breadcrumb-separator">&gt;</span>
+      <span>Hari 44</span>
+    </div>
+  </div>
+
+  <!-- Main Content -->
+  <main class="container learning-container">
+    <article class="day-content">
+      <header class="day-header">
+        <h1>Hari 44: Filter Lebih Canggih - Operator di Klausa WHERE</h1>
+        <p class="meta-info">Kuartal 1: SQL Lanjutan | Bulan 3: SQL Lanjutan</p>
+      </header>
+
+      <div class="intro-section">
+        <p>Selamat pagi, detektif data SQL! Kemarin kita sudah belajar menggunakan klausa WHERE untuk memfilter baris data berdasarkan kondisi sederhana menggunakan operator = dan &lt;&gt;.</p>
+        <p>Hari ini, kita akan memperluas kemampuan filtering kita dengan mempelajari berbagai operator lain yang bisa digunakan dalam klausa WHERE. Ini akan memungkinkan kita membuat kondisi filter yang jauh lebih spesifik dan canggih.</p>
+        <p>Kita akan membahas:</p>
+        <ul>
+          <li>Operator Perbandingan (&gt;, &lt;, &gt;=, &lt;=)</li>
+          <li>Operator Logika (AND, OR, NOT)</li>
+          <li>Operator Khusus (BETWEEN, IN, LIKE)</li>
+        </ul>
+      </div>
+
+      <section id="product-table">
+        <h2>Tabel Contoh: Produk</h2>
+        <p>Mari kita gunakan tabel Produk sebagai contoh:</p>
+        
+        <table class="exercise-table">
+          <thead>
+            <tr>
+              <th>IDProduk</th>
+              <th>NamaProduk</th>
+              <th>Kategori</th>
+              <th>Harga</th>
+              <th>Stok</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>P001</td>
+              <td>Apel</td>
+              <td>Buah</td>
+              <td>5000</td>
+              <td>100</td>
+            </tr>
+            <tr>
+              <td>P002</td>
+              <td>Susu UHT 1L</td>
+              <td>Minuman</td>
+              <td>18000</td>
+              <td>50</td>
+            </tr>
+            <tr>
+              <td>P003</td>
+              <td>Roti Tawar</td>
+              <td>Roti</td>
+              <td>12000</td>
+              <td>75</td>
+            </tr>
+            <tr>
+              <td>P004</td>
+              <td>Pisang</td>
+              <td>Buah</td>
+              <td>3000</td>
+              <td>150</td>
+            </tr>
+            <tr>
+              <td>P005</td>
+              <td>Roti Sobek</td>
+              <td>Roti</td>
+              <td>15000</td>
+              <td>60</td>
+            </tr>
+            <tr>
+              <td>P006</td>
+              <td>Kopi Instan</td>
+              <td>Minuman</td>
+              <td>1500</td>
+              <td>200</td>
+            </tr>
+            <tr>
+              <td>P007</td>
+              <td>Keripik Singkong</td>
+              <td>Makanan Ringan</td>
+              <td>8000</td>
+              <td>120</td>
+            </tr>
+            <tr>
+              <td>P008</td>
+              <td>Air Mineral Botol</td>
+              <td>Minuman</td>
+              <td>3000</td>
+              <td>300</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section id="comparison-operators">
+        <h2>1. Operator Perbandingan (untuk Angka, Tanggal)</h2>
+        <p>Selain = dan &lt;&gt;, kita bisa menggunakan operator perbandingan lain untuk memfilter berdasarkan nilai numerik atau tanggal:</p>
+        
+        <div class="analysis-section">
+          <div class="analysis-card">
+            <h3>&gt; : Lebih besar dari</h3>
+            <p>Mengambil produk dengan harga di atas Rp 10.000:</p>
+            <div class="sql-example">
+              SELECT NamaProduk, Harga<br>
+              FROM Produk<br>
+              WHERE Harga > 10000;
+            </div>
+            <div class="sql-result">
+              Hasil:<br>
+              Susu UHT 1L | 18000<br>
+              Roti Tawar | 12000<br>
+              Roti Sobek | 15000
+            </div>
+          </div>
+          
+          <div class="analysis-card">
+            <h3>&lt;= : Lebih kecil dari atau sama dengan</h3>
+            <p>Mengambil produk dengan stok kurang dari atau sama dengan 75:</p>
+            <div class="sql-example">
+              SELECT NamaProduk, Stok<br>
+              FROM Produk<br>
+              WHERE Stok <= 75;
+            </div>
+            <div class="sql-result">
+              Hasil:<br>
+              Susu UHT 1L | 50<br>
+              Roti Tawar | 75<br>
+              Roti Sobek | 60
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="logical-operators">
+        <h2>2. Operator Logika (Menggabungkan Kondisi)</h2>
+        <p>Sama seperti di Excel, kita bisa menggabungkan beberapa kondisi menggunakan AND, OR, dan NOT:</p>
+        
+        <div class="analysis-section">
+          <div class="analysis-card">
+            <h3>AND: Semua kondisi harus TRUE</h3>
+            <p>Mengambil produk kategori "Minuman" DAN harganya kurang dari Rp 5.000:</p>
+            <div class="sql-example">
+              SELECT NamaProduk, Kategori, Harga<br>
+              FROM Produk<br>
+              WHERE Kategori = 'Minuman' AND Harga < 5000;
+            </div>
+            <div class="sql-result">
+              Hasil:<br>
+              Kopi Instan | Minuman | 1500<br>
+              Air Mineral Botol | Minuman | 3000
+            </div>
+          </div>
+          
+          <div class="analysis-card">
+            <h3>OR: Setidaknya satu kondisi harus TRUE</h3>
+            <p>Mengambil produk kategori "Buah" ATAU stoknya lebih dari 150:</p>
+            <div class="sql-example">
+              SELECT NamaProduk, Kategori, Stok<br>
+              FROM Produk<br>
+              WHERE Kategori = 'Buah' OR Stok > 150;
+            </div>
+            <div class="sql-result">
+              Hasil:<br>
+              Apel | Buah | 100<br>
+              Pisang | Buah | 150<br>
+              Kopi Instan | Minuman | 200<br>
+              Air Mineral Botol | Minuman | 300
+            </div>
+          </div>
+          
+          <div class="analysis-card">
+            <h3>NOT: Membalik kondisi</h3>
+            <p>Mengambil produk yang kategorinya BUKAN "Roti":</p>
+            <div class="sql-example">
+              SELECT NamaProduk, Kategori<br>
+              FROM Produk<br>
+              WHERE NOT Kategori = 'Roti';<br>
+              -- Alternatif: WHERE Kategori &lt;&gt; 'Roti';
+            </div>
+            <div class="sql-result">
+              Hasil: Semua produk kecuali Roti Tawar dan Roti Sobek
+            </div>
+          </div>
+        </div>
+        
+        <div class="step-container">
+          <div class="step-header">
+            <div class="step-number">!</div>
+            <h3>Prioritas Operator</h3>
+          </div>
+          <p>NOT dievaluasi pertama, lalu AND, lalu OR. Gunakan tanda kurung () untuk mengontrol urutan evaluasi jika diperlukan.</p>
+          <div class="sql-example">
+            WHERE (Kategori = 'Buah' OR Kategori = 'Minuman') AND Harga < 4000;<br>
+            -- Ambil Buah atau Minuman, yang penting harganya < 4000
+          </div>
+        </div>
+      </section>
+
+      <section id="between-operator">
+        <h2>3. Operator BETWEEN (Rentang Nilai)</h2>
+        <p>Operator BETWEEN adalah cara singkat untuk memeriksa apakah suatu nilai berada di antara dua nilai lain (inklusif).</p>
+        
+        <div class="step-container">
+          <div class="step-header">
+            <div class="step-number">✓</div>
+            <h3>Sintaks</h3>
+          </div>
+          <p><span class="sql-example">kolom BETWEEN nilai_bawah AND nilai_atas</span></p>
+          <p>Setara dengan: <span class="sql-example">kolom >= nilai_bawah AND kolom <= nilai_atas</span></p>
+        </div>
+        
+        <div class="analysis-card">
+          <h3>Contoh Penggunaan</h3>
+          <p>Mengambil produk dengan harga antara Rp 5.000 dan Rp 15.000 (inklusif):</p>
+          <div class="sql-example">
+            SELECT NamaProduk, Harga<br>
+            FROM Produk<br>
+            WHERE Harga BETWEEN 5000 AND 15000;
+          </div>
+          <div class="sql-result">
+            Hasil:<br>
+            Apel | 5000<br>
+            Roti Tawar | 12000<br>
+            Roti Sobek | 15000<br>
+            Keripik Singkong | 8000
+          </div>
+        </div>
+      </section>
+
+      <section id="in-operator">
+        <h2>4. Operator IN (Mencocokkan dengan Daftar Nilai)</h2>
+        <p>Operator IN memungkinkanmu memeriksa apakah nilai suatu kolom cocok dengan salah satu nilai dalam daftar yang kamu sediakan.</p>
+        
+        <div class="step-container">
+          <div class="step-header">
+            <div class="step-number">✓</div>
+            <h3>Sintaks</h3>
+          </div>
+          <p><span class="sql-example">kolom IN (nilai1, nilai2, nilai3, ...)</span></p>
+          <p>Cara singkat untuk menulis beberapa kondisi OR.</p>
+        </div>
+        
+        <div class="analysis-card">
+          <h3>Contoh Penggunaan</h3>
+          <p>Mengambil produk yang kategorinya adalah "Buah" atau "Roti":</p>
+          <div class="sql-example">
+            SELECT NamaProduk, Kategori<br>
+            FROM Produk<br>
+            WHERE Kategori IN ('Buah', 'Roti');
+          </div>
+          <div class="sql-result">
+            Hasil:<br>
+            Apel | Buah<br>
+            Roti Tawar | Roti<br>
+            Pisang | Buah<br>
+            Roti Sobek | Roti
+          </div>
+        </div>
+      </section>
+
+      <section id="like-operator">
+        <h2>5. Operator LIKE (Pencarian Pola Teks)</h2>
+        <p>Operator LIKE digunakan untuk melakukan pencarian pola (pattern matching) dalam data teks. Sangat berguna jika kamu tidak tahu persis teksnya tapi tahu sebagian polanya.</p>
+        
+        <div class="analysis-section">
+          <div class="analysis-card">
+            <h3>% (Persen)</h3>
+            <p>Mewakili nol, satu, atau banyak karakter.</p>
+            <p>Mengambil produk yang namanya diawali dengan "Roti":</p>
+            <div class="sql-example">
+              SELECT NamaProduk<br>
+              FROM Produk<br>
+              WHERE NamaProduk LIKE 'Roti%';
+            </div>
+            <div class="sql-result">
+              Hasil:<br>
+              Roti Tawar<br>
+              Roti Sobek
+            </div>
+          </div>
+          
+          <div class="analysis-card">
+            <h3>_ (Underscore)</h3>
+            <p>Mewakili tepat satu karakter.</p>
+            <p>Mengambil produk yang namanya memiliki huruf kedua 'p' dan huruf keempat 'l':</p>
+            <div class="sql-example">
+              SELECT NamaProduk<br>
+              FROM Produk<br>
+              WHERE NamaProduk LIKE '_p_l%';
+            </div>
+            <div class="sql-result">
+              Hasil:<br>
+              Apel
+            </div>
+          </div>
+          
+          <div class="analysis-card">
+            <h3>Kombinasi</h3>
+            <p>Mengambil produk yang namanya diakhiri dengan "an":</p>
+            <div class="sql-example">
+              SELECT NamaProduk<br>
+              FROM Produk<br>
+              WHERE NamaProduk LIKE '%an';
+            </div>
+            <div class="sql-result">
+              Hasil:<br>
+              Pisang<br>
+              Kopi Instan
+            </div>
+            <p>Mengambil produk yang namanya mengandung kata "Mineral":</p>
+            <div class="sql-example">
+              SELECT NamaProduk<br>
+              FROM Produk<br>
+              WHERE NamaProduk LIKE '%Mineral%';
+            </div>
+            <div class="sql-result">
+              Hasil:<br>
+              Air Mineral Botol
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="next-steps">
+        <h2>Apa Selanjutnya?</h2>
+        <p>Wow! Kamu sekarang punya persenjataan operator yang jauh lebih lengkap untuk memfilter data dengan klausa WHERE. Kamu bisa menggabungkan kondisi, mencari dalam rentang, mencocokkan dengan daftar, dan bahkan mencari pola teks.</p>
+        <p>Besok, kita akan belajar cara mengurutkan hasil query SQL kita menggunakan klausa ORDER BY. Setelah kita bisa memfilter baris yang tepat, seringkali kita ingin menampilkannya dalam urutan tertentu (misal, dari harga termurah ke termahal, atau berdasarkan abjad nama).</p>
+        <p>Teruslah berlatih dengan operator WHERE ini! Sampai jumpa besok!</p>
+      </section>
+
+      <footer class="lesson-footer">
+        <p><em>Tips Hari Ini:</em> Gunakan kombinasi operator untuk membuat filter yang lebih spesifik dan efisien.</p>
+        <a href="hari45.html" class="cta-button">Lanjut ke Klausa ORDER BY</a>
+      </footer>
+    </article>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-links">
+      <div>
+        <h4>Navigasi Cepat</h4>
+        <ul>
+          <li><a href="#">Kuartal 1</a></li>
+          <li><a href="#">Kuartal 2</a></li>
+          <li><a href="#">Kuartal 3</a></li>
+          <li><a href="#">Kuartal 4</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Resources</h4>
+        <ul>
+          <li><a href="#">Checklist Keterampilan</a></li>
+          <li><a href="#">Contoh Portofolio</a></li>
+          <li><a href="#">Pertanyaan Interview</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Kontak</h4>
+        <p>Email: kontak@data365.com</p>
+      </div>
+    </div>
+    <div class="copyright">
+      <p>&copy; 2025 Buku Panduan Data Analisis 365 Hari. Hak Cipta Dilindungi.</p>
+    </div>
+  </footer>
+
+  <script>
+    // Mobile Menu Toggle
+    const mobileMenu = document.getElementById('mobile-menu');
+    const sidebar = document.getElementById('sidebar');
+    const overlay = document.getElementById('overlay');
+
+    mobileMenu.addEventListener('click', () => {
+      sidebar.style.transform = 'translateX(0)';
+      overlay.style.display = 'block';
+    });
+
+    overlay.addEventListener('click', () => {
+      sidebar.style.transform = 'translateX(-100%)';
+      overlay.style.display = 'none';
+    });
+
+    // Dropdown functionality for mobile
+    const dropdowns = document.querySelectorAll('.dropdown');
+
+    dropdowns.forEach(dropdown => {
+      const dropbtn = dropdown.querySelector('.dropbtn');
+      const content = dropdown.querySelector('.dropdown-content');
+
+      if (dropbtn && content) {
+        dropbtn.addEventListener('click', (e) => {
+          e.preventDefault();
+          content.style.display = content.style.display === 'block' ? 'none' : 'block';
+        });
+      }
+    });
+  </script>
+</body>
+</html>
