@@ -1,814 +1,643 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Buku Panduan Skill — Materi Bab 1–25</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Buku Panduan Skill</title>
 
-  <!-- Tailwind CSS -->
-  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
+    <!-- Tailwind CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
 
-  <!-- Google Fonts -->
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&family=Fira+Code&display=swap" rel="stylesheet" />
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&family=Fira+Code:wght@400;700&display=swap" rel="stylesheet" />
 
-  <style>
-    :root {
-      --primary: #2563eb;
-      --secondary: #8b5cf6;
-      --bg-light: #f9fafb;
-      --bg-dark: #0f172a;
-      --card-dark: #1e293b;
-      --text-dark: #e2e8f0;
-      --muted-dark: #cbd5e1;
-    }
+    <style>
+        :root {
+            --primary: #2563eb;
+            --secondary: #8b5cf6;
+        }
 
-    html {
-      scroll-behavior: smooth;
-    }
+        html {
+            scroll-behavior: smooth;
+        }
 
-    body {
-      font-family: 'Inter', sans-serif;
-      background-color: var(--bg-light);
-      color: #111827;
-      transition: background-color 0.3s ease, color 0.3s ease;
-    }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f9fafb;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
 
-    .card {
-      transition: all 0.3s ease;
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.08);
-    }
+        .card {
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.08);
+        }
 
-    .card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 14px 24px rgba(0, 0, 0, 0.12);
-    }
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 14px 20px rgba(0, 0, 0, 0.12);
+        }
 
-    .dropdown-content {
-      display: none;
-      min-width: 220px;
-    }
+        .dropdown-content {
+            display: none;
+            min-width: 220px;
+        }
 
-    .dropdown:hover .dropdown-content {
-      display: block;
-    }
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
 
-    .mobile-dropdown-content {
-      display: none;
-    }
+        .mobile-dropdown-content {
+            display: none;
+        }
 
-    .mobile-dropdown.open .mobile-dropdown-content {
-      display: block;
-    }
+        .mobile-dropdown.open .mobile-dropdown-content {
+            display: block;
+        }
 
-    .hero-section {
-      background: linear-gradient(135deg, #eff6ff 0%, #e0e7ff 100%);
-    }
+        .dark-mode {
+            background-color: #0f172a;
+            color: #e2e8f0;
+        }
 
-    .section-soft {
-      background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
-    }
+        .dark-mode .card,
+        .dark-mode .soft-box,
+        .dark-mode #sidebar {
+            background-color: #1e293b !important;
+            color: #e2e8f0 !important;
+        }
 
-    .badge {
-      font-size: 12px;
-      font-weight: 700;
-      letter-spacing: 0.02em;
-    }
+        .dark-mode .dropdown-content {
+            background-color: #1e293b !important;
+            color: #e2e8f0 !important;
+        }
 
-    .chapter-card {
-      border: 1px solid rgba(37, 99, 235, 0.08);
-    }
+        .dark-mode .text-gray-800,
+        .dark-mode .text-gray-700,
+        .dark-mode .text-gray-600,
+        .dark-mode .text-gray-500 {
+            color: #cbd5e1 !important;
+        }
 
-    .chapter-number {
-      font-family: 'Fira Code', monospace;
-    }
+        .dark-mode .bg-white {
+            background-color: #1e293b !important;
+        }
 
-    .dark-mode {
-      background-color: var(--bg-dark);
-      color: var(--text-dark);
-    }
+        .dark-mode .bg-blue-50 {
+            background-color: rgba(37, 99, 235, 0.12) !important;
+        }
 
-    .dark-mode .hero-section {
-      background: linear-gradient(135deg, #172554 0%, #312e81 100%);
-    }
+        .dark-mode .bg-indigo-50 {
+            background-color: rgba(99, 102, 241, 0.12) !important;
+        }
 
-    .dark-mode .section-soft,
-    .dark-mode .card,
-    .dark-mode .chapter-card,
-    .dark-mode .getting-started-box,
-    .dark-mode .notice-box,
-    .dark-mode #sidebar {
-      background: var(--card-dark) !important;
-      color: var(--text-dark) !important;
-    }
+        .dark-mode .bg-purple-50 {
+            background-color: rgba(139, 92, 246, 0.12) !important;
+        }
 
-    .dark-mode .dropdown-content {
-      background: var(--card-dark);
-      color: var(--text-dark);
-    }
+        .dark-mode .border-gray-200,
+        .dark-mode .border-gray-700 {
+            border-color: rgba(148, 163, 184, 0.2) !important;
+        }
 
-    .dark-mode .text-gray-800,
-    .dark-mode .text-gray-700,
-    .dark-mode .text-gray-600,
-    .dark-mode .text-gray-500 {
-      color: var(--muted-dark) !important;
-    }
+        .chapter-number {
+            font-family: 'Fira Code', monospace;
+        }
 
-    .dark-mode .border-gray-200,
-    .dark-mode .border-gray-700 {
-      border-color: rgba(148, 163, 184, 0.2) !important;
-    }
-
-    .dark-mode .bg-white {
-      background-color: var(--card-dark) !important;
-    }
-
-    .dark-mode .bg-blue-50,
-    .dark-mode .bg-indigo-50 {
-      background-color: rgba(37, 99, 235, 0.12) !important;
-    }
-
-    .dark-mode .hover\:bg-blue-100:hover {
-      background-color: rgba(37, 99, 235, 0.18) !important;
-    }
-
-    @media (max-width: 768px) {
-      .dropdown:hover .dropdown-content {
-        display: none;
-      }
-    }
-  </style>
+        @media (max-width: 768px) {
+            .dropdown:hover .dropdown-content {
+                display: none;
+            }
+        }
+    </style>
 </head>
 <body class="relative">
-  <!-- Header -->
-  <header class="bg-gradient-to-r from-blue-600 to-indigo-700 text-white p-4 fixed w-full z-40">
-    <div class="container mx-auto flex justify-between items-center">
-      <div class="flex items-center">
-        <a href="index.html" class="flex items-center">
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v11.494m-5.747-8.62l11.494 5.747m-11.494 0l11.494-5.747" />
-          </svg>
-          <h1 class="text-xl font-bold">Buku Panduan Skill</h1>
-        </a>
-      </div>
-
-      <!-- Desktop Navigation -->
-      <nav class="hidden md:block">
-        <ul class="flex space-x-4 text-sm lg:text-base">
-          <li><a href="index.html" class="hover:text-blue-200 transition">Home</a></li>
-
-          <li class="dropdown relative">
-            <a href="#roadmap" class="hover:text-blue-200 transition flex items-center">
-              Fase 1 <span class="ml-1">&#9662;</span>
-            </a>
-            <div class="dropdown-content absolute bg-white text-gray-800 rounded-md shadow-lg py-2 mt-1">
-              <a href="#bab-01" class="block px-4 py-2 hover:bg-blue-100">Bab 01</a>
-              <a href="#bab-02" class="block px-4 py-2 hover:bg-blue-100">Bab 02</a>
-              <a href="#bab-03" class="block px-4 py-2 hover:bg-blue-100">Bab 03</a>
+    <!-- Header -->
+    <header class="bg-gradient-to-r from-blue-600 to-indigo-700 text-white p-4 fixed w-full z-40">
+        <div class="container mx-auto flex justify-between items-center">
+            <div class="flex items-center">
+                <a href="index.html" class="flex items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v11.494m-5.747-8.62l11.494 5.747m-11.494 0l11.494-5.747" />
+                    </svg>
+                    <h1 class="text-xl font-bold">Buku Panduan Skill</h1>
+                </a>
             </div>
-          </li>
 
-          <li class="dropdown relative">
-            <a href="#roadmap" class="hover:text-blue-200 transition flex items-center">
-              Fase 2 <span class="ml-1">&#9662;</span>
-            </a>
-            <div class="dropdown-content absolute bg-white text-gray-800 rounded-md shadow-lg py-2 mt-1">
-              <a href="#bab-04" class="block px-4 py-2 hover:bg-blue-100">Bab 04</a>
-              <a href="#bab-05" class="block px-4 py-2 hover:bg-blue-100">Bab 05</a>
-              <a href="#bab-06" class="block px-4 py-2 hover:bg-blue-100">Bab 06</a>
-              <a href="#bab-07" class="block px-4 py-2 hover:bg-blue-100">Bab 07</a>
+            <!-- Desktop Navigation -->
+            <nav class="hidden md:block">
+                <ul class="flex space-x-4">
+                    <li><a href="index.html" class="hover:text-blue-200 transition">Home</a></li>
+
+                    <li class="dropdown relative">
+                        <a href="#fase-1" class="hover:text-blue-200 transition flex items-center">
+                            Fase 1 <span class="ml-1">&#9662;</span>
+                        </a>
+                        <div class="dropdown-content absolute bg-white text-gray-800 rounded-md shadow-lg py-2 mt-1">
+                            <a href="bab/bab-01.html" class="block px-4 py-2 hover:bg-blue-100">Bab 01</a>
+                            <a href="bab/bab-02.html" class="block px-4 py-2 hover:bg-blue-100">Bab 02</a>
+                            <a href="bab/bab-03.html" class="block px-4 py-2 hover:bg-blue-100">Bab 03</a>
+                            <a href="bab/bab-04.html" class="block px-4 py-2 hover:bg-blue-100">Bab 04</a>
+                            <a href="bab/bab-05.html" class="block px-4 py-2 hover:bg-blue-100">Bab 05</a>
+                        </div>
+                    </li>
+
+                    <li class="dropdown relative">
+                        <a href="#fase-2" class="hover:text-blue-200 transition flex items-center">
+                            Fase 2 <span class="ml-1">&#9662;</span>
+                        </a>
+                        <div class="dropdown-content absolute bg-white text-gray-800 rounded-md shadow-lg py-2 mt-1">
+                            <a href="bab/bab-06.html" class="block px-4 py-2 hover:bg-blue-100">Bab 06</a>
+                            <a href="bab/bab-07.html" class="block px-4 py-2 hover:bg-blue-100">Bab 07</a>
+                            <a href="bab/bab-08.html" class="block px-4 py-2 hover:bg-blue-100">Bab 08</a>
+                            <a href="bab/bab-09.html" class="block px-4 py-2 hover:bg-blue-100">Bab 09</a>
+                            <a href="bab/bab-10.html" class="block px-4 py-2 hover:bg-blue-100">Bab 10</a>
+                        </div>
+                    </li>
+
+                    <li class="dropdown relative">
+                        <a href="#fase-3" class="hover:text-blue-200 transition flex items-center">
+                            Fase 3 <span class="ml-1">&#9662;</span>
+                        </a>
+                        <div class="dropdown-content absolute bg-white text-gray-800 rounded-md shadow-lg py-2 mt-1">
+                            <a href="bab/bab-11.html" class="block px-4 py-2 hover:bg-blue-100">Bab 11</a>
+                            <a href="bab/bab-12.html" class="block px-4 py-2 hover:bg-blue-100">Bab 12</a>
+                            <a href="bab/bab-13.html" class="block px-4 py-2 hover:bg-blue-100">Bab 13</a>
+                            <a href="bab/bab-14.html" class="block px-4 py-2 hover:bg-blue-100">Bab 14</a>
+                            <a href="bab/bab-15.html" class="block px-4 py-2 hover:bg-blue-100">Bab 15</a>
+                        </div>
+                    </li>
+
+                    <li class="dropdown relative">
+                        <a href="#fase-4" class="hover:text-blue-200 transition flex items-center">
+                            Fase 4 <span class="ml-1">&#9662;</span>
+                        </a>
+                        <div class="dropdown-content absolute bg-white text-gray-800 rounded-md shadow-lg py-2 mt-1">
+                            <a href="bab/bab-16.html" class="block px-4 py-2 hover:bg-blue-100">Bab 16</a>
+                            <a href="bab/bab-17.html" class="block px-4 py-2 hover:bg-blue-100">Bab 17</a>
+                            <a href="bab/bab-18.html" class="block px-4 py-2 hover:bg-blue-100">Bab 18</a>
+                            <a href="bab/bab-19.html" class="block px-4 py-2 hover:bg-blue-100">Bab 19</a>
+                            <a href="bab/bab-20.html" class="block px-4 py-2 hover:bg-blue-100">Bab 20</a>
+                        </div>
+                    </li>
+
+                    <li class="dropdown relative">
+                        <a href="#fase-5" class="hover:text-blue-200 transition flex items-center">
+                            Fase 5 <span class="ml-1">&#9662;</span>
+                        </a>
+                        <div class="dropdown-content absolute bg-white text-gray-800 rounded-md shadow-lg py-2 mt-1">
+                            <a href="bab/bab-21.html" class="block px-4 py-2 hover:bg-blue-100">Bab 21</a>
+                            <a href="bab/bab-22.html" class="block px-4 py-2 hover:bg-blue-100">Bab 22</a>
+                            <a href="bab/bab-23.html" class="block px-4 py-2 hover:bg-blue-100">Bab 23</a>
+                            <a href="bab/bab-24.html" class="block px-4 py-2 hover:bg-blue-100">Bab 24</a>
+                            <a href="bab/bab-25.html" class="block px-4 py-2 hover:bg-blue-100">Bab 25</a>
+                        </div>
+                    </li>
+
+                    <li><a href="#daftar-bab" class="hover:text-blue-200 transition">Daftar Bab</a></li>
+                    <li><a href="#tentang" class="hover:text-blue-200 transition">Tentang</a></li>
+                </ul>
+            </nav>
+
+            <!-- Mobile Menu Button -->
+            <button id="mobile-menu" class="md:hidden text-white">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                </svg>
+            </button>
+        </div>
+    </header>
+
+    <!-- Mobile Sidebar -->
+    <aside id="sidebar" class="fixed top-0 left-0 h-full w-72 bg-white shadow-lg z-50 transform -translate-x-full transition-transform duration-300 pt-16">
+        <div class="p-4 overflow-y-auto">
+            <ul class="space-y-2">
+                <li><a href="index.html" class="block py-2 px-4 hover:bg-blue-100 rounded">Home</a></li>
+
+                <li class="mobile-dropdown">
+                    <button class="mobile-dropdown-toggle w-full text-left py-2 px-4 hover:bg-blue-100 rounded flex justify-between items-center">
+                        Fase 1
+                        <span>&#9662;</span>
+                    </button>
+                    <div class="mobile-dropdown-content ml-3 mt-1 space-y-1">
+                        <a href="bab/bab-01.html" class="block py-2 px-4 hover:bg-blue-100 rounded">Bab 01</a>
+                        <a href="bab/bab-02.html" class="block py-2 px-4 hover:bg-blue-100 rounded">Bab 02</a>
+                        <a href="bab/bab-03.html" class="block py-2 px-4 hover:bg-blue-100 rounded">Bab 03</a>
+                        <a href="bab/bab-04.html" class="block py-2 px-4 hover:bg-blue-100 rounded">Bab 04</a>
+                        <a href="bab/bab-05.html" class="block py-2 px-4 hover:bg-blue-100 rounded">Bab 05</a>
+                    </div>
+                </li>
+
+                <li class="mobile-dropdown">
+                    <button class="mobile-dropdown-toggle w-full text-left py-2 px-4 hover:bg-blue-100 rounded flex justify-between items-center">
+                        Fase 2
+                        <span>&#9662;</span>
+                    </button>
+                    <div class="mobile-dropdown-content ml-3 mt-1 space-y-1">
+                        <a href="bab/bab-06.html" class="block py-2 px-4 hover:bg-blue-100 rounded">Bab 06</a>
+                        <a href="bab/bab-07.html" class="block py-2 px-4 hover:bg-blue-100 rounded">Bab 07</a>
+                        <a href="bab/bab-08.html" class="block py-2 px-4 hover:bg-blue-100 rounded">Bab 08</a>
+                        <a href="bab/bab-09.html" class="block py-2 px-4 hover:bg-blue-100 rounded">Bab 09</a>
+                        <a href="bab/bab-10.html" class="block py-2 px-4 hover:bg-blue-100 rounded">Bab 10</a>
+                    </div>
+                </li>
+
+                <li class="mobile-dropdown">
+                    <button class="mobile-dropdown-toggle w-full text-left py-2 px-4 hover:bg-blue-100 rounded flex justify-between items-center">
+                        Fase 3
+                        <span>&#9662;</span>
+                    </button>
+                    <div class="mobile-dropdown-content ml-3 mt-1 space-y-1">
+                        <a href="bab/bab-11.html" class="block py-2 px-4 hover:bg-blue-100 rounded">Bab 11</a>
+                        <a href="bab/bab-12.html" class="block py-2 px-4 hover:bg-blue-100 rounded">Bab 12</a>
+                        <a href="bab/bab-13.html" class="block py-2 px-4 hover:bg-blue-100 rounded">Bab 13</a>
+                        <a href="bab/bab-14.html" class="block py-2 px-4 hover:bg-blue-100 rounded">Bab 14</a>
+                        <a href="bab/bab-15.html" class="block py-2 px-4 hover:bg-blue-100 rounded">Bab 15</a>
+                    </div>
+                </li>
+
+                <li class="mobile-dropdown">
+                    <button class="mobile-dropdown-toggle w-full text-left py-2 px-4 hover:bg-blue-100 rounded flex justify-between items-center">
+                        Fase 4
+                        <span>&#9662;</span>
+                    </button>
+                    <div class="mobile-dropdown-content ml-3 mt-1 space-y-1">
+                        <a href="bab/bab-16.html" class="block py-2 px-4 hover:bg-blue-100 rounded">Bab 16</a>
+                        <a href="bab/bab-17.html" class="block py-2 px-4 hover:bg-blue-100 rounded">Bab 17</a>
+                        <a href="bab/bab-18.html" class="block py-2 px-4 hover:bg-blue-100 rounded">Bab 18</a>
+                        <a href="bab/bab-19.html" class="block py-2 px-4 hover:bg-blue-100 rounded">Bab 19</a>
+                        <a href="bab/bab-20.html" class="block py-2 px-4 hover:bg-blue-100 rounded">Bab 20</a>
+                    </div>
+                </li>
+
+                <li class="mobile-dropdown">
+                    <button class="mobile-dropdown-toggle w-full text-left py-2 px-4 hover:bg-blue-100 rounded flex justify-between items-center">
+                        Fase 5
+                        <span>&#9662;</span>
+                    </button>
+                    <div class="mobile-dropdown-content ml-3 mt-1 space-y-1">
+                        <a href="bab/bab-21.html" class="block py-2 px-4 hover:bg-blue-100 rounded">Bab 21</a>
+                        <a href="bab/bab-22.html" class="block py-2 px-4 hover:bg-blue-100 rounded">Bab 22</a>
+                        <a href="bab/bab-23.html" class="block py-2 px-4 hover:bg-blue-100 rounded">Bab 23</a>
+                        <a href="bab/bab-24.html" class="block py-2 px-4 hover:bg-blue-100 rounded">Bab 24</a>
+                        <a href="bab/bab-25.html" class="block py-2 px-4 hover:bg-blue-100 rounded">Bab 25</a>
+                    </div>
+                </li>
+
+                <li><a href="#daftar-bab" class="block py-2 px-4 hover:bg-blue-100 rounded">Daftar Bab</a></li>
+                <li><a href="#tentang" class="block py-2 px-4 hover:bg-blue-100 rounded">Tentang</a></li>
+            </ul>
+        </div>
+    </aside>
+
+    <!-- Overlay -->
+    <div id="overlay" class="fixed inset-0 bg-black bg-opacity-50 z-40 hidden"></div>
+
+    <!-- Main Content -->
+    <main class="pt-24 pb-16 px-4 md:px-0">
+        <div class="container mx-auto">
+            <!-- Hero -->
+            <section class="bg-gradient-to-br from-blue-50 to-indigo-100 rounded-2xl p-8 md:p-12 mb-16">
+                <div class="max-w-4xl mx-auto text-center">
+                    <div class="inline-flex items-center px-4 py-2 rounded-full bg-white bg-opacity-80 text-blue-700 font-semibold text-sm mb-5">
+                        Index Utama Bab 1–25
+                    </div>
+
+                    <h1 class="text-3xl md:text-5xl font-extrabold text-gray-800 mb-4">
+                        Buku Panduan Skill
+                    </h1>
+
+                    <p class="text-lg text-gray-600 mb-8 max-w-3xl mx-auto">
+                        Halaman ini hanya berfungsi sebagai penghubung antar bab. Materi utama nanti kamu isi satu per satu di file HTML masing-masing agar index tetap ringan dan rapi.
+                    </p>
+
+                    <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+                        <a href="bab/bab-01.html" class="inline-block bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-8 rounded-full transition transform hover:-translate-y-1 shadow-lg">
+                            Mulai dari Bab 01
+                        </a>
+                        <a href="#daftar-bab" class="inline-block bg-white hover:bg-gray-100 text-blue-700 font-bold py-3 px-8 rounded-full transition shadow-lg">
+                            Lihat Semua Bab
+                        </a>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Info -->
+            <section class="soft-box bg-white rounded-2xl p-8 shadow-sm mb-16">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div class="card bg-blue-50 rounded-xl p-6">
+                        <h3 class="text-lg font-bold text-gray-800 mb-2">Fungsi Index</h3>
+                        <p class="text-gray-600 text-sm">
+                            Index ini hanya jadi pintu masuk dan peta navigasi, bukan tempat menaruh seluruh isi materi.
+                        </p>
+                    </div>
+
+                    <div class="card bg-indigo-50 rounded-xl p-6">
+                        <h3 class="text-lg font-bold text-gray-800 mb-2">Struktur Ringan</h3>
+                        <p class="text-gray-600 text-sm">
+                            Setiap bab diarahkan ke file HTML terpisah agar pengelolaan konten lebih mudah dan tidak menumpuk di satu halaman.
+                        </p>
+                    </div>
+
+                    <div class="card bg-purple-50 rounded-xl p-6">
+                        <h3 class="text-lg font-bold text-gray-800 mb-2">Mudah Diperluas</h3>
+                        <p class="text-gray-600 text-sm">
+                            Kamu bisa mengisi, mengubah, atau mengganti bab satu-satu tanpa harus membongkar keseluruhan index.
+                        </p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Fase 1 -->
+            <section id="fase-1" class="mb-12">
+                <div class="mb-6">
+                    <h2 class="text-2xl font-bold text-gray-800">Fase 1</h2>
+                    <p class="text-gray-600">Bab 01–05</p>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-5 gap-4">
+                    <a href="bab/bab-01.html" class="card bg-white rounded-xl p-5 border border-gray-200 block">
+                        <div class="chapter-number text-blue-600 font-bold mb-2">BAB 01</div>
+                        <h3 class="font-bold text-gray-800">Bab 01</h3>
+                    </a>
+                    <a href="bab/bab-02.html" class="card bg-white rounded-xl p-5 border border-gray-200 block">
+                        <div class="chapter-number text-blue-600 font-bold mb-2">BAB 02</div>
+                        <h3 class="font-bold text-gray-800">Bab 02</h3>
+                    </a>
+                    <a href="bab/bab-03.html" class="card bg-white rounded-xl p-5 border border-gray-200 block">
+                        <div class="chapter-number text-blue-600 font-bold mb-2">BAB 03</div>
+                        <h3 class="font-bold text-gray-800">Bab 03</h3>
+                    </a>
+                    <a href="bab/bab-04.html" class="card bg-white rounded-xl p-5 border border-gray-200 block">
+                        <div class="chapter-number text-blue-600 font-bold mb-2">BAB 04</div>
+                        <h3 class="font-bold text-gray-800">Bab 04</h3>
+                    </a>
+                    <a href="bab/bab-05.html" class="card bg-white rounded-xl p-5 border border-gray-200 block">
+                        <div class="chapter-number text-blue-600 font-bold mb-2">BAB 05</div>
+                        <h3 class="font-bold text-gray-800">Bab 05</h3>
+                    </a>
+                </div>
+            </section>
+
+            <!-- Fase 2 -->
+            <section id="fase-2" class="mb-12">
+                <div class="mb-6">
+                    <h2 class="text-2xl font-bold text-gray-800">Fase 2</h2>
+                    <p class="text-gray-600">Bab 06–10</p>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-5 gap-4">
+                    <a href="bab/bab-06.html" class="card bg-white rounded-xl p-5 border border-gray-200 block">
+                        <div class="chapter-number text-indigo-600 font-bold mb-2">BAB 06</div>
+                        <h3 class="font-bold text-gray-800">Bab 06</h3>
+                    </a>
+                    <a href="bab/bab-07.html" class="card bg-white rounded-xl p-5 border border-gray-200 block">
+                        <div class="chapter-number text-indigo-600 font-bold mb-2">BAB 07</div>
+                        <h3 class="font-bold text-gray-800">Bab 07</h3>
+                    </a>
+                    <a href="bab/bab-08.html" class="card bg-white rounded-xl p-5 border border-gray-200 block">
+                        <div class="chapter-number text-indigo-600 font-bold mb-2">BAB 08</div>
+                        <h3 class="font-bold text-gray-800">Bab 08</h3>
+                    </a>
+                    <a href="bab/bab-09.html" class="card bg-white rounded-xl p-5 border border-gray-200 block">
+                        <div class="chapter-number text-indigo-600 font-bold mb-2">BAB 09</div>
+                        <h3 class="font-bold text-gray-800">Bab 09</h3>
+                    </a>
+                    <a href="bab/bab-10.html" class="card bg-white rounded-xl p-5 border border-gray-200 block">
+                        <div class="chapter-number text-indigo-600 font-bold mb-2">BAB 10</div>
+                        <h3 class="font-bold text-gray-800">Bab 10</h3>
+                    </a>
+                </div>
+            </section>
+
+            <!-- Fase 3 -->
+            <section id="fase-3" class="mb-12">
+                <div class="mb-6">
+                    <h2 class="text-2xl font-bold text-gray-800">Fase 3</h2>
+                    <p class="text-gray-600">Bab 11–15</p>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-5 gap-4">
+                    <a href="bab/bab-11.html" class="card bg-white rounded-xl p-5 border border-gray-200 block">
+                        <div class="chapter-number text-purple-600 font-bold mb-2">BAB 11</div>
+                        <h3 class="font-bold text-gray-800">Bab 11</h3>
+                    </a>
+                    <a href="bab/bab-12.html" class="card bg-white rounded-xl p-5 border border-gray-200 block">
+                        <div class="chapter-number text-purple-600 font-bold mb-2">BAB 12</div>
+                        <h3 class="font-bold text-gray-800">Bab 12</h3>
+                    </a>
+                    <a href="bab/bab-13.html" class="card bg-white rounded-xl p-5 border border-gray-200 block">
+                        <div class="chapter-number text-purple-600 font-bold mb-2">BAB 13</div>
+                        <h3 class="font-bold text-gray-800">Bab 13</h3>
+                    </a>
+                    <a href="bab/bab-14.html" class="card bg-white rounded-xl p-5 border border-gray-200 block">
+                        <div class="chapter-number text-purple-600 font-bold mb-2">BAB 14</div>
+                        <h3 class="font-bold text-gray-800">Bab 14</h3>
+                    </a>
+                    <a href="bab/bab-15.html" class="card bg-white rounded-xl p-5 border border-gray-200 block">
+                        <div class="chapter-number text-purple-600 font-bold mb-2">BAB 15</div>
+                        <h3 class="font-bold text-gray-800">Bab 15</h3>
+                    </a>
+                </div>
+            </section>
+
+            <!-- Fase 4 -->
+            <section id="fase-4" class="mb-12">
+                <div class="mb-6">
+                    <h2 class="text-2xl font-bold text-gray-800">Fase 4</h2>
+                    <p class="text-gray-600">Bab 16–20</p>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-5 gap-4">
+                    <a href="bab/bab-16.html" class="card bg-white rounded-xl p-5 border border-gray-200 block">
+                        <div class="chapter-number text-pink-600 font-bold mb-2">BAB 16</div>
+                        <h3 class="font-bold text-gray-800">Bab 16</h3>
+                    </a>
+                    <a href="bab/bab-17.html" class="card bg-white rounded-xl p-5 border border-gray-200 block">
+                        <div class="chapter-number text-pink-600 font-bold mb-2">BAB 17</div>
+                        <h3 class="font-bold text-gray-800">Bab 17</h3>
+                    </a>
+                    <a href="bab/bab-18.html" class="card bg-white rounded-xl p-5 border border-gray-200 block">
+                        <div class="chapter-number text-pink-600 font-bold mb-2">BAB 18</div>
+                        <h3 class="font-bold text-gray-800">Bab 18</h3>
+                    </a>
+                    <a href="bab/bab-19.html" class="card bg-white rounded-xl p-5 border border-gray-200 block">
+                        <div class="chapter-number text-pink-600 font-bold mb-2">BAB 19</div>
+                        <h3 class="font-bold text-gray-800">Bab 19</h3>
+                    </a>
+                    <a href="bab/bab-20.html" class="card bg-white rounded-xl p-5 border border-gray-200 block">
+                        <div class="chapter-number text-pink-600 font-bold mb-2">BAB 20</div>
+                        <h3 class="font-bold text-gray-800">Bab 20</h3>
+                    </a>
+                </div>
+            </section>
+
+            <!-- Fase 5 -->
+            <section id="fase-5" class="mb-16">
+                <div class="mb-6">
+                    <h2 class="text-2xl font-bold text-gray-800">Fase 5</h2>
+                    <p class="text-gray-600">Bab 21–25</p>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-5 gap-4">
+                    <a href="bab/bab-21.html" class="card bg-white rounded-xl p-5 border border-gray-200 block">
+                        <div class="chapter-number text-green-600 font-bold mb-2">BAB 21</div>
+                        <h3 class="font-bold text-gray-800">Bab 21</h3>
+                    </a>
+                    <a href="bab/bab-22.html" class="card bg-white rounded-xl p-5 border border-gray-200 block">
+                        <div class="chapter-number text-green-600 font-bold mb-2">BAB 22</div>
+                        <h3 class="font-bold text-gray-800">Bab 22</h3>
+                    </a>
+                    <a href="bab/bab-23.html" class="card bg-white rounded-xl p-5 border border-gray-200 block">
+                        <div class="chapter-number text-green-600 font-bold mb-2">BAB 23</div>
+                        <h3 class="font-bold text-gray-800">Bab 23</h3>
+                    </a>
+                    <a href="bab/bab-24.html" class="card bg-white rounded-xl p-5 border border-gray-200 block">
+                        <div class="chapter-number text-green-600 font-bold mb-2">BAB 24</div>
+                        <h3 class="font-bold text-gray-800">Bab 24</h3>
+                    </a>
+                    <a href="bab/bab-25.html" class="card bg-white rounded-xl p-5 border border-gray-200 block">
+                        <div class="chapter-number text-green-600 font-bold mb-2">BAB 25</div>
+                        <h3 class="font-bold text-gray-800">Bab 25</h3>
+                    </a>
+                </div>
+            </section>
+
+            <!-- Full daftar -->
+            <section id="daftar-bab" class="soft-box bg-white rounded-2xl p-8 shadow-sm">
+                <div class="text-center mb-8">
+                    <h2 class="text-2xl md:text-3xl font-bold text-gray-800">Daftar Bab Lengkap</h2>
+                    <p class="text-gray-600 mt-2">Akses cepat ke seluruh Bab 1–25.</p>
+                </div>
+
+                <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 text-center">
+                    <a href="bab/bab-01.html" class="card bg-blue-50 rounded-lg px-4 py-4 font-semibold text-blue-700">Bab 01</a>
+                    <a href="bab/bab-02.html" class="card bg-blue-50 rounded-lg px-4 py-4 font-semibold text-blue-700">Bab 02</a>
+                    <a href="bab/bab-03.html" class="card bg-blue-50 rounded-lg px-4 py-4 font-semibold text-blue-700">Bab 03</a>
+                    <a href="bab/bab-04.html" class="card bg-blue-50 rounded-lg px-4 py-4 font-semibold text-blue-700">Bab 04</a>
+                    <a href="bab/bab-05.html" class="card bg-blue-50 rounded-lg px-4 py-4 font-semibold text-blue-700">Bab 05</a>
+
+                    <a href="bab/bab-06.html" class="card bg-indigo-50 rounded-lg px-4 py-4 font-semibold text-indigo-700">Bab 06</a>
+                    <a href="bab/bab-07.html" class="card bg-indigo-50 rounded-lg px-4 py-4 font-semibold text-indigo-700">Bab 07</a>
+                    <a href="bab/bab-08.html" class="card bg-indigo-50 rounded-lg px-4 py-4 font-semibold text-indigo-700">Bab 08</a>
+                    <a href="bab/bab-09.html" class="card bg-indigo-50 rounded-lg px-4 py-4 font-semibold text-indigo-700">Bab 09</a>
+                    <a href="bab/bab-10.html" class="card bg-indigo-50 rounded-lg px-4 py-4 font-semibold text-indigo-700">Bab 10</a>
+
+                    <a href="bab/bab-11.html" class="card bg-purple-50 rounded-lg px-4 py-4 font-semibold text-purple-700">Bab 11</a>
+                    <a href="bab/bab-12.html" class="card bg-purple-50 rounded-lg px-4 py-4 font-semibold text-purple-700">Bab 12</a>
+                    <a href="bab/bab-13.html" class="card bg-purple-50 rounded-lg px-4 py-4 font-semibold text-purple-700">Bab 13</a>
+                    <a href="bab/bab-14.html" class="card bg-purple-50 rounded-lg px-4 py-4 font-semibold text-purple-700">Bab 14</a>
+                    <a href="bab/bab-15.html" class="card bg-purple-50 rounded-lg px-4 py-4 font-semibold text-purple-700">Bab 15</a>
+
+                    <a href="bab/bab-16.html" class="card bg-pink-50 rounded-lg px-4 py-4 font-semibold text-pink-700">Bab 16</a>
+                    <a href="bab/bab-17.html" class="card bg-pink-50 rounded-lg px-4 py-4 font-semibold text-pink-700">Bab 17</a>
+                    <a href="bab/bab-18.html" class="card bg-pink-50 rounded-lg px-4 py-4 font-semibold text-pink-700">Bab 18</a>
+                    <a href="bab/bab-19.html" class="card bg-pink-50 rounded-lg px-4 py-4 font-semibold text-pink-700">Bab 19</a>
+                    <a href="bab/bab-20.html" class="card bg-pink-50 rounded-lg px-4 py-4 font-semibold text-pink-700">Bab 20</a>
+
+                    <a href="bab/bab-21.html" class="card bg-green-50 rounded-lg px-4 py-4 font-semibold text-green-700">Bab 21</a>
+                    <a href="bab/bab-22.html" class="card bg-green-50 rounded-lg px-4 py-4 font-semibold text-green-700">Bab 22</a>
+                    <a href="bab/bab-23.html" class="card bg-green-50 rounded-lg px-4 py-4 font-semibold text-green-700">Bab 23</a>
+                    <a href="bab/bab-24.html" class="card bg-green-50 rounded-lg px-4 py-4 font-semibold text-green-700">Bab 24</a>
+                    <a href="bab/bab-25.html" class="card bg-green-50 rounded-lg px-4 py-4 font-semibold text-green-700">Bab 25</a>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer id="tentang" class="bg-gray-800 text-white py-12">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
+                <div>
+                    <h4 class="text-lg font-bold mb-4">Navigasi Cepat</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#fase-1" class="hover:text-blue-300 transition">Fase 1</a></li>
+                        <li><a href="#fase-2" class="hover:text-blue-300 transition">Fase 2</a></li>
+                        <li><a href="#fase-3" class="hover:text-blue-300 transition">Fase 3</a></li>
+                        <li><a href="#fase-4" class="hover:text-blue-300 transition">Fase 4</a></li>
+                        <li><a href="#fase-5" class="hover:text-blue-300 transition">Fase 5</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="text-lg font-bold mb-4">Tentang Index</h4>
+                    <p class="text-gray-300 text-sm leading-relaxed">
+                        Halaman ini hanya berfungsi sebagai pusat navigasi antar bab. Isi materi tetap dipisah ke file HTML masing-masing agar struktur repo tetap ringan dan mudah dirawat.
+                    </p>
+                </div>
+
+                <div>
+                    <h4 class="text-lg font-bold mb-4">Struktur File</h4>
+                    <p class="text-gray-300 text-sm">
+                        Semua link saat ini diarahkan ke:
+                        <br />
+                        <span class="font-mono text-blue-300">bab/bab-01.html</span> sampai
+                        <span class="font-mono text-blue-300">bab/bab-25.html</span>
+                    </p>
+                </div>
             </div>
-          </li>
 
-          <li class="dropdown relative">
-            <a href="#roadmap" class="hover:text-blue-200 transition flex items-center">
-              Fase 3 <span class="ml-1">&#9662;</span>
-            </a>
-            <div class="dropdown-content absolute bg-white text-gray-800 rounded-md shadow-lg py-2 mt-1">
-              <a href="#bab-08" class="block px-4 py-2 hover:bg-blue-100">Bab 08</a>
-              <a href="#bab-09" class="block px-4 py-2 hover:bg-blue-100">Bab 09</a>
-              <a href="#bab-10" class="block px-4 py-2 hover:bg-blue-100">Bab 10</a>
+            <div class="border-t border-gray-700 pt-8 text-center">
+                <p>&copy; 2026 Buku Panduan Skill. Semua hak pengelolaan materi ada pada pemilik repo.</p>
             </div>
-          </li>
+        </div>
+    </footer>
 
-          <li><a href="#daftar-bab" class="hover:text-blue-200 transition">Daftar Bab</a></li>
-          <li><a href="#resources" class="hover:text-blue-200 transition">Resources</a></li>
-          <li><a href="#tentang" class="hover:text-blue-200 transition">Tentang</a></li>
-        </ul>
-      </nav>
-
-      <!-- Mobile Menu Button -->
-      <button id="mobile-menu" class="md:hidden text-white">
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+    <!-- Dark Mode Toggle -->
+    <button id="dark-toggle" class="fixed bottom-6 right-6 w-12 h-12 rounded-full bg-gray-800 text-white shadow-lg flex items-center justify-center z-30">
+        <svg id="dark-icon" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
         </svg>
-      </button>
-    </div>
-  </header>
+        <svg id="light-icon" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+        </svg>
+    </button>
 
-  <!-- Mobile Sidebar -->
-  <aside id="sidebar" class="fixed top-0 left-0 h-full w-72 bg-white shadow-lg z-50 transform -translate-x-full transition-transform duration-300 pt-16">
-    <div class="p-4 overflow-y-auto">
-      <ul class="space-y-2">
-        <li><a href="index.html" class="block py-2 px-4 hover:bg-blue-100 rounded">Home</a></li>
+    <script>
+        // Mobile menu
+        const mobileMenu = document.getElementById('mobile-menu');
+        const sidebar = document.getElementById('sidebar');
+        const overlay = document.getElementById('overlay');
 
-        <li class="mobile-dropdown">
-          <button class="mobile-dropdown-toggle w-full text-left py-2 px-4 hover:bg-blue-100 rounded flex justify-between items-center">
-            Fase 1
-            <span>&#9662;</span>
-          </button>
-          <div class="mobile-dropdown-content ml-3 mt-1 space-y-1">
-            <a href="#bab-01" class="block py-2 px-4 hover:bg-blue-100 rounded">Bab 01</a>
-            <a href="#bab-02" class="block py-2 px-4 hover:bg-blue-100 rounded">Bab 02</a>
-            <a href="#bab-03" class="block py-2 px-4 hover:bg-blue-100 rounded">Bab 03</a>
-          </div>
-        </li>
+        mobileMenu.addEventListener('click', () => {
+            sidebar.classList.toggle('-translate-x-full');
+            overlay.classList.toggle('hidden');
+        });
 
-        <li class="mobile-dropdown">
-          <button class="mobile-dropdown-toggle w-full text-left py-2 px-4 hover:bg-blue-100 rounded flex justify-between items-center">
-            Fase 2
-            <span>&#9662;</span>
-          </button>
-          <div class="mobile-dropdown-content ml-3 mt-1 space-y-1">
-            <a href="#bab-04" class="block py-2 px-4 hover:bg-blue-100 rounded">Bab 04</a>
-            <a href="#bab-05" class="block py-2 px-4 hover:bg-blue-100 rounded">Bab 05</a>
-            <a href="#bab-06" class="block py-2 px-4 hover:bg-blue-100 rounded">Bab 06</a>
-            <a href="#bab-07" class="block py-2 px-4 hover:bg-blue-100 rounded">Bab 07</a>
-          </div>
-        </li>
+        overlay.addEventListener('click', () => {
+            sidebar.classList.add('-translate-x-full');
+            overlay.classList.add('hidden');
+        });
 
-        <li class="mobile-dropdown">
-          <button class="mobile-dropdown-toggle w-full text-left py-2 px-4 hover:bg-blue-100 rounded flex justify-between items-center">
-            Fase 3
-            <span>&#9662;</span>
-          </button>
-          <div class="mobile-dropdown-content ml-3 mt-1 space-y-1">
-            <a href="#bab-08" class="block py-2 px-4 hover:bg-blue-100 rounded">Bab 08</a>
-            <a href="#bab-09" class="block py-2 px-4 hover:bg-blue-100 rounded">Bab 09</a>
-            <a href="#bab-10" class="block py-2 px-4 hover:bg-blue-100 rounded">Bab 10</a>
-          </div>
-        </li>
+        document.querySelectorAll('#sidebar a').forEach(link => {
+            link.addEventListener('click', () => {
+                sidebar.classList.add('-translate-x-full');
+                overlay.classList.add('hidden');
+            });
+        });
 
-        <li><a href="#daftar-bab" class="block py-2 px-4 hover:bg-blue-100 rounded">Daftar Bab</a></li>
-        <li><a href="#resources" class="block py-2 px-4 hover:bg-blue-100 rounded">Resources</a></li>
-        <li><a href="#tentang" class="block py-2 px-4 hover:bg-blue-100 rounded">Tentang</a></li>
-      </ul>
-    </div>
-  </aside>
+        // Mobile dropdown
+        document.querySelectorAll('.mobile-dropdown-toggle').forEach(btn => {
+            btn.addEventListener('click', () => {
+                btn.parentElement.classList.toggle('open');
+            });
+        });
 
-  <!-- Overlay -->
-  <div id="overlay" class="fixed inset-0 bg-black bg-opacity-50 z-40 hidden"></div>
+        // Dark mode
+        const darkToggle = document.getElementById('dark-toggle');
+        const darkIcon = document.getElementById('dark-icon');
+        const lightIcon = document.getElementById('light-icon');
 
-  <!-- Main -->
-  <main class="pt-24 pb-16 px-4 md:px-0">
-    <div class="container mx-auto">
-      <!-- Hero -->
-      <section class="hero-section rounded-2xl p-8 md:p-12 mb-16">
-        <div class="max-w-4xl mx-auto text-center">
-          <div class="inline-flex items-center px-4 py-2 rounded-full bg-white bg-opacity-70 text-blue-700 font-semibold text-sm mb-5">
-            Kurikulum Materi Bab 1–25
-          </div>
-          <h1 class="text-3xl md:text-5xl font-extrabold text-gray-800 mb-4">
-            Buku Panduan Skill
-          </h1>
-          <p class="text-lg md:text-xl text-gray-600 mb-8 max-w-3xl mx-auto">
-            Halaman utama ini dirancang untuk menampung seluruh materi inti Bab 1–25 dalam satu alur belajar yang rapi, terstruktur, dan mudah dinavigasi.
-          </p>
-          <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
-            <a href="#daftar-bab" class="inline-block bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-8 rounded-full transition transform hover:-translate-y-1 shadow-lg">
-              Lihat Semua Bab
-            </a>
-            <a href="docs/assets/materials/Bab-01-SMC-ICT-Cara-Baru-Melihat-Pasar.md" class="inline-block bg-white hover:bg-gray-100 text-blue-700 font-bold py-3 px-8 rounded-full transition shadow-lg">
-              Mulai dari Bab 01
-            </a>
-          </div>
-        </div>
-      </section>
+        darkToggle.addEventListener('click', () => {
+            document.body.classList.toggle('dark-mode');
 
-      <!-- Notice -->
-      <section class="notice-box bg-white rounded-2xl p-6 shadow-sm mb-16 border border-blue-100">
-        <div class="flex items-start gap-4">
-          <div class="flex-shrink-0 w-12 h-12 rounded-xl bg-blue-100 text-blue-700 flex items-center justify-center">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M12 8v.01M12 20h.01M4.93 19.07A10 10 0 1119.07 4.93 10 10 0 014.93 19.07z"/>
-            </svg>
-          </div>
-          <div>
-            <h2 class="text-xl font-bold text-gray-800 mb-2">Catatan Struktur Index</h2>
-            <p class="text-gray-600">
-              Index ini sudah dirombak total untuk materi Bab 1–25. Link <strong>Bab 01–09</strong> sudah diarahkan ke file yang sudah kita identifikasi.
-              Untuk <strong>Bab 10–25</strong>, slot dan tampilannya sudah siap, tinggal kamu sambungkan ke path file final di repo.
-            </p>
-          </div>
-        </div>
-      </section>
-
-      <!-- Features -->
-      <section class="mb-16">
-        <div class="text-center mb-12">
-          <h2 class="text-2xl md:text-3xl font-bold text-gray-800">Apa yang Ada di Dalam Panduan Ini</h2>
-          <p class="text-gray-600 mt-2">Disusun untuk menjaga alur belajar tetap jelas dari bab awal sampai bab akhir.</p>
-        </div>
-
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-          <div class="card bg-white rounded-xl p-6">
-            <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mb-4">
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-6a2 2 0 012-2h4m4 8V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2z"/>
-              </svg>
-            </div>
-            <h3 class="text-xl font-bold text-gray-800 mb-2">Struktur Materi Rapi</h3>
-            <p class="text-gray-600">Semua bab dikelompokkan ke beberapa fase agar pembaca tidak loncat-loncat saat belajar.</p>
-          </div>
-
-          <div class="card bg-white rounded-xl p-6">
-            <div class="w-12 h-12 bg-indigo-100 rounded-lg flex items-center justify-center mb-4">
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-indigo-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-2.21 0-4 1.79-4 4m8 0a4 4 0 00-4-4m0 0V4m0 8v8"/>
-              </svg>
-            </div>
-            <h3 class="text-xl font-bold text-gray-800 mb-2">Mudah Dinavigasi</h3>
-            <p class="text-gray-600">Bab dapat diakses dari menu, roadmap, maupun daftar materi lengkap pada halaman utama.</p>
-          </div>
-
-          <div class="card bg-white rounded-xl p-6">
-            <div class="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center mb-4">
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-purple-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
-              </svg>
-            </div>
-            <h3 class="text-xl font-bold text-gray-800 mb-2">Siap Diperluas</h3>
-            <p class="text-gray-600">Template ini bisa kamu pakai lagi untuk halaman bab, halaman resources, glossary, dan indeks utama repo.</p>
-          </div>
-        </div>
-      </section>
-
-      <!-- Roadmap -->
-      <section id="roadmap" class="mb-16">
-        <div class="text-center mb-12">
-          <h2 class="text-2xl md:text-3xl font-bold text-gray-800">Roadmap Materi</h2>
-          <p class="text-gray-600 mt-2">Pembagian fase supaya keseluruhan 25 bab terasa satu sistem, bukan potongan-potongan terpisah.</p>
-        </div>
-
-        <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-5 gap-6">
-          <div class="card bg-white rounded-xl p-6">
-            <span class="badge inline-block bg-blue-100 text-blue-700 px-3 py-1 rounded-full mb-4">Fase 1</span>
-            <h3 class="font-bold text-lg text-gray-800 mb-2">Fondasi Pembacaan</h3>
-            <p class="text-gray-600 text-sm">Bab 01–03 membangun cara pandang, struktur dasar, dan perubahan karakter market.</p>
-          </div>
-
-          <div class="card bg-white rounded-xl p-6">
-            <span class="badge inline-block bg-indigo-100 text-indigo-700 px-3 py-1 rounded-full mb-4">Fase 2</span>
-            <h3 class="font-bold text-lg text-gray-800 mb-2">Likuiditas Inti</h3>
-            <p class="text-gray-600 text-sm">Bab 04–07 membahas dasar likuiditas, liquidity pools, sweep, dan pembentukan range.</p>
-          </div>
-
-          <div class="card bg-white rounded-xl p-6">
-            <span class="badge inline-block bg-purple-100 text-purple-700 px-3 py-1 rounded-full mb-4">Fase 3</span>
-            <h3 class="font-bold text-lg text-gray-800 mb-2">Struktur Target</h3>
-            <p class="text-gray-600 text-sm">Bab 08–10 fokus pada ERL, IRL, dealing range, dan tujuan utama pergerakan harga.</p>
-          </div>
-
-          <div class="card bg-white rounded-xl p-6">
-            <span class="badge inline-block bg-pink-100 text-pink-700 px-3 py-1 rounded-full mb-4">Fase 4</span>
-            <h3 class="font-bold text-lg text-gray-800 mb-2">Eksekusi & Konteks</h3>
-            <p class="text-gray-600 text-sm">Bab 11–18 disiapkan untuk masuk ke delivery, entry, konfirmasi, dan timing.</p>
-          </div>
-
-          <div class="card bg-white rounded-xl p-6">
-            <span class="badge inline-block bg-green-100 text-green-700 px-3 py-1 rounded-full mb-4">Fase 5</span>
-            <h3 class="font-bold text-lg text-gray-800 mb-2">Integrasi Sistem</h3>
-            <p class="text-gray-600 text-sm">Bab 19–25 disusun untuk risk, evaluasi, refinement, dan pematangan keseluruhan framework.</p>
-          </div>
-        </div>
-      </section>
-
-      <!-- Daftar Bab -->
-      <section id="daftar-bab" class="mb-16">
-        <div class="text-center mb-12">
-          <h2 class="text-2xl md:text-3xl font-bold text-gray-800">Daftar Materi Lengkap</h2>
-          <p class="text-gray-600 mt-2">Semua materi Bab 1–25 ditampilkan di sini agar pembaca bisa memilih jalur belajar dengan cepat.</p>
-        </div>
-
-        <div id="chapter-grid" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6"></div>
-      </section>
-
-      <!-- Resources -->
-      <section id="resources" class="section-soft rounded-2xl p-8 mb-16">
-        <div class="max-w-4xl mx-auto">
-          <h2 class="text-2xl md:text-3xl font-bold text-gray-800 text-center mb-8">Resources Pendukung</h2>
-          <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div class="card bg-white rounded-xl p-6">
-              <h3 class="font-bold text-lg text-gray-800 mb-2">Glossary</h3>
-              <p class="text-gray-600 text-sm">Tempat ideal untuk menaruh istilah-istilah penting agar pembaca baru tidak tersesat.</p>
-            </div>
-            <div class="card bg-white rounded-xl p-6">
-              <h3 class="font-bold text-lg text-gray-800 mb-2">Checklist</h3>
-              <p class="text-gray-600 text-sm">Bisa dipakai untuk pre-study checklist, review per fase, atau ringkasan eksekusi.</p>
-            </div>
-            <div class="card bg-white rounded-xl p-6">
-              <h3 class="font-bold text-lg text-gray-800 mb-2">Index Repo</h3>
-              <p class="text-gray-600 text-sm">Nanti bisa ditambah halaman khusus untuk map repo, file penting, dan jalur baca utama.</p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- Getting Started -->
-      <section class="getting-started-box bg-white rounded-2xl p-8 shadow-sm">
-        <div class="max-w-3xl mx-auto">
-          <h2 class="text-2xl md:text-3xl font-bold text-gray-800 mb-6 text-center">Cara Menggunakan Halaman Ini</h2>
-
-          <div class="space-y-4">
-            <div class="flex items-start">
-              <div class="flex-shrink-0 w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center mr-4">
-                <span class="text-blue-600 font-bold">1</span>
-              </div>
-              <p class="text-gray-700">Mulai dari Bab 01 jika ingin mengikuti alur dari dasar.</p>
-            </div>
-
-            <div class="flex items-start">
-              <div class="flex-shrink-0 w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center mr-4">
-                <span class="text-blue-600 font-bold">2</span>
-              </div>
-              <p class="text-gray-700">Gunakan roadmap untuk melihat kelompok materi per fase.</p>
-            </div>
-
-            <div class="flex items-start">
-              <div class="flex-shrink-0 w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center mr-4">
-                <span class="text-blue-600 font-bold">3</span>
-              </div>
-              <p class="text-gray-700">Kalau ingin langsung baca bab tertentu, buka dari daftar materi lengkap.</p>
-            </div>
-
-            <div class="flex items-start">
-              <div class="flex-shrink-0 w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center mr-4">
-                <span class="text-blue-600 font-bold">4</span>
-              </div>
-              <p class="text-gray-700">Sambungkan link Bab 10–25 ke file final di repo saat semua path sudah fix.</p>
-            </div>
-          </div>
-        </div>
-      </section>
-    </div>
-  </main>
-
-  <!-- Footer -->
-  <footer id="tentang" class="bg-gray-800 text-white py-12">
-    <div class="container mx-auto px-4">
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
-        <div>
-          <h4 class="text-lg font-bold mb-4">Navigasi Cepat</h4>
-          <ul class="space-y-2 text-gray-300">
-            <li><a href="#roadmap" class="hover:text-blue-300 transition">Roadmap</a></li>
-            <li><a href="#daftar-bab" class="hover:text-blue-300 transition">Daftar Bab</a></li>
-            <li><a href="#resources" class="hover:text-blue-300 transition">Resources</a></li>
-          </ul>
-        </div>
-
-        <div>
-          <h4 class="text-lg font-bold mb-4">Tentang Halaman Ini</h4>
-          <p class="text-gray-300 text-sm leading-relaxed">
-            Index ini dibuat untuk menjadi gerbang utama seluruh materi Bab 1–25 dengan tampilan tetap modern, ringan, dan mudah diperluas ke halaman lain.
-          </p>
-        </div>
-
-        <div>
-          <h4 class="text-lg font-bold mb-4">Arah Pengembangan</h4>
-          <ul class="space-y-2 text-gray-300 text-sm">
-            <li>• Halaman bab per file</li>
-            <li>• Glossary istilah</li>
-            <li>• Master index repo</li>
-            <li>• Resources & checklist</li>
-          </ul>
-        </div>
-      </div>
-
-      <div class="border-t border-gray-700 pt-8 text-center">
-        <p>&copy; 2026 Buku Panduan Skill. Semua materi dikelola dalam satu struktur belajar yang terarah.</p>
-      </div>
-    </div>
-  </footer>
-
-  <!-- Dark Mode Toggle -->
-  <button id="dark-toggle" class="fixed bottom-6 right-6 w-12 h-12 rounded-full bg-gray-800 text-white shadow-lg flex items-center justify-center z-30">
-    <svg id="dark-icon" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
-    </svg>
-    <svg id="light-icon" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
-    </svg>
-  </button>
-
-  <script>
-    const chapters = [
-      {
-        id: "bab-01",
-        bab: "01",
-        title: "Cara Baru Melihat Pasar",
-        phase: "Fase 1",
-        phaseClass: "bg-blue-100 text-blue-700",
-        href: "docs/assets/materials/Bab-01-SMC-ICT-Cara-Baru-Melihat-Pasar.md",
-        summary: "Fondasi cara pandang terhadap market, SMC, ICT, dan logika institusi."
-      },
-      {
-        id: "bab-02",
-        bab: "02",
-        title: "Struktur Pasar",
-        phase: "Fase 1",
-        phaseClass: "bg-blue-100 text-blue-700",
-        href: "docs/assets/materials/Bab-02-Struktur-Pasar-Swing-Points-Trend-dan-Range.md",
-        summary: "Membaca swing points, trend, dan range sebagai bahasa dasar chart."
-      },
-      {
-        id: "bab-03",
-        bab: "03",
-        title: "BOS, CHoCH, MSS, CISD",
-        phase: "Fase 1",
-        phaseClass: "bg-blue-100 text-blue-700",
-        href: "docs/assets/materials/Bab-03-BOS-CHoCH-MSS-CISD-dan-Protected-Structure.md",
-        summary: "Memahami continuation, shift, dan protected structure."
-      },
-      {
-        id: "bab-04",
-        bab: "04",
-        title: "Dasar-Dasar Likuiditas",
-        phase: "Fase 2",
-        phaseClass: "bg-indigo-100 text-indigo-700",
-        href: "docs/assets/materials/Bab-04-Dasar-Dasar-Likuiditas-Mengapa-Harga-Selalu-Mencari-Order.md",
-        summary: "Mengapa harga bergerak menuju order dan bagaimana likuiditas bekerja."
-      },
-      {
-        id: "bab-05",
-        bab: "05",
-        title: "Liquidity Pools",
-        phase: "Fase 2",
-        phaseClass: "bg-indigo-100 text-indigo-700",
-        href: "docs/assets/materials/Bab-05-Liquidity-Pools-BSL-SSL-EQH-EQL-Old-High-dan-Old-Low.md",
-        summary: "BSL, SSL, EQH, EQL, old high, dan old low sebagai target market."
-      },
-      {
-        id: "bab-06",
-        bab: "06",
-        title: "Sweep, Grab, Stop Hunt",
-        phase: "Fase 2",
-        phaseClass: "bg-indigo-100 text-indigo-700",
-        href: "docs/assets/materials/Bab-06-Sweep-Grab-Stop-Hunt-Inducement-dan-Liquidity-Run.md",
-        summary: "Membaca pola pengambilan likuiditas dan jebakan market."
-      },
-      {
-        id: "bab-07",
-        bab: "07",
-        title: "Liquidity Formation",
-        phase: "Fase 2",
-        phaseClass: "bg-indigo-100 text-indigo-700",
-        href: "docs/assets/materials/Bab-07-Liquidity-Formation-Range-Accumulation-dan-Power-of-Three.md",
-        summary: "Range, accumulation, manipulation, dan distribution sebagai proses."
-      },
-      {
-        id: "bab-08",
-        bab: "08",
-        title: "ERL, IRL, dan Dealing Range",
-        phase: "Fase 3",
-        phaseClass: "bg-purple-100 text-purple-700",
-        href: "docs/assets/materials/Bab-08-Liquidity-Structure-ERL-IRL-dan-Dealing-Range.md",
-        summary: "Membedakan target eksternal, target internal, dan range acuan."
-      },
-      {
-        id: "bab-09",
-        bab: "09",
-        title: "Draw on Liquidity",
-        phase: "Fase 3",
-        phaseClass: "bg-purple-100 text-purple-700",
-        href: "docs/assets/materials/Bab-09-Draw-on-Liquidity-Menentukan-Tujuan-Pergerakan-Harga.md",
-        summary: "Menentukan tujuan utama pergerakan harga dan bias yang lebih logis."
-      },
-      {
-        id: "bab-10",
-        bab: "10",
-        title: "Bab 10",
-        phase: "Fase 3",
-        phaseClass: "bg-purple-100 text-purple-700",
-        href: "#",
-        summary: "Slot Bab 10 siap dipasang ke file final."
-      },
-      {
-        id: "bab-11",
-        bab: "11",
-        title: "Bab 11",
-        phase: "Fase 4",
-        phaseClass: "bg-pink-100 text-pink-700",
-        href: "#",
-        summary: "Slot Bab 11 siap dipasang ke file final."
-      },
-      {
-        id: "bab-12",
-        bab: "12",
-        title: "Bab 12",
-        phase: "Fase 4",
-        phaseClass: "bg-pink-100 text-pink-700",
-        href: "#",
-        summary: "Slot Bab 12 siap dipasang ke file final."
-      },
-      {
-        id: "bab-13",
-        bab: "13",
-        title: "Bab 13",
-        phase: "Fase 4",
-        phaseClass: "bg-pink-100 text-pink-700",
-        href: "#",
-        summary: "Slot Bab 13 siap dipasang ke file final."
-      },
-      {
-        id: "bab-14",
-        bab: "14",
-        title: "Bab 14",
-        phase: "Fase 4",
-        phaseClass: "bg-pink-100 text-pink-700",
-        href: "#",
-        summary: "Slot Bab 14 siap dipasang ke file final."
-      },
-      {
-        id: "bab-15",
-        bab: "15",
-        title: "Bab 15",
-        phase: "Fase 4",
-        phaseClass: "bg-pink-100 text-pink-700",
-        href: "#",
-        summary: "Slot Bab 15 siap dipasang ke file final."
-      },
-      {
-        id: "bab-16",
-        bab: "16",
-        title: "Bab 16",
-        phase: "Fase 4",
-        phaseClass: "bg-pink-100 text-pink-700",
-        href: "#",
-        summary: "Slot Bab 16 siap dipasang ke file final."
-      },
-      {
-        id: "bab-17",
-        bab: "17",
-        title: "Bab 17",
-        phase: "Fase 4",
-        phaseClass: "bg-pink-100 text-pink-700",
-        href: "#",
-        summary: "Slot Bab 17 siap dipasang ke file final."
-      },
-      {
-        id: "bab-18",
-        bab: "18",
-        title: "Bab 18",
-        phase: "Fase 4",
-        phaseClass: "bg-pink-100 text-pink-700",
-        href: "#",
-        summary: "Slot Bab 18 siap dipasang ke file final."
-      },
-      {
-        id: "bab-19",
-        bab: "19",
-        title: "Bab 19",
-        phase: "Fase 5",
-        phaseClass: "bg-green-100 text-green-700",
-        href: "#",
-        summary: "Slot Bab 19 siap dipasang ke file final."
-      },
-      {
-        id: "bab-20",
-        bab: "20",
-        title: "Bab 20",
-        phase: "Fase 5",
-        phaseClass: "bg-green-100 text-green-700",
-        href: "#",
-        summary: "Slot Bab 20 siap dipasang ke file final."
-      },
-      {
-        id: "bab-21",
-        bab: "21",
-        title: "Bab 21",
-        phase: "Fase 5",
-        phaseClass: "bg-green-100 text-green-700",
-        href: "#",
-        summary: "Slot Bab 21 siap dipasang ke file final."
-      },
-      {
-        id: "bab-22",
-        bab: "22",
-        title: "Bab 22",
-        phase: "Fase 5",
-        phaseClass: "bg-green-100 text-green-700",
-        href: "#",
-        summary: "Slot Bab 22 siap dipasang ke file final."
-      },
-      {
-        id: "bab-23",
-        bab: "23",
-        title: "Bab 23",
-        phase: "Fase 5",
-        phaseClass: "bg-green-100 text-green-700",
-        href: "#",
-        summary: "Slot Bab 23 siap dipasang ke file final."
-      },
-      {
-        id: "bab-24",
-        bab: "24",
-        title: "Bab 24",
-        phase: "Fase 5",
-        phaseClass: "bg-green-100 text-green-700",
-        href: "#",
-        summary: "Slot Bab 24 siap dipasang ke file final."
-      },
-      {
-        id: "bab-25",
-        bab: "25",
-        title: "Bab 25",
-        phase: "Fase 5",
-        phaseClass: "bg-green-100 text-green-700",
-        href: "#",
-        summary: "Slot Bab 25 siap dipasang ke file final."
-      }
-    ];
-
-    const chapterGrid = document.getElementById('chapter-grid');
-
-    chapterGrid.innerHTML = chapters.map(chapter => {
-      const isPlaceholder = chapter.href === "#";
-      return `
-        <article id="${chapter.id}" class="chapter-card card bg-white rounded-xl p-6">
-          <div class="flex items-start justify-between gap-4 mb-4">
-            <div>
-              <div class="chapter-number text-sm font-bold text-blue-600 mb-1">BAB ${chapter.bab}</div>
-              <h3 class="text-xl font-bold text-gray-800">${chapter.title}</h3>
-            </div>
-            <span class="badge ${chapter.phaseClass} px-3 py-1 rounded-full">${chapter.phase}</span>
-          </div>
-
-          <p class="text-gray-600 mb-5">${chapter.summary}</p>
-
-          <div class="flex items-center justify-between">
-            <span class="text-sm ${isPlaceholder ? 'text-yellow-600' : 'text-green-600'} font-semibold">
-              ${isPlaceholder ? 'Link belum disambungkan' : 'Siap dibaca'}
-            </span>
-            <a
-              href="${chapter.href}"
-              class="inline-flex items-center ${isPlaceholder ? 'bg-gray-200 text-gray-700 hover:bg-gray-300' : 'bg-blue-600 text-white hover:bg-blue-700'} font-semibold py-2 px-4 rounded-lg transition"
-            >
-              ${isPlaceholder ? 'Segera hadir' : 'Buka Materi'}
-            </a>
-          </div>
-        </article>
-      `;
-    }).join("");
-
-    // Mobile menu
-    const mobileMenu = document.getElementById('mobile-menu');
-    const sidebar = document.getElementById('sidebar');
-    const overlay = document.getElementById('overlay');
-
-    mobileMenu.addEventListener('click', () => {
-      sidebar.classList.toggle('-translate-x-full');
-      overlay.classList.toggle('hidden');
-    });
-
-    overlay.addEventListener('click', () => {
-      sidebar.classList.add('-translate-x-full');
-      overlay.classList.add('hidden');
-    });
-
-    // Close sidebar when sidebar link clicked
-    document.querySelectorAll('#sidebar a').forEach(link => {
-      link.addEventListener('click', () => {
-        sidebar.classList.add('-translate-x-full');
-        overlay.classList.add('hidden');
-      });
-    });
-
-    // Mobile dropdowns
-    document.querySelectorAll('.mobile-dropdown-toggle').forEach(btn => {
-      btn.addEventListener('click', () => {
-        btn.parentElement.classList.toggle('open');
-      });
-    });
-
-    // Dark mode
-    const darkToggle = document.getElementById('dark-toggle');
-    const darkIcon = document.getElementById('dark-icon');
-    const lightIcon = document.getElementById('light-icon');
-
-    darkToggle.addEventListener('click', () => {
-      document.body.classList.toggle('dark-mode');
-
-      if (document.body.classList.contains('dark-mode')) {
-        darkIcon.classList.remove('hidden');
-        lightIcon.classList.add('hidden');
-        darkToggle.classList.add('bg-gray-700');
-      } else {
-        darkIcon.classList.add('hidden');
-        lightIcon.classList.remove('hidden');
-        darkToggle.classList.remove('bg-gray-700');
-      }
-    });
-  </script>
+            if (document.body.classList.contains('dark-mode')) {
+                darkIcon.classList.remove('hidden');
+                lightIcon.classList.add('hidden');
+                darkToggle.classList.add('bg-gray-700');
+            } else {
+                darkIcon.classList.add('hidden');
+                lightIcon.classList.remove('hidden');
+                darkToggle.classList.remove('bg-gray-700');
+            }
+        });
+    </script>
 </body>
 </html>
