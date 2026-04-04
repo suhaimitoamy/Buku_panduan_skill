@@ -9,24 +9,371 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Fira+Code&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="style.css" />
-  <script>
-    window.BAB_META = {
-      number: '01',
-      title: 'Bab 01: Cara Baru Melihat Pasar',
-      subtitle: 'SMC, ICT, dan logika institusi',
-      intro: 'Bab ini menjadi fondasi utama untuk memahami seluruh materi berikutnya. Fokus utamanya adalah mengubah cara pandang terhadap chart dari sekadar pola visual menjadi peta likuiditas, tujuan harga, dan aktivitas pelaku besar.',
-      points: [
-        'Mengenal sudut pandang SMC dan ICT.',
-        'Memahami mengapa likuiditas menjadi pusat pembacaan harga.',
-        'Melihat market sebagai narasi tujuan harga, bukan kumpulan candle acak.',
-        'Mengenal ritme accumulation, manipulation, dan distribution.'
-      ],
-      note: 'Konten bab ini bisa langsung diperluas dari materi sumber tanpa perlu mengubah struktur halaman.',
-      prev: null,
-      next: 'bab-02.html'
-    };
-  </script>
-  <script defer src="template.js"></script>
 </head>
-<body></body>
+<body>
+  <!-- Header -->
+  <header class="header">
+    <nav class="navbar">
+      <a href="../index.html" class="logo">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+          <path d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+        </svg>
+        <span class="logo-text">Buku Panduan Skill</span>
+      </a>
+
+      <ul class="nav-links">
+        <li><a href="../index.html">Home</a></li>
+        <li><a href="../index.html#daftar-bab">Daftar Bab</a></li>
+        <li><a href="bab-01.html">Bab 01</a></li>
+        <li><a href="bab-02.html">Bab 02</a></li>
+      </ul>
+
+      <button id="mobile-menu">≡</button>
+    </nav>
+  </header>
+
+  <!-- Mobile Sidebar -->
+  <aside id="sidebar">
+    <div class="p-4 overflow-y-auto">
+      <ul class="space-y-2">
+        <li><a href="../index.html" class="block py-2 px-4 hover:bg-blue-100 rounded">Home</a></li>
+        <li><a href="../index.html#daftar-bab" class="block py-2 px-4 hover:bg-blue-100 rounded">Daftar Bab</a></li>
+        <li><a href="bab-01.html" class="block py-2 px-4 hover:bg-blue-100 rounded">Bab 01</a></li>
+        <li><a href="bab-02.html" class="block py-2 px-4 hover:bg-blue-100 rounded">Bab 02</a></li>
+        <li><a href="bab-03.html" class="block py-2 px-4 hover:bg-blue-100 rounded">Bab 03</a></li>
+        <li><a href="bab-04.html" class="block py-2 px-4 hover:bg-blue-100 rounded">Bab 04</a></li>
+        <li><a href="bab-05.html" class="block py-2 px-4 hover:bg-blue-100 rounded">Bab 05</a></li>
+      </ul>
+    </div>
+  </aside>
+
+  <div id="overlay"></div>
+
+  <!-- Breadcrumb -->
+  <div class="breadcrumb-container">
+    <div class="breadcrumb">
+      <a href="../index.html">Home</a>
+      <span class="breadcrumb-separator">&gt;</span>
+      <a href="../index.html#fase-1">Fase 1</a>
+      <span class="breadcrumb-separator">&gt;</span>
+      <span>Bab 01</span>
+    </div>
+  </div>
+
+  <!-- Main Content -->
+  <main class="container learning-container">
+    <article class="day-content">
+      <header class="day-header">
+        <h1>Bab 1 — Cara Baru Melihat Pasar: SMC, ICT, dan Logika Institusi</h1>
+        <p class="meta-info">Fase 1 | Fondasi Pembacaan Market</p>
+      </header>
+
+      <p><em>Bab ini adalah fondasi dari seluruh Learning Hub. Sebelum mempelajari market structure, liquidity sweep, BOS, MSS, FVG, atau entry model, kita perlu mengubah cara pandang terhadap chart. Tanpa perubahan cara pandang ini, konsep-konsep berikutnya akan terasa rumit dan terputus-putus.</em></p>
+
+      <section id="mengapa-bab-ini-penting">
+        <h2>Mengapa Bab Ini Penting</h2>
+        <p>Banyak trader pemula belajar pasar dengan cara yang sama: melihat candle, mencari pola, lalu mencoba menebak apakah harga akan naik atau turun. Masalahnya, pendekatan seperti ini sering membuat chart terasa acak. Harga naik sedikit, turun sedikit, breakout lalu balik arah, support ditembus lalu memantul lagi. Akhirnya pasar terlihat seperti sesuatu yang tidak punya logika.</p>
+        <p>Di sinilah pendekatan <strong>SMC (Smart Money Concepts)</strong> dan <strong>ICT</strong> menjadi berbeda.</p>
+        <p>Pendekatan ini tidak memulai analisis dari pertanyaan, <strong>“Candle berikutnya naik atau turun?”</strong><br />
+        Pendekatan ini memulai dari pertanyaan, <strong>“Harga sedang mencari apa?”</strong></p>
+        <p>Dengan kata lain, kita belajar melihat pasar bukan sebagai kumpulan candle acak, tetapi sebagai <strong>peta likuiditas</strong>, <strong>peta tujuan harga</strong>, dan <strong>jejak aktivitas pelaku besar</strong>.</p>
+        <p>Kalau fondasi ini sudah kuat, maka bab-bab berikutnya akan terasa jauh lebih mudah dipahami.</p>
+      </section>
+
+      <section id="tujuan-pembelajaran">
+        <h2>Tujuan Pembelajaran</h2>
+        <ul>
+          <li>memahami perbedaan cara pandang antara trader ritel dan pendekatan SMC/ICT</li>
+          <li>memahami mengapa likuiditas menjadi pusat pembacaan harga</li>
+          <li>mengenali peran institusi dalam mendorong pergerakan pasar</li>
+          <li>memahami mengapa breakout sering menjadi jebakan</li>
+          <li>mengenal kerangka dasar <strong>AMD (Accumulation, Manipulation, Distribution)</strong> sebagai ritme sederhana pergerakan harga</li>
+        </ul>
+      </section>
+
+      <section id="cara-pandang-baru">
+        <h2>1. Mengubah Cara Pandang terhadap Chart</h2>
+        <p>Cara pandang tradisional yang umum dipakai trader ritel biasanya seperti ini:</p>
+        <ul>
+          <li>harga naik berarti bullish</li>
+          <li>harga turun berarti bearish</li>
+          <li>resistance ditembus berarti buy breakout</li>
+          <li>support ditembus berarti sell breakout</li>
+        </ul>
+        <p>Masalahnya, pasar tidak selalu bergerak sebersih itu.</p>
+        <p>Sering kali harga justru menembus level penting hanya untuk mengambil stop loss, lalu berbalik arah. Kadang harga terlihat bullish, tetapi ternyata hanya sedang “mengambil bahan bakar” sebelum turun. Kadang sebuah breakout terlihat sangat meyakinkan, tetapi justru menjadi titik masuk yang paling buruk.</p>
+        <p>Pendekatan SMC/ICT mengajarkan bahwa chart harus dibaca dengan sudut pandang yang lebih dalam. Harga tidak hanya bergerak karena pola visual, tetapi karena ada <strong>kebutuhan transaksi</strong>. Pelaku besar tidak bisa masuk pasar sembarangan. Mereka membutuhkan lawan transaksi, dan lawan transaksi itu sering terkumpul di area yang mudah ditebak oleh trader ritel.</p>
+
+        <div class="notice-box">
+          <p style="margin-bottom: 10px;"><strong>Fokus kita berubah.</strong></p>
+          <p style="margin-bottom: 10px;">Bukan lagi: <strong>“Pattern apa yang muncul?”</strong></p>
+          <ul style="margin-bottom: 0;">
+            <li>di mana likuiditas berada?</li>
+            <li>siapa yang kemungkinan sedang dijebak?</li>
+            <li>apakah harga sedang mengumpulkan order?</li>
+            <li>ke mana tujuan harga yang paling logis?</li>
+          </ul>
+        </div>
+
+        <p>Inilah perubahan besar pertama yang harus dipahami sebelum belajar konsep ICT lebih jauh.</p>
+      </section>
+
+      <section id="smart-money">
+        <h2>2. Siapa yang Disebut “Smart Money”?</h2>
+        <p>Istilah <strong>smart money</strong> sering dipakai untuk menyebut pelaku pasar yang memiliki ukuran transaksi jauh lebih besar daripada trader ritel. Mereka bukan sekadar trader yang “lebih pintar”, tetapi pihak yang benar-benar punya dampak terhadap aliran order di pasar.</p>
+        <p>Secara sederhana, smart money bisa merujuk pada:</p>
+        <ul>
+          <li>bank dan pelaku interbank</li>
+          <li>hedge fund</li>
+          <li>institusi besar</li>
+          <li>market maker atau penyedia likuiditas</li>
+        </ul>
+        <p>Mengapa mereka penting?</p>
+        <p>Karena pelaku besar tidak bisa mengeksekusi order besar di sembarang tempat. Semakin besar ukuran order, semakin besar pula kebutuhan akan likuiditas. Mereka membutuhkan cukup banyak lawan transaksi agar order mereka bisa masuk tanpa mengganggu harga secara berlebihan.</p>
+        <p>Inilah alasan mengapa pasar sering bergerak ke area tertentu terlebih dahulu. Bukan karena “kebetulan”, tetapi karena ada area yang menyediakan order lebih banyak.</p>
+        <p>Jadi saat kita mempelajari SMC/ICT, kita sedang berusaha membaca pasar dari sisi <strong>mekanisme transaksi</strong>, bukan hanya dari sisi bentuk candle.</p>
+      </section>
+
+      <section id="likuiditas">
+        <h2>3. Mengapa Harga Bergerak? Jawabannya: Likuiditas</h2>
+        <p>Ini adalah ide paling penting dalam bab ini.</p>
+        <p>Harga sering bergerak menuju area yang menyimpan likuiditas.</p>
+        <p><strong>Likuiditas</strong> secara praktis bisa dipahami sebagai area tempat banyak order berkumpul. Di situlah stop loss, pending order, breakout entry, atau reaksi trader ritel biasanya menumpuk. Bagi pelaku besar, area seperti ini menarik karena menyediakan lawan transaksi yang mereka butuhkan.</p>
+        <p>Bayangkan sebuah institusi ingin membeli dalam jumlah besar. Mereka membutuhkan banyak penjual. Di mana penjual cenderung muncul? Sering kali di area yang baru saja ditembus, di area panic selling, atau di area stop loss seller terkumpul.</p>
+        <p>Begitu juga sebaliknya. Jika institusi ingin menjual dalam ukuran besar, mereka memerlukan banyak pembeli. Pembeli sering muncul di area breakout bullish, di resistance yang baru ditembus, atau setelah pasar terlihat sangat meyakinkan naik.</p>
+        <p>Karena itu, area-area berikut menjadi penting:</p>
+        <ul>
+          <li><strong>swing high</strong></li>
+          <li><strong>swing low</strong></li>
+          <li><strong>equal highs</strong></li>
+          <li><strong>equal lows</strong></li>
+          <li><strong>previous day high / previous day low</strong></li>
+          <li>area breakout yang terlalu jelas</li>
+          <li>level support dan resistance yang dilihat banyak orang</li>
+        </ul>
+        <p>Semua area ini sering disebut sebagai <strong>liquidity pools</strong>.</p>
+
+        <div class="notice-box">
+          <p style="margin-bottom: 0;"><strong>Inti yang perlu dipahami:</strong> Harga tidak selalu bergerak karena ingin “trend”. Sering kali harga bergerak karena ingin <strong>mengambil likuiditas terlebih dahulu</strong>.</p>
+        </div>
+
+        <p>Kalau kamu mulai memahami ini, maka banyak pergerakan yang sebelumnya terlihat aneh akan mulai terasa masuk akal.</p>
+      </section>
+
+      <section id="ipda">
+        <h2>4. IPDA: Melihat Harga sebagai Perpindahan dari Satu Tujuan ke Tujuan Lain</h2>
+        <p>Dalam tradisi ICT, ada istilah <strong>IPDA (Interbank Price Delivery Algorithm)</strong>. Bagi pemula, istilah ini kadang terdengar terlalu teknis. Namun gagasan dasarnya sebenarnya cukup sederhana.</p>
+        <p>IPDA membantu kita melihat bahwa harga seolah bergerak dengan tujuan:</p>
+        <ul>
+          <li>mencari likuiditas</li>
+          <li>menutup ketidakseimbangan</li>
+          <li>berpindah dari satu area order ke area order lain</li>
+        </ul>
+        <p>Artinya, pasar tidak dibaca sebagai gerakan liar tanpa arah. Pasar dibaca sebagai <strong>proses distribusi harga</strong> yang berpindah dari satu titik kepentingan ke titik kepentingan berikutnya.</p>
+        <p>Sudut pandang ini sangat membantu karena membuat kita berhenti bertanya:</p>
+        <p><strong>“Apakah ini candle bagus untuk entry?”</strong></p>
+        <p>dan mulai bertanya:</p>
+        <ul>
+          <li>harga datang dari mana?</li>
+          <li>harga sedang menuju ke mana?</li>
+          <li>area mana yang belum disentuh?</li>
+          <li>likuiditas mana yang masih tersisa?</li>
+        </ul>
+        <p>Dengan kata lain, kita belajar membaca <strong>narasi harga</strong>, bukan hanya bentuk visual chart.</p>
+      </section>
+
+      <section id="jebakan-market">
+        <h2>5. Mengapa Pasar Sering Terlihat Menipu?</h2>
+        <p>Salah satu alasan mengapa banyak trader gagal adalah karena mereka terlalu percaya pada tampilan permukaan chart.</p>
+        <p>Misalnya:</p>
+        <ul>
+          <li>resistance ditembus → dianggap breakout valid</li>
+          <li>low ditembus → dianggap bearish continuation</li>
+          <li>candle impulsif muncul → dianggap momentum murni</li>
+        </ul>
+        <p>Padahal dalam banyak kasus, pergerakan itu justru adalah <strong>jebakan</strong>.</p>
+        <p>Mengapa jebakan ini terjadi?</p>
+        <p>Karena trader ritel cenderung bereaksi di tempat yang sama:</p>
+        <ul>
+          <li>buy saat breakout high</li>
+          <li>sell saat breakdown low</li>
+          <li>meletakkan stop loss di atas swing high atau di bawah swing low</li>
+          <li>masuk terlalu cepat saat ada candle kuat</li>
+        </ul>
+        <p>Akibatnya, pasar memiliki area yang sangat “kaya” akan likuiditas. Area itu kemudian menjadi target yang menarik.</p>
+        <p>Maka muncullah fenomena seperti:</p>
+        <ul>
+          <li>breakout lalu balik arah</li>
+          <li>stop loss diambil dulu baru harga jalan</li>
+          <li>support/resistance ditembus sesaat sebelum reversal</li>
+          <li>harga membuat gerakan salah arah sebelum bergerak ke arah utamanya</li>
+        </ul>
+        <p>Ini bukan berarti pasar selalu “jahat”, tetapi pasar memang bergerak dengan logika order flow, bukan dengan logika kenyamanan trader ritel.</p>
+
+        <div class="notice-box">
+          <p style="margin-bottom: 0;"><strong>Pelajaran penting:</strong> Jangan langsung percaya pada gerakan pertama yang terlihat meyakinkan. Sering kali gerakan pertama hanyalah proses mengambil likuiditas sebelum pergerakan sesungguhnya dimulai.</p>
+        </div>
+      </section>
+
+      <section id="amd">
+        <h2>6. Power of Three (AMD): Ritme Dasar Pergerakan Harga</h2>
+        <p>Salah satu model paling penting dalam ICT adalah <strong>Power of Three</strong>, yang juga dikenal dengan singkatan <strong>AMD</strong>:</p>
+        <ol>
+          <li><strong>Accumulation</strong></li>
+          <li><strong>Manipulation</strong></li>
+          <li><strong>Distribution</strong></li>
+        </ol>
+        <p>Model ini penting karena memberi kita kerangka sederhana untuk memahami bagaimana harga sering bergerak.</p>
+
+        <h2>1) Accumulation</h2>
+        <p>Pada fase ini, harga cenderung bergerak dalam range. Pergerakan terlihat sempit, kadang membosankan, dan belum menunjukkan arah yang jelas. Namun justru di fase inilah likuiditas mulai terkumpul.</p>
+        <p>Banyak trader pemula tidak sabar di fase ini karena merasa “tidak ada apa-apa”. Padahal fase ini sangat penting karena menjadi dasar dari langkah berikutnya.</p>
+
+        <h2>2) Manipulation</h2>
+        <p>Setelah likuiditas cukup terkumpul, harga sering bergerak ke arah yang salah terlebih dahulu. Tujuannya bisa untuk:</p>
+        <ul>
+          <li>mengambil stop loss</li>
+          <li>memancing breakout trader</li>
+          <li>menciptakan ilusi arah pasar</li>
+        </ul>
+        <p>Inilah fase yang paling sering membuat trader masuk terlalu cepat. Mereka mengira arah sudah jelas, padahal harga baru saja melakukan penyapuan likuiditas.</p>
+
+        <h2>3) Distribution</h2>
+        <p>Setelah likuiditas diambil, harga kemudian bergerak ke arah tujuan utamanya dengan momentum yang lebih jelas. Di fase inilah arah pasar biasanya mulai terlihat lebih “jujur”.</p>
+
+        <h2>Kenapa model AMD penting?</h2>
+        <ul>
+          <li>pasar tidak selalu langsung bergerak ke arah utama</li>
+          <li>sering ada fase jebakan sebelum distribusi nyata</li>
+          <li>range, sweep, dan expansion sering saling terhubung</li>
+        </ul>
+        <p>Kalau kamu memahami AMD, maka kamu tidak akan terlalu mudah tertipu oleh gerakan awal pasar.</p>
+      </section>
+
+      <section id="kerangka-berpikir">
+        <h2>7. Cara Berpikir yang Benar Saat Membuka Chart</h2>
+        <p>Sebelum mencari entry, biasakan bertanya seperti ini:</p>
+
+        <h2>Pertanyaan pertama: di mana likuiditas terdekat?</h2>
+        <p>Lihat area high, low, equal highs, equal lows, dan level penting hari sebelumnya.</p>
+
+        <h2>Pertanyaan kedua: apakah likuiditas itu sudah diambil?</h2>
+        <p>Kalau belum, ada kemungkinan harga masih tertarik menuju area itu.</p>
+
+        <h2>Pertanyaan ketiga: apakah pasar masih mempertahankan struktur, atau mulai berubah?</h2>
+        <p>Di sinilah konsep market structure nanti akan menjadi sangat penting.</p>
+
+        <h2>Pertanyaan keempat: adakah displacement atau gerakan kuat yang menunjukkan niat pasar?</h2>
+        <p>Gerakan impulsif tertentu sering memberi petunjuk bahwa ada partisipasi yang lebih besar.</p>
+
+        <h2>Pertanyaan kelima: apakah ini terjadi di waktu yang logis?</h2>
+        <p>Waktu juga penting. Tidak semua gerakan memiliki kualitas yang sama. Sesi London dan New York, misalnya, sering menjadi waktu yang lebih aktif dibanding jam-jam sepi.</p>
+
+        <p>Kerangka berpikir seperti ini akan membuat analisis menjadi lebih terarah dan tidak emosional.</p>
+      </section>
+
+      <section id="kesalahan-umum">
+        <h2>8. Kesalahan Umum Trader Pemula</h2>
+        <p>Sebelum menutup bab ini, penting untuk mengenali beberapa kesalahan yang paling sering terjadi:</p>
+        <ul>
+          <li>menganggap setiap breakout sebagai sinyal valid</li>
+          <li>masuk hanya karena candle terlihat kuat</li>
+          <li>menaruh stop loss di area yang terlalu mudah ditebak</li>
+          <li>mengejar harga karena takut ketinggalan</li>
+          <li>terlalu fokus pada indikator, tetapi tidak memahami konteks likuiditas</li>
+          <li>membaca chart sepotong-sepotong tanpa memahami tujuan harga</li>
+        </ul>
+        <p>Kesalahan-kesalahan ini bukan terjadi karena trader bodoh, tetapi karena mereka belum memiliki kerangka baca yang benar.</p>
+        <p>Dan itulah fungsi bab ini: membangun kerangka tersebut.</p>
+      </section>
+
+      <section id="ringkasan">
+        <h2>9. Ringkasan Bab</h2>
+        <p>Inti Bab 1 bukanlah mencari setup, melainkan <strong>mengubah cara berpikir</strong>.</p>
+        <p>Setelah bab ini, pembaca seharusnya mulai memahami bahwa:</p>
+        <ul>
+          <li>pasar tidak seacak yang terlihat</li>
+          <li>harga sering bergerak menuju likuiditas</li>
+          <li>pelaku besar membutuhkan area order yang cukup untuk mengeksekusi transaksi</li>
+          <li>breakout yang terlihat jelas belum tentu valid</li>
+          <li>pasar sering melalui ritme <strong>accumulation → manipulation → distribution</strong></li>
+          <li>chart perlu dibaca sebagai <strong>narasi tujuan harga</strong>, bukan sekadar bentuk candle</li>
+        </ul>
+        <p>Kalau fondasi ini sudah kuat, maka bab-bab berikutnya seperti market structure, BOS, MSS, liquidity sweep, fair value gap, dan execution akan terasa jauh lebih logis.</p>
+      </section>
+
+      <section id="penutup">
+        <h2>Penutup</h2>
+        <p>Bab ini adalah perubahan sudut pandang.</p>
+        <p>Sebelum mempelajari teknik, kita harus terlebih dahulu belajar <strong>cara melihat</strong>.<br />
+        Karena dalam trading, cara melihat pasar akan menentukan cara berpikir, dan cara berpikir akan menentukan kualitas keputusan.</p>
+        <p>Jika trader masih melihat chart sebagai kumpulan candle acak, maka semua konsep lanjutan akan terasa membingungkan.<br />
+        Tetapi jika trader mulai melihat chart sebagai peta likuiditas dan tujuan harga, maka pasar akan mulai terlihat jauh lebih terstruktur.</p>
+      </section>
+
+      <section id="catatan">
+        <h2>Catatan</h2>
+        <p>Materi ini bersifat edukatif dan bukan rekomendasi finansial. Gunakan sebagai kerangka analisis dan pembelajaran, bukan sebagai janji hasil trading.</p>
+      </section>
+
+      <footer class="lesson-footer">
+        <p><em>Catatan Bab 1:</em> Fondasi terbaik bukanlah hafalan istilah, tetapi perubahan cara melihat market.</p>
+        <div class="cta-wrap">
+          <a href="../index.html" class="cta-button cta-secondary">Kembali ke Index</a>
+          <a href="bab-02.html" class="cta-button">Lanjut ke Bab 02</a>
+        </div>
+      </footer>
+    </article>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-links">
+      <div>
+        <h4>Navigasi Cepat</h4>
+        <ul>
+          <li><a href="../index.html">Home</a></li>
+          <li><a href="../index.html#daftar-bab">Daftar Bab</a></li>
+          <li><a href="bab-01.html">Bab 01</a></li>
+          <li><a href="bab-02.html">Bab 02</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <h4>Bagian Materi</h4>
+        <ul>
+          <li><a href="#mengapa-bab-ini-penting">Mengapa Bab Ini Penting</a></li>
+          <li><a href="#likuiditas">Likuiditas</a></li>
+          <li><a href="#amd">AMD</a></li>
+          <li><a href="#ringkasan">Ringkasan</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <h4>Keterangan</h4>
+        <p>Bab 1 adalah fondasi utama untuk memahami keseluruhan struktur pembelajaran berikutnya.</p>
+      </div>
+    </div>
+
+    <div class="copyright">
+      <p>&copy; 2026 Buku Panduan Skill. Hak cipta materi dikelola oleh pemilik repo.</p>
+    </div>
+  </footer>
+
+  <script>
+    const mobileMenu = document.getElementById('mobile-menu');
+    const sidebar = document.getElementById('sidebar');
+    const overlay = document.getElementById('overlay');
+
+    mobileMenu.addEventListener('click', () => {
+      sidebar.style.transform = sidebar.style.transform === 'translateX(0px)' ? 'translateX(-100%)' : 'translateX(0px)';
+      overlay.style.display = overlay.style.display === 'block' ? 'none' : 'block';
+    });
+
+    overlay.addEventListener('click', () => {
+      sidebar.style.transform = 'translateX(-100%)';
+      overlay.style.display = 'none';
+    });
+  </script>
+</body>
 </html>
